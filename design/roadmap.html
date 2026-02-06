@@ -1,0 +1,1899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategic Roadmap | DMTSP Integration Standards Library</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================================
+           CSS DESIGN SYSTEM — Synapse-to-Fabric Pattern
+           Inter font, CSS custom properties, nav-bar, hero,
+           sidebar TOC, content-card, data-table, code-block,
+           footer, scroll-to-top
+           ============================================================ */
+
+        :root {
+            --primary: #86BC25;
+            --primary-dark: #6a9a1b;
+            --primary-light: #a8d44f;
+            --secondary: #0D8390;
+            --secondary-dark: #096a74;
+            --secondary-light: #10a3b3;
+            --dark: #1a1a2e;
+            --dark-lighter: #16213e;
+            --dark-card: #0f3460;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --text-heading: #ffffff;
+            --surface: #1e1e3a;
+            --surface-elevated: #252547;
+            --border: #2a2a4a;
+            --border-light: #3a3a5a;
+            --success: #86BC25;
+            --warning: #e67e22;
+            --danger: #e74c3c;
+            --info: #3498db;
+            --purple: #8e44ad;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.4);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --radius-xs: 4px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-mono: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+            --sidebar-width: 280px;
+            --nav-height: 64px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: calc(var(--nav-height) + 20px);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* ======================== NAV BAR ======================== */
+
+        .nav-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-height);
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .nav-bar.scrolled {
+            box-shadow: var(--shadow);
+        }
+
+        .nav-brand {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-brand .brand-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .nav-brand span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-heading);
+            background: rgba(134, 188, 37, 0.1);
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+            background: rgba(134, 188, 37, 0.12);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 1px;
+        }
+
+        /* ======================== HERO ======================== */
+
+        .hero {
+            margin-top: var(--nav-height);
+            background: linear-gradient(160deg, var(--dark) 0%, var(--dark-lighter) 40%, var(--surface) 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 4rem 2rem 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(134, 188, 37, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(13, 131, 144, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 2.75rem;
+            font-weight: 800;
+            color: var(--text-heading);
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 strong {
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .hero-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.75rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 400;
+        }
+
+        .hero-meta-item .meta-icon {
+            font-size: 1rem;
+            opacity: 0.7;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .hero-stat {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 1rem 1.25rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .hero-stat:hover {
+            border-color: var(--primary);
+            background: rgba(134, 188, 37, 0.05);
+        }
+
+        .hero-stat .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: block;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-stat .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-actions a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.6rem 1.25rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .hero-actions a.btn-primary {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        .hero-actions a.btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(134, 188, 37, 0.3);
+        }
+
+        .hero-actions a.btn-secondary {
+            background: rgba(13, 131, 144, 0.15);
+            color: var(--secondary-light);
+            border: 1px solid rgba(13, 131, 144, 0.3);
+        }
+
+        .hero-actions a.btn-secondary:hover {
+            background: rgba(13, 131, 144, 0.25);
+            transform: translateY(-1px);
+        }
+
+        /* ======================== LAYOUT ======================== */
+
+        .layout {
+            display: flex;
+            min-height: calc(100vh - var(--nav-height));
+        }
+
+        /* ======================== SIDEBAR TOC ======================== */
+
+        .sidebar {
+            position: fixed;
+            top: var(--nav-height);
+            left: 0;
+            width: var(--sidebar-width);
+            height: calc(100vh - var(--nav-height));
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            padding: 1.5rem 0;
+            z-index: 100;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border-light) transparent;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--border-light);
+            border-radius: 2px;
+        }
+
+        .sidebar-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            padding: 0 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-list li {
+            margin: 0;
+        }
+
+        .toc-list a {
+            display: block;
+            padding: 0.45rem 1.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.825rem;
+            font-weight: 400;
+            border-left: 2px solid transparent;
+            transition: var(--transition);
+            line-height: 1.4;
+        }
+
+        .toc-list a:hover {
+            color: var(--text-primary);
+            background: rgba(134, 188, 37, 0.05);
+            border-left-color: var(--border-light);
+        }
+
+        .toc-list a.active {
+            color: var(--primary);
+            background: rgba(134, 188, 37, 0.08);
+            border-left-color: var(--primary);
+            font-weight: 500;
+        }
+
+        .toc-list .toc-sub {
+            padding-left: 2.5rem;
+            font-size: 0.775rem;
+        }
+
+        .toc-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 0.75rem 1.5rem;
+        }
+
+        /* ======================== MAIN CONTENT ======================== */
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 2rem 2.5rem 4rem;
+            max-width: calc(100% - var(--sidebar-width));
+        }
+
+        .main-inner {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        /* ======================== CONTENT CARD ======================== */
+
+        .content-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem 2.25rem;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+
+        .content-card:hover {
+            border-color: var(--border-light);
+        }
+
+        .content-card.phase-teal {
+            border-left: 5px solid var(--secondary);
+        }
+
+        .content-card.phase-green {
+            border-left: 5px solid var(--primary);
+        }
+
+        .content-card.phase-orange {
+            border-left: 5px solid var(--warning);
+        }
+
+        .content-card.phase-blue {
+            border-left: 5px solid var(--info);
+        }
+
+        .content-card.phase-purple {
+            border-left: 5px solid var(--purple);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: -0.02em;
+        }
+
+        .card-title .section-num {
+            color: var(--primary);
+            font-weight: 800;
+            margin-right: 0.3rem;
+        }
+
+        .card-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.3rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .badge-teal {
+            background: rgba(13, 131, 144, 0.15);
+            color: var(--secondary-light);
+            border: 1px solid rgba(13, 131, 144, 0.3);
+        }
+
+        .badge-green {
+            background: rgba(134, 188, 37, 0.15);
+            color: var(--primary-light);
+            border: 1px solid rgba(134, 188, 37, 0.3);
+        }
+
+        .badge-orange {
+            background: rgba(230, 126, 34, 0.15);
+            color: #f0a05e;
+            border: 1px solid rgba(230, 126, 34, 0.3);
+        }
+
+        .badge-blue {
+            background: rgba(52, 152, 219, 0.15);
+            color: #5dade2;
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+
+        .badge-purple {
+            background: rgba(142, 68, 173, 0.15);
+            color: #bb8fce;
+            border: 1px solid rgba(142, 68, 173, 0.3);
+        }
+
+        .card-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .card-subtitle span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .content-card p {
+            color: var(--text-primary);
+            font-size: 0.925rem;
+            margin-bottom: 1rem;
+            line-height: 1.75;
+        }
+
+        .content-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin: 1.75rem 0 0.75rem;
+            letter-spacing: -0.01em;
+        }
+
+        .content-card h3:first-of-type {
+            margin-top: 0.5rem;
+        }
+
+        .content-card h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--secondary-light);
+            margin: 1.5rem 0 0.6rem;
+        }
+
+        /* ======================== DATA TABLE ======================== */
+
+        .data-table-wrapper {
+            overflow-x: auto;
+            margin: 1rem 0 1.25rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .data-table thead th {
+            background: var(--dark-lighter);
+            color: var(--text-heading);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 0.06em;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 2px solid var(--primary);
+            white-space: nowrap;
+        }
+
+        .data-table tbody td {
+            padding: 0.65rem 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-primary);
+            vertical-align: top;
+        }
+
+        .data-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tbody tr:hover {
+            background: rgba(134, 188, 37, 0.04);
+        }
+
+        .data-table tbody tr.row-total td {
+            font-weight: 700;
+            color: var(--text-heading);
+            background: rgba(134, 188, 37, 0.06);
+            border-top: 2px solid var(--primary);
+        }
+
+        .data-table tbody tr.row-subtotal td {
+            font-weight: 600;
+            color: var(--text-heading);
+            background: rgba(134, 188, 37, 0.04);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .data-table .col-num {
+            color: var(--primary);
+            font-weight: 700;
+            text-align: center;
+            width: 40px;
+        }
+
+        .data-table .col-id {
+            color: var(--secondary-light);
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+        }
+
+        .data-table .col-hours {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        .data-table .col-reduction {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* ======================== CODE BLOCK ======================== */
+
+        .code-block {
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 1.5rem;
+            margin: 1rem 0 1.25rem;
+            overflow-x: auto;
+            font-family: var(--font-mono);
+            font-size: 0.825rem;
+            line-height: 1.8;
+            position: relative;
+        }
+
+        .code-block .code-label {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.75rem;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-secondary);
+            background: var(--surface);
+            padding: 0.15rem 0.5rem;
+            border-radius: var(--radius-xs);
+        }
+
+        .code-block .kw-green {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .code-block .kw-teal {
+            color: var(--secondary-light);
+            font-weight: 600;
+        }
+
+        .code-block .kw-orange {
+            color: #f0a05e;
+            font-weight: 600;
+        }
+
+        .code-block .kw-blue {
+            color: #5dade2;
+            font-weight: 600;
+        }
+
+        .code-block .kw-purple {
+            color: #bb8fce;
+            font-weight: 600;
+        }
+
+        .code-block .arrow {
+            color: var(--text-secondary);
+        }
+
+        .code-block .dep-ref {
+            color: var(--text-secondary);
+            font-style: italic;
+            font-size: 0.775rem;
+        }
+
+        /* ======================== CHECKLIST ======================== */
+
+        .checklist {
+            list-style: none;
+            margin: 0.75rem 0 1rem;
+        }
+
+        .checklist li {
+            position: relative;
+            padding: 0.4rem 0 0.4rem 1.75rem;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .checklist li::before {
+            content: "\2713";
+            position: absolute;
+            left: 0;
+            top: 0.4rem;
+            width: 1.2rem;
+            height: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(134, 188, 37, 0.15);
+            color: var(--primary);
+            font-size: 0.7rem;
+            font-weight: 700;
+            border-radius: var(--radius-xs);
+            border: 1px solid rgba(134, 188, 37, 0.3);
+        }
+
+        .checklist.checklist-open li::before {
+            content: "";
+            background: rgba(255, 255, 255, 0.04);
+            border-color: var(--border-light);
+        }
+
+        /* ======================== RISK TABLE ======================== */
+
+        .risk-high {
+            color: var(--danger);
+            font-weight: 600;
+        }
+
+        .risk-medium {
+            color: var(--warning);
+            font-weight: 600;
+        }
+
+        .risk-low {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* ======================== FOOTER ======================== */
+
+        .footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 2.5rem 2rem;
+            margin-left: var(--sidebar-width);
+        }
+
+        .footer-inner {
+            max-width: 960px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-col h4 {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-col a {
+            display: block;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 0.2rem 0;
+            transition: var(--transition);
+        }
+
+        .footer-col a:hover {
+            color: var(--primary);
+        }
+
+        .footer-col p {
+            color: var(--text-secondary);
+            font-size: 0.825rem;
+            line-height: 1.6;
+        }
+
+        .footer-bottom {
+            max-width: 960px;
+            margin: 1.5rem auto 0;
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .footer-bottom p {
+            font-size: 0.775rem;
+            color: var(--text-secondary);
+        }
+
+        /* ======================== SCROLL TO TOP ======================== */
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 44px;
+            height: 44px;
+            background: var(--primary);
+            color: var(--dark);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: var(--transition);
+            z-index: 999;
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .scroll-to-top:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(134, 188, 37, 0.35);
+        }
+
+        /* ======================== RESPONSIVE ======================== */
+
+        @media (max-width: 1100px) {
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .sidebar {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+                max-width: 100%;
+                padding: 1.5rem 1.25rem 3rem;
+            }
+            .footer {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero {
+                padding: 2.5rem 1.25rem 2rem;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+            .nav-bar {
+                padding: 0 1rem;
+            }
+            .nav-brand {
+                font-size: 0.95rem;
+            }
+            .content-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ======================== NAV BAR ======================== -->
+    <nav class="nav-bar" id="navbar">
+        <a href="index.html" class="nav-brand">
+            <span class="brand-icon">&#9670;</span>
+            DMTSP <span>Integration Standards Library</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Overview</a>
+            <a href="roadmap.html" class="active">Roadmap</a>
+            <a href="backlog.html">Backlog</a>
+            <a href="orchestrator.html">Orchestrator</a>
+        </div>
+    </nav>
+
+    <!-- ======================== HERO ======================== -->
+    <section class="hero">
+        <div class="hero-inner">
+            <h1>Strategic <strong>Roadmap</strong></h1>
+            <div class="hero-meta">
+                <span class="hero-meta-item">
+                    <span class="meta-icon">&#9998;</span> Keven Markham
+                </span>
+                <span class="hero-meta-item">
+                    <span class="meta-icon">&#128197;</span> February 6, 2026
+                </span>
+                <span class="hero-meta-item">
+                    <span class="meta-icon">&#9878;</span> Version 1.0
+                </span>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <span class="stat-value">6</span>
+                    <span class="stat-label">Modules</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="stat-value">4</span>
+                    <span class="stat-label">Phases</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="stat-value">~470</span>
+                    <span class="stat-label">Build Hours</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="stat-value">~50%</span>
+                    <span class="stat-label">Per-Engagement Reduction</span>
+                </div>
+            </div>
+            <div class="hero-actions">
+                <a href="backlog.html" class="btn-primary">&#9776; View Backlog</a>
+                <a href="orchestrator.html" class="btn-secondary">&#9881; Sprint Orchestrator</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======================== SIDEBAR TOC ======================== -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-title">On This Page</div>
+        <ul class="toc-list">
+            <li><a href="#executive-summary" data-section="executive-summary">Executive Summary</a></li>
+            <div class="toc-divider"></div>
+            <li><a href="#scope-module-inventory" data-section="scope-module-inventory">Scope &amp; Module Inventory</a></li>
+            <li><a href="#module-breakdown" data-section="module-breakdown" class="toc-sub">Module Breakdown</a></li>
+            <li><a href="#dependency-map" data-section="dependency-map" class="toc-sub">Dependency Map</a></li>
+            <div class="toc-divider"></div>
+            <li><a href="#prerequisites" data-section="prerequisites">Prerequisites &amp; Dependencies</a></li>
+            <li><a href="#prereq-resources" data-section="prereq-resources" class="toc-sub">Resources</a></li>
+            <li><a href="#prereq-tooling" data-section="prereq-tooling" class="toc-sub">Tooling</a></li>
+            <li><a href="#prereq-team" data-section="prereq-team" class="toc-sub">Team</a></li>
+            <li><a href="#prereq-external" data-section="prereq-external" class="toc-sub">External</a></li>
+            <div class="toc-divider"></div>
+            <li><a href="#phase-0" data-section="phase-0">Phase 0: Discovery &amp; Baseline</a></li>
+            <li><a href="#phase-1" data-section="phase-1">Phase 1: Foundation Modules</a></li>
+            <li><a href="#phase-1-isl03" data-section="phase-1-isl03" class="toc-sub">ISL-03 Naming Conventions</a></li>
+            <li><a href="#phase-1-isl04" data-section="phase-1-isl04" class="toc-sub">ISL-04 Data Classification</a></li>
+            <li><a href="#phase-2" data-section="phase-2">Phase 2: Core Modules</a></li>
+            <li><a href="#phase-2-isl01" data-section="phase-2-isl01" class="toc-sub">ISL-01 API Governance</a></li>
+            <li><a href="#phase-2-isl06" data-section="phase-2-isl06" class="toc-sub">ISL-06 Data Quality</a></li>
+            <li><a href="#phase-3" data-section="phase-3">Phase 3: Advanced Modules</a></li>
+            <li><a href="#phase-3-isl02" data-section="phase-3-isl02" class="toc-sub">ISL-02 Metadata &amp; Lineage</a></li>
+            <li><a href="#phase-3-isl05" data-section="phase-3-isl05" class="toc-sub">ISL-05 Integration Patterns</a></li>
+            <li><a href="#phase-4" data-section="phase-4">Phase 4: Packaging &amp; Pilot</a></li>
+            <div class="toc-divider"></div>
+            <li><a href="#risk-register" data-section="risk-register">Risk Register</a></li>
+            <li><a href="#success-criteria" data-section="success-criteria">Success Criteria</a></li>
+        </ul>
+    </aside>
+
+    <!-- ======================== MAIN CONTENT ======================== -->
+    <div class="layout">
+        <main class="main-content">
+            <div class="main-inner">
+
+                <!-- ==================== 1. EXECUTIVE SUMMARY ==================== -->
+                <div class="content-card" id="executive-summary">
+                    <div class="card-header">
+                        <h2 class="card-title"><span class="section-num">1.</span> Executive Summary</h2>
+                    </div>
+                    <p>
+                        The <strong>Integration Standards Library</strong> (ACC-03) is a reusable collection of 6 pre-built standards modules that accelerate Phase 4 (Standards Definition) of Enterprise Data Architecture engagements. Rather than building governance artifacts from scratch at each client, practitioners adapt proven templates &mdash; reducing per-engagement standards effort by 30&ndash;40% and improving cross-portfolio consistency. This roadmap defines a 4-sprint internal buildout (10 weeks) to take the library from concept to production-ready accelerator.
+                    </p>
+
+                    <h3>Hours Impact (Per Engagement)</h3>
+                    <div class="data-table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Metric</th>
+                                    <th>Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Base Hours (Phase 4 Standards Definition)</td>
+                                    <td class="col-hours">500&ndash;700</td>
+                                </tr>
+                                <tr>
+                                    <td>Accelerated Hours (with ISL)</td>
+                                    <td class="col-hours">350&ndash;500</td>
+                                </tr>
+                                <tr>
+                                    <td>Phase 4 Hours Saved</td>
+                                    <td class="col-hours">150&ndash;200</td>
+                                </tr>
+                                <tr>
+                                    <td>Cross-Phase Additional Savings (P1&ndash;P3)</td>
+                                    <td class="col-hours">110&ndash;200</td>
+                                </tr>
+                                <tr class="row-total">
+                                    <td>Total Per-Engagement Savings</td>
+                                    <td class="col-hours">260&ndash;400</td>
+                                </tr>
+                                <tr class="row-total">
+                                    <td>Reduction</td>
+                                    <td class="col-reduction">~35%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ==================== 2. SCOPE & MODULE INVENTORY ==================== -->
+                <div class="content-card" id="scope-module-inventory">
+                    <div class="card-header">
+                        <h2 class="card-title"><span class="section-num">2.</span> Scope &amp; Module Inventory</h2>
+                    </div>
+
+                    <h3 id="module-breakdown">Module Breakdown</h3>
+                    <div class="data-table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Module</th>
+                                    <th>ID</th>
+                                    <th>Templates</th>
+                                    <th>Examples</th>
+                                    <th>Build Hrs</th>
+                                    <th>Per-Engagement Savings</th>
+                                    <th>Reduction %</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="col-num">1</td>
+                                    <td>Naming Conventions</td>
+                                    <td class="col-id">ISL-03</td>
+                                    <td>7</td>
+                                    <td>2</td>
+                                    <td class="col-hours">20&ndash;30</td>
+                                    <td class="col-hours">20&ndash;32</td>
+                                    <td class="col-reduction">55&ndash;65%</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-num">2</td>
+                                    <td>Data Classification</td>
+                                    <td class="col-id">ISL-04</td>
+                                    <td>6</td>
+                                    <td>3</td>
+                                    <td class="col-hours">40&ndash;60</td>
+                                    <td class="col-hours">35&ndash;60</td>
+                                    <td class="col-reduction">50&ndash;60%</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-num">3</td>
+                                    <td>API Governance</td>
+                                    <td class="col-id">ISL-01</td>
+                                    <td>6</td>
+                                    <td>2</td>
+                                    <td class="col-hours">40&ndash;60</td>
+                                    <td class="col-hours">60&ndash;85</td>
+                                    <td class="col-reduction">55&ndash;70%</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-num">4</td>
+                                    <td>Data Quality</td>
+                                    <td class="col-id">ISL-06</td>
+                                    <td>6</td>
+                                    <td>3</td>
+                                    <td class="col-hours">30&ndash;50</td>
+                                    <td class="col-hours">30&ndash;45</td>
+                                    <td class="col-reduction">50&ndash;60%</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-num">5</td>
+                                    <td>Metadata &amp; Lineage</td>
+                                    <td class="col-id">ISL-02</td>
+                                    <td>6</td>
+                                    <td>3</td>
+                                    <td class="col-hours">60&ndash;80</td>
+                                    <td class="col-hours">70&ndash;110</td>
+                                    <td class="col-reduction">60&ndash;70%</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-num">6</td>
+                                    <td>Integration Patterns</td>
+                                    <td class="col-id">ISL-05</td>
+                                    <td>8 patterns</td>
+                                    <td>3 diagrams</td>
+                                    <td class="col-hours">60&ndash;80</td>
+                                    <td class="col-hours">60&ndash;90</td>
+                                    <td class="col-reduction">35&ndash;45%</td>
+                                </tr>
+                                <tr class="row-total">
+                                    <td class="col-num"></td>
+                                    <td><strong>Total</strong></td>
+                                    <td></td>
+                                    <td><strong>39</strong></td>
+                                    <td><strong>16</strong></td>
+                                    <td class="col-hours"><strong>250&ndash;360</strong></td>
+                                    <td class="col-hours"><strong>275&ndash;422</strong></td>
+                                    <td class="col-reduction"><strong>~50%</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 id="dependency-map">Dependency Map</h3>
+                    <div class="code-block">
+                        <span class="code-label">Dependencies</span>
+<span class="kw-green">ISL-03</span>: Naming Conventions <span class="dep-ref">(Sprint 1)</span>
+  <span class="arrow">&#9492;&#9472;&#9472;&#9654;</span> <span class="kw-green">ISL-04</span>: Data Classification <span class="dep-ref">(Sprint 1)</span>
+         <span class="arrow">&#9500;&#9472;&#9472;&#9654;</span> <span class="kw-orange">ISL-01</span>: API Governance <span class="dep-ref">(Sprint 2)</span> <span class="arrow">&#9668;&#9472;&#9472;</span> <span class="kw-green">ISL-03</span>
+         <span class="arrow">&#9500;&#9472;&#9472;&#9654;</span> <span class="kw-orange">ISL-06</span>: Data Quality <span class="dep-ref">(Sprint 2)</span> <span class="arrow">&#9668;&#9472;&#9472;</span> <span class="kw-green">ISL-03</span>
+         <span class="arrow">&#9500;&#9472;&#9472;&#9654;</span> <span class="kw-blue">ISL-02</span>: Metadata &amp; Lineage <span class="dep-ref">(Sprint 3)</span> <span class="arrow">&#9668;&#9472;&#9472;</span> <span class="kw-green">ISL-03</span>, <span class="kw-orange">ISL-06</span>
+         <span class="arrow">&#9492;&#9472;&#9472;&#9654;</span> <span class="kw-blue">ISL-05</span>: Integration Patterns <span class="dep-ref">(Sprint 3)</span> <span class="arrow">&#9668;&#9472;&#9472;</span> <span class="kw-green">ISL-03</span>, <span class="kw-orange">ISL-01</span>, <span class="kw-orange">ISL-06</span>
+               <span class="arrow">&#9492;&#9472;&#9472;&#9654;</span> <span class="kw-purple">Manufacturing Overlays</span> <span class="dep-ref">(Sprint 4)</span> <span class="arrow">&#9668;&#9472;&#9472;</span> <span class="dep-ref">All modules</span>
+                    </div>
+                    <p>
+                        ISL-03 (Naming Conventions) is the foundational module &mdash; every other module references it. ISL-04 (Data Classification) is the second dependency &mdash; security tiers are referenced by API governance, quality SLAs, and metadata attributes.
+                    </p>
+                </div>
+
+                <!-- ==================== 3. PREREQUISITES ==================== -->
+                <div class="content-card" id="prerequisites">
+                    <div class="card-header">
+                        <h2 class="card-title"><span class="section-num">3.</span> Prerequisites &amp; Dependencies</h2>
+                    </div>
+
+                    <h3 id="prereq-resources">Internal Resources</h3>
+                    <ul class="checklist checklist-open">
+                        <li>Lead Architect assigned &mdash; standards design authority, peer review (Sprint 0)</li>
+                        <li>Senior Data Governance Specialist assigned &mdash; classification, metadata, quality (Sprint 0)</li>
+                        <li>Senior Integration Architect assigned &mdash; API governance, integration patterns (Sprint 0)</li>
+                        <li>Prior engagement artifacts &mdash; access to 2&ndash;3 completed Phase 4 deliverables for reference (Sprint 0)</li>
+                    </ul>
+
+                    <h3>Reference Materials</h3>
+                    <ul class="checklist checklist-open">
+                        <li>Microsoft Purview documentation &mdash; sensitivity labels, metadata schema, lineage capabilities</li>
+                        <li>Microsoft Fabric documentation &mdash; naming conventions, workspace RBAC, OneLake taxonomy</li>
+                        <li>Azure Cloud Adoption Framework &mdash; resource naming, tagging, governance best practices</li>
+                        <li>OWASP API Security Top 10 (2023) &mdash; API governance alignment</li>
+                        <li>Industry compliance frameworks &mdash; SOX, GDPR, ITAR, HIPAA control requirements</li>
+                    </ul>
+
+                    <h3 id="prereq-tooling">Tooling</h3>
+                    <ul class="checklist">
+                        <li>Git repository initialized &mdash; version control and collaboration (Complete)</li>
+                        <li>Markdown authoring environment &mdash; VS Code + Markdown Preview</li>
+                        <li>Diagram tooling &mdash; Mermaid, draw.io, or Lucidchart for architecture diagrams</li>
+                        <li>Review platform &mdash; GitHub PR reviews or SharePoint for stakeholder feedback</li>
+                    </ul>
+
+                    <h3 id="prereq-team">Team Allocation</h3>
+                    <div class="data-table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Role</th>
+                                    <th>Allocation</th>
+                                    <th>Sprint Capacity</th>
+                                    <th>Primary Modules</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Lead Architect</td>
+                                    <td>50%</td>
+                                    <td class="col-hours">35 hrs/sprint</td>
+                                    <td>All</td>
+                                </tr>
+                                <tr>
+                                    <td>Sr Data Governance Specialist</td>
+                                    <td>75%</td>
+                                    <td class="col-hours">50 hrs/sprint</td>
+                                    <td>ISL-02, ISL-04, ISL-06</td>
+                                </tr>
+                                <tr>
+                                    <td>Sr Integration Architect</td>
+                                    <td>75%</td>
+                                    <td class="col-hours">50 hrs/sprint</td>
+                                    <td>ISL-01, ISL-03, ISL-05</td>
+                                </tr>
+                                <tr>
+                                    <td>Technical Writer</td>
+                                    <td>25%</td>
+                                    <td class="col-hours">15 hrs/sprint</td>
+                                    <td>All</td>
+                                </tr>
+                                <tr class="row-total">
+                                    <td><strong>Total</strong></td>
+                                    <td></td>
+                                    <td class="col-hours"><strong>150 hrs/sprint</strong></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 id="prereq-external">External Dependencies</h3>
+                    <ul class="checklist checklist-open">
+                        <li>ACC-04 (Governance Maturity Assessment) &mdash; maturity tier definitions inform adoption tiers in each module (nice-to-have, not blocking)</li>
+                        <li>ACC-02 (RFP Discovery Questionnaire) &mdash; discovery questions Q18&ndash;Q22 inform adaptation workflows (nice-to-have)</li>
+                        <li>Lincoln Electric engagement kickoff &mdash; target pilot deployment of ISL at first live engagement (Sprint 4+)</li>
+                    </ul>
+                </div>
+
+                <!-- ==================== 4. PHASE 0 ==================== -->
+                <div class="content-card phase-teal" id="phase-0">
+                    <div class="card-header">
+                        <h2 class="card-title"><span class="section-num">4.</span> Phase 0: Discovery &amp; Baseline</h2>
+                        <span class="card-badge badge-teal">Sprint 0</span>
+                    </div>
+                    <div class="card-subtitle">
+                        <span>&#9201; ~40 hours</span>
+                        <span>&#128197; 1 week</span>
+                        <span>&#9654; Pre-Sprint</span>
+                    </div>
+
+                    <h3>Prior Engagement Audit</h3>
+                    <p>Review 2&ndash;3 completed Phase 4 deliverables from prior DMTSP engagements to extract reusable patterns and calibrate baseline effort.</p>
+                    <div class="data-table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Deliverable</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Common Standards Patterns</td>
+                                    <td>Identify what gets built every time across engagements</td>
+                                </tr>
+                                <tr>
+                                    <td>Engagement-Specific Customizations</td>
+                                    <td>Document what varies per client for adaptation workflows</td>
+                                </tr>
+                                <tr>
+                                    <td>Gaps &amp; Quality Issues</td>
+                                    <td>Catalog what was missed or under-specified in past work</td>
+                                </tr>
+                                <tr>
+                                    <td>Baseline Hour Calibration</td>
+                                    <td>Actual time spent per standards artifact for ROI validation</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Industry Standards Survey</h3>
+                    <p>Review external standards frameworks for alignment and best-practice integration.</p>
+                    <div class="data-table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Deliverable</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Microsoft REST API Guidelines</td>
+                                    <td>API design standards baseline for ISL-01</td>
+                                </tr>
+                                <tr>
+                                    <td>Microsoft Fabric / OneLake Conventions</td>
+                                    <td>Naming conventions and best practices for ISL-03</td>
+                                </tr>
+                                <tr>
+                                    <td>Azure Cloud Adoption Framework</td>
+                                    <td>Resource naming, tagging, governance patterns</td>
+                                </tr>
+                                <tr>
+                                    <td>OWASP API Security Top 10</td>
+                                    <td>API security alignment for ISL-01</td>
+                                </tr>
+                                <tr>
+                                    <td>DAMA DMBOK</td>
+                                    <td>Data management body of knowledge for ISL-02, ISL-06</td>
+                                </tr>
+                                <tr>
+                                    <td>ISO 27001 / NIST 800-53</td>
+                                    <td>Data classification controls alignment for ISL-04</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>Module Scope Finalization</h3>
+                    <div class="data-table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Deliverable</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Template List Finalized</td>
+                                    <td>Artifacts to build per module confirmed</td>
+                                </tr>
+                                <tr>
+                                    <td>Example List Finalized</td>
+                                    <td>Client-specific adaptations to demonstrate confirmed</td>
+                                </tr>
+                                <tr>
+                                    <td>Adaptation Workflows Defined</td>
+                                    <td>How practitioners customize per engagement documented</td>
+                                </tr>
+                                <tr>
+                                    <td>Acceptance Criteria Agreed</td>
+                                    <td>Definition of done for each module locked</td>
+                                </tr>
+                                <tr class="row-subtotal">
+                                    <td><strong>Phase 0 Exit Gate</strong></td>
+                                    <td><strong>Buildout scope locked &mdash; proceed to Phase 1</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ==================== 5. PHASE 1 ==================== -->
+                <div class="content-card phase-green" id="phase-1">
+                    <div class="card-header">
+                        <h2 class="card-title"><span class="section-num">5.</span> Phase 1: Foundation Modules</h2>
+                        <span class="card-badge badge-green">Sprint 1</span>
+                    </div>
+                    <div class="card-subtitle">
+                        <span>&#9201; ~90 hours</span>
+                        <span>&#128197; Weeks 1&ndash;2</span>
+                        <span>&#9654; 2-week sprint</span>
+                    </div>
+                    <p>
+                        Foundation modules are built first because every subsequent module depends on them. ISL-03 (Naming Conventions) establishes the vocabulary; ISL-04 (Data Classification) establishes the security framework.
+                    </p>
+
+                    <h4 id="phase-1-isl03">ISL-03: Naming Convention Standards</h4>
+                    <div class="data-table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Deliverable</th>
+                                    <th>Description</th>
+                                    <th>Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>7 naming templates</td>
+                                    <td>Database/schema, table/view, column, pipeline, API, infrastructure, abbreviation dictionary</td>
+                                    <td class="col-hours">12&ndash;18</td>
+                                </tr>
+                                <tr>
+                                    <td>2 examples</td>
+                                    <td>Fabric naming reference, manufacturing domain names</td>
+                                    <td class="col-hours">4&ndash;6</td>
+                                </tr>
+                                <tr>
+                                    <td>Enforcement guidance</td>
+                                    <td>Azure Policy definitions, linting rules, pre-commit hooks</td>
+                                    <td class="col-hours">4&ndash;6</td>
+                                </tr>
+                                <tr class="row-subtotal">
+                                    <td><strong>Subtotal</strong></td>
+                                    <td></td>
+                                    <td class="col-hours"><strong>20&ndash;30</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4 id="phase-1-isl04">ISL-04: Data Classification Framework</h4>
+                    <div class="data-table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Deliverable</th>
+                                    <th>Description</th>
+                                    <th>Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>6 classification templates</td>
+                                    <td>Tier definitions, labeling, handling, access control, compliance mapping, decision tree</td>
+                                    <td class="col-hours">20&ndash;35</td>
+                                </tr>
+                                <tr>
+                                    <td>3 examples</td>
+                                    <td>Manufacturing classification, Fabric security model, Purview label config</td>
+                                    <td class="col-hours">10&ndash;15</td>
+                                </tr>
+                                <tr>
+                                    <td>Manufacturing overlay</td>
+                                    <td>ITAR/EAR, trade secrets, IoT/OT sensitivity, supply chain</td>
+                                    <td class="col-hours">10&ndash;15</td>
+                                </tr>
+                                <tr class="row-subtotal">
+                                    <td><strong>Subtotal</strong></td>
+                                    <td></td>
+                                    <td class="col-hours"><strong>40&ndash;65</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ==================== 6. PHASE 2 ==================== -->
+                <div class="content-card phase-orange" id="phase-2">
+                    <div class="card-header">
+                        <h2 class="card-title"><span class="section-num">6.</span> Phase 2: Core Modules</h2>
+                        <span class="card-badge badge-orange">Sprint 2</span>
+                    </div>
+                    <div class="card-subtitle">
+                        <span>&#9201; ~100 hours</span>
+                        <span>&#128197; Weeks 3&ndash;4</span>
+                        <span>&#9654; 2-week sprint</span>
+                    </div>
+                    <p>
+                        Core modules build on the foundation and cover the two most universally applicable governance domains: API management and data quality.
+                    </p>
+
+                    <h4 id="phase-2-isl01">ISL-01: API Governance Standards</h4>
+                    <div class="data-table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Deliverable</th>
+                                    <th>Description</th>
+                                    <th>Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>6 API templates</td>
+                                    <td>Design standards, versioning, security, lifecycle, catalog, rate limiting</td>
+                                    <td class="col-hours">24&ndash;38</td>
+                                </tr>
+                                <tr>
+                                    <td>2 examples</td>
+                                    <td>Manufacturing API standards, Fabric-native API patterns</td>
+                                    <td class="col-hours">8&ndash;12</td>
+                                </tr>
+                                <tr>
+                                    <td>OWASP alignment</td>
+                                    <td>Cross-reference each template against OWASP API Top 10</td>
+                                    <td class="col-hours">4&ndash;6</td>
+                                </tr>
+                                <tr class="row-subtotal">
+                                    <td><strong>Subtotal</strong></td>
+                                    <td></td>
+                                    <td class="col-hours"><strong>36&ndash;56</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4 id="phase-2-isl06">ISL-06: Data Quality Standards</h4>
+                    <div class="data-table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Deliverable</th>
+                                    <th>Description</th>
+                                    <th>Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>6 quality templates</td>
+                                    <td>Dimensions, SLA framework, rule library, monitoring, remediation, scorecard</td>
+                                    <td class="col-hours">18&ndash;32</td>
+                                </tr>
+                                <tr>
+                                    <td>3 examples</td>
+                                    <td>Manufacturing quality rules, Fabric quality implementation, dashboard spec</td>
+                                    <td class="col-hours">8&ndash;12</td>
+                                </tr>
+                                <tr>
+                                    <td>Quality rule library</td>
+                                    <td>50+ pre-built rules across schema, row-level, aggregate, business categories</td>
+                                    <td class="col-hours">8&ndash;12</td>
+                                </tr>
+                                <tr class="row-subtotal">
+                                    <td><strong>Subtotal</strong></td>
+                                    <td></td>
+                                    <td class="col-hours"><strong>34&ndash;56</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ==================== 7. PHASE 3 ==================== -->
+                <div class="content-card phase-blue" id="phase-3">
+                    <div class="card-header">
+                        <h2 class="card-title"><span class="section-num">7.</span> Phase 3: Advanced Modules</h2>
+                        <span class="card-badge badge-blue">Sprint 3 (Double)</span>
+                    </div>
+                    <div class="card-subtitle">
+                        <span>&#9201; ~160 hours</span>
+                        <span>&#128197; Weeks 5&ndash;8</span>
+                        <span>&#9654; 4-week double sprint</span>
+                    </div>
+                    <p>
+                        Advanced modules are the most complex and provide the deepest per-engagement savings. Sprint 3 runs as a double sprint (4 weeks) to accommodate the higher build effort.
+                    </p>
+
+                    <h4 id="phase-3-isl02">ISL-02: Metadata &amp; Data Lineage Framework</h4>
+                    <div class="data-table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Deliverable</th>
+                                    <th>Description</th>
+                                    <th>Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>6 metadata templates</td>
+                                    <td>Business glossary, technical metadata schema, lineage requirements, catalog governance, metadata integration, lineage visualization</td>
+                                    <td class="col-hours">40&ndash;55</td>
+                                </tr>
+                                <tr>
+                                    <td>3 examples</td>
+                                    <td>Manufacturing metadata model, Fabric OneLake metadata, Purview config guide</td>
+                                    <td class="col-hours">12&ndash;18</td>
+                                </tr>
+                                <tr>
+                                    <td>Manufacturing overlay</td>
+                                    <td>IoT/OT metadata, ERP mapping, product data management</td>
+                                    <td class="col-hours">8&ndash;12</td>
+                                </tr>
+                                <tr class="row-subtotal">
+                                    <td><strong>Subtotal</strong></td>
+                                    <td></td>
+                                    <td class="col-hours"><strong>60&ndash;85</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4 id="phase-3-isl05">ISL-05: Integration Pattern Library</h4>
+                    <div class="data-table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Deliverable</th>
+                                    <th>Description</th>
+                                    <th>Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>8 integration patterns</td>
+                                    <td>ERP extract, IoT ingestion, API gateway, event-driven, MDM sync, file-based, medallion, reverse ETL</td>
+                                    <td class="col-hours">40&ndash;55</td>
+                                </tr>
+                                <tr>
+                                    <td>3 architecture diagrams</td>
+                                    <td>Landscape overview, Fabric integration architecture, pattern decision tree</td>
+                                    <td class="col-hours">12&ndash;18</td>
+                                </tr>
+                                <tr>
+                                    <td>Decision framework</td>
+                                    <td>Pattern selection criteria (source, latency, volume, security)</td>
+                                    <td class="col-hours">8&ndash;12</td>
+                                </tr>
+                                <tr class="row-subtotal">
+                                    <td><strong>Subtotal</strong></td>
+                                    <td></td>
+                                    <td class="col-hours"><strong>60&ndash;85</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ==================== 8. PHASE 4 ==================== -->
+                <div class="content-card phase-purple" id="phase-4">
+                    <div class="card-header">
+                        <h2 class="card-title"><span class="section-num">8.</span> Phase 4: Packaging &amp; Pilot</h2>
+                        <span class="card-badge badge-purple">Sprint 4</span>
+                    </div>
+                    <div class="card-subtitle">
+                        <span>&#9201; ~80 hours</span>
+                        <span>&#128197; Weeks 9&ndash;10</span>
+                        <span>&#9654; 2-week sprint</span>
+                    </div>
+
+                    <h3>Manufacturing Industry Overlays</h3>
+                    <p>Consolidate and enhance industry-specific extensions across all modules:</p>
+                    <ul class="checklist checklist-open">
+                        <li>ITAR/EAR compliance overlay finalized (ISL-04)</li>
+                        <li>IoT/OT metadata standards finalized (ISL-02)</li>
+                        <li>ERP integration patterns finalized (ISL-05)</li>
+                        <li>Manufacturing quality rules validated (ISL-06)</li>
+                        <li>Welding/process data classification completed (ISL-04)</li>
+                    </ul>
+
+                    <h3>Peer Review &amp; Quality Assurance</h3>
+                    <p>External review of all 6 modules:</p>
+                    <ul class="checklist checklist-open">
+                        <li>Lead Architect conducts full cross-module review</li>
+                        <li>Cross-references validated (ISL-03 naming used consistently across all modules)</li>
+                        <li>Compliance alignment verified (OWASP, NIST, ISO 27001, DAMA)</li>
+                        <li>Spelling, grammar, and formatting audit</li>
+                        <li>All review comments resolved</li>
+                    </ul>
+
+                    <h3>Packaging &amp; Distribution</h3>
+                    <p>Prepare the library for engagement deployment:</p>
+                    <ul class="checklist checklist-open">
+                        <li>Module README files finalized with usage instructions</li>
+                        <li>Adaptation workflow documented (step-by-step for practitioners)</li>
+                        <li>Engagement kickoff integration guide (how to introduce ISL in Sprint 0)</li>
+                        <li>Git repository tagged with v1.0 release</li>
+                        <li>Distribution via internal artifact repository or SharePoint</li>
+                    </ul>
+
+                    <h3>Pilot Deployment</h3>
+                    <p>Deploy ISL at the next available engagement (target: Lincoln Electric):</p>
+                    <ul class="checklist checklist-open">
+                        <li>Identify pilot engagement and Phase 4 scope</li>
+                        <li>Assign ISL champion on the engagement team</li>
+                        <li>Track actual adaptation hours vs. estimated hours</li>
+                        <li>Collect practitioner feedback on template quality and usability</li>
+                        <li>Document lessons learned and incorporate into v1.1</li>
+                    </ul>
+                </div>
+
+                <!-- ==================== 9. RISK REGISTER ==================== -->
+                <div class="content-card" id="risk-register">
+                    <div class="card-header">
+                        <h2 class="card-title"><span class="section-num">9.</span> Risk Register</h2>
+                    </div>
+                    <div class="data-table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Risk</th>
+                                    <th>Probability</th>
+                                    <th>Impact</th>
+                                    <th>Mitigation</th>
+                                    <th>Phase</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="col-id">R1</td>
+                                    <td>Standards too generic &mdash; heavy adaptation required per engagement</td>
+                                    <td class="risk-medium">Medium</td>
+                                    <td class="risk-medium">Medium</td>
+                                    <td>Include manufacturing-specific overlays and 2&ndash;3 concrete client examples per module</td>
+                                    <td>Phase 1&ndash;3</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-id">R2</td>
+                                    <td>Technology drift &mdash; Fabric/Purview features change before deployment</td>
+                                    <td class="risk-low">Low</td>
+                                    <td class="risk-high">High</td>
+                                    <td>Version-lock templates to current GA features; plan quarterly refresh cycle</td>
+                                    <td>Phase 3&ndash;4</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-id">R3</td>
+                                    <td>Practitioner adoption resistance &mdash; teams prefer building from scratch</td>
+                                    <td class="risk-medium">Medium</td>
+                                    <td class="risk-high">High</td>
+                                    <td>Mandate library review at engagement kickoff; embed in Phase 4 SOW templates</td>
+                                    <td>Phase 4</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-id">R4</td>
+                                    <td>Compliance gaps &mdash; missing regulatory requirements</td>
+                                    <td class="risk-low">Low</td>
+                                    <td class="risk-high">High</td>
+                                    <td>External review against NIST, ISO 27001, OWASP, DAMA; legal review for ITAR</td>
+                                    <td>Phase 4</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-id">R5</td>
+                                    <td>Build team availability &mdash; key resources pulled to client work</td>
+                                    <td class="risk-high">High</td>
+                                    <td class="risk-medium">Medium</td>
+                                    <td>Protect 75% allocation through Sprint 3; Sprint 4 can absorb slippage</td>
+                                    <td>Phase 1&ndash;3</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-id">R6</td>
+                                    <td>Cross-module inconsistency &mdash; naming/terminology drift between modules</td>
+                                    <td class="risk-medium">Medium</td>
+                                    <td class="risk-medium">Medium</td>
+                                    <td>ISL-03 naming conventions enforced as first deliverable; Lead Architect review gate</td>
+                                    <td>Phase 2&ndash;3</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-id">R7</td>
+                                    <td>Scope creep &mdash; modules expand beyond defined template lists</td>
+                                    <td class="risk-medium">Medium</td>
+                                    <td class="risk-low">Low</td>
+                                    <td>Fixed template count per module; additional artifacts deferred to v1.1</td>
+                                    <td>Phase 1&ndash;3</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-id">R8</td>
+                                    <td>Pilot engagement timing &mdash; no suitable engagement for pilot deployment</td>
+                                    <td class="risk-low">Low</td>
+                                    <td class="risk-medium">Medium</td>
+                                    <td>Build pilot plan for 2 candidate engagements; deploy to whichever kicks off first</td>
+                                    <td>Phase 4</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ==================== 10. SUCCESS CRITERIA ==================== -->
+                <div class="content-card" id="success-criteria">
+                    <div class="card-header">
+                        <h2 class="card-title"><span class="section-num">10.</span> Success Criteria</h2>
+                    </div>
+
+                    <h3>Quantitative</h3>
+                    <ul class="checklist">
+                        <li>Module completeness &mdash; 6/6 modules with all templates and examples delivered</li>
+                        <li>Template count &mdash; 39 templates + 16 examples completed</li>
+                        <li>Build hours within estimate &mdash; within 15% of 310&ndash;440 hour budget</li>
+                        <li>Pilot engagement savings &mdash; Phase 4 hours reduced by &ge;25% vs. baseline</li>
+                        <li>Practitioner satisfaction &mdash; &ge;4/5 rating from pilot engagement team</li>
+                    </ul>
+
+                    <h3>Qualitative</h3>
+                    <ul class="checklist">
+                        <li>Cross-module consistency &mdash; naming conventions from ISL-03 used uniformly</li>
+                        <li>Compliance coverage &mdash; zero gaps identified in peer review against OWASP, NIST, DAMA</li>
+                        <li>Adaptation workflow clarity &mdash; new practitioner can deploy a module in &lt;1 day</li>
+                        <li>Reusability validated &mdash; templates work for manufacturing and general enterprise clients</li>
+                        <li>Repository quality &mdash; clean git history, tagged release, documentation complete</li>
+                    </ul>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- ======================== FOOTER ======================== -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-col">
+                <h4>Navigation</h4>
+                <a href="index.html">Overview</a>
+                <a href="roadmap.html">Strategic Roadmap</a>
+                <a href="backlog.html">Product Backlog</a>
+                <a href="orchestrator.html">Sprint Orchestrator</a>
+            </div>
+            <div class="footer-col">
+                <h4>Modules</h4>
+                <a href="#phase-1-isl03">ISL-03 Naming Conventions</a>
+                <a href="#phase-1-isl04">ISL-04 Data Classification</a>
+                <a href="#phase-2-isl01">ISL-01 API Governance</a>
+                <a href="#phase-2-isl06">ISL-06 Data Quality</a>
+                <a href="#phase-3-isl02">ISL-02 Metadata &amp; Lineage</a>
+                <a href="#phase-3-isl05">ISL-05 Integration Patterns</a>
+            </div>
+            <div class="footer-col">
+                <h4>About</h4>
+                <p>Author: Keven Markham<br>
+                VP Enterprise Transformation &mdash; DMTSP</p>
+                <p>Date: February 6, 2026<br>
+                Version 1.0 &mdash; Draft</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 DMTSP &mdash; Integration Standards Library. All rights reserved.</p>
+            <p>Built with the ISL Design System</p>
+        </div>
+    </footer>
+
+    <!-- ======================== SCROLL TO TOP ======================== -->
+    <button class="scroll-to-top" id="scrollToTop" title="Scroll to top" aria-label="Scroll to top">&#8593;</button>
+
+    <!-- ======================== JAVASCRIPT ======================== -->
+    <script>
+        (function() {
+            'use strict';
+
+            // --- Scroll-to-top button ---
+            var scrollBtn = document.getElementById('scrollToTop');
+            var navbar = document.getElementById('navbar');
+
+            function handleScroll() {
+                var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+
+                // Toggle scroll-to-top visibility
+                if (scrollY > 400) {
+                    scrollBtn.classList.add('visible');
+                } else {
+                    scrollBtn.classList.remove('visible');
+                }
+
+                // Add shadow to navbar on scroll
+                if (scrollY > 10) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            }
+
+            window.addEventListener('scroll', handleScroll, { passive: true });
+
+            scrollBtn.addEventListener('click', function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // --- TOC highlighting ---
+            var tocLinks = document.querySelectorAll('.toc-list a[data-section]');
+            var sections = [];
+
+            tocLinks.forEach(function(link) {
+                var sectionId = link.getAttribute('data-section');
+                var section = document.getElementById(sectionId);
+                if (section) {
+                    sections.push({ id: sectionId, el: section, link: link });
+                }
+            });
+
+            function highlightTOC() {
+                var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+                var navHeight = 80;
+                var activeId = null;
+
+                for (var i = sections.length - 1; i >= 0; i--) {
+                    var rect = sections[i].el.getBoundingClientRect();
+                    if (rect.top <= navHeight + 40) {
+                        activeId = sections[i].id;
+                        break;
+                    }
+                }
+
+                tocLinks.forEach(function(link) {
+                    if (link.getAttribute('data-section') === activeId) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', highlightTOC, { passive: true });
+
+            // Initial calls
+            handleScroll();
+            highlightTOC();
+        })();
+    </script>
+
+</body>
+</html>

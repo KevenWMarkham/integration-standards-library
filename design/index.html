@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integration Standards Library — ACC-03 | DMTSP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           DESIGN TOKENS
+           ============================================ */
+        :root {
+            --primary: #86BC25;
+            --primary-dark: #6a9a1a;
+            --primary-light: rgba(134, 188, 37, 0.12);
+            --secondary: #0D8390;
+            --secondary-dark: #0a6b75;
+            --secondary-light: rgba(13, 131, 144, 0.12);
+            --dark: #1a1a2e;
+            --dark-secondary: #2d2d44;
+            --dark-tertiary: #3a3a55;
+            --surface: #ffffff;
+            --surface-alt: #f7f8fa;
+            --surface-hover: #f0f1f4;
+            --text-primary: #1a1a2e;
+            --text-secondary: #555570;
+            --text-muted: #8888a0;
+            --text-inverse: #ffffff;
+            --border: #e2e4ea;
+            --border-light: #eeeff3;
+            --accent-red: #e85d75;
+            --accent-orange: #f5a623;
+            --accent-blue: #4a90d9;
+            --shadow-sm: 0 1px 3px rgba(26, 26, 46, 0.06);
+            --shadow-md: 0 4px 12px rgba(26, 26, 46, 0.08);
+            --shadow-lg: 0 8px 30px rgba(26, 26, 46, 0.12);
+            --shadow-xl: 0 16px 48px rgba(26, 26, 46, 0.16);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        /* ============================================
+           RESET & BASE
+           ============================================ */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font);
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--surface-alt);
+        }
+
+        /* ============================================
+           NAVIGATION
+           ============================================ */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-secondary) 100%);
+            padding: 0 2rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .nav-inner {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 56px;
+        }
+
+        .nav-brand {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text-inverse);
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-brand::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0;
+            list-style: none;
+        }
+
+        .nav-links a {
+            display: block;
+            padding: 16px 18px;
+            color: rgba(255, 255, 255, 0.65);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: color 0.2s, background 0.2s;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-inverse);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-links a.active {
+            color: var(--text-inverse);
+            border-bottom-color: var(--primary);
+        }
+
+        /* ============================================
+           HERO
+           ============================================ */
+        .hero {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-secondary) 60%, #1e2a45 100%);
+            padding: 3.5rem 2rem 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(134, 188, 37, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: 10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(13, 131, 144, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-inner {
+            max-width: 1440px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--text-inverse);
+            letter-spacing: -0.5px;
+            margin-bottom: 0.75rem;
+            line-height: 1.2;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--dark);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-left: 12px;
+            vertical-align: middle;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .hero-subtitle {
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.75);
+            max-width: 900px;
+            line-height: 1.65;
+            font-weight: 400;
+            margin-bottom: 1.25rem;
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-meta-item {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hero-meta-item strong {
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 600;
+        }
+
+        /* ============================================
+           STATS STRIP
+           ============================================ */
+        .stats-strip {
+            background: var(--surface);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stats-grid {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 1rem 0.75rem;
+            border-radius: var(--radius-md);
+            background: var(--surface-alt);
+            border: 1px solid var(--border-light);
+            border-top: 3px solid var(--border);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-card.green-top {
+            border-top-color: var(--primary);
+        }
+
+        .stat-card.teal-top {
+            border-top-color: var(--secondary);
+        }
+
+        .stat-number {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .stat-card.teal-top .stat-number {
+            color: var(--secondary);
+        }
+
+        .stat-card.green-top .stat-number {
+            color: var(--primary-dark);
+        }
+
+        .stat-label {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ============================================
+           MAIN CONTENT GRID
+           ============================================ */
+        .main-content {
+            max-width: 1440px;
+            margin: 1.5rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1.15fr 1fr;
+            gap: 1.25rem;
+            align-items: start;
+        }
+
+        /* ============================================
+           SECTION PANELS
+           ============================================ */
+        .panel {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+        }
+
+        .panel + .panel {
+            margin-top: 1.25rem;
+        }
+
+        .panel-header {
+            padding: 1.25rem 1.25rem 0;
+        }
+
+        .panel-header h2 {
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+            padding-bottom: 0.5rem;
+            margin-bottom: 0;
+        }
+
+        .panel-header h2.border-green {
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .panel-header h2.border-teal {
+            border-bottom: 3px solid var(--secondary);
+        }
+
+        .panel-header h2.border-red {
+            border-bottom: 3px solid var(--accent-red);
+        }
+
+        .panel-body {
+            padding: 1rem 1.25rem 1.25rem;
+        }
+
+        .panel-desc {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        /* ============================================
+           PHASE TIMELINE BAR
+           ============================================ */
+        .phase-timeline {
+            display: flex;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            margin-bottom: 1.25rem;
+            font-size: 0.68rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .phase-segment {
+            padding: 8px 6px;
+            text-align: center;
+            color: var(--text-inverse);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .phase-segment:nth-child(1) {
+            background: var(--primary);
+            flex: 25;
+        }
+
+        .phase-segment:nth-child(2) {
+            background: var(--secondary);
+            flex: 25;
+        }
+
+        .phase-segment:nth-child(3) {
+            background: var(--accent-blue);
+            flex: 30;
+        }
+
+        .phase-segment:nth-child(4) {
+            background: var(--dark-secondary);
+            flex: 20;
+        }
+
+        .phase-label {
+            display: block;
+            font-weight: 400;
+            font-size: 0.6rem;
+            opacity: 0.85;
+            margin-top: 1px;
+        }
+
+        /* ============================================
+           DATA TABLES
+           ============================================ */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.78rem;
+        }
+
+        .data-table thead th {
+            background: var(--surface-alt);
+            padding: 8px 10px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            border-bottom: 2px solid var(--border);
+        }
+
+        .data-table tbody td {
+            padding: 7px 10px;
+            border-bottom: 1px solid var(--border-light);
+            color: var(--text-secondary);
+        }
+
+        .data-table tbody tr:hover {
+            background: var(--surface-alt);
+        }
+
+        .data-table .module-id {
+            font-family: 'SFMono-Regular', Consolas, monospace;
+            font-size: 0.72rem;
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .data-table .total-row td {
+            font-weight: 700;
+            color: var(--primary-dark);
+            border-top: 2px solid var(--primary);
+            border-bottom: none;
+            background: var(--primary-light);
+        }
+
+        /* ============================================
+           SPRINT SEQUENCE
+           ============================================ */
+        .sprint-list {
+            list-style: none;
+        }
+
+        .sprint-list li {
+            padding: 0.6rem 0;
+            padding-left: 2rem;
+            position: relative;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.55;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .sprint-list li:last-child {
+            border-bottom: none;
+        }
+
+        .sprint-list li::before {
+            content: attr(data-num);
+            position: absolute;
+            left: 0;
+            top: 0.6rem;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            font-size: 0.68rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-inverse);
+        }
+
+        .sprint-list li:nth-child(1)::before { background: var(--primary); }
+        .sprint-list li:nth-child(2)::before { background: var(--secondary); }
+        .sprint-list li:nth-child(3)::before { background: var(--accent-blue); }
+        .sprint-list li:nth-child(4)::before { background: var(--dark-secondary); }
+
+        .sprint-list .sprint-label {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .sprint-list .sprint-modules {
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        /* ============================================
+           MODULE HIGHLIGHT CARDS
+           ============================================ */
+        .module-card {
+            border-left: 4px solid var(--secondary);
+            background: var(--surface-alt);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            padding: 0.9rem 1rem;
+            margin-bottom: 0.75rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .module-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .module-card:hover {
+            transform: translateX(2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .module-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.4rem;
+            gap: 8px;
+        }
+
+        .module-card-title {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .savings-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: var(--secondary);
+            background: var(--secondary-light);
+            padding: 3px 8px;
+            border-radius: 12px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .module-card-desc {
+            font-size: 0.76rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           IMPACT: BEFORE / AFTER
+           ============================================ */
+        .impact-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .impact-box {
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .impact-box.before {
+            background: linear-gradient(135deg, #f8f0f2, #fce4ec);
+            border: 1px solid #f3c4cf;
+        }
+
+        .impact-box.after {
+            background: linear-gradient(135deg, #e8f5e9, #dcedc8);
+            border: 1px solid #a5d6a7;
+        }
+
+        .impact-box-label {
+            font-size: 0.68rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .impact-box.before .impact-box-label {
+            color: var(--accent-red);
+        }
+
+        .impact-box.after .impact-box-label {
+            color: var(--primary-dark);
+        }
+
+        .impact-box-cost {
+            font-size: 1.35rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 2px;
+        }
+
+        .impact-box.before .impact-box-cost {
+            color: var(--accent-red);
+        }
+
+        .impact-box.after .impact-box-cost {
+            color: var(--primary-dark);
+        }
+
+        .impact-box-detail {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* Savings table */
+        .savings-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.76rem;
+            margin-bottom: 0;
+        }
+
+        .savings-table thead th {
+            background: var(--surface-alt);
+            padding: 6px 8px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            border-bottom: 2px solid var(--border);
+        }
+
+        .savings-table tbody td {
+            padding: 5px 8px;
+            border-bottom: 1px solid var(--border-light);
+            color: var(--text-secondary);
+        }
+
+        .savings-table .savings-total td {
+            font-weight: 700;
+            color: var(--accent-orange);
+            border-top: 2px solid var(--accent-orange);
+            border-bottom: none;
+            background: rgba(245, 166, 35, 0.08);
+        }
+
+        /* ============================================
+           VALUE CHECKLIST
+           ============================================ */
+        .value-list {
+            list-style: none;
+        }
+
+        .value-list li {
+            padding: 0.45rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .value-list li:last-child {
+            border-bottom: none;
+        }
+
+        .value-list li::before {
+            content: '\2713';
+            position: absolute;
+            left: 0;
+            top: 0.45rem;
+            color: var(--secondary);
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .value-list li strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* ============================================
+           ROI TABLE
+           ============================================ */
+        .roi-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.76rem;
+        }
+
+        .roi-table thead th {
+            background: var(--surface-alt);
+            padding: 6px 8px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            border-bottom: 2px solid var(--border);
+        }
+
+        .roi-table tbody td {
+            padding: 5px 8px;
+            border-bottom: 1px solid var(--border-light);
+            color: var(--text-secondary);
+        }
+
+        .roi-table tbody tr:last-child td {
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        /* ============================================
+           ACTION BOX
+           ============================================ */
+        .action-box {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-secondary) 100%);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .action-box-header {
+            background: var(--primary);
+            padding: 0.65rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .action-box-body {
+            padding: 1rem;
+        }
+
+        .action-box-body ul {
+            list-style: none;
+        }
+
+        .action-box-body ul li {
+            padding: 0.35rem 0;
+            padding-left: 1.25rem;
+            position: relative;
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+        }
+
+        .action-box-body ul li::before {
+            content: '\25B8';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-secondary) 100%);
+            margin-top: 2rem;
+            padding: 2rem;
+        }
+
+        .footer-inner {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-info {
+            text-align: right;
+        }
+
+        .footer-info p {
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.4);
+            line-height: 1.6;
+        }
+
+        .footer-info strong {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .footer-copyright {
+            width: 100%;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 1rem;
+            margin-top: 0.5rem;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.3);
+            text-align: center;
+        }
+
+        /* ============================================
+           PRINT BUTTON
+           ============================================ */
+        .print-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--dark);
+            border: none;
+            padding: 12px 22px;
+            border-radius: 30px;
+            font-family: var(--font);
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .print-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .print-btn::before {
+            content: '\1F5B6';
+            font-size: 1rem;
+        }
+
+        /* ============================================
+           RESPONSIVE: 1024px
+           ============================================ */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .hero-title {
+                font-size: 1.75rem;
+            }
+
+            .nav-inner {
+                flex-direction: column;
+                height: auto;
+                padding: 0.75rem 0;
+                gap: 0.5rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .impact-comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding: 2rem 1rem;
+            }
+
+            .main-content {
+                padding: 0 1rem;
+            }
+
+            .hero-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: flex-start;
+            }
+        }
+
+        /* ============================================
+           PRINT MEDIA
+           ============================================ */
+        @media print {
+            .print-btn {
+                display: none !important;
+            }
+
+            .nav {
+                position: static;
+                box-shadow: none;
+            }
+
+            body {
+                background: white;
+                font-size: 11px;
+            }
+
+            .main-content {
+                grid-template-columns: 1fr 1.15fr 1fr;
+                gap: 0.75rem;
+            }
+
+            .panel {
+                box-shadow: none;
+                border: 1px solid #ddd;
+                break-inside: avoid;
+            }
+
+            .module-card:hover {
+                transform: none;
+                box-shadow: none;
+            }
+
+            .hero {
+                padding: 2rem 1.5rem;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .stats-strip {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .stat-card {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .footer {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .action-box {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .phase-timeline {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .impact-box {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==========================================
+         NAVIGATION
+         ========================================== -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <div class="nav-brand">DMTSP Integration Standards Library</div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Overview</a></li>
+                <li><a href="roadmap.html">Roadmap</a></li>
+                <li><a href="backlog.html">Backlog</a></li>
+                <li><a href="orchestrator.html">Orchestrator</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ==========================================
+         HERO
+         ========================================== -->
+    <section class="hero">
+        <div class="hero-inner">
+            <h1 class="hero-title">
+                Integration Standards Library
+                <span class="hero-badge">ACC-03</span>
+            </h1>
+            <p class="hero-subtitle">
+                Reusable integration standards for API governance, metadata lineage, naming conventions, and data classification &mdash; reducing Phase 4 delivery effort by 30-40% per engagement
+            </p>
+            <div class="hero-meta">
+                <div class="hero-meta-item">
+                    <strong>Keven Markham</strong> VP Enterprise Transformation &mdash; DMTSP
+                </div>
+                <div class="hero-meta-item">
+                    February 6, 2026
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         STATS STRIP
+         ========================================== -->
+    <section class="stats-strip">
+        <div class="stats-grid">
+            <div class="stat-card green-top">
+                <div class="stat-number">6</div>
+                <div class="stat-label">Standards Modules</div>
+            </div>
+            <div class="stat-card green-top">
+                <div class="stat-number">39</div>
+                <div class="stat-label">Reusable Artifacts</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">250-360</div>
+                <div class="stat-label">Build Investment (hrs)</div>
+            </div>
+            <div class="stat-card teal-top">
+                <div class="stat-number">275-422</div>
+                <div class="stat-label">Per-Engagement Savings (hrs)</div>
+            </div>
+            <div class="stat-card teal-top">
+                <div class="stat-number">~50%</div>
+                <div class="stat-label">Productivity Gain</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">10 wks</div>
+                <div class="stat-label">Build Timeline</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         MAIN 3-COLUMN GRID
+         ========================================== -->
+    <main class="main-content">
+
+        <!-- ======================================
+             COLUMN 1: Module Inventory
+             ====================================== -->
+        <div class="col-1">
+
+            <!-- Standards Modules Overview -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="border-green">Standards Modules Overview</h2>
+                </div>
+                <div class="panel-body">
+                    <p class="panel-desc">
+                        6 pre-built standards modules covering enterprise data governance. Build once, deploy globally across engagements.
+                    </p>
+
+                    <!-- Phase Timeline Bar -->
+                    <div class="phase-timeline">
+                        <div class="phase-segment">Sprint 1: Foundation<span class="phase-label">25%</span></div>
+                        <div class="phase-segment">Sprint 2: Core<span class="phase-label">25%</span></div>
+                        <div class="phase-segment">Sprint 3: Advanced<span class="phase-label">30%</span></div>
+                        <div class="phase-segment">Sprint 4: Package<span class="phase-label">20%</span></div>
+                    </div>
+
+                    <!-- Modules Table -->
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Module</th>
+                                <th>ID</th>
+                                <th>Build Hrs</th>
+                                <th>Savings</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Naming Conventions</td>
+                                <td class="module-id">ISL-03</td>
+                                <td>20-30</td>
+                                <td>20-32 hrs</td>
+                            </tr>
+                            <tr>
+                                <td>Data Classification</td>
+                                <td class="module-id">ISL-04</td>
+                                <td>40-60</td>
+                                <td>35-60 hrs</td>
+                            </tr>
+                            <tr>
+                                <td>API Governance</td>
+                                <td class="module-id">ISL-01</td>
+                                <td>40-60</td>
+                                <td>60-85 hrs</td>
+                            </tr>
+                            <tr>
+                                <td>Data Quality</td>
+                                <td class="module-id">ISL-06</td>
+                                <td>30-50</td>
+                                <td>30-45 hrs</td>
+                            </tr>
+                            <tr>
+                                <td>Metadata &amp; Lineage</td>
+                                <td class="module-id">ISL-02</td>
+                                <td>60-80</td>
+                                <td>70-110 hrs</td>
+                            </tr>
+                            <tr>
+                                <td>Integration Patterns</td>
+                                <td class="module-id">ISL-05</td>
+                                <td>60-80</td>
+                                <td>60-90 hrs</td>
+                            </tr>
+                            <tr class="total-row">
+                                <td>Total</td>
+                                <td></td>
+                                <td>250-360</td>
+                                <td>275-422 hrs</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Build Sprint Sequence -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="border-green">Build Sprint Sequence</h2>
+                </div>
+                <div class="panel-body">
+                    <ol class="sprint-list">
+                        <li data-num="1">
+                            <span class="sprint-label">Sprint 1 (Wk 1-2):</span>
+                            <span class="sprint-modules">ISL-03 + ISL-04</span>
+                            &mdash; Foundation for all downstream modules
+                        </li>
+                        <li data-num="2">
+                            <span class="sprint-label">Sprint 2 (Wk 3-4):</span>
+                            <span class="sprint-modules">ISL-01 + ISL-06</span>
+                            &mdash; Core governance domains
+                        </li>
+                        <li data-num="3">
+                            <span class="sprint-label">Sprint 3 (Wk 5-8):</span>
+                            <span class="sprint-modules">ISL-02 + ISL-05</span>
+                            &mdash; Highest complexity, deepest impact
+                        </li>
+                        <li data-num="4">
+                            <span class="sprint-label">Sprint 4 (Wk 9-10):</span>
+                            Manufacturing overlays, peer review, v1.0 release
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ======================================
+             COLUMN 2: Accelerator Details (center)
+             ====================================== -->
+        <div class="col-2">
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="border-teal">Module Highlights</h2>
+                </div>
+                <div class="panel-body">
+
+                    <!-- ISL-03 -->
+                    <div class="module-card">
+                        <div class="module-card-header">
+                            <div class="module-card-title">ISL-03: Naming Conventions</div>
+                            <span class="savings-badge">&darr; 20-32 hrs</span>
+                        </div>
+                        <p class="module-card-desc">
+                            7 naming templates covering database, table, column, pipeline, API, and infrastructure naming. Fabric-specific patterns (lh_, wh_, pl_, nb_, sm_ prefixes) included. Eliminates subjective naming debates.
+                        </p>
+                    </div>
+
+                    <!-- ISL-04 -->
+                    <div class="module-card">
+                        <div class="module-card-header">
+                            <div class="module-card-title">ISL-04: Data Classification</div>
+                            <span class="savings-badge">&darr; 35-60 hrs</span>
+                        </div>
+                        <p class="module-card-desc">
+                            4-tier classification model (Public/Internal/Confidential/Restricted) with Purview label alignment, compliance mapping (SOX, GDPR, ITAR), and manufacturing overlays for trade secrets and IoT/OT data.
+                        </p>
+                    </div>
+
+                    <!-- ISL-01 -->
+                    <div class="module-card">
+                        <div class="module-card-header">
+                            <div class="module-card-title">ISL-01: API Governance</div>
+                            <span class="savings-badge">&darr; 60-85 hrs</span>
+                        </div>
+                        <p class="module-card-desc">
+                            Complete API lifecycle governance: design standards, versioning policy, OAuth 2.0/OIDC security, rate limiting, and catalog requirements. OWASP API Top 10 cross-referenced.
+                        </p>
+                    </div>
+
+                    <!-- ISL-06 -->
+                    <div class="module-card">
+                        <div class="module-card-header">
+                            <div class="module-card-title">ISL-06: Data Quality</div>
+                            <span class="savings-badge">&darr; 30-45 hrs</span>
+                        </div>
+                        <p class="module-card-desc">
+                            50+ pre-built quality rules across schema, row-level, aggregate, and business categories. SLA thresholds per classification tier. Quality scorecard with RAG status.
+                        </p>
+                    </div>
+
+                    <!-- ISL-02 -->
+                    <div class="module-card">
+                        <div class="module-card-header">
+                            <div class="module-card-title">ISL-02: Metadata &amp; Lineage</div>
+                            <span class="savings-badge">&darr; 70-110 hrs</span>
+                        </div>
+                        <p class="module-card-desc">
+                            Business glossary, technical metadata schema (Purview-aligned), column-level lineage requirements, catalog governance. Manufacturing extensions for IoT sensor registries and ERP cross-references.
+                        </p>
+                    </div>
+
+                    <!-- ISL-05 -->
+                    <div class="module-card">
+                        <div class="module-card-header">
+                            <div class="module-card-title">ISL-05: Integration Patterns</div>
+                            <span class="savings-badge">&darr; 60-90 hrs</span>
+                        </div>
+                        <p class="module-card-desc">
+                            8 reusable patterns: ERP extract, IoT ingestion, API gateway, event-driven, MDM sync, file-based, medallion architecture, reverse ETL. Decision framework for pattern selection.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ======================================
+             COLUMN 3: Impact & Actions
+             ====================================== -->
+        <div class="col-3">
+
+            <!-- Engagement Impact -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="border-red">Engagement Impact: Before vs. After</h2>
+                </div>
+                <div class="panel-body">
+                    <div class="impact-comparison">
+                        <div class="impact-box before">
+                            <div class="impact-box-label">Before: Baseline Phase 4</div>
+                            <div class="impact-box-cost">$110-160K</div>
+                            <div class="impact-box-detail">500-700 hrs | 6-8 wks</div>
+                        </div>
+                        <div class="impact-box after">
+                            <div class="impact-box-label">After: With ISL</div>
+                            <div class="impact-box-cost">$70-100K</div>
+                            <div class="impact-box-detail">350-500 hrs | 4-5 wks</div>
+                        </div>
+                    </div>
+
+                    <table class="savings-table">
+                        <thead>
+                            <tr>
+                                <th>Phase</th>
+                                <th>Hrs Saved</th>
+                                <th>$ Saved</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>P1: Discovery</td>
+                                <td>-60 to -100</td>
+                                <td>$12-20K</td>
+                            </tr>
+                            <tr>
+                                <td>P2: Architecture</td>
+                                <td>-40 to -60</td>
+                                <td>$8-12K</td>
+                            </tr>
+                            <tr>
+                                <td>P3: Roadmap</td>
+                                <td>-20 to -40</td>
+                                <td>$4-8K</td>
+                            </tr>
+                            <tr>
+                                <td>P4: Standards</td>
+                                <td>-150 to -200</td>
+                                <td>$30-40K</td>
+                            </tr>
+                            <tr class="savings-total">
+                                <td>Total Savings</td>
+                                <td>-270 to -400</td>
+                                <td>$54-80K</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Client Value Positioning -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="border-teal">Client Value Positioning</h2>
+                </div>
+                <div class="panel-body">
+                    <ul class="value-list">
+                        <li><strong>Faster time-to-value</strong> &mdash; Standards delivered in 4-5 weeks vs. 6-8</li>
+                        <li><strong>Proven patterns</strong> &mdash; Battle-tested from prior manufacturing engagements</li>
+                        <li><strong>Reduced risk</strong> &mdash; Pre-validated against OWASP, NIST, DAMA, ISO 27001</li>
+                        <li><strong>Cross-portfolio consistency</strong> &mdash; Same standards framework across all clients</li>
+                        <li><strong>Competitive edge</strong> &mdash; IP advantage vs. competitors starting from scratch</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Portfolio ROI -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="border-green">Portfolio ROI</h2>
+                </div>
+                <div class="panel-body">
+                    <table class="roi-table">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Engagements</th>
+                                <th>Cumulative Savings</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>FY27</td>
+                                <td>2-3</td>
+                                <td>$110K-$253K</td>
+                            </tr>
+                            <tr>
+                                <td>FY28</td>
+                                <td>4-6</td>
+                                <td>$330K-$760K</td>
+                            </tr>
+                            <tr>
+                                <td>FY29</td>
+                                <td>6-9</td>
+                                <td>$660K-$1.52M</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Action Box -->
+                    <div class="action-box">
+                        <div class="action-box-header">Next Steps: Build Sprint 1</div>
+                        <div class="action-box-body">
+                            <ul>
+                                <li>Assign Lead Architect, Sr Data Gov Specialist, Sr Integration Architect</li>
+                                <li>Access 2-3 completed Phase 4 deliverables for reference audit</li>
+                                <li>Finalize template lists and lock scope (Sprint 0 gate)</li>
+                                <li>Begin ISL-03 (Naming Conventions) + ISL-04 (Data Classification)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- ==========================================
+         FOOTER
+         ========================================== -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-links">
+                <a href="index.html">Overview</a>
+                <a href="roadmap.html">Roadmap</a>
+                <a href="backlog.html">Backlog</a>
+                <a href="orchestrator.html">Orchestrator</a>
+            </div>
+            <div class="footer-info">
+                <p><strong>Keven Markham</strong> &mdash; VP Enterprise Transformation</p>
+                <p>February 6, 2026 &middot; Version 1.0</p>
+            </div>
+            <div class="footer-copyright">
+                DMTSP Integration Standards Library &mdash; Internal Use Only
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================
+         PRINT BUTTON
+         ========================================== -->
+    <button class="print-btn" onclick="window.print()">Print / PDF</button>
+
+</body>
+</html>

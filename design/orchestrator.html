@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sprint Orchestrator — Integration Standards Library | DMTSP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #86BC25;
+            --primary-dark: #6a9a1a;
+            --primary-light: rgba(134, 188, 37, 0.12);
+            --secondary: #0D8390;
+            --secondary-dark: #0a6b75;
+            --secondary-light: rgba(13, 131, 144, 0.12);
+            --dark: #1a1a2e;
+            --dark-secondary: #2d2d44;
+            --dark-tertiary: #3a3a55;
+            --surface: #ffffff;
+            --surface-alt: #f7f8fa;
+            --surface-hover: #f0f1f4;
+            --text-primary: #1a1a2e;
+            --text-secondary: #555570;
+            --text-muted: #8888a0;
+            --text-inverse: #ffffff;
+            --border: #e2e4ea;
+            --border-light: #eeeff3;
+            --accent-red: #e85d75;
+            --accent-orange: #f5a623;
+            --accent-blue: #4a90d9;
+            --shadow-sm: 0 1px 3px rgba(26, 26, 46, 0.06);
+            --shadow-md: 0 4px 12px rgba(26, 26, 46, 0.08);
+            --shadow-lg: 0 8px 30px rgba(26, 26, 46, 0.12);
+            --shadow-xl: 0 16px 48px rgba(26, 26, 46, 0.16);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        body { font-family: var(--font); font-size: 14px; line-height: 1.6; color: var(--text-primary); background: var(--surface-alt); }
+
+        /* NAV */
+        .nav { position: sticky; top: 0; z-index: 1000; background: linear-gradient(135deg, var(--dark) 0%, var(--dark-secondary) 100%); padding: 0 2rem; box-shadow: var(--shadow-lg); }
+        .nav-inner { max-width: 1440px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+        .nav-brand { font-weight: 700; font-size: 15px; color: var(--text-inverse); letter-spacing: -0.3px; display: flex; align-items: center; gap: 10px; }
+        .nav-brand::before { content: ''; display: inline-block; width: 8px; height: 8px; background: var(--primary); border-radius: 2px; flex-shrink: 0; }
+        .nav-links { display: flex; gap: 0; list-style: none; }
+        .nav-links a { display: block; padding: 16px 18px; color: rgba(255,255,255,0.65); text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.2s, background 0.2s; border-bottom: 2px solid transparent; }
+        .nav-links a:hover { color: var(--text-inverse); background: rgba(255,255,255,0.05); }
+        .nav-links a.active { color: var(--text-inverse); border-bottom-color: var(--primary); }
+
+        /* HERO */
+        .hero { background: linear-gradient(135deg, var(--dark) 0%, var(--dark-secondary) 60%, #1e2a45 100%); padding: 3.5rem 2rem 3rem; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; top: -50%; right: -10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(134,188,37,0.06) 0%, transparent 70%); border-radius: 50%; }
+        .hero::after { content: ''; position: absolute; bottom: -30%; left: 10%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(13,131,144,0.05) 0%, transparent 70%); border-radius: 50%; }
+        .hero-inner { max-width: 1440px; margin: 0 auto; position: relative; z-index: 1; }
+        .hero-title { font-size: 2.2rem; font-weight: 800; color: var(--text-inverse); letter-spacing: -0.5px; margin-bottom: 0.75rem; line-height: 1.2; }
+        .hero-title .green { color: var(--primary); }
+        .hero-subtitle { font-size: 1.05rem; color: rgba(255,255,255,0.75); max-width: 900px; line-height: 1.65; font-weight: 400; margin-bottom: 1.25rem; }
+        .hero-meta { display: flex; gap: 2rem; align-items: center; flex-wrap: wrap; }
+        .hero-meta-item { font-size: 0.8rem; color: rgba(255,255,255,0.5); display: flex; align-items: center; gap: 6px; }
+        .hero-meta-item strong { color: rgba(255,255,255,0.85); font-weight: 600; }
+
+        /* STATS STRIP */
+        .stats-strip { background: var(--surface); padding: 1.5rem 2rem; border-bottom: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+        .stats-grid { max-width: 1440px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+        .stat-card { text-align: center; padding: 1rem 0.75rem; border-radius: var(--radius-md); background: var(--surface-alt); border: 1px solid var(--border-light); border-top: 3px solid var(--border); transition: transform 0.2s, box-shadow 0.2s; }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .stat-card.green-top { border-top-color: var(--primary); }
+        .stat-card.teal-top { border-top-color: var(--secondary); }
+        .stat-number { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.5px; color: var(--text-primary); margin-bottom: 2px; }
+        .stat-card.teal-top .stat-number { color: var(--secondary); }
+        .stat-card.green-top .stat-number { color: var(--primary-dark); }
+        .stat-label { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .hero-links { display: flex; gap: 1rem; margin-top: 1.25rem; }
+        .hero-link { display: inline-block; padding: 8px 20px; border-radius: 20px; font-size: 0.82rem; font-weight: 600; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
+        .hero-link:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+        .hero-link.primary { background: var(--primary); color: var(--dark); }
+        .hero-link.secondary { background: rgba(255,255,255,0.12); color: var(--text-inverse); border: 1px solid rgba(255,255,255,0.25); }
+
+        /* SIDEBAR + CONTENT LAYOUT */
+        .page-layout { max-width: 1440px; margin: 1.5rem auto; padding: 0 2rem; display: grid; grid-template-columns: 240px 1fr; gap: 1.5rem; align-items: start; }
+
+        /* SIDEBAR TOC */
+        .sidebar { position: sticky; top: 72px; }
+        .toc { background: var(--surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid var(--border-light); overflow: hidden; }
+        .toc-header { padding: 1rem 1.25rem 0.5rem; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
+        .toc-list { list-style: none; padding: 0 0 0.75rem; }
+        .toc-list li a { display: block; padding: 6px 1.25rem; font-size: 0.78rem; color: var(--text-secondary); text-decoration: none; border-left: 3px solid transparent; transition: all 0.2s; line-height: 1.45; }
+        .toc-list li a:hover { color: var(--primary-dark); background: var(--surface-alt); }
+        .toc-list li a.active { color: var(--primary-dark); border-left-color: var(--primary); background: var(--primary-light); font-weight: 600; }
+        .toc-list li.toc-divider { border-top: 1px solid var(--border-light); margin: 6px 1.25rem; }
+
+        /* CONTENT CARDS */
+        .content-card { background: var(--surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid var(--border-light); overflow: hidden; margin-bottom: 1.5rem; }
+        .content-card-header { padding: 1.25rem 1.5rem 0; }
+        .content-card-header h2 { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.2px; padding-bottom: 0.5rem; margin-bottom: 0; }
+        .content-card-header h2.border-green { border-bottom: 3px solid var(--primary); }
+        .content-card-header h2.border-teal { border-bottom: 3px solid var(--secondary); }
+        .content-card-body { padding: 1rem 1.5rem 1.5rem; }
+
+        .sprint-card { border-left: 5px solid var(--secondary); }
+        .sprint-card.s0 { border-left-color: var(--secondary); }
+        .sprint-card.s1 { border-left-color: var(--primary); }
+        .sprint-card.s2 { border-left-color: #e67e22; }
+        .sprint-card.s3 { border-left-color: #3498db; }
+        .sprint-card.s4 { border-left-color: #8e44ad; }
+
+        .sprint-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1rem; font-size: 0.82rem; color: var(--text-secondary); }
+        .sprint-meta strong { color: var(--text-primary); }
+
+        /* DATA TABLE */
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; margin-bottom: 1rem; }
+        .data-table thead th { background: var(--surface-alt); padding: 8px 10px; text-align: left; font-weight: 600; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); border-bottom: 2px solid var(--border); }
+        .data-table tbody td { padding: 7px 10px; border-bottom: 1px solid var(--border-light); color: var(--text-secondary); }
+        .data-table tbody tr:hover { background: var(--surface-alt); }
+        .data-table .total-row td { font-weight: 700; color: var(--primary-dark); border-top: 2px solid var(--primary); border-bottom: none; background: var(--primary-light); }
+
+        /* COMPACT TABLE */
+        .compact-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; margin-bottom: 1rem; }
+        .compact-table thead th { background: var(--surface-alt); padding: 6px 8px; text-align: left; font-weight: 600; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); border-bottom: 2px solid var(--border); }
+        .compact-table tbody td { padding: 5px 8px; border-bottom: 1px solid var(--border-light); color: var(--text-secondary); }
+        .compact-table tbody tr:hover { background: var(--surface-alt); }
+        .compact-table .total-row td { font-weight: 700; color: var(--primary-dark); border-top: 2px solid var(--primary); border-bottom: none; background: var(--primary-light); }
+
+        .task-id { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 0.72rem; color: var(--secondary); font-weight: 600; }
+        .module-id { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 0.72rem; color: var(--secondary); font-weight: 600; }
+        .backlog-ref { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 0.68rem; color: var(--text-muted); }
+
+        /* CODE BLOCK */
+        .code-block { background: var(--dark); color: rgba(255,255,255,0.85); border-radius: var(--radius-md); padding: 1.25rem 1.5rem; font-family: 'SFMono-Regular', Consolas, monospace; font-size: 0.78rem; line-height: 1.7; overflow-x: auto; margin-bottom: 1rem; white-space: pre; }
+        .code-block .green { color: var(--primary); }
+        .code-block .teal { color: #4dd0e1; }
+        .code-block .muted { color: rgba(255,255,255,0.4); }
+
+        /* CRITERIA LISTS */
+        .criteria-section { margin-bottom: 1rem; }
+        .criteria-section h4 { font-size: 0.82rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; }
+        .criteria-list { list-style: none; border-left: 3px solid var(--primary); padding-left: 1rem; margin-bottom: 0.75rem; }
+        .criteria-list li { padding: 4px 0; font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5; position: relative; padding-left: 1.25rem; }
+        .criteria-list li::before { content: '\2610'; position: absolute; left: 0; color: var(--primary); font-size: 0.85rem; }
+        .criteria-list.exit-list { border-left-color: var(--secondary); }
+        .criteria-list.exit-list li::before { color: var(--secondary); }
+
+        /* WARNING/BLOCKER */
+        .warning-box { background: rgba(245, 166, 35, 0.08); border: 1px solid rgba(245, 166, 35, 0.3); border-left: 4px solid var(--accent-orange); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 0.75rem 1rem; margin-bottom: 1rem; }
+        .warning-box h4 { font-size: 0.82rem; font-weight: 700; color: var(--accent-orange); margin-bottom: 0.4rem; }
+        .warning-box ul { list-style: none; }
+        .warning-box ul li { padding: 3px 0; font-size: 0.78rem; color: var(--text-secondary); padding-left: 1rem; position: relative; }
+        .warning-box ul li::before { content: '\26A0'; position: absolute; left: 0; font-size: 0.7rem; }
+
+        /* INFO NOTE */
+        .info-note { background: var(--secondary-light); border-left: 4px solid var(--secondary); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 0.75rem 1rem; margin-bottom: 1rem; font-size: 0.78rem; color: var(--text-secondary); line-height: 1.55; }
+
+        /* SUB SECTION */
+        .sub-section { margin-bottom: 1.25rem; }
+        .sub-section h3 { font-size: 0.92rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.75rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border-light); }
+        .sub-section h4 { font-size: 0.82rem; font-weight: 600; color: var(--secondary); margin-bottom: 0.5rem; }
+
+        /* CHECK MARK */
+        .check { color: var(--primary); font-weight: 700; }
+        .dash { color: var(--text-muted); }
+
+        /* MILESTONE TABLE STYLING */
+        .milestone-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; margin-bottom: 1rem; }
+        .milestone-table thead th { background: var(--surface-alt); padding: 6px 8px; text-align: left; font-weight: 600; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); border-bottom: 2px solid var(--border); }
+        .milestone-table tbody td { padding: 5px 8px; border-bottom: 1px solid var(--border-light); color: var(--text-secondary); }
+        .milestone-table tbody tr:hover { background: var(--surface-alt); }
+        .milestone-table .key-milestone td { font-weight: 700; color: var(--primary-dark); background: var(--primary-light); }
+        .milestone-id { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 0.72rem; color: var(--accent-blue); font-weight: 600; }
+
+        /* FOOTER */
+        .footer { background: linear-gradient(135deg, var(--dark) 0%, var(--dark-secondary) 100%); margin-top: 2rem; padding: 2rem; }
+        .footer-inner { max-width: 1440px; margin: 0 auto; display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 2rem; }
+        .footer-links { display: flex; gap: 1.5rem; }
+        .footer-links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.8rem; font-weight: 500; transition: color 0.2s; }
+        .footer-links a:hover { color: var(--primary); }
+        .footer-info { text-align: right; }
+        .footer-info p { font-size: 0.72rem; color: rgba(255,255,255,0.4); line-height: 1.6; }
+        .footer-info strong { color: rgba(255,255,255,0.7); }
+        .footer-copyright { width: 100%; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1rem; margin-top: 0.5rem; font-size: 0.7rem; color: rgba(255,255,255,0.3); text-align: center; }
+
+        /* SCROLL-TO-TOP */
+        .scroll-top { position: fixed; bottom: 24px; right: 24px; z-index: 9999; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: var(--dark); border: none; width: 44px; height: 44px; border-radius: 50%; font-size: 1.2rem; font-weight: 700; cursor: pointer; box-shadow: var(--shadow-lg); transition: transform 0.2s, box-shadow 0.2s, opacity 0.3s; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; }
+        .scroll-top.visible { opacity: 1; pointer-events: auto; }
+        .scroll-top:hover { transform: translateY(-2px); box-shadow: var(--shadow-xl); }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .page-layout { grid-template-columns: 1fr; }
+            .sidebar { position: static; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .hero-title { font-size: 1.75rem; }
+            .nav-inner { flex-direction: column; height: auto; padding: 0.75rem 0; gap: 0.5rem; }
+            .nav-links { flex-wrap: wrap; justify-content: center; }
+        }
+        @media (max-width: 640px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .hero { padding: 2rem 1rem; }
+            .page-layout { padding: 0 1rem; }
+            .hero-meta { flex-direction: column; gap: 0.5rem; align-items: flex-start; }
+        }
+
+        /* PRINT */
+        @media print {
+            .scroll-top, .sidebar { display: none !important; }
+            .nav { position: static; box-shadow: none; }
+            body { background: white; font-size: 11px; }
+            .page-layout { grid-template-columns: 1fr; gap: 0.75rem; }
+            .content-card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+            .hero, .stats-strip, .footer { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <div class="nav-brand">DMTSP Integration Standards Library</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Overview</a></li>
+                <li><a href="roadmap.html">Roadmap</a></li>
+                <li><a href="backlog.html">Backlog</a></li>
+                <li><a href="orchestrator.html" class="active">Orchestrator</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-inner">
+            <h1 class="hero-title">Sprint <span class="green">Orchestrator</span></h1>
+            <p class="hero-subtitle">
+                Reusable Sprint Orchestrator for the Integration Standards Library buildout &mdash; team allocation, task sequencing, milestones, and cross-sprint metrics across 5 sprints and 4 FTEs.
+            </p>
+            <div class="hero-meta">
+                <div class="hero-meta-item"><strong>Keven Markham</strong> VP Enterprise Transformation &mdash; DMTSP</div>
+                <div class="hero-meta-item">February 6, 2026</div>
+            </div>
+            <div class="hero-links">
+                <a href="roadmap.html" class="hero-link primary">Roadmap</a>
+                <a href="backlog.html" class="hero-link secondary">Backlog</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS STRIP -->
+    <section class="stats-strip">
+        <div class="stats-grid">
+            <div class="stat-card green-top">
+                <div class="stat-number">5</div>
+                <div class="stat-label">Sprints (0&ndash;4)</div>
+            </div>
+            <div class="stat-card teal-top">
+                <div class="stat-number">4</div>
+                <div class="stat-label">FTEs</div>
+            </div>
+            <div class="stat-card green-top">
+                <div class="stat-number">150</div>
+                <div class="stat-label">Hrs / Sprint</div>
+            </div>
+            <div class="stat-card teal-top">
+                <div class="stat-number">24</div>
+                <div class="stat-label">Milestones</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN LAYOUT -->
+    <div class="page-layout">
+
+        <!-- SIDEBAR TOC -->
+        <aside class="sidebar">
+            <div class="toc">
+                <div class="toc-header">On This Page</div>
+                <ul class="toc-list">
+                    <li><a href="#team-allocation">Team Allocation Matrix</a></li>
+                    <li><a href="#sprint-timeline">Sprint Timeline</a></li>
+                    <li class="toc-divider"></li>
+                    <li><a href="#sprint-0">Sprint 0: Discovery &amp; Baseline</a></li>
+                    <li><a href="#sprint-1">Sprint 1: Foundation Modules</a></li>
+                    <li><a href="#sprint-2">Sprint 2: Core Modules</a></li>
+                    <li><a href="#sprint-3">Sprint 3: Advanced Modules</a></li>
+                    <li><a href="#sprint-4">Sprint 4: Packaging &amp; Pilot</a></li>
+                    <li class="toc-divider"></li>
+                    <li><a href="#module-progress">Module Progress</a></li>
+                    <li><a href="#hours-burn">Hours Burn</a></li>
+                    <li><a href="#milestone-summary">Milestone Summary</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main>
+
+            <!-- 1. TEAM ALLOCATION MATRIX -->
+            <section id="team-allocation" class="content-card">
+                <div class="content-card-header">
+                    <h2 class="border-green">Team Allocation Matrix</h2>
+                </div>
+                <div class="content-card-body">
+                    <div class="sprint-meta">
+                        <span><strong>Sprint Cadence:</strong> 2-week sprints (Sprint 3 is a double sprint &mdash; 4 weeks)</span>
+                        <span><strong>Team Capacity:</strong> 150 hrs/sprint</span>
+                        <span><strong>Team Size:</strong> 4 FTEs (part-time)</span>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Role</th>
+                                <th>Sprint 0</th>
+                                <th>Sprint 1</th>
+                                <th>Sprint 2</th>
+                                <th>Sprint 3 (&times;2)</th>
+                                <th>Sprint 4</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Lead Architect (1&times;35)</td>
+                                <td>20</td>
+                                <td>15</td>
+                                <td>14</td>
+                                <td>24</td>
+                                <td>30</td>
+                            </tr>
+                            <tr>
+                                <td>Sr Data Gov Specialist (1&times;50)</td>
+                                <td>8</td>
+                                <td>45</td>
+                                <td>39</td>
+                                <td>65</td>
+                                <td>18</td>
+                            </tr>
+                            <tr>
+                                <td>Sr Integration Architect (1&times;50)</td>
+                                <td>9</td>
+                                <td>22</td>
+                                <td>42</td>
+                                <td>62</td>
+                                <td>12</td>
+                            </tr>
+                            <tr>
+                                <td>Technical Writer (1&times;15)</td>
+                                <td>3</td>
+                                <td>8</td>
+                                <td>5</td>
+                                <td>9</td>
+                                <td>20</td>
+                            </tr>
+                            <tr class="total-row">
+                                <td>Sprint Subtotal</td>
+                                <td>40</td>
+                                <td>90</td>
+                                <td>100</td>
+                                <td>160</td>
+                                <td>80</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="info-note">
+                        Sprint 3 is a 4-week double sprint due to the complexity of ISL-02 (Metadata &amp; Lineage) and ISL-05 (Integration Patterns). All other sprints are standard 2-week sprints.
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. SPRINT TIMELINE -->
+            <section id="sprint-timeline" class="content-card">
+                <div class="content-card-header">
+                    <h2 class="border-teal">Sprint Timeline</h2>
+                </div>
+                <div class="content-card-body">
+                    <div class="code-block"><span class="green">Sprint 0</span> <span class="muted">────</span> <span class="green">Sprint 1</span> <span class="muted">────</span> <span class="green">Sprint 2</span> <span class="muted">────</span> <span class="green">Sprint 3 (double)</span> <span class="muted">────</span> <span class="green">Sprint 4</span>
+<span class="teal">Discovery</span>     <span class="teal">Foundation</span>    <span class="teal">Core</span>          <span class="teal">Advanced</span>                 <span class="teal">Packaging</span>
+<span class="teal">&amp; Baseline</span>    <span class="teal">Modules</span>       <span class="teal">Modules</span>       <span class="teal">Modules</span>                  <span class="teal">&amp; Pilot</span>
+               ISL-03+04     ISL-01+06     ISL-02+05                v1.0 Release
+<span class="muted">Week 0</span>        <span class="muted">Week 1-2</span>      <span class="muted">Week 3-4</span>      <span class="muted">Week 5-8</span>               <span class="muted">Week 9-10</span>
+40 hrs        90 hrs        100 hrs       160 hrs                80 hrs</div>
+                </div>
+            </section>
+
+            <!-- 3. SPRINT 0 -->
+            <section id="sprint-0" class="content-card sprint-card s0">
+                <div class="content-card-header">
+                    <h2 class="border-teal">Sprint 0 &mdash; Discovery &amp; Baseline</h2>
+                </div>
+                <div class="content-card-body">
+                    <div class="sprint-meta">
+                        <span><strong>Duration:</strong> 1 week</span>
+                        <span><strong>Total Hours:</strong> 40</span>
+                        <span><strong>Backlog Epic:</strong> E0</span>
+                    </div>
+
+                    <div class="criteria-section">
+                        <h4>Entry Criteria</h4>
+                        <ul class="criteria-list">
+                            <li>Build team assigned (Lead Architect, Sr Data Gov, Sr Integration Architect, Technical Writer)</li>
+                            <li>Access to 2&ndash;3 completed Phase 4 engagement deliverables</li>
+                            <li>Reference standards documentation available (Microsoft, OWASP, DAMA, NIST)</li>
+                            <li>Git repository initialized with project structure (Complete)</li>
+                        </ul>
+                    </div>
+
+                    <div class="criteria-section">
+                        <h4>Exit Criteria</h4>
+                        <ul class="criteria-list exit-list">
+                            <li>Prior engagement patterns extracted and documented</li>
+                            <li>External standards surveyed and alignment points identified</li>
+                            <li>Template lists finalized for all 6 modules (39 templates, 16 examples)</li>
+                            <li>Adaptation workflow defined</li>
+                            <li>Buildout scope locked &mdash; no template additions after Sprint 0 exit</li>
+                        </ul>
+                    </div>
+
+                    <div class="sub-section">
+                        <h3>Tasks</h3>
+                        <table class="compact-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Task</th>
+                                    <th>Hrs</th>
+                                    <th>Role</th>
+                                    <th>Backlog</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="task-id">S0-T1</td><td>Identify and access 2&ndash;3 completed Phase 4 deliverables</td><td>2</td><td>Lead Architect</td><td class="backlog-ref">E0-S1.T1</td></tr>
+                                <tr><td class="task-id">S0-T2</td><td>Extract common standards patterns across engagements</td><td>6</td><td>Lead Architect</td><td class="backlog-ref">E0-S1.T2</td></tr>
+                                <tr><td class="task-id">S0-T3</td><td>Catalog engagement-specific customizations</td><td>4</td><td>Lead Architect</td><td class="backlog-ref">E0-S1.T3</td></tr>
+                                <tr><td class="task-id">S0-T4</td><td>Document gaps and quality issues in prior deliverables</td><td>4</td><td>Sr Data Gov</td><td class="backlog-ref">E0-S1.T4</td></tr>
+                                <tr><td class="task-id">S0-T5</td><td>Record actual hours per artifact for baseline calibration</td><td>4</td><td>Lead Architect</td><td class="backlog-ref">E0-S1.T5</td></tr>
+                                <tr><td class="task-id">S0-T6</td><td>Review Microsoft REST API Guidelines, Fabric docs</td><td>3</td><td>Sr Integration Arch</td><td class="backlog-ref">E0-S2.T1</td></tr>
+                                <tr><td class="task-id">S0-T7</td><td>Review OWASP, DAMA DMBOK, ISO/NIST</td><td>6</td><td>Sr Data Gov, Lead Arch</td><td class="backlog-ref">E0-S2.T2&ndash;T3</td></tr>
+                                <tr><td class="task-id">S0-T8</td><td>Finalize template lists per module</td><td>4</td><td>Lead Architect</td><td class="backlog-ref">E0-S2.T4</td></tr>
+                                <tr><td class="task-id">S0-T9</td><td>Define adaptation workflow</td><td>4</td><td>Lead Architect</td><td class="backlog-ref">E0-S2.T5</td></tr>
+                                <tr><td class="task-id">S0-T10</td><td>Document acceptance criteria and lock scope</td><td>3</td><td>Lead Architect</td><td class="backlog-ref">E0-S2.T6</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="sub-section">
+                        <h3>Milestones</h3>
+                        <table class="milestone-table">
+                            <thead>
+                                <tr><th>ID</th><th>Milestone</th><th>Day</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="milestone-id">M0.1</td><td>Engagement Audit Complete</td><td>Day 3</td></tr>
+                                <tr><td class="milestone-id">M0.2</td><td>Standards Survey Complete</td><td>Day 4</td></tr>
+                                <tr class="key-milestone"><td class="milestone-id">M0.3</td><td><strong>Scope Locked</strong></td><td>Day 5</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="warning-box">
+                        <h4>Blockers to Escalate</h4>
+                        <ul>
+                            <li>Prior engagement deliverables not accessible &rarr; Escalate to DMTSP Practice Lead</li>
+                            <li>Build team member unavailable &rarr; Escalate to resource manager; minimum viable: Lead Architect + 1 specialist</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. SPRINT 1 -->
+            <section id="sprint-1" class="content-card sprint-card s1">
+                <div class="content-card-header">
+                    <h2 class="border-green">Sprint 1 &mdash; Foundation Modules</h2>
+                </div>
+                <div class="content-card-body">
+                    <div class="sprint-meta">
+                        <span><strong>Duration:</strong> 2 weeks</span>
+                        <span><strong>Total Hours:</strong> 90</span>
+                        <span><strong>Backlog Epic:</strong> E1</span>
+                    </div>
+
+                    <div class="criteria-section">
+                        <h4>Entry Criteria</h4>
+                        <ul class="criteria-list">
+                            <li>M0.3 Scope Locked achieved</li>
+                            <li>Template lists confirmed for ISL-03 (7 templates) and ISL-04 (6 templates)</li>
+                            <li>Reference materials organized and accessible</li>
+                        </ul>
+                    </div>
+
+                    <div class="criteria-section">
+                        <h4>Exit Criteria</h4>
+                        <ul class="criteria-list exit-list">
+                            <li>ISL-03: 7 naming templates + 2 examples completed and peer-reviewed</li>
+                            <li>ISL-04: 6 classification templates + 3 examples completed and peer-reviewed</li>
+                            <li>ISL-03 naming conventions validated against current Fabric documentation</li>
+                            <li>ISL-04 compliance mapping covers SOX, GDPR, CCPA, ITAR, HIPAA</li>
+                            <li>Foundation modules ready for downstream consumption in Sprint 2</li>
+                        </ul>
+                    </div>
+
+                    <div class="sub-section">
+                        <h4>ISL-03: Naming Convention Standards</h4>
+                        <table class="compact-table">
+                            <thead>
+                                <tr><th>ID</th><th>Task</th><th>Hrs</th><th>Role</th><th>Backlog</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="task-id">S1-T1</td><td>Draft database &amp; schema naming template</td><td>2</td><td>Sr Integration Arch</td><td class="backlog-ref">E1-S1.T1</td></tr>
+                                <tr><td class="task-id">S1-T2</td><td>Draft table &amp; view naming template</td><td>3</td><td>Sr Integration Arch</td><td class="backlog-ref">E1-S1.T2</td></tr>
+                                <tr><td class="task-id">S1-T3</td><td>Draft column naming standards template</td><td>2</td><td>Sr Integration Arch</td><td class="backlog-ref">E1-S1.T3</td></tr>
+                                <tr><td class="task-id">S1-T4</td><td>Draft pipeline &amp; dataflow naming template</td><td>3</td><td>Sr Integration Arch</td><td class="backlog-ref">E1-S1.T4</td></tr>
+                                <tr><td class="task-id">S1-T5</td><td>Draft API &amp; endpoint naming template</td><td>2</td><td>Sr Integration Arch</td><td class="backlog-ref">E1-S1.T5</td></tr>
+                                <tr><td class="task-id">S1-T6</td><td>Draft infrastructure resource naming template</td><td>2</td><td>Sr Integration Arch</td><td class="backlog-ref">E1-S1.T6</td></tr>
+                                <tr><td class="task-id">S1-T7</td><td>Build abbreviation dictionary (50+ entries)</td><td>3</td><td>Technical Writer</td><td class="backlog-ref">E1-S1.T7</td></tr>
+                                <tr><td class="task-id">S1-T8</td><td>Create Fabric naming reference example</td><td>3</td><td>Sr Integration Arch</td><td class="backlog-ref">E1-S1.T8</td></tr>
+                                <tr><td class="task-id">S1-T9</td><td>Create manufacturing domain names example</td><td>3</td><td>Sr Integration Arch</td><td class="backlog-ref">E1-S1.T9</td></tr>
+                                <tr><td class="task-id">S1-T10</td><td>Peer review ISL-03 templates</td><td>4</td><td>Lead Architect</td><td class="backlog-ref">E1-S1.T10</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="sub-section">
+                        <h4>ISL-04: Data Classification Framework</h4>
+                        <table class="compact-table">
+                            <thead>
+                                <tr><th>ID</th><th>Task</th><th>Hrs</th><th>Role</th><th>Backlog</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="task-id">S1-T11</td><td>Draft classification tier definitions (4-tier model)</td><td>5</td><td>Sr Data Gov</td><td class="backlog-ref">E1-S2.T1</td></tr>
+                                <tr><td class="task-id">S1-T12</td><td>Draft sensitivity labeling standards (Purview)</td><td>6</td><td>Sr Data Gov</td><td class="backlog-ref">E1-S2.T2</td></tr>
+                                <tr><td class="task-id">S1-T13</td><td>Draft data handling requirements</td><td>5</td><td>Sr Data Gov</td><td class="backlog-ref">E1-S2.T3</td></tr>
+                                <tr><td class="task-id">S1-T14</td><td>Draft access control alignment (Entra ID, Fabric RBAC)</td><td>6</td><td>Sr Data Gov</td><td class="backlog-ref">E1-S2.T4</td></tr>
+                                <tr><td class="task-id">S1-T15</td><td>Draft compliance mapping matrix</td><td>6</td><td>Sr Data Gov</td><td class="backlog-ref">E1-S2.T5</td></tr>
+                                <tr><td class="task-id">S1-T16</td><td>Create classification decision tree flowchart</td><td>3</td><td>Sr Data Gov</td><td class="backlog-ref">E1-S2.T6</td></tr>
+                                <tr><td class="task-id">S1-T17</td><td>Create manufacturing classification example</td><td>5</td><td>Sr Data Gov</td><td class="backlog-ref">E1-S2.T7</td></tr>
+                                <tr><td class="task-id">S1-T18</td><td>Create Fabric security model example</td><td>4</td><td>Sr Integration Arch</td><td class="backlog-ref">E1-S2.T8</td></tr>
+                                <tr><td class="task-id">S1-T19</td><td>Create Purview label configuration example</td><td>4</td><td>Sr Data Gov</td><td class="backlog-ref">E1-S2.T9</td></tr>
+                                <tr><td class="task-id">S1-T20</td><td>Peer review ISL-04 templates</td><td>6</td><td>Lead Architect</td><td class="backlog-ref">E1-S2.T10</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="sub-section">
+                        <h3>Role Assignment Matrix &mdash; Sprint 1</h3>
+                        <table class="compact-table">
+                            <thead>
+                                <tr><th>Role</th><th>ISL-03 Tasks</th><th>ISL-04 Tasks</th><th>Total</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Sr Integration Architect</td><td>S1-T1 through T6, T8, T9</td><td>S1-T18</td><td>24 hrs</td></tr>
+                                <tr><td>Sr Data Gov Specialist</td><td class="dash">&mdash;</td><td>S1-T11 through T17, T19</td><td>41 hrs</td></tr>
+                                <tr><td>Lead Architect</td><td>S1-T10</td><td>S1-T20</td><td>10 hrs</td></tr>
+                                <tr><td>Technical Writer</td><td>S1-T7</td><td class="dash">&mdash;</td><td>3 hrs</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="info-note">Buffer of ~12 hrs for rework, clarification, and cross-team coordination.</div>
+                    </div>
+
+                    <div class="sub-section">
+                        <h3>Milestones</h3>
+                        <table class="milestone-table">
+                            <thead>
+                                <tr><th>ID</th><th>Milestone</th><th>Day</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="milestone-id">M1.1</td><td>ISL-03 Drafts Complete</td><td>Day 5</td></tr>
+                                <tr><td class="milestone-id">M1.2</td><td>ISL-04 Drafts Complete</td><td>Day 7</td></tr>
+                                <tr><td class="milestone-id">M1.3</td><td>ISL-03 Peer Review Pass</td><td>Day 8</td></tr>
+                                <tr><td class="milestone-id">M1.4</td><td>ISL-04 Peer Review Pass</td><td>Day 9</td></tr>
+                                <tr class="key-milestone"><td class="milestone-id">M1.5</td><td><strong>Foundation Complete</strong></td><td>Day 10</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. SPRINT 2 -->
+            <section id="sprint-2" class="content-card sprint-card s2">
+                <div class="content-card-header">
+                    <h2 style="border-bottom: 3px solid #e67e22; padding-bottom: 0.5rem;">Sprint 2 &mdash; Core Modules</h2>
+                </div>
+                <div class="content-card-body">
+                    <div class="sprint-meta">
+                        <span><strong>Duration:</strong> 2 weeks</span>
+                        <span><strong>Total Hours:</strong> 100</span>
+                        <span><strong>Backlog Epic:</strong> E2</span>
+                    </div>
+
+                    <div class="criteria-section">
+                        <h4>Entry Criteria</h4>
+                        <ul class="criteria-list">
+                            <li>M1.5 Foundation Complete achieved</li>
+                            <li>ISL-03 naming conventions available for reference</li>
+                            <li>ISL-04 classification tiers available for cross-reference</li>
+                        </ul>
+                    </div>
+
+                    <div class="criteria-section">
+                        <h4>Exit Criteria</h4>
+                        <ul class="criteria-list exit-list">
+                            <li>ISL-01: 6 API templates + 2 examples completed and peer-reviewed</li>
+                            <li>ISL-06: 6 quality templates + 3 examples completed and peer-reviewed</li>
+                            <li>ISL-01 OWASP API Top 10 cross-reference complete</li>
+                            <li>ISL-06 quality rule library contains 50+ rules</li>
+                            <li>ISL-06 SLA thresholds aligned to ISL-04 classification tiers</li>
+                        </ul>
+                    </div>
+
+                    <div class="sub-section">
+                        <h4>ISL-01: API Governance Standards</h4>
+                        <table class="compact-table">
+                            <thead>
+                                <tr><th>ID</th><th>Task</th><th>Hrs</th><th>Role</th><th>Backlog</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="task-id">S2-T1</td><td>Draft API design standards template</td><td>6</td><td>Sr Integration Arch</td><td class="backlog-ref">E2-S1.T1</td></tr>
+                                <tr><td class="task-id">S2-T2</td><td>Draft API versioning policy template</td><td>3</td><td>Sr Integration Arch</td><td class="backlog-ref">E2-S1.T2</td></tr>
+                                <tr><td class="task-id">S2-T3</td><td>Draft API security standards template (OWASP-aligned)</td><td>8</td><td>Sr Integration Arch</td><td class="backlog-ref">E2-S1.T3</td></tr>
+                                <tr><td class="task-id">S2-T4</td><td>Draft API lifecycle governance template</td><td>5</td><td>Sr Integration Arch</td><td class="backlog-ref">E2-S1.T4</td></tr>
+                                <tr><td class="task-id">S2-T5</td><td>Draft API catalog requirements template</td><td>4</td><td>Sr Integration Arch</td><td class="backlog-ref">E2-S1.T5</td></tr>
+                                <tr><td class="task-id">S2-T6</td><td>Draft rate limiting &amp; throttling policy template</td><td>3</td><td>Sr Integration Arch</td><td class="backlog-ref">E2-S1.T6</td></tr>
+                                <tr><td class="task-id">S2-T7</td><td>Create manufacturing API standards example</td><td>5</td><td>Sr Integration Arch</td><td class="backlog-ref">E2-S1.T7</td></tr>
+                                <tr><td class="task-id">S2-T8</td><td>Create Fabric-native API patterns example</td><td>4</td><td>Sr Integration Arch</td><td class="backlog-ref">E2-S1.T8</td></tr>
+                                <tr><td class="task-id">S2-T9</td><td>OWASP API Top 10 cross-reference audit</td><td>4</td><td>Lead Architect</td><td class="backlog-ref">E2-S1.T9</td></tr>
+                                <tr><td class="task-id">S2-T10</td><td>Peer review ISL-01 templates</td><td>5</td><td>Lead Architect</td><td class="backlog-ref">E2-S1.T10</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="sub-section">
+                        <h4>ISL-06: Data Quality Standards</h4>
+                        <table class="compact-table">
+                            <thead>
+                                <tr><th>ID</th><th>Task</th><th>Hrs</th><th>Role</th><th>Backlog</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="task-id">S2-T11</td><td>Draft quality dimension definitions template</td><td>3</td><td>Sr Data Gov</td><td class="backlog-ref">E2-S2.T1</td></tr>
+                                <tr><td class="task-id">S2-T12</td><td>Draft quality SLA framework template</td><td>5</td><td>Sr Data Gov</td><td class="backlog-ref">E2-S2.T2</td></tr>
+                                <tr><td class="task-id">S2-T13</td><td>Build quality rule library (50+ rules)</td><td>10</td><td>Sr Data Gov</td><td class="backlog-ref">E2-S2.T3</td></tr>
+                                <tr><td class="task-id">S2-T14</td><td>Draft quality monitoring standards template</td><td>4</td><td>Sr Data Gov</td><td class="backlog-ref">E2-S2.T4</td></tr>
+                                <tr><td class="task-id">S2-T15</td><td>Draft remediation workflow template</td><td>3</td><td>Sr Data Gov</td><td class="backlog-ref">E2-S2.T5</td></tr>
+                                <tr><td class="task-id">S2-T16</td><td>Draft quality scorecard template</td><td>3</td><td>Sr Data Gov</td><td class="backlog-ref">E2-S2.T6</td></tr>
+                                <tr><td class="task-id">S2-T17</td><td>Create manufacturing quality rules example</td><td>4</td><td>Sr Data Gov</td><td class="backlog-ref">E2-S2.T7</td></tr>
+                                <tr><td class="task-id">S2-T18</td><td>Create Fabric quality implementation example</td><td>5</td><td>Sr Integration Arch</td><td class="backlog-ref">E2-S2.T8</td></tr>
+                                <tr><td class="task-id">S2-T19</td><td>Create quality dashboard spec example</td><td>4</td><td>Sr Data Gov</td><td class="backlog-ref">E2-S2.T9</td></tr>
+                                <tr><td class="task-id">S2-T20</td><td>Peer review ISL-06 templates</td><td>5</td><td>Lead Architect</td><td class="backlog-ref">E2-S2.T10</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="sub-section">
+                        <h3>Role Assignment Matrix &mdash; Sprint 2</h3>
+                        <table class="compact-table">
+                            <thead>
+                                <tr><th>Role</th><th>ISL-01 Tasks</th><th>ISL-06 Tasks</th><th>Total</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Sr Integration Architect</td><td>S2-T1 through T8</td><td>S2-T18</td><td>43 hrs</td></tr>
+                                <tr><td>Sr Data Gov Specialist</td><td class="dash">&mdash;</td><td>S2-T11 through T17, T19</td><td>36 hrs</td></tr>
+                                <tr><td>Lead Architect</td><td>S2-T9, T10</td><td>S2-T20</td><td>14 hrs</td></tr>
+                                <tr><td>Technical Writer</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td>0 hrs</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="info-note">Buffer of ~7 hrs for rework and coordination. Technical Writer available for formatting support if needed.</div>
+                    </div>
+
+                    <div class="sub-section">
+                        <h3>Milestones</h3>
+                        <table class="milestone-table">
+                            <thead>
+                                <tr><th>ID</th><th>Milestone</th><th>Day</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="milestone-id">M2.1</td><td>ISL-01 Drafts Complete</td><td>Day 5</td></tr>
+                                <tr><td class="milestone-id">M2.2</td><td>ISL-06 Rule Library Complete</td><td>Day 6</td></tr>
+                                <tr><td class="milestone-id">M2.3</td><td>ISL-06 Drafts Complete</td><td>Day 7</td></tr>
+                                <tr><td class="milestone-id">M2.4</td><td>OWASP Cross-Reference Pass</td><td>Day 8</td></tr>
+                                <tr><td class="milestone-id">M2.5</td><td>ISL-01 Peer Review Pass</td><td>Day 9</td></tr>
+                                <tr class="key-milestone"><td class="milestone-id">M2.6</td><td><strong>Core Complete</strong></td><td>Day 10</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. SPRINT 3 -->
+            <section id="sprint-3" class="content-card sprint-card s3">
+                <div class="content-card-header">
+                    <h2 style="border-bottom: 3px solid #3498db; padding-bottom: 0.5rem;">Sprint 3 &mdash; Advanced Modules (Double Sprint)</h2>
+                </div>
+                <div class="content-card-body">
+                    <div class="sprint-meta">
+                        <span><strong>Duration:</strong> 4 weeks (double sprint)</span>
+                        <span><strong>Total Hours:</strong> 160</span>
+                        <span><strong>Backlog Epic:</strong> E3</span>
+                    </div>
+
+                    <div class="info-note">
+                        Double sprint due to the highest-complexity modules. ISL-02 (Metadata &amp; Lineage) and ISL-05 (Integration Patterns) each require 60&ndash;80 hours and benefit from the extra time for thorough architecture diagrams and cross-module validation.
+                    </div>
+
+                    <div class="criteria-section">
+                        <h4>Entry Criteria</h4>
+                        <ul class="criteria-list">
+                            <li>M2.6 Core Complete achieved</li>
+                            <li>ISL-01 API governance available (ISL-05 API gateway pattern references it)</li>
+                            <li>ISL-06 quality standards available (ISL-05 medallion pattern references quality gates)</li>
+                            <li>ISL-03 naming and ISL-04 classification available (referenced throughout)</li>
+                        </ul>
+                    </div>
+
+                    <div class="criteria-section">
+                        <h4>Exit Criteria</h4>
+                        <ul class="criteria-list exit-list">
+                            <li>ISL-02: 6 metadata templates + 3 examples completed and peer-reviewed</li>
+                            <li>ISL-05: 8 integration patterns + 3 diagrams completed and peer-reviewed</li>
+                            <li>Manufacturing extensions complete for both modules</li>
+                            <li>All inter-module cross-references validated</li>
+                            <li>All 6 standards modules complete</li>
+                        </ul>
+                    </div>
+
+                    <div class="sub-section">
+                        <h4>ISL-02: Metadata &amp; Data Lineage Framework</h4>
+                        <table class="compact-table">
+                            <thead>
+                                <tr><th>ID</th><th>Task</th><th>Hrs</th><th>Role</th><th>Backlog</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="task-id">S3-T1</td><td>Draft business glossary standards template</td><td>6</td><td>Sr Data Gov</td><td class="backlog-ref">E3-S1.T1</td></tr>
+                                <tr><td class="task-id">S3-T2</td><td>Draft technical metadata schema template</td><td>10</td><td>Sr Data Gov</td><td class="backlog-ref">E3-S1.T2</td></tr>
+                                <tr><td class="task-id">S3-T3</td><td>Draft data lineage requirements template</td><td>6</td><td>Sr Data Gov</td><td class="backlog-ref">E3-S1.T3</td></tr>
+                                <tr><td class="task-id">S3-T4</td><td>Draft data catalog governance template</td><td>5</td><td>Sr Data Gov</td><td class="backlog-ref">E3-S1.T4</td></tr>
+                                <tr><td class="task-id">S3-T5</td><td>Draft metadata integration patterns template</td><td>8</td><td>Sr Integration Arch</td><td class="backlog-ref">E3-S1.T5</td></tr>
+                                <tr><td class="task-id">S3-T6</td><td>Draft lineage visualization standards template</td><td>4</td><td>Sr Data Gov</td><td class="backlog-ref">E3-S1.T6</td></tr>
+                                <tr><td class="task-id">S3-T7</td><td>Create manufacturing metadata model example</td><td>6</td><td>Sr Data Gov</td><td class="backlog-ref">E3-S1.T7</td></tr>
+                                <tr><td class="task-id">S3-T8</td><td>Create Fabric OneLake metadata example</td><td>5</td><td>Sr Integration Arch</td><td class="backlog-ref">E3-S1.T8</td></tr>
+                                <tr><td class="task-id">S3-T9</td><td>Create Purview configuration guide example</td><td>5</td><td>Sr Data Gov</td><td class="backlog-ref">E3-S1.T9</td></tr>
+                                <tr><td class="task-id">S3-T10</td><td>Build manufacturing overlays (IoT/OT, ERP, PLM)</td><td>8</td><td>Sr Data Gov</td><td class="backlog-ref">E3-S1.T10</td></tr>
+                                <tr><td class="task-id">S3-T11</td><td>Peer review ISL-02 templates</td><td>7</td><td>Lead Architect</td><td class="backlog-ref">E3-S1.T11</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="sub-section">
+                        <h4>ISL-05: Integration Pattern Library</h4>
+                        <table class="compact-table">
+                            <thead>
+                                <tr><th>ID</th><th>Task</th><th>Hrs</th><th>Role</th><th>Backlog</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="task-id">S3-T12</td><td>Draft ERP Extract &amp; Load pattern</td><td>6</td><td>Sr Integration Arch</td><td class="backlog-ref">E3-S2.T1</td></tr>
+                                <tr><td class="task-id">S3-T13</td><td>Draft IoT/OT Ingestion pattern</td><td>6</td><td>Sr Integration Arch</td><td class="backlog-ref">E3-S2.T2</td></tr>
+                                <tr><td class="task-id">S3-T14</td><td>Draft API Gateway Integration pattern</td><td>5</td><td>Sr Integration Arch</td><td class="backlog-ref">E3-S2.T3</td></tr>
+                                <tr><td class="task-id">S3-T15</td><td>Draft Event-Driven Architecture pattern</td><td>6</td><td>Sr Integration Arch</td><td class="backlog-ref">E3-S2.T4</td></tr>
+                                <tr><td class="task-id">S3-T16</td><td>Draft Master Data Synchronization pattern</td><td>6</td><td>Sr Integration Arch</td><td class="backlog-ref">E3-S2.T5</td></tr>
+                                <tr><td class="task-id">S3-T17</td><td>Draft File-Based Integration pattern</td><td>4</td><td>Sr Integration Arch</td><td class="backlog-ref">E3-S2.T6</td></tr>
+                                <tr><td class="task-id">S3-T18</td><td>Draft Medallion Architecture pattern</td><td>5</td><td>Sr Integration Arch</td><td class="backlog-ref">E3-S2.T7</td></tr>
+                                <tr><td class="task-id">S3-T19</td><td>Draft Reverse ETL pattern</td><td>4</td><td>Sr Integration Arch</td><td class="backlog-ref">E3-S2.T8</td></tr>
+                                <tr><td class="task-id">S3-T20</td><td>Create integration landscape overview diagram</td><td>5</td><td>Sr Integration Arch</td><td class="backlog-ref">E3-S2.T9</td></tr>
+                                <tr><td class="task-id">S3-T21</td><td>Create Fabric integration architecture diagram</td><td>5</td><td>Sr Integration Arch</td><td class="backlog-ref">E3-S2.T10</td></tr>
+                                <tr><td class="task-id">S3-T22</td><td>Create pattern decision tree diagram</td><td>4</td><td>Sr Integration Arch</td><td class="backlog-ref">E3-S2.T11</td></tr>
+                                <tr><td class="task-id">S3-T23</td><td>Build pattern selection decision framework</td><td>4</td><td>Lead Architect</td><td class="backlog-ref">E3-S2.T12</td></tr>
+                                <tr><td class="task-id">S3-T24</td><td>Peer review ISL-05 patterns and diagrams</td><td>8</td><td>Lead Architect</td><td class="backlog-ref">E3-S2.T13</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="sub-section">
+                        <h3>Week-by-Week Execution Plan</h3>
+                        <table class="compact-table">
+                            <thead>
+                                <tr><th>Week</th><th>ISL-02 Focus</th><th>ISL-05 Focus</th><th>Key Deliverables</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>Week 5</strong></td><td>S3-T1 through T4 (glossary, metadata schema, lineage, catalog)</td><td>S3-T12 through T15 (ERP, IoT, API, event-driven)</td><td>4 templates + 4 patterns in draft</td></tr>
+                                <tr><td><strong>Week 6</strong></td><td>S3-T5, T6 (metadata integration, lineage viz)</td><td>S3-T16 through T19 (MDM, file, medallion, reverse ETL)</td><td>6 templates + 8 patterns in draft</td></tr>
+                                <tr><td><strong>Week 7</strong></td><td>S3-T7 through T10 (examples, mfg overlays)</td><td>S3-T20 through T22 (diagrams)</td><td>All examples + diagrams</td></tr>
+                                <tr><td><strong>Week 8</strong></td><td>S3-T11 (peer review)</td><td>S3-T23, T24 (decision framework, peer review)</td><td>Peer review complete</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="sub-section">
+                        <h3>Role Assignment Matrix &mdash; Sprint 3</h3>
+                        <table class="compact-table">
+                            <thead>
+                                <tr><th>Role</th><th>ISL-02 Tasks</th><th>ISL-05 Tasks</th><th>Total</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Sr Data Gov Specialist</td><td>S3-T1 through T4, T6, T7, T9, T10</td><td class="dash">&mdash;</td><td>51 hrs</td></tr>
+                                <tr><td>Sr Integration Architect</td><td>S3-T5, T8</td><td>S3-T12 through T22</td><td>69 hrs</td></tr>
+                                <tr><td>Lead Architect</td><td>S3-T11</td><td>S3-T23, T24</td><td>19 hrs</td></tr>
+                                <tr><td>Technical Writer</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td>0 hrs</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="info-note">Buffer of ~21 hrs across the 4-week sprint for rework, cross-module validation, and coordination.</div>
+                    </div>
+
+                    <div class="sub-section">
+                        <h3>Milestones</h3>
+                        <table class="milestone-table">
+                            <thead>
+                                <tr><th>ID</th><th>Milestone</th><th>Day</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="milestone-id">M3.1</td><td>ISL-02 Drafts Complete</td><td>Day 10</td></tr>
+                                <tr><td class="milestone-id">M3.2</td><td>ISL-05 Patterns Complete</td><td>Day 10</td></tr>
+                                <tr><td class="milestone-id">M3.3</td><td>Examples &amp; Diagrams Complete</td><td>Day 15</td></tr>
+                                <tr><td class="milestone-id">M3.4</td><td>ISL-02 Peer Review Pass</td><td>Day 18</td></tr>
+                                <tr><td class="milestone-id">M3.5</td><td>ISL-05 Peer Review Pass</td><td>Day 19</td></tr>
+                                <tr class="key-milestone"><td class="milestone-id">M3.6</td><td><strong>All 6 Modules Complete</strong></td><td>Day 20</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 7. SPRINT 4 -->
+            <section id="sprint-4" class="content-card sprint-card s4">
+                <div class="content-card-header">
+                    <h2 style="border-bottom: 3px solid #8e44ad; padding-bottom: 0.5rem;">Sprint 4 &mdash; Packaging, Review &amp; Pilot</h2>
+                </div>
+                <div class="content-card-body">
+                    <div class="sprint-meta">
+                        <span><strong>Duration:</strong> 2 weeks</span>
+                        <span><strong>Total Hours:</strong> 80</span>
+                        <span><strong>Backlog Epic:</strong> E4</span>
+                    </div>
+
+                    <div class="criteria-section">
+                        <h4>Entry Criteria</h4>
+                        <ul class="criteria-list">
+                            <li>M3.6 All 6 Modules Complete achieved</li>
+                            <li>All module drafts committed to repository</li>
+                            <li>Pilot engagement candidate identified</li>
+                        </ul>
+                    </div>
+
+                    <div class="criteria-section">
+                        <h4>Exit Criteria</h4>
+                        <ul class="criteria-list exit-list">
+                            <li>Manufacturing overlays consolidated across all modules</li>
+                            <li>Full cross-module review complete with zero open comments</li>
+                            <li>v1.0 release tagged in Git repository</li>
+                            <li>Pilot engagement onboarding scheduled</li>
+                            <li>ISL v1.0 production-ready</li>
+                        </ul>
+                    </div>
+
+                    <div class="sub-section">
+                        <h4>Manufacturing Overlays</h4>
+                        <table class="compact-table">
+                            <thead>
+                                <tr><th>ID</th><th>Task</th><th>Hrs</th><th>Role</th><th>Backlog</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="task-id">S4-T1</td><td>Consolidate ITAR/EAR overlay (ISL-04, ISL-01)</td><td>4</td><td>Sr Data Gov</td><td class="backlog-ref">E4-S1.T1</td></tr>
+                                <tr><td class="task-id">S4-T2</td><td>Consolidate IoT/OT extensions (ISL-02, ISL-04, ISL-05)</td><td>4</td><td>Sr Data Gov</td><td class="backlog-ref">E4-S1.T2</td></tr>
+                                <tr><td class="task-id">S4-T3</td><td>Consolidate ERP integration extensions (ISL-02, ISL-05)</td><td>4</td><td>Sr Integration Arch</td><td class="backlog-ref">E4-S1.T3</td></tr>
+                                <tr><td class="task-id">S4-T4</td><td>Validate supply chain classification (ISL-04)</td><td>2</td><td>Sr Data Gov</td><td class="backlog-ref">E4-S1.T4</td></tr>
+                                <tr><td class="task-id">S4-T5</td><td>Cross-check manufacturing examples</td><td>4</td><td>Lead Architect</td><td class="backlog-ref">E4-S1.T5</td></tr>
+                                <tr><td class="task-id">S4-T6</td><td>Fill identified gaps</td><td>2</td><td>Sr Data Gov</td><td class="backlog-ref">E4-S1.T6</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="sub-section">
+                        <h4>Peer Review &amp; QA</h4>
+                        <table class="compact-table">
+                            <thead>
+                                <tr><th>ID</th><th>Task</th><th>Hrs</th><th>Role</th><th>Backlog</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="task-id">S4-T7</td><td>Full cross-module review (naming, terminology, consistency)</td><td>6</td><td>Lead Architect</td><td class="backlog-ref">E4-S2.T1</td></tr>
+                                <tr><td class="task-id">S4-T8</td><td>Compliance alignment audit (OWASP, NIST, ISO, DAMA)</td><td>4</td><td>Lead Architect</td><td class="backlog-ref">E4-S2.T2</td></tr>
+                                <tr><td class="task-id">S4-T9</td><td>Cross-reference validation (inter-module links)</td><td>3</td><td>Technical Writer</td><td class="backlog-ref">E4-S2.T3</td></tr>
+                                <tr><td class="task-id">S4-T10</td><td>Spelling, grammar, formatting audit</td><td>3</td><td>Technical Writer</td><td class="backlog-ref">E4-S2.T4</td></tr>
+                                <tr><td class="task-id">S4-T11</td><td>Resolve review comments and re-review</td><td>4</td><td>All</td><td class="backlog-ref">E4-S2.T5</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="sub-section">
+                        <h4>Packaging &amp; Distribution</h4>
+                        <table class="compact-table">
+                            <thead>
+                                <tr><th>ID</th><th>Task</th><th>Hrs</th><th>Role</th><th>Backlog</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="task-id">S4-T12</td><td>Finalize all module README files</td><td>4</td><td>Technical Writer</td><td class="backlog-ref">E4-S3.T1</td></tr>
+                                <tr><td class="task-id">S4-T13</td><td>Document adaptation workflow</td><td>3</td><td>Lead Architect</td><td class="backlog-ref">E4-S3.T2</td></tr>
+                                <tr><td class="task-id">S4-T14</td><td>Create engagement kickoff integration guide</td><td>3</td><td>Lead Architect</td><td class="backlog-ref">E4-S3.T3</td></tr>
+                                <tr><td class="task-id">S4-T15</td><td>Tag Git repository with v1.0 release</td><td>1</td><td>Sr Integration Arch</td><td class="backlog-ref">E4-S3.T4</td></tr>
+                                <tr><td class="task-id">S4-T16</td><td>Configure distribution channel</td><td>2</td><td>Sr Integration Arch</td><td class="backlog-ref">E4-S3.T5</td></tr>
+                                <tr><td class="task-id">S4-T17</td><td>Publish release notes</td><td>2</td><td>Technical Writer</td><td class="backlog-ref">E4-S3.T6</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="sub-section">
+                        <h4>Pilot Deployment</h4>
+                        <table class="compact-table">
+                            <thead>
+                                <tr><th>ID</th><th>Task</th><th>Hrs</th><th>Role</th><th>Backlog</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="task-id">S4-T18</td><td>Identify pilot engagement and Phase 4 scope</td><td>2</td><td>Lead Architect</td><td class="backlog-ref">E4-S4.T1</td></tr>
+                                <tr><td class="task-id">S4-T19</td><td>Assign ISL champion on engagement team</td><td>1</td><td>Lead Architect</td><td class="backlog-ref">E4-S4.T2</td></tr>
+                                <tr><td class="task-id">S4-T20</td><td>Conduct ISL onboarding session</td><td>3</td><td>Lead Architect</td><td class="backlog-ref">E4-S4.T3</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="info-note">Pilot monitoring tasks (E4-S4.T4&ndash;T7) extend beyond Sprint 4 into the engagement timeline.</div>
+                    </div>
+
+                    <div class="sub-section">
+                        <h3>Role Assignment Matrix &mdash; Sprint 4</h3>
+                        <table class="compact-table">
+                            <thead>
+                                <tr><th>Role</th><th>Overlays</th><th>Review/QA</th><th>Packaging</th><th>Pilot</th><th>Total</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Lead Architect</td><td>S4-T5</td><td>S4-T7, T8, T11</td><td>S4-T13, T14</td><td>S4-T18, T19, T20</td><td>30 hrs</td></tr>
+                                <tr><td>Sr Data Gov Specialist</td><td>S4-T1, T2, T4, T6</td><td>S4-T11</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td>16 hrs</td></tr>
+                                <tr><td>Sr Integration Architect</td><td>S4-T3</td><td>S4-T11</td><td>S4-T15, T16</td><td class="dash">&mdash;</td><td>9 hrs</td></tr>
+                                <tr><td>Technical Writer</td><td class="dash">&mdash;</td><td>S4-T9, T10</td><td>S4-T12, T17</td><td class="dash">&mdash;</td><td>12 hrs</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="info-note">Buffer of ~13 hrs for unexpected review feedback, rework, and pilot preparation.</div>
+                    </div>
+
+                    <div class="sub-section">
+                        <h3>Milestones</h3>
+                        <table class="milestone-table">
+                            <thead>
+                                <tr><th>ID</th><th>Milestone</th><th>Day</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="milestone-id">M4.1</td><td>Overlays Consolidated</td><td>Day 4</td></tr>
+                                <tr><td class="milestone-id">M4.2</td><td>Review Complete</td><td>Day 7</td></tr>
+                                <tr><td class="milestone-id">M4.3</td><td>v1.0 Tagged</td><td>Day 9</td></tr>
+                                <tr class="key-milestone"><td class="milestone-id">M4.4</td><td><strong>ISL v1.0 Production-Ready</strong></td><td>Day 10</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 8. CROSS-SPRINT METRICS -->
+            <section id="module-progress" class="content-card">
+                <div class="content-card-header">
+                    <h2 class="border-green">Cross-Sprint Metrics</h2>
+                </div>
+                <div class="content-card-body">
+
+                    <div class="sub-section">
+                        <h3>Module Progress Tracker</h3>
+                        <table class="compact-table">
+                            <thead>
+                                <tr>
+                                    <th>Module</th>
+                                    <th>ID</th>
+                                    <th>Templates</th>
+                                    <th>Examples</th>
+                                    <th>Sprint 0</th>
+                                    <th>Sprint 1</th>
+                                    <th>Sprint 2</th>
+                                    <th>Sprint 3</th>
+                                    <th>Sprint 4</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Naming Conventions</td>
+                                    <td class="module-id">ISL-03</td>
+                                    <td>7</td>
+                                    <td>2</td>
+                                    <td class="dash">&mdash;</td>
+                                    <td><span class="check">9 &#10003;</span></td>
+                                    <td class="dash">&mdash;</td>
+                                    <td class="dash">&mdash;</td>
+                                    <td class="dash">&mdash;</td>
+                                </tr>
+                                <tr>
+                                    <td>Data Classification</td>
+                                    <td class="module-id">ISL-04</td>
+                                    <td>6</td>
+                                    <td>3</td>
+                                    <td class="dash">&mdash;</td>
+                                    <td><span class="check">9 &#10003;</span></td>
+                                    <td class="dash">&mdash;</td>
+                                    <td class="dash">&mdash;</td>
+                                    <td class="dash">&mdash;</td>
+                                </tr>
+                                <tr>
+                                    <td>API Governance</td>
+                                    <td class="module-id">ISL-01</td>
+                                    <td>6</td>
+                                    <td>2</td>
+                                    <td class="dash">&mdash;</td>
+                                    <td class="dash">&mdash;</td>
+                                    <td><span class="check">8 &#10003;</span></td>
+                                    <td class="dash">&mdash;</td>
+                                    <td class="dash">&mdash;</td>
+                                </tr>
+                                <tr>
+                                    <td>Data Quality</td>
+                                    <td class="module-id">ISL-06</td>
+                                    <td>6</td>
+                                    <td>3</td>
+                                    <td class="dash">&mdash;</td>
+                                    <td class="dash">&mdash;</td>
+                                    <td><span class="check">9 &#10003;</span></td>
+                                    <td class="dash">&mdash;</td>
+                                    <td class="dash">&mdash;</td>
+                                </tr>
+                                <tr>
+                                    <td>Metadata &amp; Lineage</td>
+                                    <td class="module-id">ISL-02</td>
+                                    <td>6</td>
+                                    <td>3</td>
+                                    <td class="dash">&mdash;</td>
+                                    <td class="dash">&mdash;</td>
+                                    <td class="dash">&mdash;</td>
+                                    <td><span class="check">9 &#10003;</span></td>
+                                    <td class="dash">&mdash;</td>
+                                </tr>
+                                <tr>
+                                    <td>Integration Patterns</td>
+                                    <td class="module-id">ISL-05</td>
+                                    <td>8</td>
+                                    <td>3</td>
+                                    <td class="dash">&mdash;</td>
+                                    <td class="dash">&mdash;</td>
+                                    <td class="dash">&mdash;</td>
+                                    <td><span class="check">11 &#10003;</span></td>
+                                    <td class="dash">&mdash;</td>
+                                </tr>
+                                <tr>
+                                    <td>Mfg Overlays</td>
+                                    <td class="dash">&mdash;</td>
+                                    <td class="dash">&mdash;</td>
+                                    <td class="dash">&mdash;</td>
+                                    <td class="dash">&mdash;</td>
+                                    <td class="dash">&mdash;</td>
+                                    <td class="dash">&mdash;</td>
+                                    <td class="dash">&mdash;</td>
+                                    <td><span class="check">&#10003;</span></td>
+                                </tr>
+                                <tr class="total-row">
+                                    <td><strong>Cumulative Artifacts</strong></td>
+                                    <td></td>
+                                    <td><strong>39</strong></td>
+                                    <td><strong>16</strong></td>
+                                    <td><strong>0</strong></td>
+                                    <td><strong>18</strong></td>
+                                    <td><strong>35</strong></td>
+                                    <td><strong>55</strong></td>
+                                    <td><strong>55 + overlays</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="sub-section" id="hours-burn">
+                        <h3>Cumulative Hours Burn</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Sprint</th>
+                                    <th>Duration</th>
+                                    <th>Sprint Hours</th>
+                                    <th>Cumulative</th>
+                                    <th>% of ~470 Budget</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>0</strong></td><td>1 week</td><td>40</td><td>40</td><td>9%</td></tr>
+                                <tr><td><strong>1</strong></td><td>2 weeks</td><td>90</td><td>130</td><td>28%</td></tr>
+                                <tr><td><strong>2</strong></td><td>2 weeks</td><td>100</td><td>230</td><td>49%</td></tr>
+                                <tr><td><strong>3</strong></td><td>4 weeks</td><td>160</td><td>390</td><td>83%</td></tr>
+                                <tr class="total-row"><td><strong>4</strong></td><td>2 weeks</td><td>80</td><td>470</td><td>100%</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="sub-section" id="milestone-summary">
+                        <h3>Milestone Summary</h3>
+                        <table class="milestone-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Milestone</th>
+                                    <th>Sprint</th>
+                                    <th>Day</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="milestone-id">M0.1</td><td>Engagement Audit Complete</td><td>0</td><td>3</td><td>&#9744;</td></tr>
+                                <tr><td class="milestone-id">M0.2</td><td>Standards Survey Complete</td><td>0</td><td>4</td><td>&#9744;</td></tr>
+                                <tr class="key-milestone"><td class="milestone-id">M0.3</td><td><strong>Scope Locked</strong></td><td>0</td><td>5</td><td>&#9744;</td></tr>
+                                <tr><td class="milestone-id">M1.1</td><td>ISL-03 Drafts Complete</td><td>1</td><td>5</td><td>&#9744;</td></tr>
+                                <tr><td class="milestone-id">M1.2</td><td>ISL-04 Drafts Complete</td><td>1</td><td>7</td><td>&#9744;</td></tr>
+                                <tr><td class="milestone-id">M1.3</td><td>ISL-03 Peer Review Pass</td><td>1</td><td>8</td><td>&#9744;</td></tr>
+                                <tr><td class="milestone-id">M1.4</td><td>ISL-04 Peer Review Pass</td><td>1</td><td>9</td><td>&#9744;</td></tr>
+                                <tr class="key-milestone"><td class="milestone-id">M1.5</td><td><strong>Foundation Complete</strong></td><td>1</td><td>10</td><td>&#9744;</td></tr>
+                                <tr><td class="milestone-id">M2.1</td><td>ISL-01 Drafts Complete</td><td>2</td><td>5</td><td>&#9744;</td></tr>
+                                <tr><td class="milestone-id">M2.2</td><td>ISL-06 Rule Library Complete</td><td>2</td><td>6</td><td>&#9744;</td></tr>
+                                <tr><td class="milestone-id">M2.3</td><td>ISL-06 Drafts Complete</td><td>2</td><td>7</td><td>&#9744;</td></tr>
+                                <tr><td class="milestone-id">M2.4</td><td>OWASP Cross-Reference Pass</td><td>2</td><td>8</td><td>&#9744;</td></tr>
+                                <tr><td class="milestone-id">M2.5</td><td>ISL-01 Peer Review Pass</td><td>2</td><td>9</td><td>&#9744;</td></tr>
+                                <tr class="key-milestone"><td class="milestone-id">M2.6</td><td><strong>Core Complete</strong></td><td>2</td><td>10</td><td>&#9744;</td></tr>
+                                <tr><td class="milestone-id">M3.1</td><td>ISL-02 Drafts Complete</td><td>3</td><td>10</td><td>&#9744;</td></tr>
+                                <tr><td class="milestone-id">M3.2</td><td>ISL-05 Patterns Complete</td><td>3</td><td>10</td><td>&#9744;</td></tr>
+                                <tr><td class="milestone-id">M3.3</td><td>Examples &amp; Diagrams Complete</td><td>3</td><td>15</td><td>&#9744;</td></tr>
+                                <tr><td class="milestone-id">M3.4</td><td>ISL-02 Peer Review Pass</td><td>3</td><td>18</td><td>&#9744;</td></tr>
+                                <tr><td class="milestone-id">M3.5</td><td>ISL-05 Peer Review Pass</td><td>3</td><td>19</td><td>&#9744;</td></tr>
+                                <tr class="key-milestone"><td class="milestone-id">M3.6</td><td><strong>All 6 Modules Complete</strong></td><td>3</td><td>20</td><td>&#9744;</td></tr>
+                                <tr><td class="milestone-id">M4.1</td><td>Overlays Consolidated</td><td>4</td><td>4</td><td>&#9744;</td></tr>
+                                <tr><td class="milestone-id">M4.2</td><td>Review Complete</td><td>4</td><td>7</td><td>&#9744;</td></tr>
+                                <tr><td class="milestone-id">M4.3</td><td>v1.0 Tagged</td><td>4</td><td>9</td><td>&#9744;</td></tr>
+                                <tr class="key-milestone"><td class="milestone-id">M4.4</td><td><strong>ISL v1.0 Production-Ready</strong></td><td>4</td><td>10</td><td>&#9744;</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </section>
+
+        </main>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-links">
+                <a href="index.html">Overview</a>
+                <a href="roadmap.html">Roadmap</a>
+                <a href="backlog.html">Backlog</a>
+                <a href="orchestrator.html">Orchestrator</a>
+            </div>
+            <div class="footer-info">
+                <p><strong>Keven Markham</strong> &mdash; VP Enterprise Transformation</p>
+                <p>February 6, 2026 &middot; Version 1.0</p>
+            </div>
+            <div class="footer-copyright">
+                DMTSP Integration Standards Library &mdash; Internal Use Only
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCROLL TO TOP -->
+    <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
+
+    <script>
+        // Scroll-to-top visibility
+        const scrollBtn = document.getElementById('scrollTop');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 400) {
+                scrollBtn.classList.add('visible');
+            } else {
+                scrollBtn.classList.remove('visible');
+            }
+        });
+
+        // TOC highlighting on scroll
+        const tocLinks = document.querySelectorAll('.toc-list a');
+        const sections = [];
+        tocLinks.forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                const section = document.getElementById(href.substring(1));
+                if (section) {
+                    sections.push({ el: section, link: link });
+                }
+            }
+        });
+
+        function updateTOC() {
+            let current = null;
+            const offset = 120;
+            for (let i = sections.length - 1; i >= 0; i--) {
+                const rect = sections[i].el.getBoundingClientRect();
+                if (rect.top <= offset) {
+                    current = sections[i];
+                    break;
+                }
+            }
+            tocLinks.forEach(function(link) { link.classList.remove('active'); });
+            if (current) {
+                current.link.classList.add('active');
+            }
+        }
+
+        window.addEventListener('scroll', updateTOC);
+        window.addEventListener('load', updateTOC);
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,2692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Backlog — Integration Standards Library</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ── Design Tokens ── */
+        :root {
+            --primary: #86BC25;
+            --primary-light: #a8d455;
+            --primary-dark: #6a9a1b;
+            --secondary: #0D8390;
+            --secondary-light: #10a3b3;
+            --secondary-dark: #096a74;
+            --dark: #1a1a2e;
+            --dark-light: #16213e;
+            --surface: #ffffff;
+            --surface-alt: #f8f9fa;
+            --surface-hover: #f0f4e8;
+            --border: #e2e8f0;
+            --border-light: #edf2f7;
+            --text: #2d3748;
+            --text-light: #718096;
+            --text-muted: #a0aec0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 14px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.12);
+            --shadow-xl: 0 20px 50px rgba(0,0,0,0.15);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --epic-e0: #0D8390;
+            --epic-e1: #86BC25;
+            --epic-e2: #e67e22;
+            --epic-e3: #3498db;
+            --epic-e4: #8e44ad;
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        /* ── Reset & Base ── */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            font-family: var(--font);
+            color: var(--text);
+            background: var(--surface-alt);
+            line-height: 1.7;
+            font-size: 15px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ── Navigation Bar ── */
+        .nav-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--dark);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            height: 64px;
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .nav-bar.scrolled {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .nav-brand {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #fff;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .nav-brand .brand-accent {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-left: auto;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: rgba(255,255,255,0.65);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 0.45rem 1rem;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+            letter-spacing: 0.01em;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.08);
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+            background: rgba(134,188,37,0.1);
+        }
+
+        /* ── Hero Section ── */
+        .hero {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-light) 50%, #0f3460 100%);
+            padding: 7rem 2rem 3.5rem;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 200%;
+            background: radial-gradient(ellipse, rgba(134,188,37,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            left: -10%;
+            width: 60%;
+            height: 150%;
+            background: radial-gradient(ellipse, rgba(13,131,144,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(134,188,37,0.12);
+            border: 1px solid rgba(134,188,37,0.25);
+            color: var(--primary);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 0.35rem 1rem;
+            border-radius: 50px;
+            margin-bottom: 1.25rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 .highlight {
+            color: var(--primary);
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 1.75rem;
+            font-size: 0.88rem;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .hero-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .stat-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 0.45rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.85);
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-pill .stat-value {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .hero-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .hero-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.55rem 1.25rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .hero-link.primary {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        .hero-link.primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(134,188,37,0.3);
+        }
+
+        .hero-link.secondary {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #fff;
+        }
+
+        .hero-link.secondary:hover {
+            background: rgba(255,255,255,0.14);
+            transform: translateY(-1px);
+        }
+
+        /* ── Layout ── */
+        .page-layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            max-width: 1400px;
+            margin: 0 auto;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        /* ── Sidebar TOC ── */
+        .sidebar {
+            position: sticky;
+            top: 84px;
+            height: fit-content;
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 10px;
+        }
+
+        .toc {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .toc-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 0.15rem;
+        }
+
+        .toc-list a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 0.4rem 0.75rem;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+            border-left: 2px solid transparent;
+        }
+
+        .toc-list a:hover {
+            color: var(--text);
+            background: var(--surface-hover);
+        }
+
+        .toc-list a.active {
+            color: var(--primary-dark);
+            background: rgba(134,188,37,0.08);
+            border-left-color: var(--primary);
+            font-weight: 600;
+        }
+
+        .toc-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--border);
+            flex-shrink: 0;
+            transition: background 0.2s ease;
+        }
+
+        .toc-list a.active .toc-dot {
+            background: var(--primary);
+        }
+
+        .toc-list a:hover .toc-dot {
+            background: var(--text-muted);
+        }
+
+        .toc-sub {
+            list-style: none;
+            padding-left: 1rem;
+        }
+
+        .toc-sub a {
+            font-size: 0.75rem;
+            padding: 0.3rem 0.75rem;
+        }
+
+        /* ── Main Content ── */
+        .main-content {
+            min-width: 0;
+        }
+
+        /* ── Cards ── */
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+
+        .card-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* ── Epic Cards ── */
+        .epic-card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .epic-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .epic-header {
+            padding: 1.75rem 2rem;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .epic-header::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 60%;
+            height: 200%;
+            background: radial-gradient(ellipse, rgba(255,255,255,0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .epic-header .epic-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: rgba(255,255,255,0.15);
+            padding: 0.3rem 0.85rem;
+            border-radius: 50px;
+            margin-bottom: 0.75rem;
+        }
+
+        .epic-header h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .epic-header .epic-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.25rem;
+            font-size: 0.82rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .epic-body {
+            padding: 2rem;
+        }
+
+        /* ── Story Cards ── */
+        .story-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .story-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .story-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .story-id {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.25rem 0.65rem;
+            border-radius: 50px;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .story-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.01em;
+            flex: 1;
+        }
+
+        .story-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-left: auto;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.6rem;
+            border-radius: 50px;
+            letter-spacing: 0.02em;
+        }
+
+        .badge-priority {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-priority.p0 {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .badge-priority.p1 {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-priority.p2 {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge-priority.p3 {
+            background: #f3e8ff;
+            color: #6b21a8;
+        }
+
+        .badge-effort {
+            background: var(--surface-alt);
+            color: var(--text-light);
+            border: 1px solid var(--border);
+        }
+
+        .badge-hours {
+            background: rgba(134,188,37,0.1);
+            color: var(--primary-dark);
+        }
+
+        .story-body {
+            padding: 1.25rem 1.5rem;
+        }
+
+        .story-field {
+            margin-bottom: 0.75rem;
+        }
+
+        .story-field-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: 0.3rem;
+        }
+
+        .story-field-value {
+            font-size: 0.88rem;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .ac-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .ac-list li {
+            position: relative;
+            padding-left: 1.25rem;
+            margin-bottom: 0.3rem;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .ac-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.55rem;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        /* ── Compact Tables ── */
+        .compact-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.82rem;
+            margin-top: 0.75rem;
+        }
+
+        .compact-table thead th {
+            background: var(--surface-alt);
+            padding: 0.65rem 0.85rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-light);
+            border-bottom: 2px solid var(--border);
+            white-space: nowrap;
+        }
+
+        .compact-table thead th:first-child {
+            border-radius: var(--radius-sm) 0 0 0;
+        }
+
+        .compact-table thead th:last-child {
+            border-radius: 0 var(--radius-sm) 0 0;
+        }
+
+        .compact-table tbody td {
+            padding: 0.6rem 0.85rem;
+            border-bottom: 1px solid var(--border-light);
+            vertical-align: top;
+        }
+
+        .compact-table tbody tr:hover {
+            background: var(--surface-hover);
+        }
+
+        .compact-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .compact-table .task-id {
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--secondary);
+            white-space: nowrap;
+        }
+
+        .compact-table .hours-cell {
+            font-weight: 600;
+            color: var(--text);
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .compact-table .role-cell {
+            font-size: 0.78rem;
+            color: var(--text-light);
+            white-space: nowrap;
+        }
+
+        .compact-table tfoot td {
+            padding: 0.7rem 0.85rem;
+            font-weight: 700;
+            background: var(--surface-alt);
+            border-top: 2px solid var(--border);
+        }
+
+        /* ── Overview Grid ── */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .overview-stat {
+            background: var(--surface-alt);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .overview-stat .stat-number {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text);
+            letter-spacing: -0.02em;
+        }
+
+        .overview-stat .stat-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* ── Legend Grid ── */
+        .legend-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .legend-section h4 {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .legend-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 50px;
+            background: var(--surface-alt);
+            border: 1px solid var(--border-light);
+        }
+
+        .legend-item .legend-tag {
+            font-weight: 700;
+            font-size: 0.72rem;
+        }
+
+        .legend-item .legend-desc {
+            color: var(--text-light);
+            font-size: 0.78rem;
+        }
+
+        /* ── Dependency Graph ── */
+        .dep-graph {
+            background: var(--dark);
+            color: var(--primary);
+            border-radius: var(--radius-md);
+            padding: 1.5rem 2rem;
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 0.82rem;
+            line-height: 1.8;
+            overflow-x: auto;
+            margin-top: 1rem;
+            white-space: pre;
+        }
+
+        .dep-graph .dep-epic {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .dep-graph .dep-module {
+            color: var(--secondary-light);
+        }
+
+        .dep-graph .dep-arrow {
+            color: rgba(255,255,255,0.3);
+        }
+
+        /* ── Summary Table ── */
+        .summary-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.85rem;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .summary-table thead th {
+            background: var(--dark);
+            color: #fff;
+            padding: 0.85rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .summary-table tbody td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .summary-table tbody tr:hover {
+            background: var(--surface-hover);
+        }
+
+        .summary-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .summary-table tfoot td {
+            padding: 0.85rem 1rem;
+            font-weight: 700;
+            background: var(--surface-alt);
+            border-top: 2px solid var(--border);
+        }
+
+        .epic-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 0.2rem 0.55rem;
+            border-radius: 4px;
+            color: #fff;
+        }
+
+        .epic-tag.e0 { background: var(--epic-e0); }
+        .epic-tag.e1 { background: var(--epic-e1); color: var(--dark); }
+        .epic-tag.e2 { background: var(--epic-e2); }
+        .epic-tag.e3 { background: var(--epic-e3); }
+        .epic-tag.e4 { background: var(--epic-e4); }
+
+        /* ── Section Divider ── */
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border), transparent);
+            margin: 2rem 0;
+        }
+
+        /* ── Footer ── */
+        .footer {
+            background: var(--dark);
+            color: rgba(255,255,255,0.5);
+            padding: 3rem 2rem 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .footer-brand {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-brand .brand-accent {
+            color: var(--primary);
+        }
+
+        .footer-desc {
+            font-size: 0.82rem;
+            line-height: 1.6;
+            max-width: 400px;
+        }
+
+        .footer-heading {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.35);
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.4rem;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.55);
+            text-decoration: none;
+            font-size: 0.82rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.78rem;
+        }
+
+        .footer-copy {
+            color: rgba(255,255,255,0.35);
+        }
+
+        .footer-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.35);
+            background: rgba(255,255,255,0.05);
+            padding: 0.3rem 0.75rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        /* ── Scroll to Top ── */
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 999;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--dark);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .scroll-top:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .scroll-top svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 1024px) {
+            .page-layout {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                display: none;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 6rem 1.5rem 2.5rem;
+            }
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+            .hero-stats {
+                gap: 0.4rem;
+            }
+            .stat-pill {
+                font-size: 0.72rem;
+                padding: 0.35rem 0.75rem;
+            }
+            .card, .epic-body {
+                padding: 1.25rem;
+            }
+            .epic-header {
+                padding: 1.25rem;
+            }
+            .story-header {
+                flex-direction: column;
+            }
+            .story-badges {
+                margin-left: 0;
+            }
+            .legend-grid {
+                grid-template-columns: 1fr;
+            }
+            .overview-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .nav-links a {
+                font-size: 0.75rem;
+                padding: 0.35rem 0.6rem;
+            }
+        }
+
+        /* ── Print ── */
+        @media print {
+            .nav-bar, .sidebar, .scroll-top { display: none; }
+            .hero { padding-top: 2rem; }
+            .page-layout { grid-template-columns: 1fr; }
+            .epic-card, .card { break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ════════ NAV BAR ════════ -->
+    <nav class="nav-bar" id="navbar">
+        <a class="nav-brand" href="index.html">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <span>ISL <span class="brand-accent">Design</span></span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">One-Pager</a></li>
+            <li><a href="roadmap.html">Roadmap</a></li>
+            <li><a href="backlog.html" class="active">Backlog</a></li>
+            <li><a href="orchestrator.html">Orchestrator</a></li>
+        </ul>
+    </nav>
+
+    <!-- ════════ HERO ════════ -->
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-label">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                Integration Standards Library
+            </div>
+            <h1>Reusable Product <span class="highlight">Backlog</span></h1>
+            <div class="hero-meta">
+                <span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Keven Markham, VP Enterprise Transformation &mdash; DMTSP
+                </span>
+                <span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    February 6, 2026
+                </span>
+            </div>
+            <div class="hero-stats">
+                <span class="stat-pill"><span class="stat-value">5</span> Epics (E0&ndash;E4)</span>
+                <span class="stat-pill"><span class="stat-value">12</span> Stories</span>
+                <span class="stat-pill"><span class="stat-value">6</span> Modules / <span class="stat-value">39</span> Templates / <span class="stat-value">16</span> Examples</span>
+                <span class="stat-pill">~<span class="stat-value">470</span> Build Hours</span>
+            </div>
+            <div class="hero-links">
+                <a class="hero-link primary" href="roadmap.html">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    View Roadmap
+                </a>
+                <a class="hero-link secondary" href="orchestrator.html">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    Sprint Orchestrator
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════════ PAGE LAYOUT ════════ -->
+    <div class="page-layout">
+
+        <!-- ── Sidebar TOC ── -->
+        <aside class="sidebar">
+            <nav class="toc">
+                <div class="toc-title">On This Page</div>
+                <ul class="toc-list">
+                    <li><a href="#overview"><span class="toc-dot"></span> Backlog Overview</a></li>
+                    <li><a href="#dependency-graph"><span class="toc-dot"></span> Dependency Graph</a></li>
+                    <li>
+                        <a href="#epic-e0"><span class="toc-dot" style="background:var(--epic-e0)"></span> E0: Discovery &amp; Baseline</a>
+                        <ul class="toc-sub">
+                            <li><a href="#e0-s1"><span class="toc-dot"></span> E0-S1: Prior Engagement Audit</a></li>
+                            <li><a href="#e0-s2"><span class="toc-dot"></span> E0-S2: Standards Survey</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#epic-e1"><span class="toc-dot" style="background:var(--epic-e1)"></span> E1: Foundation Modules</a>
+                        <ul class="toc-sub">
+                            <li><a href="#e1-s1"><span class="toc-dot"></span> E1-S1: ISL-03 Naming</a></li>
+                            <li><a href="#e1-s2"><span class="toc-dot"></span> E1-S2: ISL-04 Classification</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#epic-e2"><span class="toc-dot" style="background:var(--epic-e2)"></span> E2: Core Modules</a>
+                        <ul class="toc-sub">
+                            <li><a href="#e2-s1"><span class="toc-dot"></span> E2-S1: ISL-01 API Governance</a></li>
+                            <li><a href="#e2-s2"><span class="toc-dot"></span> E2-S2: ISL-06 Data Quality</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#epic-e3"><span class="toc-dot" style="background:var(--epic-e3)"></span> E3: Advanced Modules</a>
+                        <ul class="toc-sub">
+                            <li><a href="#e3-s1"><span class="toc-dot"></span> E3-S1: ISL-02 Metadata</a></li>
+                            <li><a href="#e3-s2"><span class="toc-dot"></span> E3-S2: ISL-05 Patterns</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#epic-e4"><span class="toc-dot" style="background:var(--epic-e4)"></span> E4: Packaging &amp; Pilot</a>
+                        <ul class="toc-sub">
+                            <li><a href="#e4-s1"><span class="toc-dot"></span> E4-S1: Mfg Overlays</a></li>
+                            <li><a href="#e4-s2"><span class="toc-dot"></span> E4-S2: Peer Review &amp; QA</a></li>
+                            <li><a href="#e4-s3"><span class="toc-dot"></span> E4-S3: Packaging</a></li>
+                            <li><a href="#e4-s4"><span class="toc-dot"></span> E4-S4: Pilot</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#summary"><span class="toc-dot"></span> Summary</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- ── Main Content ── -->
+        <main class="main-content">
+
+            <!-- ════════ BACKLOG OVERVIEW ════════ -->
+            <section id="overview">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Backlog Overview</h2>
+                        <p class="card-subtitle">Scope, priority, and effort definitions for the ISL product backlog</p>
+                    </div>
+
+                    <div class="overview-grid">
+                        <div class="overview-stat">
+                            <div class="stat-number">5</div>
+                            <div class="stat-label">Epics (E0&ndash;E4)</div>
+                        </div>
+                        <div class="overview-stat">
+                            <div class="stat-number">12</div>
+                            <div class="stat-label">Stories</div>
+                        </div>
+                        <div class="overview-stat">
+                            <div class="stat-number">6 / 39 / 16</div>
+                            <div class="stat-label">Modules / Templates / Examples</div>
+                        </div>
+                        <div class="overview-stat">
+                            <div class="stat-number">~310&ndash;440</div>
+                            <div class="stat-label">Core Build Hours</div>
+                        </div>
+                        <div class="overview-stat">
+                            <div class="stat-number">~470</div>
+                            <div class="stat-label">Total Hours (w/ Packaging)</div>
+                        </div>
+                        <div class="overview-stat">
+                            <div class="stat-number">0&ndash;4</div>
+                            <div class="stat-label">Sprint Range</div>
+                        </div>
+                    </div>
+
+                    <div class="legend-grid">
+                        <div class="legend-section">
+                            <h4>Priority Legend</h4>
+                            <div class="legend-items">
+                                <span class="legend-item"><span class="badge badge-priority p0 legend-tag">P0</span> <span class="legend-desc">Blocker</span></span>
+                                <span class="legend-item"><span class="badge badge-priority p1 legend-tag">P1</span> <span class="legend-desc">Critical</span></span>
+                                <span class="legend-item"><span class="badge badge-priority p2 legend-tag">P2</span> <span class="legend-desc">Important</span></span>
+                                <span class="legend-item"><span class="badge badge-priority p3 legend-tag">P3</span> <span class="legend-desc">Nice-to-have</span></span>
+                            </div>
+                        </div>
+                        <div class="legend-section">
+                            <h4>Effort Scale</h4>
+                            <div class="legend-items">
+                                <span class="legend-item"><span class="legend-tag">XS</span> <span class="legend-desc">1&ndash;8 hrs</span></span>
+                                <span class="legend-item"><span class="legend-tag">S</span> <span class="legend-desc">9&ndash;20 hrs</span></span>
+                                <span class="legend-item"><span class="legend-tag">M</span> <span class="legend-desc">21&ndash;50 hrs</span></span>
+                                <span class="legend-item"><span class="legend-tag">L</span> <span class="legend-desc">51&ndash;80 hrs</span></span>
+                                <span class="legend-item"><span class="legend-tag">XL</span> <span class="legend-desc">81+ hrs</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ════════ DEPENDENCY GRAPH ════════ -->
+            <section id="dependency-graph">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Dependency Graph</h2>
+                        <p class="card-subtitle">Epic and module dependency chain across sprints</p>
+                    </div>
+                    <div class="dep-graph"><span class="dep-epic">E0: Discovery &amp; Baseline</span> <span class="dep-arrow">(Sprint 0)</span>
+<span class="dep-arrow">  &#x2514;&#x2500;&#x2500;&#x25BA;</span> <span class="dep-epic">E1: Foundation Modules</span> <span class="dep-arrow">(Sprint 1)</span>
+<span class="dep-arrow">         &#x251C;&#x2500;&#x2500;</span> <span class="dep-module">ISL-03: Naming Conventions</span>
+<span class="dep-arrow">         &#x2514;&#x2500;&#x2500;</span> <span class="dep-module">ISL-04: Data Classification</span>
+<span class="dep-arrow">               &#x2514;&#x2500;&#x2500;&#x25BA;</span> <span class="dep-epic">E2: Core Modules</span> <span class="dep-arrow">(Sprint 2)</span>
+<span class="dep-arrow">                      &#x251C;&#x2500;&#x2500;</span> <span class="dep-module">ISL-01: API Governance</span>
+<span class="dep-arrow">                      &#x2514;&#x2500;&#x2500;</span> <span class="dep-module">ISL-06: Data Quality</span>
+<span class="dep-arrow">                            &#x2514;&#x2500;&#x2500;&#x25BA;</span> <span class="dep-epic">E3: Advanced Modules</span> <span class="dep-arrow">(Sprint 3)</span>
+<span class="dep-arrow">                                   &#x251C;&#x2500;&#x2500;</span> <span class="dep-module">ISL-02: Metadata &amp; Lineage</span>
+<span class="dep-arrow">                                   &#x2514;&#x2500;&#x2500;</span> <span class="dep-module">ISL-05: Integration Patterns</span>
+<span class="dep-arrow">                                         &#x2514;&#x2500;&#x2500;&#x25BA;</span> <span class="dep-epic">E4: Packaging &amp; Pilot</span> <span class="dep-arrow">(Sprint 4)</span></div>
+                </div>
+            </section>
+
+            <!-- ════════ EPIC E0 ════════ -->
+            <section id="epic-e0">
+                <div class="epic-card">
+                    <div class="epic-header" style="background: linear-gradient(135deg, var(--epic-e0), #0a6b76);">
+                        <span class="epic-label">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            Epic E0
+                        </span>
+                        <h2>Discovery &amp; Baseline</h2>
+                        <div class="epic-meta">
+                            <span>Sprint 0</span>
+                            <span>~40 hours</span>
+                            <span>2 Stories</span>
+                        </div>
+                    </div>
+                    <div class="epic-body">
+
+                        <!-- E0-S1 -->
+                        <div class="story-card" id="e0-s1">
+                            <div class="story-header">
+                                <span class="story-id" style="background:var(--epic-e0);">E0-S1</span>
+                                <span class="story-title">Prior Engagement Audit</span>
+                                <div class="story-badges">
+                                    <span class="badge badge-priority p0">P0</span>
+                                    <span class="badge badge-effort">S</span>
+                                    <span class="badge badge-hours">20 hrs</span>
+                                </div>
+                            </div>
+                            <div class="story-body">
+                                <div class="story-field">
+                                    <div class="story-field-label">Owner</div>
+                                    <div class="story-field-value">Lead Architect</div>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Depends On</div>
+                                    <div class="story-field-value">Access to prior deliverables</div>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Acceptance Criteria</div>
+                                    <ul class="ac-list">
+                                        <li>Common patterns extracted</li>
+                                        <li>Engagement-specific variations cataloged</li>
+                                        <li>Actual hours documented</li>
+                                    </ul>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Tasks</div>
+                                    <table class="compact-table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Task</th>
+                                                <th>Hours</th>
+                                                <th>Role</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="task-id">E0-S1.T1</td>
+                                                <td>Identify 2&ndash;3 completed Phase 4 deliverables</td>
+                                                <td class="hours-cell">2</td>
+                                                <td class="role-cell">Lead Architect</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">E0-S1.T2</td>
+                                                <td>Extract common patterns</td>
+                                                <td class="hours-cell">6</td>
+                                                <td class="role-cell">Lead Architect</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">E0-S1.T3</td>
+                                                <td>Catalog customizations</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Lead Architect</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">E0-S1.T4</td>
+                                                <td>Document gaps</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">E0-S1.T5</td>
+                                                <td>Record actual hours</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Lead Architect</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- E0-S2 -->
+                        <div class="story-card" id="e0-s2">
+                            <div class="story-header">
+                                <span class="story-id" style="background:var(--epic-e0);">E0-S2</span>
+                                <span class="story-title">Industry Standards Survey &amp; Scope Lock</span>
+                                <div class="story-badges">
+                                    <span class="badge badge-priority p0">P0</span>
+                                    <span class="badge badge-effort">S</span>
+                                    <span class="badge badge-hours">20 hrs</span>
+                                </div>
+                            </div>
+                            <div class="story-body">
+                                <div class="story-field">
+                                    <div class="story-field-label">Owner</div>
+                                    <div class="story-field-value">Lead Architect + Sr Integration Architect</div>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Depends On</div>
+                                    <div class="story-field-value">E0-S1</div>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Acceptance Criteria</div>
+                                    <ul class="ac-list">
+                                        <li>External standards reviewed</li>
+                                        <li>Template lists finalized</li>
+                                        <li>Adaptation workflow defined</li>
+                                        <li>Scope locked</li>
+                                    </ul>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Tasks</div>
+                                    <table class="compact-table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Task</th>
+                                                <th>Hours</th>
+                                                <th>Role</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="task-id">E0-S2.T1</td>
+                                                <td>Review Microsoft REST API + Fabric docs</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">E0-S2.T2</td>
+                                                <td>Review OWASP + DAMA</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">E0-S2.T3</td>
+                                                <td>Review Azure CAF + ISO/NIST</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Lead Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">E0-S2.T4</td>
+                                                <td>Finalize template lists</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Lead Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">E0-S2.T5</td>
+                                                <td>Define adaptation workflow</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Lead Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">E0-S2.T6</td>
+                                                <td>Document AC and lock scope</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Lead Arch</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- ════════ EPIC E1 ════════ -->
+            <section id="epic-e1">
+                <div class="epic-card">
+                    <div class="epic-header" style="background: linear-gradient(135deg, #6a9a1b, var(--epic-e1));">
+                        <span class="epic-label">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                            Epic E1
+                        </span>
+                        <h2>Foundation Modules</h2>
+                        <div class="epic-meta">
+                            <span>Sprint 1</span>
+                            <span>~90 hours</span>
+                            <span>2 Stories</span>
+                        </div>
+                    </div>
+                    <div class="epic-body">
+
+                        <!-- E1-S1 -->
+                        <div class="story-card" id="e1-s1">
+                            <div class="story-header">
+                                <span class="story-id" style="background:var(--epic-e1); color:var(--dark);">E1-S1</span>
+                                <span class="story-title">ISL-03 Naming Convention Standards</span>
+                                <div class="story-badges">
+                                    <span class="badge badge-priority p0">P0</span>
+                                    <span class="badge badge-effort">S</span>
+                                    <span class="badge badge-hours">20&ndash;30 hrs</span>
+                                </div>
+                            </div>
+                            <div class="story-body">
+                                <div class="story-field">
+                                    <div class="story-field-label">Owner</div>
+                                    <div class="story-field-value">Sr Integration Architect</div>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Depends On</div>
+                                    <div class="story-field-value">E0 complete</div>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Acceptance Criteria</div>
+                                    <ul class="ac-list">
+                                        <li>7 naming templates + 2 examples completed</li>
+                                        <li>Fabric patterns validated</li>
+                                        <li>Abbreviation dictionary seeded with 50+ entries</li>
+                                    </ul>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Tasks</div>
+                                    <table class="compact-table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Task</th>
+                                                <th>Hours</th>
+                                                <th>Role</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="task-id">T1</td>
+                                                <td>Database &amp; schema naming</td>
+                                                <td class="hours-cell">2</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T2</td>
+                                                <td>Table &amp; view naming</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T3</td>
+                                                <td>Column naming</td>
+                                                <td class="hours-cell">2</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T4</td>
+                                                <td>Pipeline naming</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T5</td>
+                                                <td>API naming</td>
+                                                <td class="hours-cell">2</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T6</td>
+                                                <td>Infrastructure naming</td>
+                                                <td class="hours-cell">2</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T7</td>
+                                                <td>Abbreviation dictionary</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Tech Writer</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T8</td>
+                                                <td>Fabric naming example</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T9</td>
+                                                <td>Mfg domain names example</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T10</td>
+                                                <td>Peer review</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Lead Arch</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- E1-S2 -->
+                        <div class="story-card" id="e1-s2">
+                            <div class="story-header">
+                                <span class="story-id" style="background:var(--epic-e1); color:var(--dark);">E1-S2</span>
+                                <span class="story-title">ISL-04 Data Classification Framework</span>
+                                <div class="story-badges">
+                                    <span class="badge badge-priority p0">P0</span>
+                                    <span class="badge badge-effort">M</span>
+                                    <span class="badge badge-hours">40&ndash;60 hrs</span>
+                                </div>
+                            </div>
+                            <div class="story-body">
+                                <div class="story-field">
+                                    <div class="story-field-label">Owner</div>
+                                    <div class="story-field-value">Sr Data Governance Specialist</div>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Depends On</div>
+                                    <div class="story-field-value">E1-S1</div>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Acceptance Criteria</div>
+                                    <ul class="ac-list">
+                                        <li>6 templates + 3 examples completed</li>
+                                        <li>4-tier model defined</li>
+                                        <li>Purview labels documented</li>
+                                        <li>Compliance mapping covers SOX/GDPR/CCPA/ITAR/HIPAA</li>
+                                    </ul>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Tasks</div>
+                                    <table class="compact-table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Task</th>
+                                                <th>Hours</th>
+                                                <th>Role</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="task-id">T1</td>
+                                                <td>Classification tier definitions</td>
+                                                <td class="hours-cell">5</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T2</td>
+                                                <td>Sensitivity labeling</td>
+                                                <td class="hours-cell">6</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T3</td>
+                                                <td>Data handling requirements</td>
+                                                <td class="hours-cell">5</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T4</td>
+                                                <td>Access control alignment</td>
+                                                <td class="hours-cell">6</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T5</td>
+                                                <td>Compliance mapping matrix</td>
+                                                <td class="hours-cell">6</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T6</td>
+                                                <td>Classification decision tree</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T7</td>
+                                                <td>Mfg classification example</td>
+                                                <td class="hours-cell">5</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T8</td>
+                                                <td>Fabric security model example</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T9</td>
+                                                <td>Purview label config example</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T10</td>
+                                                <td>Peer review</td>
+                                                <td class="hours-cell">6</td>
+                                                <td class="role-cell">Lead Arch</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- ════════ EPIC E2 ════════ -->
+            <section id="epic-e2">
+                <div class="epic-card">
+                    <div class="epic-header" style="background: linear-gradient(135deg, #cf6e17, var(--epic-e2));">
+                        <span class="epic-label">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            Epic E2
+                        </span>
+                        <h2>Core Modules</h2>
+                        <div class="epic-meta">
+                            <span>Sprint 2</span>
+                            <span>~100 hours</span>
+                            <span>2 Stories</span>
+                        </div>
+                    </div>
+                    <div class="epic-body">
+
+                        <!-- E2-S1 -->
+                        <div class="story-card" id="e2-s1">
+                            <div class="story-header">
+                                <span class="story-id" style="background:var(--epic-e2);">E2-S1</span>
+                                <span class="story-title">ISL-01 API Governance Standards</span>
+                                <div class="story-badges">
+                                    <span class="badge badge-priority p1">P1</span>
+                                    <span class="badge badge-effort">M</span>
+                                    <span class="badge badge-hours">40&ndash;60 hrs</span>
+                                </div>
+                            </div>
+                            <div class="story-body">
+                                <div class="story-field">
+                                    <div class="story-field-label">Owner</div>
+                                    <div class="story-field-value">Sr Integration Architect</div>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Depends On</div>
+                                    <div class="story-field-value">E1-S1 + E1-S2</div>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Acceptance Criteria</div>
+                                    <ul class="ac-list">
+                                        <li>6 API templates + 2 examples</li>
+                                        <li>OWASP cross-referenced</li>
+                                        <li>OAuth 2.0/OIDC documented</li>
+                                    </ul>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Tasks</div>
+                                    <table class="compact-table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Task</th>
+                                                <th>Hours</th>
+                                                <th>Role</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="task-id">T1</td>
+                                                <td>API design standards</td>
+                                                <td class="hours-cell">6</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T2</td>
+                                                <td>Versioning policy</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T3</td>
+                                                <td>Security standards/OWASP</td>
+                                                <td class="hours-cell">8</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T4</td>
+                                                <td>Lifecycle governance</td>
+                                                <td class="hours-cell">5</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T5</td>
+                                                <td>Catalog requirements</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T6</td>
+                                                <td>Rate limiting</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T7</td>
+                                                <td>Mfg API example</td>
+                                                <td class="hours-cell">5</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T8</td>
+                                                <td>Fabric API example</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T9</td>
+                                                <td>OWASP audit</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Lead Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T10</td>
+                                                <td>Peer review</td>
+                                                <td class="hours-cell">5</td>
+                                                <td class="role-cell">Lead Arch</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- E2-S2 -->
+                        <div class="story-card" id="e2-s2">
+                            <div class="story-header">
+                                <span class="story-id" style="background:var(--epic-e2);">E2-S2</span>
+                                <span class="story-title">ISL-06 Data Quality Standards</span>
+                                <div class="story-badges">
+                                    <span class="badge badge-priority p1">P1</span>
+                                    <span class="badge badge-effort">M</span>
+                                    <span class="badge badge-hours">30&ndash;50 hrs</span>
+                                </div>
+                            </div>
+                            <div class="story-body">
+                                <div class="story-field">
+                                    <div class="story-field-label">Owner</div>
+                                    <div class="story-field-value">Sr Data Gov Specialist</div>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Depends On</div>
+                                    <div class="story-field-value">E1-S1 + E1-S2</div>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Acceptance Criteria</div>
+                                    <ul class="ac-list">
+                                        <li>6 quality templates + 3 examples</li>
+                                        <li>50+ rules cataloged</li>
+                                        <li>SLAs per classification tier</li>
+                                    </ul>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Tasks</div>
+                                    <table class="compact-table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Task</th>
+                                                <th>Hours</th>
+                                                <th>Role</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="task-id">T1</td>
+                                                <td>Quality dimensions</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T2</td>
+                                                <td>SLA framework</td>
+                                                <td class="hours-cell">5</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T3</td>
+                                                <td>Quality rule library 50+ rules</td>
+                                                <td class="hours-cell">10</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T4</td>
+                                                <td>Monitoring standards</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T5</td>
+                                                <td>Remediation workflow</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T6</td>
+                                                <td>Quality scorecard</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T7</td>
+                                                <td>Mfg quality rules example</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T8</td>
+                                                <td>Fabric quality implementation example</td>
+                                                <td class="hours-cell">5</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T9</td>
+                                                <td>Quality dashboard spec</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T10</td>
+                                                <td>Peer review</td>
+                                                <td class="hours-cell">5</td>
+                                                <td class="role-cell">Lead Arch</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- ════════ EPIC E3 ════════ -->
+            <section id="epic-e3">
+                <div class="epic-card">
+                    <div class="epic-header" style="background: linear-gradient(135deg, #2980b9, var(--epic-e3));">
+                        <span class="epic-label">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            Epic E3
+                        </span>
+                        <h2>Advanced Modules</h2>
+                        <div class="epic-meta">
+                            <span>Sprint 3 (double sprint)</span>
+                            <span>~160 hours</span>
+                            <span>2 Stories</span>
+                        </div>
+                    </div>
+                    <div class="epic-body">
+
+                        <!-- E3-S1 -->
+                        <div class="story-card" id="e3-s1">
+                            <div class="story-header">
+                                <span class="story-id" style="background:var(--epic-e3);">E3-S1</span>
+                                <span class="story-title">ISL-02 Metadata &amp; Data Lineage Framework</span>
+                                <div class="story-badges">
+                                    <span class="badge badge-priority p1">P1</span>
+                                    <span class="badge badge-effort">L</span>
+                                    <span class="badge badge-hours">60&ndash;80 hrs</span>
+                                </div>
+                            </div>
+                            <div class="story-body">
+                                <div class="story-field">
+                                    <div class="story-field-label">Owner</div>
+                                    <div class="story-field-value">Sr Data Gov Specialist</div>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Depends On</div>
+                                    <div class="story-field-value">E1-S1 + E1-S2 + E2-S2</div>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Acceptance Criteria</div>
+                                    <ul class="ac-list">
+                                        <li>6 metadata templates + 3 examples</li>
+                                        <li>Purview aligned</li>
+                                        <li>Lineage covers column/table/pipeline levels</li>
+                                        <li>Manufacturing IoT/ERP extensions</li>
+                                    </ul>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Tasks</div>
+                                    <table class="compact-table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Task</th>
+                                                <th>Hours</th>
+                                                <th>Role</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="task-id">T1</td>
+                                                <td>Business glossary</td>
+                                                <td class="hours-cell">6</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T2</td>
+                                                <td>Technical metadata schema</td>
+                                                <td class="hours-cell">10</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T3</td>
+                                                <td>Lineage requirements</td>
+                                                <td class="hours-cell">6</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T4</td>
+                                                <td>Catalog governance</td>
+                                                <td class="hours-cell">5</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T5</td>
+                                                <td>Metadata integration patterns</td>
+                                                <td class="hours-cell">8</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T6</td>
+                                                <td>Lineage visualization</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T7</td>
+                                                <td>Mfg metadata model example</td>
+                                                <td class="hours-cell">6</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T8</td>
+                                                <td>Fabric OneLake metadata example</td>
+                                                <td class="hours-cell">5</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T9</td>
+                                                <td>Purview config guide example</td>
+                                                <td class="hours-cell">5</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T10</td>
+                                                <td>Manufacturing overlays</td>
+                                                <td class="hours-cell">8</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T11</td>
+                                                <td>Peer review</td>
+                                                <td class="hours-cell">7</td>
+                                                <td class="role-cell">Lead Arch</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- E3-S2 -->
+                        <div class="story-card" id="e3-s2">
+                            <div class="story-header">
+                                <span class="story-id" style="background:var(--epic-e3);">E3-S2</span>
+                                <span class="story-title">ISL-05 Integration Pattern Library</span>
+                                <div class="story-badges">
+                                    <span class="badge badge-priority p1">P1</span>
+                                    <span class="badge badge-effort">L</span>
+                                    <span class="badge badge-hours">60&ndash;80 hrs</span>
+                                </div>
+                            </div>
+                            <div class="story-body">
+                                <div class="story-field">
+                                    <div class="story-field-label">Owner</div>
+                                    <div class="story-field-value">Sr Integration Architect</div>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Depends On</div>
+                                    <div class="story-field-value">E2-S1 + E1-S1 + E2-S2</div>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Acceptance Criteria</div>
+                                    <ul class="ac-list">
+                                        <li>8 patterns + 3 diagrams</li>
+                                        <li>Each pattern has architecture diagram, decision criteria, anti-patterns, Fabric guide</li>
+                                        <li>Decision framework complete</li>
+                                    </ul>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Tasks</div>
+                                    <table class="compact-table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Task</th>
+                                                <th>Hours</th>
+                                                <th>Role</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="task-id">T1</td>
+                                                <td>ERP Extract &amp; Load</td>
+                                                <td class="hours-cell">6</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T2</td>
+                                                <td>IoT/OT Ingestion</td>
+                                                <td class="hours-cell">6</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T3</td>
+                                                <td>API Gateway Integration</td>
+                                                <td class="hours-cell">5</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T4</td>
+                                                <td>Event-Driven Architecture</td>
+                                                <td class="hours-cell">6</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T5</td>
+                                                <td>Master Data Sync</td>
+                                                <td class="hours-cell">6</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T6</td>
+                                                <td>File-Based Integration</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T7</td>
+                                                <td>Medallion Architecture</td>
+                                                <td class="hours-cell">5</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T8</td>
+                                                <td>Reverse ETL</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T9</td>
+                                                <td>Integration landscape diagram</td>
+                                                <td class="hours-cell">5</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T10</td>
+                                                <td>Fabric integration diagram</td>
+                                                <td class="hours-cell">5</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T11</td>
+                                                <td>Pattern decision tree diagram</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T12</td>
+                                                <td>Decision framework</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Lead Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T13</td>
+                                                <td>Peer review</td>
+                                                <td class="hours-cell">8</td>
+                                                <td class="role-cell">Lead Arch</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- ════════ EPIC E4 ════════ -->
+            <section id="epic-e4">
+                <div class="epic-card">
+                    <div class="epic-header" style="background: linear-gradient(135deg, #732d91, var(--epic-e4));">
+                        <span class="epic-label">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                            Epic E4
+                        </span>
+                        <h2>Packaging, Review &amp; Pilot</h2>
+                        <div class="epic-meta">
+                            <span>Sprint 4</span>
+                            <span>~80 hours</span>
+                            <span>4 Stories</span>
+                        </div>
+                    </div>
+                    <div class="epic-body">
+
+                        <!-- E4-S1 -->
+                        <div class="story-card" id="e4-s1">
+                            <div class="story-header">
+                                <span class="story-id" style="background:var(--epic-e4);">E4-S1</span>
+                                <span class="story-title">Manufacturing Overlays Consolidation</span>
+                                <div class="story-badges">
+                                    <span class="badge badge-priority p2">P2</span>
+                                    <span class="badge badge-effort">S</span>
+                                    <span class="badge badge-hours">20 hrs</span>
+                                </div>
+                            </div>
+                            <div class="story-body">
+                                <div class="story-field">
+                                    <div class="story-field-label">Owner</div>
+                                    <div class="story-field-value">Sr Data Gov</div>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Depends On</div>
+                                    <div class="story-field-value">E3 complete</div>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Acceptance Criteria</div>
+                                    <ul class="ac-list">
+                                        <li>Overlays consolidated</li>
+                                        <li>ITAR/EAR, IoT/OT, ERP, supply chain coverage validated</li>
+                                    </ul>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Tasks</div>
+                                    <table class="compact-table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Task</th>
+                                                <th>Hours</th>
+                                                <th>Role</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="task-id">T1</td>
+                                                <td>ITAR/EAR overlay</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T2</td>
+                                                <td>IoT/OT extensions</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T3</td>
+                                                <td>ERP extensions</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T4</td>
+                                                <td>Supply chain classification</td>
+                                                <td class="hours-cell">2</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T5</td>
+                                                <td>Cross-check examples</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Lead Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T6</td>
+                                                <td>Fill gaps</td>
+                                                <td class="hours-cell">2</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- E4-S2 -->
+                        <div class="story-card" id="e4-s2">
+                            <div class="story-header">
+                                <span class="story-id" style="background:var(--epic-e4);">E4-S2</span>
+                                <span class="story-title">Peer Review &amp; QA</span>
+                                <div class="story-badges">
+                                    <span class="badge badge-priority p1">P1</span>
+                                    <span class="badge badge-effort">S</span>
+                                    <span class="badge badge-hours">20 hrs</span>
+                                </div>
+                            </div>
+                            <div class="story-body">
+                                <div class="story-field">
+                                    <div class="story-field-label">Owner</div>
+                                    <div class="story-field-value">Lead Architect</div>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Depends On</div>
+                                    <div class="story-field-value">E4-S1</div>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Acceptance Criteria</div>
+                                    <ul class="ac-list">
+                                        <li>Full cross-module review</li>
+                                        <li>Naming consistency</li>
+                                        <li>Compliance verified</li>
+                                        <li>All comments resolved</li>
+                                    </ul>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Tasks</div>
+                                    <table class="compact-table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Task</th>
+                                                <th>Hours</th>
+                                                <th>Role</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="task-id">T1</td>
+                                                <td>Cross-module review</td>
+                                                <td class="hours-cell">6</td>
+                                                <td class="role-cell">Lead Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T2</td>
+                                                <td>Compliance audit</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Lead Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T3</td>
+                                                <td>Cross-reference validation</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Tech Writer</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T4</td>
+                                                <td>Spelling/grammar audit</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Tech Writer</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T5</td>
+                                                <td>Resolve comments</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">All</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- E4-S3 -->
+                        <div class="story-card" id="e4-s3">
+                            <div class="story-header">
+                                <span class="story-id" style="background:var(--epic-e4);">E4-S3</span>
+                                <span class="story-title">Packaging &amp; Distribution</span>
+                                <div class="story-badges">
+                                    <span class="badge badge-priority p1">P1</span>
+                                    <span class="badge badge-effort">S</span>
+                                    <span class="badge badge-hours">15 hrs</span>
+                                </div>
+                            </div>
+                            <div class="story-body">
+                                <div class="story-field">
+                                    <div class="story-field-label">Owner</div>
+                                    <div class="story-field-value">Technical Writer</div>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Depends On</div>
+                                    <div class="story-field-value">E4-S2</div>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Acceptance Criteria</div>
+                                    <ul class="ac-list">
+                                        <li>READMEs finalized</li>
+                                        <li>Adaptation workflow documented</li>
+                                        <li>v1.0 tagged</li>
+                                    </ul>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Tasks</div>
+                                    <table class="compact-table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Task</th>
+                                                <th>Hours</th>
+                                                <th>Role</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="task-id">T1</td>
+                                                <td>Finalize READMEs</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Tech Writer</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T2</td>
+                                                <td>Document adaptation workflow</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Lead Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T3</td>
+                                                <td>Engagement kickoff guide</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Lead Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T4</td>
+                                                <td>Tag v1.0</td>
+                                                <td class="hours-cell">1</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T5</td>
+                                                <td>Configure distribution</td>
+                                                <td class="hours-cell">2</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T6</td>
+                                                <td>Publish release notes</td>
+                                                <td class="hours-cell">2</td>
+                                                <td class="role-cell">Tech Writer</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- E4-S4 -->
+                        <div class="story-card" id="e4-s4">
+                            <div class="story-header">
+                                <span class="story-id" style="background:var(--epic-e4);">E4-S4</span>
+                                <span class="story-title">Pilot Deployment</span>
+                                <div class="story-badges">
+                                    <span class="badge badge-priority p2">P2</span>
+                                    <span class="badge badge-effort">S</span>
+                                    <span class="badge badge-hours">20 hrs</span>
+                                </div>
+                            </div>
+                            <div class="story-body">
+                                <div class="story-field">
+                                    <div class="story-field-label">Owner</div>
+                                    <div class="story-field-value">Lead Architect</div>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Depends On</div>
+                                    <div class="story-field-value">E4-S3</div>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Acceptance Criteria</div>
+                                    <ul class="ac-list">
+                                        <li>ISL deployed at pilot</li>
+                                        <li>Adaptation hours tracked</li>
+                                        <li>Feedback collected</li>
+                                        <li>Lessons learned documented</li>
+                                    </ul>
+                                </div>
+                                <div class="story-field">
+                                    <div class="story-field-label">Tasks</div>
+                                    <table class="compact-table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Task</th>
+                                                <th>Hours</th>
+                                                <th>Role</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="task-id">T1</td>
+                                                <td>Identify pilot engagement</td>
+                                                <td class="hours-cell">2</td>
+                                                <td class="role-cell">Lead Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T2</td>
+                                                <td>Assign champion</td>
+                                                <td class="hours-cell">1</td>
+                                                <td class="role-cell">Lead Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T3</td>
+                                                <td>Onboarding session</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Lead Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T4</td>
+                                                <td>Monitor adaptation hours</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Lead Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T5</td>
+                                                <td>Collect feedback</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Tech Writer</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T6</td>
+                                                <td>Document lessons learned</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Lead Arch</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T7</td>
+                                                <td>Incorporate feedback for v1.1</td>
+                                                <td class="hours-cell">2</td>
+                                                <td class="role-cell">All</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- ════════ SUMMARY ════════ -->
+            <section id="summary">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Summary</h2>
+                        <p class="card-subtitle">Full backlog breakdown by epic with deliverable counts</p>
+                    </div>
+
+                    <table class="summary-table">
+                        <thead>
+                            <tr>
+                                <th>Epic</th>
+                                <th>Stories</th>
+                                <th>Sprint(s)</th>
+                                <th>Hours</th>
+                                <th>Deliverables</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="epic-tag e0">E0</span> Discovery &amp; Baseline</td>
+                                <td>2</td>
+                                <td>0</td>
+                                <td>~40</td>
+                                <td>Audit findings, scope lock</td>
+                            </tr>
+                            <tr>
+                                <td><span class="epic-tag e1">E1</span> Foundation Modules</td>
+                                <td>2</td>
+                                <td>1</td>
+                                <td>~90</td>
+                                <td>ISL-03 (9), ISL-04 (9)</td>
+                            </tr>
+                            <tr>
+                                <td><span class="epic-tag e2">E2</span> Core Modules</td>
+                                <td>2</td>
+                                <td>2</td>
+                                <td>~100</td>
+                                <td>ISL-01 (8), ISL-06 (9)</td>
+                            </tr>
+                            <tr>
+                                <td><span class="epic-tag e3">E3</span> Advanced Modules</td>
+                                <td>2</td>
+                                <td>3</td>
+                                <td>~160</td>
+                                <td>ISL-02 (9), ISL-05 (11)</td>
+                            </tr>
+                            <tr>
+                                <td><span class="epic-tag e4">E4</span> Packaging &amp; Pilot</td>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>~80</td>
+                                <td>Overlays, review, v1.0</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td>Total</td>
+                                <td>12</td>
+                                <td>0&ndash;4</td>
+                                <td>~470</td>
+                                <td>39 templates, 16 examples, 3 diagrams</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ════════ FOOTER ════════ -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-brand">ISL <span class="brand-accent">Design</span></div>
+                    <p class="footer-desc">DMTSP Integration Standards Library &mdash; Internal Use Only</p>
+                </div>
+                <div>
+                    <div class="footer-heading">Design Documents</div>
+                    <ul class="footer-links">
+                        <li><a href="index.html">One-Pager</a></li>
+                        <li><a href="roadmap.html">Roadmap</a></li>
+                        <li><a href="backlog.html">Backlog</a></li>
+                        <li><a href="orchestrator.html">Orchestrator</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="footer-heading">Details</div>
+                    <ul class="footer-links">
+                        <li><a href="#">Author: Keven Markham</a></li>
+                        <li><a href="#">Date: February 6, 2026</a></li>
+                        <li><a href="#">Version 1.0</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span class="footer-copy">DMTSP Integration Standards Library &mdash; Internal Use Only</span>
+                <span class="footer-badge">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    v1.0
+                </span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ════════ SCROLL TO TOP ════════ -->
+    <button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll to top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"/>
+        </svg>
+    </button>
+
+    <!-- ════════ JAVASCRIPT ════════ -->
+    <script>
+        // ── Nav bar scroll shadow ──
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 10);
+        });
+
+        // ── Scroll-to-top button visibility ──
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        window.addEventListener('scroll', () => {
+            scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
+        });
+
+        // ── TOC scroll highlighting ──
+        const tocLinks = document.querySelectorAll('.toc-list a');
+        const sections = [];
+
+        tocLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                const target = document.getElementById(href.substring(1));
+                if (target) {
+                    sections.push({ el: target, link: link });
+                }
+            }
+        });
+
+        function updateTocHighlight() {
+            const scrollPos = window.scrollY + 120;
+            let current = null;
+
+            for (let i = sections.length - 1; i >= 0; i--) {
+                if (sections[i].el.offsetTop <= scrollPos) {
+                    current = sections[i];
+                    break;
+                }
+            }
+
+            tocLinks.forEach(link => link.classList.remove('active'));
+            if (current) {
+                current.link.classList.add('active');
+            }
+        }
+
+        window.addEventListener('scroll', updateTocHighlight);
+        window.addEventListener('load', updateTocHighlight);
+
+        // ── Smooth scroll for TOC links ──
+        tocLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.getElementById(href.substring(1));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

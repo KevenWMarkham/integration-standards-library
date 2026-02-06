@@ -1,0 +1,1877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integration Standards Library — ACC-03 Dashboard | DMTSP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           DESIGN TOKENS
+           ============================================ */
+        :root {
+            --primary: #86BC25;
+            --primary-dark: #6ba31b;
+            --primary-light: #a8d84e;
+            --secondary: #0D8390;
+            --secondary-dark: #0a6b75;
+            --accent: #26890D;
+            --dark: #1a1a2e;
+            --dark-secondary: #2d2d44;
+            --light: #f8f9fa;
+            --white: #ffffff;
+            --gray-100: #f1f3f5;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
+            --gray-400: #ced4da;
+            --gray-500: #adb5bd;
+            --gray-600: #6c757d;
+            --gray-700: #495057;
+            --gray-800: #343a40;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #17a2b8;
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 25px rgba(0,0,0,0.15);
+        }
+
+        /* ============================================
+           RESET & BASE
+           ============================================ */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--gray-800);
+            background: var(--light);
+        }
+
+        /* ============================================
+           CONTAINER & SECTION
+           ============================================ */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.5px;
+        }
+
+        .section-header p {
+            font-size: 1.05rem;
+            color: var(--gray-600);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* ============================================
+           HERO
+           ============================================ */
+        .hero {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-secondary) 60%, #1e2a45 100%);
+            padding: 5rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(134,188,37,0.08) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: 10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(13,131,144,0.06) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(134,188,37,0.15);
+            color: var(--primary);
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 6px 16px;
+            border-radius: 20px;
+            margin-bottom: 1.25rem;
+            letter-spacing: 0.5px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 1.25rem;
+            letter-spacing: -1px;
+            line-height: 1.15;
+        }
+
+        .hero h1 .highlight {
+            color: var(--primary);
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.75);
+            max-width: 800px;
+            line-height: 1.75;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            max-width: 700px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1.2;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.6);
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        /* ============================================
+           DELIVERABLES SECTION
+           ============================================ */
+        .deliverables-section {
+            background: var(--white);
+        }
+
+        .deliverables-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .deliverable-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .deliverable-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .deliverable-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(134,188,37,0.1);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .deliverable-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--primary);
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .deliverable-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .deliverable-card p {
+            font-size: 0.92rem;
+            color: var(--gray-600);
+            line-height: 1.7;
+            margin-bottom: 1.25rem;
+        }
+
+        .deliverable-metric {
+            display: inline-block;
+            background: rgba(134,188,37,0.1);
+            color: var(--primary-dark);
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        /* ============================================
+           PROCESS SECTION (4-Phase Timeline)
+           ============================================ */
+        .process-section {
+            background: var(--light);
+        }
+
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 5%;
+            right: 5%;
+            height: 3px;
+            background: var(--gray-300);
+            transform: translateY(-50%);
+            z-index: 0;
+        }
+
+        .phase-step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+            padding: 0 0.5rem;
+        }
+
+        .phase-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--gray-300);
+            margin: 0 auto 1rem;
+            border: 3px solid var(--white);
+            box-shadow: var(--shadow-sm);
+            transition: background 0.3s;
+        }
+
+        .phase-dot.active {
+            background: var(--primary);
+            box-shadow: 0 0 0 4px rgba(134,188,37,0.2);
+        }
+
+        .phase-step h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .phase-step .phase-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 0.4rem;
+        }
+
+        .phase-step p {
+            font-size: 0.82rem;
+            color: var(--gray-600);
+            line-height: 1.55;
+            margin-bottom: 0.35rem;
+        }
+
+        .phase-step .phase-hours {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        /* ============================================
+           USE CASES SECTION
+           ============================================ */
+        .usecases-section {
+            background: var(--white);
+        }
+
+        .usecases-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .usecase-card {
+            border-left: 4px solid var(--primary);
+            background: var(--light);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            padding: 1.5rem 1.75rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .usecase-card:hover {
+            transform: translateX(4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .uc-number {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.35rem;
+        }
+
+        .usecase-card h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.65rem;
+        }
+
+        .uc-desc {
+            font-size: 0.88rem;
+            color: var(--gray-600);
+            line-height: 1.65;
+            margin-bottom: 1rem;
+        }
+
+        .uc-criteria {
+            font-size: 0.82rem;
+            color: var(--gray-700);
+            padding: 0.6rem 0.85rem;
+            background: var(--white);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--gray-200);
+            line-height: 1.55;
+        }
+
+        .uc-criteria strong {
+            color: var(--secondary);
+        }
+
+        /* ============================================
+           PERSONAS SECTION
+           ============================================ */
+        .personas-section {
+            background: var(--light);
+        }
+
+        .personas-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .persona-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .persona-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .persona-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 3px solid var(--gray-200);
+            transition: border-color 0.2s;
+        }
+
+        .persona-card:hover .persona-photo {
+            border-color: var(--primary);
+        }
+
+        .persona-card h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .persona-role {
+            font-size: 0.82rem;
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .persona-card p {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+        }
+
+        .persona-sprints {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            background: rgba(134,188,37,0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        /* ============================================
+           JOURNEY MAP SECTION
+           ============================================ */
+        .journey-section {
+            background: var(--white);
+        }
+
+        .journey-table-wrap {
+            overflow-x: auto;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .journey-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+            font-size: 0.82rem;
+        }
+
+        .journey-table thead th {
+            background: var(--dark);
+            color: var(--white);
+            padding: 12px 14px;
+            text-align: left;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .journey-table tbody td {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--gray-200);
+            vertical-align: top;
+            line-height: 1.5;
+        }
+
+        .journey-persona {
+            font-weight: 600;
+            color: var(--dark);
+            white-space: nowrap;
+        }
+
+        .journey-persona small {
+            display: block;
+            font-weight: 400;
+            color: var(--gray-600);
+            font-size: 0.75rem;
+        }
+
+        .journey-cell {
+            border-radius: var(--radius-sm);
+            padding: 8px 10px !important;
+        }
+
+        .journey-cell.primary-role {
+            background: rgba(134,188,37,0.1);
+            color: var(--gray-800);
+        }
+
+        .journey-cell.support-role {
+            background: rgba(13,131,144,0.08);
+            color: var(--gray-700);
+        }
+
+        .journey-cell.not-involved {
+            background: var(--gray-100);
+            color: var(--gray-500);
+        }
+
+        .handoff-indicator {
+            display: inline-block;
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .handoff-indicator.handoff {
+            background: var(--warning);
+            color: var(--gray-800);
+        }
+
+        .handoff-indicator.gate {
+            background: var(--danger);
+            color: var(--white);
+        }
+
+        .handoff-indicator.signoff {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .journey-legend {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.25rem;
+            flex-wrap: wrap;
+            font-size: 0.82rem;
+            color: var(--gray-600);
+        }
+
+        .journey-legend span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legend-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: var(--radius-sm);
+            flex-shrink: 0;
+        }
+
+        .legend-dot.lg-primary { background: rgba(134,188,37,0.25); }
+        .legend-dot.lg-support { background: rgba(13,131,144,0.2); }
+        .legend-dot.lg-not { background: var(--gray-200); }
+        .legend-dot.lg-handoff { background: var(--warning); }
+
+        /* ============================================
+           ACCEPTANCE CRITERIA SECTION
+           ============================================ */
+        .criteria-section {
+            background: var(--light);
+        }
+
+        .criteria-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .criteria-column h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .criteria-column.qualitative h3 {
+            border-bottom-color: var(--secondary);
+        }
+
+        .criteria-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .criteria-item:last-child {
+            border-bottom: none;
+        }
+
+        .criteria-check {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: rgba(134,188,37,0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .criteria-check svg {
+            width: 12px;
+            height: 12px;
+            stroke: var(--primary);
+            fill: none;
+            stroke-width: 3;
+        }
+
+        .qualitative .criteria-check {
+            background: rgba(13,131,144,0.12);
+        }
+
+        .qualitative .criteria-check svg {
+            stroke: var(--secondary);
+        }
+
+        .criteria-text {
+            flex: 1;
+        }
+
+        .criteria-text p {
+            font-size: 0.9rem;
+            color: var(--gray-700);
+            margin-bottom: 0.3rem;
+            line-height: 1.55;
+        }
+
+        .criteria-target {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .qualitative .criteria-target {
+            color: var(--secondary);
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-secondary) 100%);
+            padding: 3rem 2rem 2rem;
+            margin-top: 0;
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-meta {
+            text-align: right;
+        }
+
+        .footer-meta p {
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.45);
+            line-height: 1.7;
+        }
+
+        .footer-meta strong {
+            color: rgba(255,255,255,0.75);
+        }
+
+        .copyright {
+            width: 100%;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 1.25rem;
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.3);
+        }
+
+        /* ============================================
+           MODAL
+           ============================================ */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-card {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            max-width: 640px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: var(--gray-100);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: var(--gray-600);
+            transition: background 0.2s;
+            z-index: 2;
+        }
+
+        .modal-close:hover {
+            background: var(--gray-300);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            padding: 2rem 2rem 1rem;
+        }
+
+        .modal-photo {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            flex-shrink: 0;
+        }
+
+        .modal-header h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.15rem;
+        }
+
+        .modal-header .modal-role {
+            font-size: 0.85rem;
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+        }
+
+        .modal-header .modal-phase-badge {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 600;
+            background: rgba(134,188,37,0.12);
+            color: var(--primary-dark);
+            padding: 3px 10px;
+            border-radius: 12px;
+        }
+
+        .modal-body {
+            padding: 0 2rem;
+        }
+
+        .modal-narrative {
+            font-size: 0.92rem;
+            color: var(--gray-700);
+            line-height: 1.8;
+            padding: 1rem 0;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .modal-footer {
+            padding: 1.25rem 2rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            border-top: 1px solid var(--gray-200);
+            margin-top: 0.5rem;
+        }
+
+        .modal-footer-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.625rem;
+        }
+
+        .lang-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.8125rem;
+            color: var(--gray-700);
+            cursor: pointer;
+            padding: 0.3rem 0.625rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--gray-300);
+            transition: border-color 150ms ease, background 150ms ease;
+            user-select: none;
+        }
+
+        .lang-option:hover {
+            border-color: var(--primary);
+        }
+
+        .lang-option input[type="checkbox"] {
+            accent-color: var(--primary);
+        }
+
+        .lang-option.lang-playing {
+            border-color: var(--primary);
+            background: rgba(134,188,37,0.12);
+            font-weight: 600;
+        }
+
+        .audio-controls {
+            display: flex;
+            gap: 0.625rem;
+            align-items: center;
+        }
+
+        .audio-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.5rem 1.25rem;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 150ms ease, transform 100ms ease;
+        }
+
+        .audio-btn:active { transform: scale(0.97); }
+
+        .audio-btn-play {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .audio-btn-play:hover { background: var(--primary-dark); }
+
+        .audio-btn-play:disabled {
+            background: var(--gray-300);
+            color: var(--gray-500);
+            cursor: not-allowed;
+        }
+
+        .audio-btn-stop {
+            background: var(--gray-200);
+            color: var(--gray-700);
+        }
+
+        .audio-btn-stop:hover { background: var(--gray-300); }
+
+        .audio-status {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            margin-left: 0.5rem;
+            font-style: italic;
+        }
+
+        /* Clickable cell hover highlight */
+        .journey-cell[data-persona] {
+            transition: outline 150ms ease, box-shadow 150ms ease;
+        }
+        .journey-cell[data-persona]:hover {
+            outline: 2px solid var(--primary);
+            outline-offset: -2px;
+            box-shadow: inset 0 0 0 1px rgba(134,188,37,0.2);
+        }
+
+        /* ============================================
+           RESPONSIVE: 992px
+           ============================================ */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.25rem;
+            }
+
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .deliverables-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .usecases-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .personas-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .criteria-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline {
+                flex-direction: column;
+                gap: 2rem;
+                align-items: flex-start;
+                padding-left: 2rem;
+            }
+
+            .timeline::before {
+                top: 0;
+                bottom: 0;
+                left: 10px;
+                right: auto;
+                width: 3px;
+                height: auto;
+                transform: none;
+            }
+
+            .phase-step {
+                text-align: left;
+                padding-left: 2rem;
+            }
+
+            .phase-dot {
+                position: absolute;
+                left: -2rem;
+                top: 0;
+                margin: 0;
+            }
+        }
+
+        /* ============================================
+           RESPONSIVE: 768px
+           ============================================ */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 3rem 1rem 2.5rem;
+            }
+
+            .hero h1 {
+                font-size: 1.85rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .section {
+                padding: 2.5rem 0;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .personas-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-meta {
+                text-align: center;
+            }
+
+            .footer-links {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .modal-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.5rem 1.25rem 0.75rem;
+            }
+
+            .modal-body {
+                padding: 0 1.25rem;
+            }
+
+            .modal-footer {
+                padding: 1rem 1.25rem 1.5rem;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .lang-selector {
+                justify-content: center;
+            }
+
+            .audio-controls {
+                justify-content: center;
+            }
+        }
+
+        /* ============================================
+           PRINT
+           ============================================ */
+        @media print {
+            .modal-overlay { display: none !important; }
+            .hero, .footer { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            body { background: white; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==========================================
+         HERO
+         ========================================== -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge">Accelerator 03 &mdash; DMTSP</div>
+            <h1>Integration <span class="highlight">Standards Library</span></h1>
+            <p class="hero-subtitle">
+                Reusable collection of pre-built integration standards modules covering API governance, metadata lineage, naming conventions, data classification, integration patterns, and data quality &mdash; reducing Phase 4 delivery effort by 30&ndash;40% at every engagement
+            </p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-value">6</div>
+                    <div class="stat-label">Standards Modules</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">39</div>
+                    <div class="stat-label">Templates</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">150&ndash;200</div>
+                    <div class="stat-label">Hours Saved</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">30&ndash;40%</div>
+                    <div class="stat-label">Reduction</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         WHAT WAS DESIGNED
+         ========================================== -->
+    <section class="section deliverables-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>What Was Designed</h2>
+                <p>Three foundational delivery artifacts that accelerate every engagement from kickoff through packaging</p>
+            </div>
+            <div class="deliverables-grid">
+
+                <div class="deliverable-card">
+                    <div class="deliverable-icon">
+                        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                    </div>
+                    <h3>Strategic Roadmap</h3>
+                    <p>Reusable phased buildout template covering prerequisites, scope, risk register, and success criteria &mdash; adaptable to any client's standards maturity</p>
+                    <span class="deliverable-metric">8 risks mitigated</span>
+                </div>
+
+                <div class="deliverable-card">
+                    <div class="deliverable-icon">
+                        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    </div>
+                    <h3>Product Backlog</h3>
+                    <p>Reusable 5-epic, 12-story backlog with task-level hours, acceptance criteria, and dependency graph &mdash; ready to import into any engagement's sprint planning tool</p>
+                    <span class="deliverable-metric">12 stories</span>
+                </div>
+
+                <div class="deliverable-card">
+                    <div class="deliverable-icon">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    </div>
+                    <h3>Sprint Orchestrator</h3>
+                    <p>Reusable sprint-by-sprint execution template with role assignments, entry/exit criteria, milestones, and escalation paths across 5 sprints</p>
+                    <span class="deliverable-metric">24 milestones</span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         4-PHASE PROCESS
+         ========================================== -->
+    <section class="section process-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>The 4-Phase Engagement</h2>
+                <p>From discovery assessment to standards definition &mdash; a standardized, reusable engagement framework for every client</p>
+            </div>
+            <div class="timeline">
+                <div class="phase-step">
+                    <div class="phase-dot active"></div>
+                    <h4>Phase 0</h4>
+                    <div class="phase-name">Discovery</div>
+                    <p>Sprint 0 &mdash; Assessment, maturity scoring, gap analysis</p>
+                    <div class="phase-hours">~200 hrs</div>
+                </div>
+                <div class="phase-step">
+                    <div class="phase-dot active"></div>
+                    <h4>Phase 1</h4>
+                    <div class="phase-name">Foundation</div>
+                    <p>Sprint 1 &mdash; Naming conventions, data classification</p>
+                    <div class="phase-hours">~150 hrs</div>
+                </div>
+                <div class="phase-step">
+                    <div class="phase-dot active"></div>
+                    <h4>Phase 2</h4>
+                    <div class="phase-name">Core Standards</div>
+                    <p>Sprint 2 &mdash; API governance, data quality</p>
+                    <div class="phase-hours">~150 hrs</div>
+                </div>
+                <div class="phase-step">
+                    <div class="phase-dot active"></div>
+                    <h4>Phase 3</h4>
+                    <div class="phase-name">Advanced</div>
+                    <p>Sprint 3 &mdash; Metadata &amp; lineage, integration patterns</p>
+                    <div class="phase-hours">~300 hrs (double sprint)</div>
+                </div>
+                <div class="phase-step">
+                    <div class="phase-dot active"></div>
+                    <h4>Phase 4</h4>
+                    <div class="phase-name">Packaging</div>
+                    <p>Sprint 4 &mdash; Manufacturing overlays, peer review, pilot</p>
+                    <div class="phase-hours">~150 hrs</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         USE CASES
+         ========================================== -->
+    <section class="section usecases-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Use Cases</h2>
+                <p>Six core scenarios the reusable Standards Library addresses at every engagement, each with measurable acceptance criteria</p>
+            </div>
+            <div class="usecases-grid">
+
+                <div class="usecase-card">
+                    <div class="uc-number">Use Case 1</div>
+                    <h3>Enterprise API Governance</h3>
+                    <p class="uc-desc">End-to-end API governance framework covering design standards, versioning policies, security requirements, rate limiting, and lifecycle management for any technology stack.</p>
+                    <div class="uc-criteria"><strong>Acceptance:</strong> Complete governance package; aligned to OWASP API Top 10; 55&ndash;70% effort reduction</div>
+                </div>
+
+                <div class="usecase-card">
+                    <div class="uc-number">Use Case 2</div>
+                    <h3>Metadata &amp; Lineage Framework</h3>
+                    <p class="uc-desc">Comprehensive metadata management covering business glossary, technical metadata schemas, data lineage capture, and catalog governance aligned to Microsoft Purview.</p>
+                    <div class="uc-criteria"><strong>Acceptance:</strong> Column-level lineage defined; Purview-aligned schemas; 60&ndash;75% effort reduction</div>
+                </div>
+
+                <div class="usecase-card">
+                    <div class="uc-number">Use Case 3</div>
+                    <h3>Naming Convention Standards</h3>
+                    <p class="uc-desc">Enterprise-wide naming conventions for databases, schemas, tables, columns, pipelines, and reports &mdash; with Fabric-specific prefixes (lh_, wh_, pl_, nb_, sm_).</p>
+                    <div class="uc-criteria"><strong>Acceptance:</strong> 100% Fabric object types covered; automated validation rules included</div>
+                </div>
+
+                <div class="usecase-card">
+                    <div class="uc-number">Use Case 4</div>
+                    <h3>Data Classification &amp; Security</h3>
+                    <p class="uc-desc">Four-tier classification model (Public, Internal, Confidential, Restricted) with manufacturing overlays for ITAR/EAR, trade secrets, and IoT/OT telemetry.</p>
+                    <div class="uc-criteria"><strong>Acceptance:</strong> Classification taxonomy applied; ITAR/EAR compliance verified; DLP policy templates</div>
+                </div>
+
+                <div class="usecase-card">
+                    <div class="uc-number">Use Case 5</div>
+                    <h3>Integration Pattern Library</h3>
+                    <p class="uc-desc">Eight reusable integration patterns covering ERP sync, IoT streaming, API gateway, event-driven, MDM hub, file-based, medallion architecture, and reverse ETL.</p>
+                    <div class="uc-criteria"><strong>Acceptance:</strong> 8 patterns documented with decision framework; architecture diagrams included</div>
+                </div>
+
+                <div class="usecase-card">
+                    <div class="uc-number">Use Case 6</div>
+                    <h3>Data Quality Framework</h3>
+                    <p class="uc-desc">Pre-built quality rules covering schema validation, row-level checks, aggregate monitoring, and business rule validation &mdash; with 50+ configurable quality rules.</p>
+                    <div class="uc-criteria"><strong>Acceptance:</strong> 50+ rules cataloged; quality scorecard template; monitoring dashboard spec</div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PERSONAS
+         ========================================== -->
+    <section class="section personas-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Team Personas</h2>
+                <p>The cross-functional team driving the standards buildout from discovery through pilot deployment</p>
+            </div>
+            <div class="personas-grid">
+
+                <div class="persona-card" data-persona="rachel" data-phase="overview" onclick="openModal('rachel','overview')">
+                    <img class="persona-photo" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Rachel Torres">
+                    <h3>Rachel Torres</h3>
+                    <div class="persona-role">Standards Architect</div>
+                    <p>Architecture ownership, standards framework design, cross-module consistency, and manufacturing overlay definition</p>
+                    <span class="persona-sprints">Sprints 0&ndash;4</span>
+                </div>
+
+                <div class="persona-card" data-persona="nathan" data-phase="overview" onclick="openModal('nathan','overview')">
+                    <img class="persona-photo" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Nathan Park">
+                    <h3>Nathan Park</h3>
+                    <div class="persona-role">Sr Integration Engineer</div>
+                    <p>API governance authoring, integration pattern development, technology stack alignment, and Fabric-specific configuration</p>
+                    <span class="persona-sprints">Sprints 1&ndash;3</span>
+                </div>
+
+                <div class="persona-card" data-persona="aisha" data-phase="overview" onclick="openModal('aisha','overview')">
+                    <img class="persona-photo" src="https://randomuser.me/api/portraits/women/65.jpg" alt="Aisha Khan">
+                    <h3>Aisha Khan</h3>
+                    <div class="persona-role">Data Governance Lead</div>
+                    <p>Metadata framework design, classification taxonomy authoring, naming convention development, and Purview alignment</p>
+                    <span class="persona-sprints">Sprints 0&ndash;3</span>
+                </div>
+
+                <div class="persona-card" data-persona="carlos" data-phase="overview" onclick="openModal('carlos','overview')">
+                    <img class="persona-photo" src="https://randomuser.me/api/portraits/men/75.jpg" alt="Carlos Mendez">
+                    <h3>Carlos Mendez</h3>
+                    <div class="persona-role">Data Quality Engineer</div>
+                    <p>Quality rule development, validation framework design, scorecard creation, and monitoring specification</p>
+                    <span class="persona-sprints">Sprints 2&ndash;4</span>
+                </div>
+
+                <div class="persona-card" data-persona="maya" data-phase="overview" onclick="openModal('maya','overview')">
+                    <img class="persona-photo" src="https://randomuser.me/api/portraits/women/28.jpg" alt="Maya Singh">
+                    <h3>Maya Singh</h3>
+                    <div class="persona-role">Technical Writer</div>
+                    <p>Template formatting, example documentation, practitioner guides, client adaptation playbooks, and packaging</p>
+                    <span class="persona-sprints">Sprints 1&ndash;4</span>
+                </div>
+
+                <div class="persona-card" data-persona="keven" data-phase="overview" onclick="openModal('keven','overview')">
+                    <img class="persona-photo" src="https://randomuser.me/api/portraits/men/85.jpg" alt="Keven Markham">
+                    <h3>Keven Markham</h3>
+                    <div class="persona-role">VP Enterprise Transformation</div>
+                    <p>Engagement governance, sprint ceremonies, stakeholder communications, risk escalation, and cross-accelerator coordination</p>
+                    <span class="persona-sprints">Sprints 0&ndash;4</span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         JOURNEY MAP
+         ========================================== -->
+    <section class="section journey-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Journey Map</h2>
+                <p>How each persona contributes across every sprint of the standards buildout</p>
+            </div>
+            <div class="journey-table-wrap">
+                <table class="journey-table">
+                    <thead>
+                        <tr>
+                            <th>Persona</th>
+                            <th>Sprint 0: Discovery</th>
+                            <th>Sprint 1: Foundation</th>
+                            <th>Sprint 2: Core</th>
+                            <th>Sprint 3: Advanced</th>
+                            <th>Sprint 4: Packaging</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rachel Torres -->
+                        <tr>
+                            <td class="journey-persona" onclick="openModal('rachel','overview')" style="cursor:pointer">Rachel Torres<small>Standards Architect</small></td>
+                            <td class="journey-cell primary-role" onclick="openModal('rachel','sprint0')" style="cursor:pointer">Maturity assessment, Gap analysis, Framework design</td>
+                            <td class="journey-cell primary-role" onclick="openModal('rachel','sprint1')" style="cursor:pointer">ISL-03/04 review, Architecture validation</td>
+                            <td class="journey-cell primary-role" onclick="openModal('rachel','sprint2')" style="cursor:pointer">ISL-01/06 review, Cross-module consistency</td>
+                            <td class="journey-cell primary-role" onclick="openModal('rachel','sprint3')" style="cursor:pointer">ISL-02/05 review, Pattern validation<br><span class="handoff-indicator handoff">HANDOFF</span></td>
+                            <td class="journey-cell support-role" onclick="openModal('rachel','sprint4')" style="cursor:pointer">Manufacturing overlay review</td>
+                        </tr>
+                        <!-- Nathan Park -->
+                        <tr>
+                            <td class="journey-persona" onclick="openModal('nathan','overview')" style="cursor:pointer">Nathan Park<small>Sr Integration Engineer</small></td>
+                            <td class="journey-cell not-involved" onclick="openModal('nathan','sprint0')" style="cursor:pointer">&mdash;</td>
+                            <td class="journey-cell support-role" onclick="openModal('nathan','sprint1')" style="cursor:pointer">Naming convention input</td>
+                            <td class="journey-cell primary-role" onclick="openModal('nathan','sprint2')" style="cursor:pointer">API governance authoring, Quality rule support</td>
+                            <td class="journey-cell primary-role" onclick="openModal('nathan','sprint3')" style="cursor:pointer">Integration patterns, Metadata lineage<br><span class="handoff-indicator handoff">HANDOFF</span></td>
+                            <td class="journey-cell not-involved" onclick="openModal('nathan','sprint4')" style="cursor:pointer">Available for escalation</td>
+                        </tr>
+                        <!-- Aisha Khan -->
+                        <tr>
+                            <td class="journey-persona" onclick="openModal('aisha','overview')" style="cursor:pointer">Aisha Khan<small>Data Governance Lead</small></td>
+                            <td class="journey-cell primary-role" onclick="openModal('aisha','sprint0')" style="cursor:pointer">Assessment templates, Classification research</td>
+                            <td class="journey-cell primary-role" onclick="openModal('aisha','sprint1')" style="cursor:pointer">Naming conventions, Data classification<br><span class="handoff-indicator handoff">HANDOFF</span></td>
+                            <td class="journey-cell support-role" onclick="openModal('aisha','sprint2')" style="cursor:pointer">Classification refinement</td>
+                            <td class="journey-cell primary-role" onclick="openModal('aisha','sprint3')" style="cursor:pointer">Metadata framework, Lineage requirements</td>
+                            <td class="journey-cell not-involved" onclick="openModal('aisha','sprint4')" style="cursor:pointer">Available for escalation</td>
+                        </tr>
+                        <!-- Carlos Mendez -->
+                        <tr>
+                            <td class="journey-persona" onclick="openModal('carlos','overview')" style="cursor:pointer">Carlos Mendez<small>Data Quality Engineer</small></td>
+                            <td class="journey-cell not-involved" onclick="openModal('carlos','sprint0')" style="cursor:pointer">&mdash;</td>
+                            <td class="journey-cell not-involved" onclick="openModal('carlos','sprint1')" style="cursor:pointer">&mdash;</td>
+                            <td class="journey-cell primary-role" onclick="openModal('carlos','sprint2')" style="cursor:pointer">Quality rules, Validation framework, Scorecard</td>
+                            <td class="journey-cell support-role" onclick="openModal('carlos','sprint3')" style="cursor:pointer">Quality integration into patterns</td>
+                            <td class="journey-cell primary-role" onclick="openModal('carlos','sprint4')" style="cursor:pointer">Peer review, Quality pilot<br><span class="handoff-indicator gate">GATE</span></td>
+                        </tr>
+                        <!-- Maya Singh -->
+                        <tr>
+                            <td class="journey-persona" onclick="openModal('maya','overview')" style="cursor:pointer">Maya Singh<small>Technical Writer</small></td>
+                            <td class="journey-cell not-involved" onclick="openModal('maya','sprint0')" style="cursor:pointer">&mdash;</td>
+                            <td class="journey-cell primary-role" onclick="openModal('maya','sprint1')" style="cursor:pointer">Template formatting, Example docs</td>
+                            <td class="journey-cell primary-role" onclick="openModal('maya','sprint2')" style="cursor:pointer">Template formatting, Practitioner guides</td>
+                            <td class="journey-cell primary-role" onclick="openModal('maya','sprint3')" style="cursor:pointer">Template formatting, Architecture diagrams</td>
+                            <td class="journey-cell primary-role" onclick="openModal('maya','sprint4')" style="cursor:pointer">Final packaging, Adaptation playbooks<br><span class="handoff-indicator signoff">SIGN-OFF</span></td>
+                        </tr>
+                        <!-- Keven Markham -->
+                        <tr>
+                            <td class="journey-persona" onclick="openModal('keven','overview')" style="cursor:pointer">Keven Markham<small>VP Enterprise Transformation</small></td>
+                            <td class="journey-cell primary-role" onclick="openModal('keven','sprint0')" style="cursor:pointer">Sprint ceremonies, Risk register, Stakeholder kick-off</td>
+                            <td class="journey-cell primary-role" onclick="openModal('keven','sprint1')" style="cursor:pointer">Status reporting, Dependency tracking</td>
+                            <td class="journey-cell primary-role" onclick="openModal('keven','sprint2')" style="cursor:pointer">Progress tracking, Velocity monitoring</td>
+                            <td class="journey-cell primary-role" onclick="openModal('keven','sprint3')" style="cursor:pointer">Cross-accelerator coord., Milestone reporting</td>
+                            <td class="journey-cell primary-role" onclick="openModal('keven','sprint4')" style="cursor:pointer">Final sign-off, Lessons learned<br><span class="handoff-indicator signoff">SIGN-OFF</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="journey-legend">
+                <span><span class="legend-dot lg-primary"></span> Primary Role</span>
+                <span><span class="legend-dot lg-support"></span> Supporting</span>
+                <span><span class="legend-dot lg-not"></span> Not Involved</span>
+                <span><span class="legend-dot lg-handoff"></span> HANDOFF Key Transition</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         ACCEPTANCE CRITERIA
+         ========================================== -->
+    <section class="section criteria-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Acceptance Criteria</h2>
+                <p>Standardized quantitative and qualitative targets applied at every engagement to define success</p>
+            </div>
+            <div class="criteria-grid">
+
+                <!-- Quantitative -->
+                <div class="criteria-column quantitative">
+                    <h3>Quantitative</h3>
+
+                    <div class="criteria-item">
+                        <div class="criteria-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                        <div class="criteria-text">
+                            <p>Module completeness &mdash; all 6 modules delivered with templates</p>
+                            <div class="criteria-target">Target: 100% of 39 templates</div>
+                        </div>
+                    </div>
+
+                    <div class="criteria-item">
+                        <div class="criteria-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                        <div class="criteria-text">
+                            <p>Per-engagement effort reduction &mdash; Phase 4 hours saved</p>
+                            <div class="criteria-target">Target: 150&ndash;200 hours (30&ndash;40%)</div>
+                        </div>
+                    </div>
+
+                    <div class="criteria-item">
+                        <div class="criteria-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                        <div class="criteria-text">
+                            <p>Template adaptation time &mdash; hours to customize per module</p>
+                            <div class="criteria-target">Target: Under 8 hours per module</div>
+                        </div>
+                    </div>
+
+                    <div class="criteria-item">
+                        <div class="criteria-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                        <div class="criteria-text">
+                            <p>Cross-phase impact &mdash; additional hours saved in Phases 1&ndash;3</p>
+                            <div class="criteria-target">Target: 60&ndash;100 hours</div>
+                        </div>
+                    </div>
+
+                    <div class="criteria-item">
+                        <div class="criteria-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                        <div class="criteria-text">
+                            <p>Build investment efficiency &mdash; total build hours within budget</p>
+                            <div class="criteria-target">Target: Within 10% of ~470 hours</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Qualitative -->
+                <div class="criteria-column qualitative">
+                    <h3>Qualitative</h3>
+
+                    <div class="criteria-item">
+                        <div class="criteria-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                        <div class="criteria-text">
+                            <p>Manufacturing overlay coverage &mdash; ITAR/EAR, IoT/OT, ERP patterns</p>
+                            <div class="criteria-target">Target: 3+ industry overlays</div>
+                        </div>
+                    </div>
+
+                    <div class="criteria-item">
+                        <div class="criteria-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                        <div class="criteria-text">
+                            <p>Practitioner adoption &mdash; templates used without modification</p>
+                            <div class="criteria-target">Target: 70%+ direct reuse rate</div>
+                        </div>
+                    </div>
+
+                    <div class="criteria-item">
+                        <div class="criteria-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                        <div class="criteria-text">
+                            <p>Cross-engagement consistency &mdash; standards alignment across clients</p>
+                            <div class="criteria-target">Target: 90%+ consistency score</div>
+                        </div>
+                    </div>
+
+                    <div class="criteria-item">
+                        <div class="criteria-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                        <div class="criteria-text">
+                            <p>Client satisfaction &mdash; standards quality rating</p>
+                            <div class="criteria-target">Target: 4.5+ out of 5.0</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         FOOTER
+         ========================================== -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-links">
+                <a href="design/roadmap.html">Roadmap</a>
+                <a href="design/backlog.html">Backlog</a>
+                <a href="design/orchestrator.html">Orchestrator</a>
+                <a href="design/index.html">One-Pager</a>
+            </div>
+            <div class="footer-meta">
+                <p><strong>Keven Markham</strong> &mdash; VP Enterprise Transformation</p>
+                <p>February 6, 2026 &nbsp;|&nbsp; Version 1.0</p>
+            </div>
+            <div class="copyright">
+                DMTSP Integration Standards Library &mdash; Internal Use Only
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================
+         NARRATIVE MODAL
+         ========================================== -->
+    <div class="modal-overlay" id="narrativeModal">
+        <div class="modal-card">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div class="modal-header">
+                <img class="modal-photo" id="modalPhoto" src="" alt="">
+                <div>
+                    <h3 id="modalName"></h3>
+                    <div class="modal-role" id="modalRole"></div>
+                    <span class="modal-phase-badge" id="modalPhaseBadge"></span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-narrative" id="modalNarrative"></div>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-footer-label">Read Aloud</div>
+                <div class="lang-selector" id="langSelector">
+                    <label class="lang-option" data-lang="en-US">
+                        <input type="checkbox" value="en-US" checked> English
+                    </label>
+                    <label class="lang-option" data-lang="es-ES">
+                        <input type="checkbox" value="es-ES"> Spanish
+                    </label>
+                    <label class="lang-option" data-lang="fr-FR">
+                        <input type="checkbox" value="fr-FR"> French
+                    </label>
+                    <label class="lang-option" data-lang="de-DE">
+                        <input type="checkbox" value="de-DE"> German
+                    </label>
+                    <label class="lang-option" data-lang="pt-BR">
+                        <input type="checkbox" value="pt-BR"> Portuguese
+                    </label>
+                    <label class="lang-option" data-lang="ja-JP">
+                        <input type="checkbox" value="ja-JP"> Japanese
+                    </label>
+                </div>
+                <div class="audio-controls">
+                    <button class="audio-btn audio-btn-play" id="btnPlay">&#9654; Play</button>
+                    <button class="audio-btn audio-btn-stop" id="btnStop">&#9632; Stop</button>
+                    <span class="audio-status" id="audioStatus"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         JAVASCRIPT
+         ========================================== -->
+    <script>
+        /* ============================================
+           PERSONA DATA
+           ============================================ */
+        const PERSONAS = {
+            rachel: { name: 'Rachel Torres', role: 'Standards Architect', photo: 'https://randomuser.me/api/portraits/women/44.jpg' },
+            nathan: { name: 'Nathan Park', role: 'Sr Integration Engineer', photo: 'https://randomuser.me/api/portraits/men/32.jpg' },
+            aisha:  { name: 'Aisha Khan', role: 'Data Governance Lead', photo: 'https://randomuser.me/api/portraits/women/65.jpg' },
+            carlos: { name: 'Carlos Mendez', role: 'Data Quality Engineer', photo: 'https://randomuser.me/api/portraits/men/75.jpg' },
+            maya:   { name: 'Maya Singh', role: 'Technical Writer', photo: 'https://randomuser.me/api/portraits/women/28.jpg' },
+            keven:  { name: 'Keven Markham', role: 'VP Enterprise Transformation', photo: 'https://randomuser.me/api/portraits/men/85.jpg' }
+        };
+
+        const PHASE_LABELS = {
+            overview: 'Overview',
+            sprint0: 'Sprint 0: Discovery',
+            sprint1: 'Sprint 1: Foundation',
+            sprint2: 'Sprint 2: Core Standards',
+            sprint3: 'Sprint 3: Advanced',
+            sprint4: 'Sprint 4: Packaging'
+        };
+
+        /* ============================================
+           NARRATIVES (6 personas x 6 phases)
+           ============================================ */
+        const NARRATIVES = {
+            rachel: {
+                overview: "Rachel Torres leads the standards architecture effort, owning cross-module consistency and the overall framework design from Sprint 0 through Sprint 4. She conducts the initial maturity assessment, defines the standards taxonomy, validates each module against enterprise architecture best practices, and ensures manufacturing overlays integrate cleanly. Her architecture review gates at each sprint transition ensure standards quality.",
+                sprint0: "During Discovery, Rachel conducts the enterprise standards maturity assessment, scoring the client\u2019s current state across all six standards domains. She identifies critical gaps, prioritizes modules based on business impact, and designs the overarching framework that will unify naming conventions, classification, governance, and quality into a coherent standards portfolio.",
+                sprint1: "Rachel reviews and validates the ISL-03 (Naming Conventions) and ISL-04 (Data Classification) modules being authored by Aisha. She ensures the naming patterns align with Fabric\u2019s object model and that the four-tier classification taxonomy maps correctly to Microsoft Purview sensitivity labels. Her architecture sign-off is required before these foundational modules are finalized.",
+                sprint2: "Rachel reviews ISL-01 (API Governance) and ISL-06 (Data Quality) for cross-module consistency. She validates that API naming patterns reference ISL-03, that security tiers align with ISL-04 classification levels, and that quality rules can be applied against the naming and classification standards. Her focus is on ensuring the modules work as an integrated system.",
+                sprint3: "Rachel leads the architecture review for ISL-02 (Metadata & Lineage) and ISL-05 (Integration Patterns), the two most complex modules. She validates that lineage capture requirements reference the classification taxonomy, that integration patterns incorporate the API governance standards, and that the medallion architecture pattern aligns with the naming conventions. This is her most intensive sprint.",
+                sprint4: "Rachel reviews the manufacturing overlays (ITAR/EAR, IoT/OT, ERP) to ensure they integrate correctly with each module. She participates in the peer review sessions, validates the final packaging for practitioner deployment, and provides the architecture sign-off needed for the pilot engagement."
+            },
+            nathan: {
+                overview: "Nathan Park is the Senior Integration Engineer who authors the technical core of the API governance and integration pattern modules. His expertise in REST, GraphQL, event-driven architectures, and Microsoft Fabric configuration drives the most implementation-specific standards content. He joins in Sprint 1 and his heaviest work is in Sprints 2\u20133.",
+                sprint0: "Nathan is not directly involved in Discovery. The maturity assessment and gap analysis are led by Rachel and Aisha. Nathan reviews the assessment findings to understand the client\u2019s current API landscape and integration patterns, preparing for his authoring work in Sprint 2.",
+                sprint1: "Nathan provides input on naming conventions for API endpoints, integration pipelines, and event schemas. He reviews Aisha\u2019s ISL-03 draft to ensure the naming patterns work for API versioning URLs, webhook endpoints, and message queue topics. His involvement is advisory rather than primary authoring.",
+                sprint2: "This is Nathan\u2019s primary authoring sprint. He writes the ISL-01 API Governance Standards covering REST design principles, versioning policies, OAuth 2.0/OIDC security patterns, rate limiting tiers, and lifecycle management. He also contributes quality rule patterns for ISL-06 that validate API contract compliance and integration health metrics.",
+                sprint3: "Nathan authors ISL-05 (Integration Patterns), the eight reusable patterns covering ERP sync, IoT streaming, API gateway, event-driven, MDM hub, file-based, medallion architecture, and reverse ETL. He creates the decision framework that helps practitioners select the right pattern for each integration scenario. He also contributes lineage requirements for ISL-02 that track data flow through integration points.",
+                sprint4: "Nathan is not actively involved in Sprint 4. His technical authoring is complete, and the packaging, peer review, and pilot execution are handled by Maya, Carlos, and Keven. He remains available for escalation on technical questions about API governance or integration pattern implementation."
+            },
+            aisha: {
+                overview: "Aisha Khan is the Data Governance Lead who authors the foundational standards modules \u2014 naming conventions and data classification \u2014 that all other modules reference. She also leads the metadata framework and lineage requirements in Sprint 3. Her work in Sprint 1 establishes the taxonomy and vocabulary that ensures consistency across all six modules.",
+                sprint0: "During Discovery, Aisha develops the assessment templates that Rachel uses for the maturity scoring. She researches the client\u2019s existing classification frameworks, naming patterns, and governance maturity. She prepares the four-tier classification model (Public, Internal, Confidential, Restricted) and drafts the manufacturing overlay requirements for ITAR/EAR compliance.",
+                sprint1: "Aisha is the primary author for Sprint 1, writing ISL-03 (Naming Conventions) and ISL-04 (Data Classification). For naming conventions, she defines Fabric-specific prefixes (lh_, wh_, pl_, nb_, sm_), schema patterns, and column naming rules. For classification, she builds the four-tier taxonomy with handling requirements, DLP policy mappings, and Purview sensitivity label alignment.",
+                sprint2: "Aisha refines the classification taxonomy based on feedback from Nathan\u2019s API governance work, ensuring security tiers map correctly to API access levels. She reviews ISL-06 quality rules that validate classification compliance and naming convention adherence. Her involvement is supporting rather than primary authoring.",
+                sprint3: "Aisha returns to primary authoring for ISL-02 (Metadata & Lineage). She designs the business glossary standards, technical metadata schemas aligned to Microsoft Purview, data lineage capture requirements (column-level vs. table-level), and catalog governance workflows. She ensures the lineage framework references the classification taxonomy from ISL-04 and the naming conventions from ISL-03.",
+                sprint4: "Aisha is not actively involved in Sprint 4. Her authoring work is complete, and she shifts focus to other engagement work. Her foundational modules (ISL-03, ISL-04) and metadata framework (ISL-02) continue to anchor the standards library through the peer review and pilot phases."
+            },
+            carlos: {
+                overview: "Carlos Mendez is the Data Quality Engineer who builds the quality rules, validation framework, and monitoring specifications that make the standards measurable and enforceable. His work begins in Sprint 2 and culminates in the quality pilot during Sprint 4, where the rules are tested against real client data for the first time.",
+                sprint0: "Carlos is not involved during Discovery. The maturity assessment and gap analysis do not require quality engineering expertise. Carlos reviews the assessment results to understand common data quality issues in the client\u2019s environment, preparing for his rule development work in Sprint 2.",
+                sprint1: "Carlos is not involved in Sprint 1. The foundational modules (naming conventions, data classification) are authored by Aisha and do not require quality rule development. Carlos reviews the drafts to understand validation opportunities for later sprints.",
+                sprint2: "Carlos is the primary author for ISL-06 (Data Quality Framework). He develops 50+ configurable quality rules across four categories: schema validation, row-level checks, aggregate monitoring, and business rule validation. He creates the quality scorecard template that provides a single-view assessment of standards compliance, and he designs the monitoring dashboard specification.",
+                sprint3: "Carlos integrates quality validation into the integration patterns and metadata framework. He defines quality checkpoints for each of Nathan\u2019s eight integration patterns, creates lineage-aware quality rules that validate data transformations, and ensures the quality framework can measure compliance across all six standards modules.",
+                sprint4: "Carlos leads the quality pilot during Sprint 4, testing the 50+ rules against real engagement data. He validates the scorecard template produces meaningful results, refines rule thresholds based on pilot findings, and provides the quality sign-off needed for final packaging. His peer review of other modules focuses on measurability and enforcement."
+            },
+            maya: {
+                overview: "Maya Singh is the Technical Writer who transforms raw standards content into polished, practitioner-ready templates and documentation. She formats every template, writes example documentation, creates practitioner guides, designs client adaptation playbooks, and handles the final packaging that makes the standards library deployment-ready.",
+                sprint0: "Maya is not involved during Discovery. The maturity assessment and gap analysis focus on technical evaluation rather than documentation. Maya reviews the engagement framework to understand the documentation standards and template formats expected by practitioners.",
+                sprint1: "Maya begins formatting the ISL-03 and ISL-04 templates as Aisha completes her drafts. She creates example documentation showing how naming conventions apply to real Fabric objects and how classification labels map to actual data assets. She establishes the template formatting standards that will be used across all six modules.",
+                sprint2: "Maya formats ISL-01 and ISL-06 templates and creates practitioner guides for API governance and data quality. She develops step-by-step walkthroughs showing how to adapt the API design standards to different technology stacks and how to configure quality rules for specific client environments. Her documentation bridges the gap between standards authors and field practitioners.",
+                sprint3: "Maya formats the most complex modules \u2014 ISL-02 (Metadata & Lineage) and ISL-05 (Integration Patterns). She creates architecture diagrams for the eight integration patterns, documents lineage capture workflows, and writes the adaptation playbooks that help practitioners customize these advanced modules for client-specific requirements.",
+                sprint4: "Maya leads the final packaging effort in Sprint 4. She assembles the complete standards library, ensures cross-references between modules are correct, creates the master table of contents and quick-start guide, and produces the client adaptation playbook that summarizes the customization points for each module. Her sign-off on documentation quality is required before pilot deployment."
+            },
+            keven: {
+                overview: "Keven Markham leads the standards buildout as VP Enterprise Transformation, owning governance, sprint ceremonies, and stakeholder communications from Sprint 0 through the pilot engagement in Sprint 4. He tracks velocity across all six modules, escalates blockers before they become critical, and coordinates dependencies with the other DMTSP accelerators. His sign-off gates at each sprint transition ensure nothing moves forward without validation.",
+                sprint0: "During Discovery, Keven establishes sprint ceremonies and the governance cadence that will carry the team through all five sprints. He sets up the risk register identifying eight key risks including manufacturing overlay complexity and Purview alignment challenges. He leads the stakeholder kick-off meeting that aligns the DMTSP leadership on the five-sprint buildout timeline and expected 30\u201340% engagement effort reduction.",
+                sprint1: "Keven tracks foundation module progress as Aisha authors naming conventions and data classification. He maintains the dependency tracker to ensure nothing blocks the upcoming core standards work, monitors sprint burn-down against the 150-hour baseline, and delivers the first round of status reports to leadership.",
+                sprint2: "Keven monitors core standards progress as Nathan and Carlos author API governance and data quality. With multiple authors working in parallel, he manages dependencies between modules, ensures cross-references are tracked, and coordinates capacity across the team. His daily stand-ups keep module throughput visible and on track.",
+                sprint3: "Keven coordinates across accelerators as the team tackles the most complex modules \u2014 metadata and integration patterns. He manages the double-sprint capacity allocation, ensures Sprints 3a and 3b maintain velocity, and prepares the team for the Sprint 4 packaging and pilot. His milestone reporting demonstrates progress toward the 39-template target.",
+                sprint4: "Keven governs the final sprint, coordinating peer review, manufacturing overlay integration, and pilot engagement. He leads the final sign-off meeting, ensures all acceptance criteria are met, and captures lessons learned for continuous improvement. His closing stakeholder communication confirms all six modules are deployment-ready with 39 templates and 16 examples."
+            }
+        };
+
+        /* ============================================
+           DOM REFERENCES
+           ============================================ */
+        var overlay      = document.getElementById('narrativeModal');
+        var modalPhoto   = document.getElementById('modalPhoto');
+        var modalName    = document.getElementById('modalName');
+        var modalRole    = document.getElementById('modalRole');
+        var modalBadge   = document.getElementById('modalPhaseBadge');
+        var modalText    = document.getElementById('modalNarrative');
+        var btnPlay      = document.getElementById('btnPlay');
+        var btnStop      = document.getElementById('btnStop');
+        var audioStatus  = document.getElementById('audioStatus');
+        var langSelector = document.getElementById('langSelector');
+
+        var currentLangQueue = [];
+        var currentLangIndex = 0;
+
+        /* ============================================
+           OPEN / CLOSE MODAL
+           ============================================ */
+        function openModal(persona, phase) {
+            var meta = PERSONAS[persona];
+            var text = NARRATIVES[persona] && NARRATIVES[persona][phase];
+            if (!meta || !text) return;
+
+            modalPhoto.src = meta.photo;
+            modalPhoto.alt = meta.name;
+            modalName.textContent = meta.name;
+            modalRole.textContent = meta.role;
+            modalBadge.textContent = PHASE_LABELS[phase] || phase;
+            modalText.textContent = text;
+
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            stopNarrative();
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        /* ============================================
+           MULTI-LANGUAGE SPEECH SYNTHESIS
+           ============================================ */
+        function getSelectedLangs() {
+            var langs = [];
+            langSelector.querySelectorAll('input[type="checkbox"]').forEach(function(cb) {
+                if (cb.checked) langs.push(cb.value);
+            });
+            return langs;
+        }
+
+        function clearLangHighlights() {
+            langSelector.querySelectorAll('.lang-option').forEach(function(el) {
+                el.classList.remove('lang-playing');
+            });
+        }
+
+        function highlightLang(langCode) {
+            clearLangHighlights();
+            var el = langSelector.querySelector('[data-lang="' + langCode + '"]');
+            if (el) el.classList.add('lang-playing');
+        }
+
+        function playNarrative() {
+            if (!window.speechSynthesis) {
+                audioStatus.textContent = 'Speech not supported in this browser';
+                return;
+            }
+            stopNarrative();
+
+            currentLangQueue = getSelectedLangs();
+            if (currentLangQueue.length === 0) {
+                audioStatus.textContent = 'Select at least one language';
+                return;
+            }
+            currentLangIndex = 0;
+            btnPlay.disabled = true;
+            speakNext();
+        }
+
+        function speakNext() {
+            if (currentLangIndex >= currentLangQueue.length) {
+                finishPlayback();
+                return;
+            }
+            var langCode = currentLangQueue[currentLangIndex];
+            var text = modalText.textContent;
+
+            var utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = langCode;
+
+            // Try to find a matching voice
+            var voices = speechSynthesis.getVoices();
+            var match = voices.find(function(v) { return v.lang === langCode; }) ||
+                        voices.find(function(v) { return v.lang.startsWith(langCode.split('-')[0]); });
+            if (match) {
+                utterance.voice = match;
+            }
+
+            var langName = langCode;
+            var label = langSelector.querySelector('[data-lang="' + langCode + '"]');
+            if (label) langName = label.textContent.trim();
+
+            if (!match && voices.length > 0) {
+                audioStatus.textContent = 'No voice for ' + langName + ' \u2014 skipping';
+                currentLangIndex++;
+                setTimeout(speakNext, 800);
+                return;
+            }
+
+            highlightLang(langCode);
+            var total = currentLangQueue.length;
+            audioStatus.textContent = 'Playing ' + langName + ' (' + (currentLangIndex + 1) + '/' + total + ')';
+
+            utterance.onend = function() {
+                currentLangIndex++;
+                speakNext();
+            };
+
+            utterance.onerror = function() {
+                audioStatus.textContent = 'Error playing ' + langName;
+                currentLangIndex++;
+                setTimeout(speakNext, 500);
+            };
+
+            speechSynthesis.speak(utterance);
+        }
+
+        function stopNarrative() {
+            if (window.speechSynthesis) {
+                speechSynthesis.cancel();
+            }
+            currentLangQueue = [];
+            currentLangIndex = 0;
+            clearLangHighlights();
+            audioStatus.textContent = '';
+            btnPlay.disabled = false;
+        }
+
+        function finishPlayback() {
+            clearLangHighlights();
+            audioStatus.textContent = 'Done';
+            btnPlay.disabled = false;
+            setTimeout(function() {
+                if (audioStatus.textContent === 'Done') audioStatus.textContent = '';
+            }, 3000);
+        }
+
+        /* ============================================
+           EVENT LISTENERS
+           ============================================ */
+        // Persona cards
+        document.querySelectorAll('.persona-card[data-persona]').forEach(function(card) {
+            card.addEventListener('click', function() {
+                openModal(card.dataset.persona, card.dataset.phase);
+            });
+        });
+
+        // Journey map cells
+        document.querySelectorAll('.journey-cell[data-persona]').forEach(function(cell) {
+            cell.addEventListener('click', function() {
+                openModal(cell.dataset.persona, cell.dataset.phase);
+            });
+        });
+
+        // Close modal
+        document.getElementById('modalClose').addEventListener('click', closeModal);
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) closeModal();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && overlay.classList.contains('active')) closeModal();
+        });
+
+        // Audio controls
+        btnPlay.addEventListener('click', playNarrative);
+        btnStop.addEventListener('click', stopNarrative);
+
+        // Ensure voices are loaded (some browsers load them async)
+        if (window.speechSynthesis) {
+            speechSynthesis.getVoices();
+            speechSynthesis.onvoiceschanged = function() { speechSynthesis.getVoices(); };
+        }
+    </script>
+
+</body>
+</html>

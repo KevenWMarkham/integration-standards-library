@@ -1,0 +1,41 @@
+{
+  "id": "databricks-unity-catalog",
+  "name": "Databricks Unity Catalog",
+  "version": "1.0.0",
+  "author": "ISL Example",
+  "description": "Maps ISL naming conventions, data classification, and metadata standards to Databricks Unity Catalog structure.",
+  "modules": ["ISL-03", "ISL-04", "ISL-02"],
+  "layer": "platform",
+  "entryPoint": "adapter.js",
+  "minIslVersion": "1.0.0",
+  "configSchema": {
+    "workspaceUrl": {
+      "type": "string",
+      "required": true,
+      "label": "Workspace URL",
+      "description": "Databricks workspace URL (e.g., https://adb-xxx.azuredatabricks.net)"
+    },
+    "catalogName": {
+      "type": "string",
+      "required": false,
+      "default": "main",
+      "label": "Catalog Name",
+      "description": "Unity Catalog name for standards deployment"
+    },
+    "schemaPrefix": {
+      "type": "string",
+      "required": false,
+      "default": "",
+      "label": "Schema Prefix",
+      "description": "Optional prefix for schema names"
+    },
+    "deploymentMethod": {
+      "type": "select",
+      "required": true,
+      "default": "terraform",
+      "label": "Deployment Method",
+      "description": "How to deploy catalog objects",
+      "options": ["terraform", "databricks-cli", "rest-api"]
+    }
+  }
+}

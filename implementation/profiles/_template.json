@@ -1,0 +1,36 @@
+{
+  "id": "",
+  "name": "",
+  "description": "Custom industry profile. Fill in all fields to create a new industry baseline.",
+  "industry": "",
+  "environment": {
+    "cloud": "azure",
+    "dataplatform": "fabric",
+    "governance": "purview"
+  },
+  "naming": {
+    "orgPrefix": "",
+    "envCodes": { "dev": "d", "test": "t", "staging": "s", "prod": "p" },
+    "separator": "_",
+    "domainPrefixes": {}
+  },
+  "classification": {
+    "tierCount": 4,
+    "tierLabels": ["Public", "Internal", "Confidential", "Restricted"],
+    "regulatoryFrameworks": [],
+    "specialCategories": []
+  },
+  "modules": {
+    "recommended": [],
+    "phaseMap": {
+      "foundation": [],
+      "core": [],
+      "advanced": []
+    }
+  },
+  "adapters": {
+    "recommended": [],
+    "config": {}
+  },
+  "overlays": {}
+}

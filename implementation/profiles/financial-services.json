@@ -1,0 +1,68 @@
+{
+  "id": "financial-services",
+  "name": "Financial Services",
+  "description": "Financial services profile with SOX, PCI-DSS, GLBA, and Basel III compliance defaults.",
+  "industry": "financial-services",
+  "environment": {
+    "cloud": "azure",
+    "dataplatform": "fabric",
+    "governance": "purview"
+  },
+  "naming": {
+    "orgPrefix": "",
+    "envCodes": { "dev": "d", "test": "t", "uat": "u", "staging": "s", "prod": "p" },
+    "separator": "_",
+    "domainPrefixes": {
+      "retail": "rtl",
+      "commercial": "cml",
+      "treasury": "trs",
+      "risk": "rsk",
+      "compliance": "cmp",
+      "trading": "trd",
+      "payments": "pay",
+      "lending": "lnd"
+    }
+  },
+  "classification": {
+    "tierCount": 5,
+    "tierLabels": ["Public", "Internal", "Confidential", "Highly Confidential", "Restricted"],
+    "regulatoryFrameworks": ["SOX", "PCI-DSS", "GLBA", "Basel-III", "GDPR", "CCPA"],
+    "specialCategories": ["PII", "PCI-Cardholder", "Material-Non-Public"]
+  },
+  "modules": {
+    "recommended": ["ISL-03", "ISL-04", "ISL-01", "ISL-06", "ISL-02", "ISL-05"],
+    "phaseMap": {
+      "foundation": ["ISL-03", "ISL-04"],
+      "core": ["ISL-01", "ISL-06"],
+      "advanced": ["ISL-02", "ISL-05"]
+    }
+  },
+  "adapters": {
+    "recommended": ["fabric", "purview", "apim"],
+    "config": {
+      "fabric": {
+        "workspacePattern": "{{orgPrefix}}_{{envCode}}_{{domain}}_{{layer}}",
+        "lakehouseLayers": ["brz", "slv", "gld", "plt"],
+        "medallionEnabled": true
+      },
+      "purview": {
+        "labelPrefix": "{{orgPrefix}}",
+        "autoClassification": true,
+        "pciLabelsEnabled": true,
+        "gdprLabelsEnabled": true
+      },
+      "apim": {
+        "versioningStrategy": "url-path",
+        "authMethod": "oauth2",
+        "rateLimitDefault": 500,
+        "mTlsRequired": true
+      }
+    }
+  },
+  "overlays": {
+    "pci": true,
+    "gdpr": true,
+    "sox": true,
+    "medallion": true
+  }
+}

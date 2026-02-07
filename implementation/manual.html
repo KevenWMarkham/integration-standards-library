@@ -3407,5 +3407,1216 @@ with Tier 4 access controls and US Person verification.</pre>
   updateActive();
 })();
 </script>
+
+<!-- Document Preview Modal Logic -->
+<script>
+(function() {
+  var A = 'hl-accel';
+  var D = 'hl-adapt';
+  var C = 'hl-comment';
+
+  function hl(cls, text) { return '<span class="' + cls + '">' + text + '</span>'; }
+
+  var DOC_EXAMPLES = {
+    'Database & Schema Naming Standard': {
+      icon: 'adapt', module: 'ISL-03', area: 'Data Engineering',
+      desc: 'Defines the naming pattern for databases, schemas, and lakehouses. The accelerator pre-fills the client prefix, separator, environment codes, and domain taxonomy from the industry profile.',
+      files: [
+        { name: 'database-schema-naming.md', type: 'md', content:
+'# Database &amp; Schema Naming Standard\n' +
+hl(C,'# ↓ Auto-filled from client profile') + '\n' +
+hl(A,'&gt; Module: ISL-03 | Version: 1.0 | Client: Contoso Manufacturing') + '\n\n' +
+'## 1. Purpose\n' +
+'Establish consistent naming for databases, schemas,\n' +
+'and lakehouses across ' + hl(A,'Contoso Manufacturing') + ' environments.\n\n' +
+'## 2. Pattern\n' +
+hl(C,'# ↓ Prefix, separator, env codes auto-resolved') + '\n' +
+'`' + hl(A,'cto') + '_' + hl(A,'&lt;env&gt;') + '_' + hl(A,'&lt;domain&gt;') + '_&lt;layer&gt;_&lt;name&gt;`\n\n' +
+'### Environment Codes\n' +
+hl(A,'| Environment | Code |') + '\n' +
+hl(A,'| Production  | prd  |') + '\n' +
+hl(A,'| Staging     | stg  |') + '\n' +
+hl(A,'| Development | dev  |') + '\n' +
+hl(A,'| Sandbox     | sbx  |') + '\n\n' +
+'### Domain Taxonomy\n' +
+hl(C,'# ↓ Industry-specific domains from manufacturing profile') + '\n' +
+hl(A,'| Manufacturing | mfg |') + '\n' +
+hl(A,'| Supply Chain  | scm |') + '\n' +
+hl(A,'| Quality Mgmt  | qms |') + '\n' +
+hl(A,'| IoT / Sensor  | iot |') + '\n\n' +
+'## 3. ' + hl(D,'[ADAPTATION REQUIRED] Client-Specific Schemas') + '\n' +
+hl(D,'Add any legacy schema names that must be preserved:') + '\n' +
+hl(D,'- [List existing schemas that cannot be renamed]')
+        },
+        { name: 'fabric-naming-config.json', type: 'json', content:
+'{\n' +
+'  ' + hl(C,'// Auto-generated Fabric naming config') + '\n' +
+'  ' + hl(A,'"orgPrefix": "cto"') + ',\n' +
+'  ' + hl(A,'"separator": "_"') + ',\n' +
+'  ' + hl(A,'"envCodes": { "prd": "Production", "stg": "Staging" }') + ',\n' +
+'  "lakehouses": [\n' +
+'    ' + hl(A,'{ "name": "cto_prd_mfg_bronze_raw", "layer": "bronze" }') + ',\n' +
+'    ' + hl(A,'{ "name": "cto_prd_mfg_silver_curated", "layer": "silver" }') + ',\n' +
+'    ' + hl(A,'{ "name": "cto_prd_mfg_gold_serving", "layer": "gold" }') + '\n' +
+'  ]\n' +
+'}'
+        }
+      ]
+    },
+
+    'Table & View Naming Standard': {
+      icon: 'adapt', module: 'ISL-03', area: 'Data Engineering',
+      desc: 'Standardizes table and view naming across lakehouses. The accelerator auto-fills domain prefixes, layer abbreviations, and naming patterns from the client profile.',
+      files: [
+        { name: 'table-view-naming.md', type: 'md', content:
+'# Table &amp; View Naming Standard\n' +
+hl(A,'&gt; Module: ISL-03 | Client: Contoso Manufacturing') + '\n\n' +
+'## Table Pattern\n' +
+'`' + hl(A,'cto') + '_&lt;layer&gt;_&lt;domain&gt;_&lt;entity&gt;`\n\n' +
+'### Layer Prefixes\n' +
+hl(A,'| Layer  | Prefix | Description        |') + '\n' +
+hl(A,'| Bronze | brz    | Raw ingested data  |') + '\n' +
+hl(A,'| Silver | slv    | Cleansed, conformed|') + '\n' +
+hl(A,'| Gold   | gld    | Business-ready     |') + '\n\n' +
+'### Examples\n' +
+hl(A,'cto_brz_mfg_work_orders') + '\n' +
+hl(A,'cto_slv_scm_purchase_orders') + '\n' +
+hl(A,'cto_gld_qms_defect_summary') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Exceptions') + '\n' +
+hl(D,'List any existing tables that cannot follow this convention')
+        }
+      ]
+    },
+
+    'Column Naming Standard': {
+      icon: 'adapt', module: 'ISL-03', area: 'Data Engineering',
+      desc: 'Defines column naming conventions including data type suffixes, boolean prefixes, and audit columns. The accelerator resolves the separator and generates standard audit column definitions.',
+      files: [
+        { name: 'column-naming-standards.md', type: 'md', content:
+'# Column Naming Standards\n' +
+hl(A,'&gt; Module: ISL-03 | Client: Contoso Manufacturing') + '\n\n' +
+'## Conventions\n' +
+'- Use ' + hl(A,'snake_case') + ' (separator: ' + hl(A,'"_"') + ')\n' +
+'- Booleans: prefix with `is_`, `has_`, `can_`\n' +
+'- Dates: suffix with `_date` or `_at`\n\n' +
+'## Standard Audit Columns\n' +
+hl(C,'# ↓ Auto-generated audit column set') + '\n' +
+hl(A,'| created_at    | datetime | Row creation timestamp |') + '\n' +
+hl(A,'| updated_at    | datetime | Last modification      |') + '\n' +
+hl(A,'| source_system | string   | Origin system code     |') + '\n' +
+hl(A,'| isl_load_id   | string   | Pipeline run ID        |') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Domain-Specific Columns') + '\n' +
+hl(D,'Define column naming rules for domain-specific attributes')
+        }
+      ]
+    },
+
+    'Pipeline & Dataflow Naming Standard': {
+      icon: 'adapt', module: 'ISL-03', area: 'Data Engineering',
+      desc: 'Names pipelines, dataflows, and notebooks consistently. The accelerator fills in the org prefix, domain list, and orchestration patterns, and generates a Fabric pipeline catalog JSON.',
+      files: [
+        { name: 'pipeline-dataflow-naming.md', type: 'md', content:
+'# Pipeline &amp; Dataflow Naming Standard\n' +
+hl(A,'&gt; Module: ISL-03 | Client: Contoso Manufacturing') + '\n\n' +
+'## Pipeline Pattern\n' +
+'`pl_' + hl(A,'cto') + '_&lt;domain&gt;_&lt;pattern&gt;_&lt;entity&gt;`\n\n' +
+'### Pattern Codes\n' +
+'| Pattern   | Code | Description      |\n' +
+'| Ingest    | ing  | Source → Bronze   |\n' +
+'| Transform | tfm  | Bronze → Silver   |\n' +
+'| Serve     | srv  | Silver → Gold     |\n\n' +
+'### Examples\n' +
+hl(A,'pl_cto_mfg_ing_work_orders') + '\n' +
+hl(A,'pl_cto_scm_tfm_purchase_conformance') + '\n' +
+hl(A,'pl_cto_qms_srv_defect_aggregation') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Existing Pipelines') + '\n' +
+hl(D,'Inventory pipelines to migrate to this standard')
+        }
+      ]
+    },
+
+    'Abbreviation Dictionary': {
+      icon: 'adapt', module: 'ISL-03', area: 'Data Engineering',
+      desc: 'Master lookup of approved abbreviations used across all naming standards. The accelerator seeds the dictionary with industry-specific terms from the selected profile.',
+      files: [
+        { name: 'abbreviation-dictionary.md', type: 'md', content:
+'# Abbreviation Dictionary\n' +
+hl(A,'&gt; Module: ISL-03 | Client: Contoso Manufacturing') + '\n\n' +
+'## Standard Abbreviations\n' +
+hl(C,'# ↓ Universal abbreviations auto-included') + '\n' +
+hl(A,'| Production    | prd | Environment   |') + '\n' +
+hl(A,'| Development   | dev | Environment   |') + '\n' +
+hl(A,'| Identifier    | id  | Column naming |') + '\n' +
+hl(A,'| Configuration | cfg | Resource      |') + '\n\n' +
+'## Industry Abbreviations\n' +
+hl(C,'# ↓ Injected from manufacturing profile') + '\n' +
+hl(A,'| Manufacturing     | mfg | Domain taxonomy |') + '\n' +
+hl(A,'| Supply Chain      | scm | Domain taxonomy |') + '\n' +
+hl(A,'| Quality Mgmt      | qms | Domain taxonomy |') + '\n' +
+hl(A,'| Bill of Materials | bom | Manufacturing   |') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Client-Specific') + '\n' +
+hl(D,'| Full Term | Abbreviation | Context |') + '\n' +
+hl(D,'| [Add]     | [Add]        | [Add]   |')
+        }
+      ]
+    },
+
+    'Lakehouse Architecture Standard': {
+      icon: 'adapt', module: 'ISL-05', area: 'Data Engineering',
+      desc: 'Defines the medallion architecture (bronze/silver/gold) and data flow patterns. The accelerator fills in platform choice, workspace naming, and integration patterns from the client profile.',
+      files: [
+        { name: 'lakehouse-architecture.md', type: 'md', content:
+'# Lakehouse Architecture Standard\n' +
+hl(A,'&gt; Module: ISL-05 | Client: Contoso Manufacturing') + '\n' +
+hl(A,'&gt; Platform: Microsoft Fabric') + '\n\n' +
+'## Architecture Overview\n' +
+hl(A,'Platform: Microsoft Fabric') + '\n' +
+'Medallion Layers: Bronze → Silver → Gold\n\n' +
+'### Bronze Layer (Raw)\n' +
+hl(A,'Workspace: cto_prd_*_bronze') + '\n' +
+'- Ingested via Data Factory pipelines\n\n' +
+'### Silver Layer (Curated)\n' +
+hl(A,'Workspace: cto_prd_*_silver') + '\n' +
+'- Conformed, deduplicated, typed\n\n' +
+'### Gold Layer (Serving)\n' +
+hl(A,'Workspace: cto_prd_*_gold') + '\n' +
+'- Business-aggregated semantic models\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Layer Policies') + '\n' +
+hl(D,'Define retention, refresh, and access rules per layer')
+        }
+      ]
+    },
+
+    'Medallion Layer Transition Rules': {
+      icon: 'adapt', module: 'ISL-05 + ISL-06', area: 'Data Engineering',
+      desc: 'Quality gates between medallion layers. The accelerator combines ISL-05 integration patterns with ISL-06 quality thresholds to pre-build transition rules.',
+      files: [
+        { name: 'medallion-transitions.md', type: 'md', content:
+'# Medallion Layer Transition Rules\n' +
+hl(A,'&gt; Modules: ISL-05 + ISL-06 | Client: Contoso Manufacturing') + '\n\n' +
+'## Bronze → Silver Transition\n' +
+'### Quality Gate\n' +
+hl(A,'| Dimension    | Threshold | Action on Fail    |') + '\n' +
+hl(A,'| Completeness | ≥ 95%     | Quarantine record |') + '\n' +
+hl(A,'| Validity     | ≥ 98%     | Reject batch      |') + '\n' +
+hl(A,'| Uniqueness   | = 100%    | Deduplicate       |') + '\n\n' +
+'## Silver → Gold Transition\n' +
+'### Quality Gate\n' +
+hl(A,'| Accuracy     | ≥ 99%     | Block promotion   |') + '\n' +
+hl(A,'| Timeliness   | ≤ 15 min  | Alert + proceed   |') + '\n' +
+hl(A,'| Consistency  | ≥ 99.5%   | Block promotion   |') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Custom Gates') + '\n' +
+hl(D,'Add domain-specific quality gates')
+        }
+      ]
+    },
+
+    'Data Quality Rule Library': {
+      icon: 'adapt', module: 'ISL-06', area: 'Data Engineering',
+      desc: 'Catalog of 50+ quality rules organized by dimension. The accelerator generates industry-relevant rules with thresholds based on the client\'s classification tiers and regulatory frameworks.',
+      files: [
+        { name: 'quality-rule-library.md', type: 'md', content:
+'# Data Quality Rule Library\n' +
+hl(A,'&gt; Module: ISL-06 | Client: Contoso Manufacturing') + '\n\n' +
+'## Completeness Rules\n' +
+hl(A,'| DQ-C01 | Required field check | WHERE col IS NULL           | All  |') + '\n' +
+hl(A,'| DQ-C02 | Conditional required | WHERE parent NOT NULL ...   | Gold |') + '\n' +
+hl(A,'| DQ-C03 | Completeness %      | COUNT(non_null)/COUNT(*) ≥ 0.95 |') + '\n\n' +
+'## Accuracy Rules\n' +
+hl(A,'| DQ-A01 | Reference match     | WHERE code NOT IN (ref_table) |') + '\n' +
+hl(A,'| DQ-A02 | Range validation    | WHERE val NOT BETWEEN min,max |') + '\n\n' +
+hl(C,'# ... 50+ rules across 6 dimensions auto-generated') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Client Rules') + '\n' +
+hl(D,'Add business-specific validation rules')
+        }
+      ]
+    },
+
+    'Quality SLA Framework': {
+      icon: 'adapt', module: 'ISL-06', area: 'Data Engineering',
+      desc: 'Service-level agreements for data quality by classification tier. The accelerator populates tier-specific thresholds and escalation paths from the profile.',
+      files: [
+        { name: 'quality-sla-framework.md', type: 'md', content:
+'# Quality SLA Framework\n' +
+hl(A,'&gt; Module: ISL-06 | Client: Contoso Manufacturing') + '\n\n' +
+'## SLA Thresholds by Tier\n' +
+hl(C,'# ↓ 4-tier model auto-populated from classification profile') + '\n' +
+hl(A,'| Dimension    | Public | Internal | Confidential | Restricted |') + '\n' +
+hl(A,'| Completeness | ≥ 90%  | ≥ 95%    | ≥ 98%        | ≥ 99.5%    |') + '\n' +
+hl(A,'| Accuracy     | ≥ 90%  | ≥ 95%    | ≥ 99%        | ≥ 99.9%    |') + '\n' +
+hl(A,'| Timeliness   | 24 hrs | 4 hrs    | 1 hr         | 15 min     |') + '\n\n' +
+'## Escalation Matrix\n' +
+hl(A,'| P1 | 15 minutes | Data Engineering Lead |') + '\n' +
+hl(A,'| P2 | 1 hour     | Data Steward          |') + '\n' +
+hl(A,'| P3 | 4 hours    | Domain Owner          |') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Custom SLAs') + '\n' +
+hl(D,'Adjust thresholds for specific high-value datasets')
+        }
+      ]
+    },
+
+    'Quality Monitoring Dashboard Spec': {
+      icon: 'adapt', module: 'ISL-06', area: 'Data Engineering',
+      desc: 'Specification for the data quality monitoring dashboard. The accelerator fills in dimension list, KPI targets, and tier thresholds for the BI team to implement.',
+      files: [
+        { name: 'quality-monitoring-standards.md', type: 'md', content:
+'# Quality Monitoring Dashboard Spec\n' +
+hl(A,'&gt; Module: ISL-06 | Client: Contoso Manufacturing') + '\n\n' +
+'## Dashboard KPIs\n' +
+hl(A,'| Overall Quality Score | ≥ 95%  | Weighted avg 6 dims |') + '\n' +
+hl(A,'| Rules Passing         | ≥ 98%  | Rule library count  |') + '\n' +
+hl(A,'| SLA Compliance        | ≥ 99%  | SLA framework       |') + '\n' +
+hl(A,'| Open Incidents        | &lt; 5   | Remediation log     |') + '\n\n' +
+'## Dimensions to Monitor\n' +
+hl(A,'Completeness | Accuracy | Consistency | Timeliness | Validity | Uniqueness') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Dashboard Layout') + '\n' +
+hl(D,'Specify preferred BI tool and layout preferences')
+        }
+      ]
+    },
+
+    'Classification Tier Definitions': {
+      icon: 'adapt', module: 'ISL-04', area: 'Data Governance',
+      desc: 'Defines each classification tier with handling rules and examples. The accelerator populates tier names, counts, and regulatory requirements from the industry profile.',
+      files: [
+        { name: 'classification-tier-definitions.md', type: 'md', content:
+'# Classification Tier Definitions\n' +
+hl(A,'&gt; Module: ISL-04 | Client: Contoso Manufacturing') + '\n\n' +
+hl(C,'# ↓ 4-tier model + labels from manufacturing profile') + '\n\n' +
+'### ' + hl(A,'Tier 0 — Public') + '\n' +
+hl(A,'Data intended for public consumption.') + '\n' +
+'- Encryption at rest: Optional\n' +
+'- Access: Open to all employees\n\n' +
+'### ' + hl(A,'Tier 1 — Internal') + '\n' +
+hl(A,'Business data not intended for external sharing.') + '\n' +
+'- Encryption at rest: Required\n\n' +
+'### ' + hl(A,'Tier 2 — Confidential') + '\n' +
+hl(A,'Sensitive business data with limited distribution.') + '\n' +
+'- ' + hl(A,'Regulatory: SOX financial data, trade secrets') + '\n\n' +
+'### ' + hl(A,'Tier 3 — Restricted') + '\n' +
+hl(A,'Highest sensitivity; regulatory or contractual controls.') + '\n' +
+'- ' + hl(A,'Regulatory: ITAR-controlled, PII under CCPA') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Tier Examples') + '\n' +
+hl(D,'Map specific client datasets to each tier')
+        },
+        { name: 'purview-labels.json', type: 'json', content:
+'{\n' +
+'  ' + hl(C,'// Auto-generated Purview sensitivity labels') + '\n' +
+'  "labels": [\n' +
+'    ' + hl(A,'{ "name": "Public", "tier": 0, "color": "#4caf50" }') + ',\n' +
+'    ' + hl(A,'{ "name": "Internal", "tier": 1, "color": "#2196f3" }') + ',\n' +
+'    ' + hl(A,'{ "name": "Confidential", "tier": 2, "color": "#ff9800" }') + ',\n' +
+'    ' + hl(A,'{ "name": "Restricted", "tier": 3, "color": "#f44336" }') + '\n' +
+'  ]\n' +
+'}'
+        }
+      ]
+    },
+
+    'Sensitivity Labeling Standard': {
+      icon: 'adapt', module: 'ISL-04', area: 'Data Governance',
+      desc: 'Rules for applying sensitivity labels to data assets. The accelerator pre-fills label names, auto-classification rules, and Purview configurations from the tier model.',
+      files: [
+        { name: 'sensitivity-labeling-standards.md', type: 'md', content:
+'# Sensitivity Labeling Standards\n' +
+hl(A,'&gt; Module: ISL-04 | Client: Contoso Manufacturing') + '\n\n' +
+'## Label Application Rules\n' +
+hl(A,'| SSN / Tax ID            | Restricted   | High   |') + '\n' +
+hl(A,'| Credit Card Numbers     | Restricted   | High   |') + '\n' +
+hl(A,'| Employee PII            | Confidential | Medium |') + '\n' +
+hl(A,'| ITAR Technical Drawings | Restricted   | High   |') + '\n\n' +
+'## Purview Auto-Labeling\n' +
+hl(A,'Enabled: true') + '\n' +
+hl(A,'Scan frequency: Daily') + '\n' +
+hl(A,'Sensitive info types: 18 built-in + 3 custom') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Custom Patterns') + '\n' +
+hl(D,'Define client-specific data patterns for auto-labeling')
+        }
+      ]
+    },
+
+    'Data Handling Requirements': {
+      icon: 'adapt', module: 'ISL-04', area: 'Data Governance',
+      desc: 'Per-tier data handling rules covering storage, transmission, retention, and disposal. The accelerator generates the full matrix from the tier definitions and regulatory requirements.',
+      files: [
+        { name: 'data-handling-requirements.md', type: 'md', content:
+'# Data Handling Requirements\n' +
+hl(A,'&gt; Module: ISL-04 | Client: Contoso Manufacturing') + '\n\n' +
+'## Handling Matrix by Tier\n' +
+hl(A,'| Requirement  | Public  | Internal  | Confidential | Restricted    |') + '\n' +
+hl(A,'| Storage      | Any     | Encrypted | Encrypted    | CMK + isolated|') + '\n' +
+hl(A,'| Transmission | TLS     | TLS 1.2+  | TLS 1.2+     | mTLS + VPN    |') + '\n' +
+hl(A,'| Retention    | 1 year  | 3 years   | 7 years      | 7+ years      |') + '\n' +
+hl(A,'| Disposal     | Delete  | Cert del  | Crypto-erase | Crypto + audit|') + '\n' +
+hl(A,'| Sharing      | Open    | Internal  | NDA required | No sharing    |') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Regulatory Overlays') + '\n' +
+hl(D,'Add handling requirements specific to client contracts')
+        }
+      ]
+    },
+
+    'Classification Decision Tree': {
+      icon: 'adapt', module: 'ISL-04', area: 'Data Governance',
+      desc: 'Flowchart for classifying data into the correct tier. The accelerator generates decision tree questions from the tier model, regulatory frameworks, and industry-specific data patterns.',
+      files: [
+        { name: 'classification-decision-tree.md', type: 'md', content:
+'# Classification Decision Tree\n' +
+hl(A,'&gt; Module: ISL-04 | Client: Contoso Manufacturing') + '\n\n' +
+hl(C,'# ↓ Tree auto-generated from 4-tier model + frameworks') + '\n\n' +
+hl(A,'START → Is data subject to ITAR export controls?') + '\n' +
+hl(A,'  YES → Tier 3 (Restricted)') + '\n' +
+hl(A,'  NO  ↓') + '\n' +
+hl(A,'Does data contain PII (SSN, financial, health)?') + '\n' +
+hl(A,'  YES → Tier 2 or 3 (Confidential/Restricted)') + '\n' +
+hl(A,'  NO  ↓') + '\n' +
+hl(A,'Is data subject to SOX financial controls?') + '\n' +
+hl(A,'  YES → Tier 2 (Confidential)') + '\n' +
+hl(A,'  NO  ↓') + '\n' +
+hl(A,'Is data intended for public consumption?') + '\n' +
+hl(A,'  YES → Tier 0 (Public)') + '\n' +
+hl(A,'  NO  → Tier 1 (Internal)') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Client-Specific Branches') + '\n' +
+hl(D,'Add decision branches for client-specific data types')
+        }
+      ]
+    },
+
+    'Business Glossary': {
+      icon: 'adapt', module: 'ISL-02', area: 'Data Governance',
+      desc: 'Catalog of approved business terms with definitions and ownership. The accelerator generates domain-specific glossary starters from the industry profile and outputs Purview glossary import JSON.',
+      files: [
+        { name: 'business-glossary.md', type: 'md', content:
+'# Business Glossary\n' +
+hl(A,'&gt; Module: ISL-02 | Client: Contoso Manufacturing') + '\n\n' +
+'## Manufacturing Domain Terms\n' +
+hl(C,'# ↓ Industry terms auto-seeded from manufacturing profile') + '\n' +
+hl(A,'| Work Order       | Authorization to perform manufacturing work | MFG Ops |') + '\n' +
+hl(A,'| Bill of Materials| List of raw materials for a product        | Engineering |') + '\n' +
+hl(A,'| Cycle Time       | Total time to produce one unit             | MFG Ops |') + '\n' +
+hl(A,'| First Pass Yield | % of units passing QC without rework       | Quality |') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Client Terms') + '\n' +
+hl(D,'Add company-specific business terms')
+        },
+        { name: 'purview-glossary.json', type: 'json', content:
+'{\n' +
+'  ' + hl(C,'// Purview glossary import format') + '\n' +
+'  "terms": [\n' +
+'    ' + hl(A,'{ "name": "Work Order", "domain": "mfg" }') + ',\n' +
+'    ' + hl(A,'{ "name": "Bill of Materials", "domain": "mfg" }') + ',\n' +
+'    ' + hl(A,'{ "name": "Cycle Time", "domain": "mfg" }') + '\n' +
+'  ]\n' +
+'}'
+        }
+      ]
+    },
+
+    'Technical Metadata Schema': {
+      icon: 'adapt', module: 'ISL-02', area: 'Data Governance',
+      desc: 'Defines the required metadata attributes for every data asset. The accelerator fills in attribute lists, data types, and validation rules from the module standards.',
+      files: [
+        { name: 'technical-metadata-schema.md', type: 'md', content:
+'# Technical Metadata Schema\n' +
+hl(A,'&gt; Module: ISL-02 | Client: Contoso Manufacturing') + '\n\n' +
+'## Required Attributes\n' +
+hl(A,'| asset_name       | string | Yes | Fully qualified name       |') + '\n' +
+hl(A,'| domain           | enum   | Yes | Data domain (mfg, scm...) |') + '\n' +
+hl(A,'| classification   | enum   | Yes | Tier 0-3                   |') + '\n' +
+hl(A,'| owner            | string | Yes | Responsible data steward   |') + '\n' +
+hl(A,'| source_system    | string | Yes | Origin system              |') + '\n' +
+hl(A,'| refresh_frequency| string | Yes | cron or keyword            |') + '\n' +
+hl(A,'| quality_score    | number | No  | Latest DQ score (0-100)    |') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Custom Attributes') + '\n' +
+hl(D,'Add client-specific metadata attributes')
+        }
+      ]
+    },
+
+    'Data Catalog Governance Workflow': {
+      icon: 'adapt', module: 'ISL-02', area: 'Data Governance',
+      desc: 'Process for registering, reviewing, and certifying data assets in the catalog. The accelerator generates workflow steps referencing the client\'s governance platform.',
+      files: [
+        { name: 'catalog-governance-workflow.md', type: 'md', content:
+'# Data Catalog Governance Workflow\n' +
+hl(A,'&gt; Module: ISL-02 | Client: Contoso Manufacturing') + '\n' +
+hl(A,'&gt; Platform: Microsoft Purview') + '\n\n' +
+'## Workflow Stages\n' +
+hl(A,'1. REGISTER  → Data asset scanned by Purview') + '\n' +
+hl(A,'2. CLASSIFY  → Auto-classified per ISL-04 rules') + '\n' +
+hl(A,'3. ENRICH    → Steward adds business metadata') + '\n' +
+hl(A,'4. REVIEW    → Domain owner validates') + '\n' +
+hl(A,'5. CERTIFY   → Governance board approves') + '\n' +
+hl(A,'6. PUBLISH   → Available in catalog search') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Approval Matrix') + '\n' +
+hl(D,'Define who approves at each stage')
+        }
+      ]
+    },
+
+    'Data Stewardship RACI': {
+      icon: 'manual', module: 'ISL-02', area: 'Data Governance',
+      desc: 'Responsibility matrix mapping data stewardship roles. This is the only fully manual document — it requires the client\'s organizational structure, which the accelerator cannot auto-detect.',
+      files: [
+        { name: 'stewardship-raci.md', type: 'md', content:
+'# Data Stewardship RACI\n' +
+'&gt; Module: ISL-02 | Client: Contoso Manufacturing\n\n' +
+hl(C,'# This is a MANUAL document. The accelerator provides') + '\n' +
+hl(C,'# only the template structure — all content requires') + '\n' +
+hl(C,'# consultant input based on client org chart interviews.') + '\n\n' +
+'## RACI Matrix\n' +
+'| Activity                | CDO | Owner | Steward | Engineer |\n' +
+hl(D,'| Define standards        | A   | R     | C       | I        |') + '\n' +
+hl(D,'| Classify data           | I   | A     | R       | C        |') + '\n' +
+hl(D,'| Monitor quality         | I   | A     | R       | R        |') + '\n' +
+hl(D,'| Approve access requests | I   | A     | R       | I        |') + '\n' +
+hl(D,'| Resolve data issues     | I   | C     | A       | R        |') + '\n\n' +
+hl(D,'[ADAPTATION REQUIRED] All rows require consultant input')
+        }
+      ]
+    },
+
+    'Access Control Alignment': {
+      icon: 'adapt', module: 'ISL-04', area: 'Security & Compliance',
+      desc: 'Maps classification tiers to Fabric workspace security roles and Entra ID groups. The accelerator generates the alignment matrix from the client\'s tier model and org prefix.',
+      files: [
+        { name: 'access-control-alignment.md', type: 'md', content:
+'# Access Control Alignment\n' +
+hl(A,'&gt; Module: ISL-04 | Client: Contoso Manufacturing') + '\n\n' +
+'## Tier-to-Role Mapping\n' +
+hl(A,'| Tier         | Fabric Role | Entra Group Pattern         | MFA  |') + '\n' +
+hl(A,'| Public       | Viewer      | SG-cto-{domain}-viewers     | No   |') + '\n' +
+hl(A,'| Internal     | Contributor | SG-cto-{domain}-contributors| No   |') + '\n' +
+hl(A,'| Confidential | Member      | SG-cto-{domain}-members     | Yes  |') + '\n' +
+hl(A,'| Restricted   | Admin       | SG-cto-{domain}-admins      | Yes+ |') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Exceptions') + '\n' +
+hl(D,'List service accounts and cross-domain access requirements')
+        }
+      ]
+    },
+
+    'Compliance Mapping Matrix': {
+      icon: 'adapt', module: 'ISL-04', area: 'Security & Compliance',
+      desc: 'Maps regulatory requirements to classification tiers and ISL controls. The accelerator builds this from the profile\'s regulatory frameworks, including only industry-relevant regulations.',
+      files: [
+        { name: 'compliance-mapping-matrix.md', type: 'md', content:
+'# Compliance Mapping Matrix\n' +
+hl(A,'&gt; Module: ISL-04 | Client: Contoso Manufacturing') + '\n\n' +
+hl(C,'# ↓ Only frameworks from manufacturing profile included') + '\n' +
+hl(A,'| ITAR      | US-person access only | Access Control (T3) | Restricted |') + '\n' +
+hl(A,'| ITAR      | US-region storage     | Handling Req (T3)   | Restricted |') + '\n' +
+hl(A,'| EAR       | Export classification | Classification (T2) | Conf       |') + '\n' +
+hl(A,'| SOX       | Financial controls   | Handling Req (T2)   | Conf       |') + '\n' +
+hl(A,'| NIST 800-171 | CUI protection    | Access + Handling   | Conf+      |') + '\n' +
+hl(A,'| CMMC      | Cyber maturity       | All ISL-04 controls | All        |') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Additional Regulations') + '\n' +
+hl(D,'Add any client-specific contractual requirements')
+        }
+      ]
+    },
+
+    'Purview Label Configuration': {
+      icon: 'generate', module: 'ISL-04', area: 'Security & Compliance',
+      desc: 'Fully auto-generated Purview sensitivity label configuration and deployment script. No consultant adaptation needed — deploy directly from the accelerator output.',
+      files: [
+        { name: 'purview-label-config.json', type: 'json', content:
+hl(C,'// ↓ 100% auto-generated — no adaptation needed') + '\n' +
+'{\n' +
+'  ' + hl(A,'"tenant": "contoso.onmicrosoft.com"') + ',\n' +
+'  ' + hl(A,'"labels": [') + '\n' +
+'    ' + hl(A,'{ "name": "Public", "tier": 0, "encryption": false }') + ',\n' +
+'    ' + hl(A,'{ "name": "Internal", "tier": 1, "encryption": true }') + ',\n' +
+'    ' + hl(A,'{ "name": "Confidential", "tier": 2, "encryption": true }') + ',\n' +
+'    ' + hl(A,'{ "name": "Restricted", "tier": 3, "encryption": true, "watermark": true }') + '\n' +
+'  ' + hl(A,']') + '\n' +
+'}'
+        },
+        { name: 'Deploy-PurviewLabels.ps1', type: 'ps1', content:
+hl(C,'# ↓ Auto-generated deployment script') + '\n' +
+hl(A,'# Deploy-PurviewLabels.ps1') + '\n' +
+hl(A,'# Generated for Contoso Manufacturing') + '\n' +
+hl(A,'param(') + '\n' +
+hl(A,'  [string]$ConfigPath = "./purview-label-config.json",') + '\n' +
+hl(A,'  [switch]$WhatIf') + '\n' +
+hl(A,')') + '\n\n' +
+hl(A,'$config = Get-Content $ConfigPath | ConvertFrom-Json') + '\n' +
+hl(A,'foreach ($label in $config.labels) {') + '\n' +
+hl(A,'  Write-Host "Creating label: $($label.name)"') + '\n' +
+hl(A,'  if (-not $WhatIf) {') + '\n' +
+hl(A,'    New-Label -DisplayName $label.name') + '\n' +
+hl(A,'  }') + '\n' +
+hl(A,'}')
+        }
+      ]
+    },
+
+    'DLP Policy Definitions': {
+      icon: 'adapt', module: 'ISL-04', area: 'Security & Compliance',
+      desc: 'Data Loss Prevention policies mapped to classification tiers. The accelerator generates DLP rules for each tier with sensitive info type patterns.',
+      files: [
+        { name: 'dlp-policy-definitions.md', type: 'md', content:
+'# DLP Policy Definitions\n' +
+hl(A,'&gt; Module: ISL-04 | Client: Contoso Manufacturing') + '\n\n' +
+'## DLP Rules by Tier\n' +
+hl(A,'| Confidential | External share attempt    | Block + notify   |') + '\n' +
+hl(A,'| Confidential | Bulk download &gt; 100 files | Block + alert    |') + '\n' +
+hl(A,'| Restricted   | Any share outside tenant  | Block + audit    |') + '\n' +
+hl(A,'| Restricted   | USB/print attempt         | Block + escalate |') + '\n' +
+hl(A,'| Restricted   | Non-US region access      | Block + SOC alert|') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Custom DLP Rules') + '\n' +
+hl(D,'Add client-specific data loss scenarios')
+        }
+      ]
+    },
+
+    'Entra ID Group Structure': {
+      icon: 'adapt', module: 'ISL-04', area: 'Security & Compliance',
+      desc: 'Suggested Entra ID security group hierarchy aligned with classification tiers. The accelerator generates group naming patterns using the client\'s org prefix and domain taxonomy.',
+      files: [
+        { name: 'entra-id-groups.md', type: 'md', content:
+'# Entra ID Group Structure\n' +
+hl(A,'&gt; Module: ISL-04 | Client: Contoso Manufacturing') + '\n\n' +
+'## Group Naming Pattern\n' +
+'`SG-' + hl(A,'cto') + '-{domain}-{role}`\n\n' +
+'## Suggested Groups\n' +
+hl(C,'# ↓ Auto-generated from domain taxonomy + tier roles') + '\n' +
+hl(A,'| SG-cto-mfg-viewers      | mfg | Viewer      | Public       |') + '\n' +
+hl(A,'| SG-cto-mfg-contributors | mfg | Contributor | Internal     |') + '\n' +
+hl(A,'| SG-cto-mfg-members      | mfg | Member      | Confidential |') + '\n' +
+hl(A,'| SG-cto-mfg-admins       | mfg | Admin       | Restricted   |') + '\n' +
+hl(A,'| SG-cto-scm-viewers      | scm | Viewer      | Public       |') + '\n' +
+hl(A,'| SG-cto-scm-contributors | scm | Contributor | Internal     |') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Existing Groups') + '\n' +
+hl(D,'Map existing AD groups to ISL structure')
+        }
+      ]
+    },
+
+    'ITAR/HIPAA/PCI Security Addendum': {
+      icon: 'adapt', module: 'ISL-04', area: 'Security & Compliance',
+      desc: 'Conditional regulatory overlay — only generated when the profile includes ITAR, HIPAA, or PCI-DSS. The accelerator auto-detects applicable frameworks and generates the corresponding sections.',
+      files: [
+        { name: 'regulatory-security-addendum.md', type: 'md', content:
+'# Regulatory Security Addendum\n' +
+hl(A,'&gt; Module: ISL-04 | Client: Contoso Manufacturing') + '\n' +
+hl(C,'# ↓ Conditional: only ITAR/EAR sections (from profile)') + '\n\n' +
+'## ' + hl(A,'ITAR Controls') + '\n' +
+hl(A,'| US-Person verification   | Entra ID attribute check    |') + '\n' +
+hl(A,'| US-region-only storage   | Azure Policy: eastus/westus |') + '\n' +
+hl(A,'| Access logging           | 100% audit, 7-year retention|') + '\n' +
+hl(A,'| Export approval workflow | ServiceNow integration      |') + '\n\n' +
+'## ' + hl(A,'EAR Controls') + '\n' +
+hl(A,'| Export classification    | Pre-share classification    |') + '\n' +
+hl(A,'| Denied-party screening  | Automated at data egress    |') + '\n\n' +
+hl(C,'# HIPAA and PCI-DSS sections NOT included — not in profile') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Implementation Details') + '\n' +
+hl(D,'Specify ServiceNow workflow IDs and approval chains')
+        }
+      ]
+    },
+
+    'Semantic Model Naming Standard': {
+      icon: 'adapt', module: 'ISL-03', area: 'Analytics & BI',
+      desc: 'Naming conventions for Power BI semantic models. The accelerator fills in the org prefix and domain taxonomy to generate consistent model naming patterns.',
+      files: [
+        { name: 'semantic-model-naming.md', type: 'md', content:
+'# Semantic Model Naming Standard\n' +
+hl(A,'&gt; Module: ISL-03 | Client: Contoso Manufacturing') + '\n\n' +
+'## Pattern\n' +
+'`sm_' + hl(A,'cto') + '_{domain}_{subject}`\n\n' +
+'## Examples\n' +
+hl(A,'| sm_cto_mfg_production    | mfg | Production KPIs |') + '\n' +
+hl(A,'| sm_cto_scm_procurement   | scm | Procurement     |') + '\n' +
+hl(A,'| sm_cto_fin_cost_analysis | fin | Cost analysis   |') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Existing Models') + '\n' +
+hl(D,'Catalog existing models to rename or grandfather')
+        }
+      ]
+    },
+
+    'Report & Dashboard Naming Standard': {
+      icon: 'adapt', module: 'ISL-03', area: 'Analytics & BI',
+      desc: 'Naming rules for Power BI reports and dashboards. The accelerator generates the pattern with org prefix and domain taxonomy, providing examples for each domain.',
+      files: [
+        { name: 'report-dashboard-naming.md', type: 'md', content:
+'# Report &amp; Dashboard Naming Standard\n' +
+hl(A,'&gt; Module: ISL-03 | Client: Contoso Manufacturing') + '\n\n' +
+'## Report Pattern: `rpt_' + hl(A,'cto') + '_{domain}_{subject}`\n' +
+'## Dashboard Pattern: `dash_' + hl(A,'cto') + '_{domain}_{subject}`\n\n' +
+'## Examples\n' +
+hl(A,'| rpt_cto_mfg_oee_daily       | Report    | mfg |') + '\n' +
+hl(A,'| dash_cto_scm_supplier_kpi   | Dashboard | scm |') + '\n' +
+hl(A,'| rpt_cto_qms_defect_trending | Report    | qms |') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Report Catalog') + '\n' +
+hl(D,'Inventory existing reports for migration')
+        }
+      ]
+    },
+
+    'RLS/OLS Implementation Guide': {
+      icon: 'adapt', module: 'ISL-04', area: 'Analytics & BI',
+      desc: 'Row-Level and Object-Level Security tied to classification tiers. The accelerator generates RLS role patterns using the client\'s Entra ID group structure.',
+      files: [
+        { name: 'rls-ols-implementation.md', type: 'md', content:
+'# RLS/OLS Implementation Guide\n' +
+hl(A,'&gt; Module: ISL-04 | Client: Contoso Manufacturing') + '\n\n' +
+'## Row-Level Security Roles\n' +
+hl(A,'| MFG_Domain_Access | [Domain] = "mfg"    | SG-cto-mfg-members |') + '\n' +
+hl(A,'| SCM_Domain_Access | [Domain] = "scm"    | SG-cto-scm-members |') + '\n' +
+hl(A,'| Restricted_Filter | [Tier] &lt;= UserTier() | SG-cto-*-admins    |') + '\n\n' +
+'## Object-Level Security\n' +
+hl(A,'| Hide_PII      | [SSN], [DOB], [Salary] | Tier &lt; 2 |') + '\n' +
+hl(A,'| Hide_Financial | [Revenue], [Margin]    | Tier &lt; 2 |') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Custom RLS Rules') + '\n' +
+hl(D,'Define additional row filters for client-specific scenarios')
+        }
+      ]
+    },
+
+    'Data Lineage Visualization Standard': {
+      icon: 'adapt', module: 'ISL-02', area: 'Analytics & BI',
+      desc: 'Rules for rendering data lineage in catalogs and reports. The accelerator generates standards aligned with the governance platform and medallion architecture.',
+      files: [
+        { name: 'lineage-visualization.md', type: 'md', content:
+'# Data Lineage Visualization Standard\n' +
+hl(A,'&gt; Module: ISL-02 | Client: Contoso Manufacturing') + '\n' +
+hl(A,'&gt; Platform: Microsoft Purview') + '\n\n' +
+'## Lineage Levels\n' +
+hl(A,'| Dataset  | Table → Table     | Purview          |') + '\n' +
+hl(A,'| Column   | Column → Column   | Purview          |') + '\n' +
+hl(A,'| Pipeline | Source → Lakehouse| Fabric + Purview |') + '\n\n' +
+'## Rendering Rules\n' +
+hl(A,'- Show classification tier badges on each node') + '\n' +
+hl(A,'- Color-code by domain (mfg=green, scm=blue)') + '\n' +
+hl(A,'- Highlight cross-domain flows with dashed lines') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Custom Visualizations') + '\n' +
+hl(D,'Define additional lineage views for stakeholders')
+        }
+      ]
+    },
+
+    'Quality Scorecard Template': {
+      icon: 'adapt', module: 'ISL-06', area: 'Analytics & BI',
+      desc: 'Template for a data quality scorecard report. The accelerator populates quality dimensions, tier thresholds, and domain breakdowns from the quality SLA framework.',
+      files: [
+        { name: 'quality-scorecard.md', type: 'md', content:
+'# Quality Scorecard Template\n' +
+hl(A,'&gt; Module: ISL-06 | Client: Contoso Manufacturing') + '\n\n' +
+'## Scorecard Measures\n' +
+hl(A,'| Completeness Score | DQ Rule Library | ≥ 95% | 20% |') + '\n' +
+hl(A,'| Accuracy Score     | DQ Rule Library | ≥ 98% | 25% |') + '\n' +
+hl(A,'| Timeliness Score   | SLA Framework   | ≥ 99% | 20% |') + '\n' +
+hl(A,'| Consistency Score  | DQ Rule Library | ≥ 97% | 15% |') + '\n' +
+hl(A,'| Validity Score     | DQ Rule Library | ≥ 98% | 10% |') + '\n' +
+hl(A,'| Uniqueness Score   | DQ Rule Library | = 100%| 10% |') + '\n\n' +
+'## Domain Breakdown\n' +
+hl(A,'Domains: mfg, scm, qms, iot, erp, fin, hcm') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Scorecard Layout') + '\n' +
+hl(D,'Specify Power BI visual preferences and refresh schedule')
+        }
+      ]
+    },
+
+    'Workspace & Capacity Naming': {
+      icon: 'generate', module: 'ISL-03', area: 'Platform & Infra',
+      desc: 'Fully auto-generated Fabric workspace configuration and deployment script. Produces ready-to-deploy JSON and PowerShell from the client\'s prefix and domain taxonomy.',
+      files: [
+        { name: 'fabric-workspace-config.json', type: 'json', content:
+hl(C,'// ↓ 100% auto-generated — deploy directly') + '\n' +
+'{\n' +
+'  ' + hl(A,'"orgPrefix": "cto"') + ',\n' +
+'  ' + hl(A,'"workspaces": [') + '\n' +
+'    ' + hl(A,'{ "name": "cto_prd_mfg_bronze", "domain": "mfg" }') + ',\n' +
+'    ' + hl(A,'{ "name": "cto_prd_mfg_silver", "domain": "mfg" }') + ',\n' +
+'    ' + hl(A,'{ "name": "cto_prd_mfg_gold", "domain": "mfg" }') + ',\n' +
+'    ' + hl(A,'{ "name": "cto_prd_scm_bronze", "domain": "scm" }') + ',\n' +
+'    ' + hl(A,'{ "name": "cto_prd_scm_silver", "domain": "scm" }') + '\n' +
+'  ' + hl(A,']') + '\n' +
+'}'
+        },
+        { name: 'Deploy-FabricNaming.ps1', type: 'ps1', content:
+hl(C,'# ↓ Auto-generated deployment script') + '\n' +
+hl(A,'# Deploy-FabricNaming.ps1') + '\n' +
+hl(A,'# Generated for Contoso Manufacturing') + '\n' +
+hl(A,'param(') + '\n' +
+hl(A,'  [string]$ConfigPath = "./fabric-workspace-config.json",') + '\n' +
+hl(A,'  [string]$CapacityId,') + '\n' +
+hl(A,'  [switch]$WhatIf') + '\n' +
+hl(A,')') + '\n\n' +
+hl(A,'$config = Get-Content $ConfigPath | ConvertFrom-Json') + '\n' +
+hl(A,'foreach ($ws in $config.workspaces) {') + '\n' +
+hl(A,'  Write-Host "Creating workspace: $($ws.name)"') + '\n' +
+hl(A,'  if (-not $WhatIf) {') + '\n' +
+hl(A,'    New-FabricWorkspace -DisplayName $ws.name -CapacityId $CapacityId') + '\n' +
+hl(A,'  }') + '\n' +
+hl(A,'}')
+        }
+      ]
+    },
+
+    'Infrastructure Resource Naming': {
+      icon: 'adapt', module: 'ISL-03', area: 'Platform & Infra',
+      desc: 'Azure resource naming aligned with Cloud Adoption Framework. The accelerator merges CAF patterns with the client\'s org prefix and environment codes.',
+      files: [
+        { name: 'infrastructure-resource-naming.md', type: 'md', content:
+'# Infrastructure Resource Naming\n' +
+hl(A,'&gt; Module: ISL-03 | Client: Contoso Manufacturing') + '\n\n' +
+'## Azure Resource Patterns (CAF-Aligned)\n' +
+hl(A,'| Resource Group  | rg-cto-{env}-{workload}    | rg-cto-prd-datafactory |') + '\n' +
+hl(A,'| Storage Account | stcto{env}{purpose}        | stctoprdlakehouse      |') + '\n' +
+hl(A,'| Key Vault       | kv-cto-{env}-{purpose}     | kv-cto-prd-secrets     |') + '\n' +
+hl(A,'| Data Factory    | adf-cto-{env}-{domain}     | adf-cto-prd-mfg        |') + '\n' +
+hl(A,'| Fabric Capacity | fc-cto-{env}-{region}      | fc-cto-prd-eastus      |') + '\n' +
+hl(A,'| APIM Instance   | apim-cto-{env}             | apim-cto-prd           |') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Existing Resources') + '\n' +
+hl(D,'Map existing resources that cannot be renamed')
+        }
+      ]
+    },
+
+    'Environment Promotion Standard': {
+      icon: 'adapt', module: 'ISL-03', area: 'Platform & Infra',
+      desc: 'Defines how artifacts promote from dev to staging to production. The accelerator fills in environment codes, workspace naming, and promotion gates from the profile.',
+      files: [
+        { name: 'environment-promotion.md', type: 'md', content:
+'# Environment Promotion Standard\n' +
+hl(A,'&gt; Module: ISL-03 | Client: Contoso Manufacturing') + '\n\n' +
+'## Environment Codes\n' +
+hl(A,'| Sandbox     | sbx | Experimentation    |') + '\n' +
+hl(A,'| Development | dev | Active development |') + '\n' +
+hl(A,'| Staging     | stg | UAT / pre-prod     |') + '\n' +
+hl(A,'| Production  | prd | Live workloads     |') + '\n\n' +
+'## Promotion Flow\n' +
+hl(A,'dev → stg → prd') + '\n\n' +
+'## Promotion Gates\n' +
+hl(A,'| Code review      | Required | Required |') + '\n' +
+hl(A,'| DQ rules passing | ≥ 90%    | ≥ 98%    |') + '\n' +
+hl(A,'| Security scan    | Advisory | Required |') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Approval Process') + '\n' +
+hl(D,'Define who approves each promotion')
+        }
+      ]
+    },
+
+    'Deployment Runbook': {
+      icon: 'generate', module: 'All', area: 'Platform & Infra',
+      desc: 'Fully auto-generated deployment package with PowerShell scripts and manifest. Contains all adapter-specific configs and a single entry-point script for the entire deployment.',
+      files: [
+        { name: 'manifest.json', type: 'json', content:
+hl(C,'// ↓ 100% auto-generated deployment manifest') + '\n' +
+'{\n' +
+'  ' + hl(A,'"client": "Contoso Manufacturing"') + ',\n' +
+'  ' + hl(A,'"generated": "2026-02-06T14:30:00Z"') + ',\n' +
+'  ' + hl(A,'"modules": ["ISL-03","ISL-04","ISL-01","ISL-06","ISL-02","ISL-05"]') + ',\n' +
+'  ' + hl(A,'"adapters": ["fabric","purview","apim","webhook"]') + ',\n' +
+'  ' + hl(A,'"files": {') + '\n' +
+'    ' + hl(A,'"fabric": ["fabric-workspace-config.json","Deploy-FabricNaming.ps1"]') + ',\n' +
+'    ' + hl(A,'"purview": ["purview-label-config.json","Deploy-PurviewLabels.ps1"]') + ',\n' +
+'    ' + hl(A,'"apim": ["apim-policies.xml","Deploy-ApimPolicies.ps1"]') + '\n' +
+'  ' + hl(A,'}') + '\n' +
+'}'
+        },
+        { name: 'Deploy-All.ps1', type: 'ps1', content:
+hl(C,'# ↓ Master deployment orchestrator') + '\n' +
+hl(A,'# Deploy-All.ps1 — ISL Accelerator') + '\n' +
+hl(A,'# Contoso Manufacturing | Generated 2026-02-06') + '\n\n' +
+hl(A,'param([switch]$WhatIf)') + '\n\n' +
+hl(A,'Write-Host "=== ISL Deployment ===" -ForegroundColor Green') + '\n' +
+hl(A,'./Deploy-FabricNaming.ps1 -WhatIf:$WhatIf') + '\n' +
+hl(A,'./Deploy-PurviewLabels.ps1 -WhatIf:$WhatIf') + '\n' +
+hl(A,'./Deploy-ApimPolicies.ps1 -WhatIf:$WhatIf') + '\n' +
+hl(A,'Write-Host "=== Complete ===" -ForegroundColor Green')
+        }
+      ]
+    },
+
+    'API Design Standards': {
+      icon: 'adapt', module: 'ISL-01', area: 'Integration & API',
+      desc: 'REST API design conventions including URL patterns, HTTP methods, and status codes. The accelerator fills in the org prefix and generates APIM naming policy XML.',
+      files: [
+        { name: 'api-design-standards.md', type: 'md', content:
+'# API Design Standards\n' +
+hl(A,'&gt; Module: ISL-01 | Client: Contoso Manufacturing') + '\n\n' +
+'## Base URL Pattern\n' +
+hl(A,'https://api.contoso.com/v{version}/{resource}') + '\n\n' +
+'## HTTP Methods\n' +
+hl(A,'| GET    | Read resource   | 200, 404      |') + '\n' +
+hl(A,'| POST   | Create resource | 201, 400, 409 |') + '\n' +
+hl(A,'| PUT    | Full update     | 200, 404      |') + '\n' +
+hl(A,'| PATCH  | Partial update  | 200, 404      |') + '\n' +
+hl(A,'| DELETE | Remove resource | 204, 404      |') + '\n\n' +
+'## Naming Rules\n' +
+hl(A,'- Nouns, plural: /work-orders, /suppliers') + '\n' +
+hl(A,'- Kebab-case: /bill-of-materials') + '\n' +
+hl(A,'- Prefix: /cto/v1/{resource}') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Custom Endpoints') + '\n' +
+hl(D,'Define client-specific API resource taxonomy')
+        },
+        { name: 'apim-naming-policy.xml', type: 'xml', content:
+hl(C,'&lt;!-- Auto-generated APIM naming policy --&gt;') + '\n' +
+hl(A,'&lt;policies&gt;') + '\n' +
+hl(A,'  &lt;inbound&gt;') + '\n' +
+hl(A,'    &lt;set-header name="X-ISL-Client"&gt;') + '\n' +
+hl(A,'      &lt;value&gt;contoso-manufacturing&lt;/value&gt;') + '\n' +
+hl(A,'    &lt;/set-header&gt;') + '\n' +
+hl(A,'    &lt;rewrite-uri template="/cto/v1/{resource}" /&gt;') + '\n' +
+hl(A,'  &lt;/inbound&gt;') + '\n' +
+hl(A,'&lt;/policies&gt;')
+        }
+      ]
+    },
+
+    'API Versioning Policy': {
+      icon: 'adapt', module: 'ISL-01', area: 'Integration & API',
+      desc: 'Versioning strategy and lifecycle rules. The accelerator pre-selects the strategy from the APIM adapter config and generates the versioning policy XML.',
+      files: [
+        { name: 'api-versioning-policy.md', type: 'md', content:
+'# API Versioning Policy\n' +
+hl(A,'&gt; Module: ISL-01 | Client: Contoso Manufacturing') + '\n' +
+hl(A,'&gt; Strategy: URL-path (from APIM config)') + '\n\n' +
+'## Versioning Strategy\n' +
+hl(A,'Method: URL-path (/v1/, /v2/)') + '\n\n' +
+'## Lifecycle\n' +
+hl(A,'| Active     | Current  | Full support      |') + '\n' +
+hl(A,'| Deprecated | 6 months | Bug fixes only    |') + '\n' +
+hl(A,'| Sunset     | 3 months | Read-only         |') + '\n' +
+hl(A,'| Retired    | —        | Removed           |') + '\n\n' +
+'## Breaking Changes\n' +
+hl(A,'- New major version for breaking changes') + '\n' +
+hl(A,'- Minimum 6-month deprecation notice') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Version History') + '\n' +
+hl(D,'Document current API versions and sunset timelines')
+        }
+      ]
+    },
+
+    'API Security Standards': {
+      icon: 'adapt', module: 'ISL-01', area: 'Integration & API',
+      desc: 'API authentication, authorization, and security controls. The accelerator pre-fills the auth method from APIM config and generates security policy XML.',
+      files: [
+        { name: 'api-security-standards.md', type: 'md', content:
+'# API Security Standards\n' +
+hl(A,'&gt; Module: ISL-01 | Client: Contoso Manufacturing') + '\n' +
+hl(A,'&gt; Auth Method: OAuth 2.0 (from APIM config)') + '\n\n' +
+'## Authentication\n' +
+hl(A,'Method: OAuth 2.0 + Azure AD') + '\n\n' +
+'## Rate Limiting\n' +
+hl(A,'Default: 1000 requests/minute (from config)') + '\n' +
+hl(A,'| Free     | 100/min   | 20/sec  |') + '\n' +
+hl(A,'| Standard | 1000/min  | 50/sec  |') + '\n' +
+hl(A,'| Premium  | 10000/min | 200/sec |') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Security Policies') + '\n' +
+hl(D,'Define IP whitelists and custom auth flows')
+        },
+        { name: 'apim-security-policy.xml', type: 'xml', content:
+hl(C,'&lt;!-- Auto-generated APIM security policy --&gt;') + '\n' +
+hl(A,'&lt;policies&gt;') + '\n' +
+hl(A,'  &lt;inbound&gt;') + '\n' +
+hl(A,'    &lt;validate-jwt header-name="Authorization"&gt;') + '\n' +
+hl(A,'      &lt;openid-config url=".../.well-known/openid-configuration"/&gt;') + '\n' +
+hl(A,'    &lt;/validate-jwt&gt;') + '\n' +
+hl(A,'    &lt;rate-limit calls="1000" renewal-period="60" /&gt;') + '\n' +
+hl(A,'  &lt;/inbound&gt;') + '\n' +
+hl(A,'&lt;/policies&gt;')
+        }
+      ]
+    },
+
+    'API Lifecycle Governance': {
+      icon: 'adapt', module: 'ISL-01', area: 'Integration & API',
+      desc: 'Governance process for API proposal, review, publication, and retirement. The accelerator generates workflow stages with role assignments.',
+      files: [
+        { name: 'api-lifecycle-governance.md', type: 'md', content:
+'# API Lifecycle Governance\n' +
+hl(A,'&gt; Module: ISL-01 | Client: Contoso Manufacturing') + '\n\n' +
+'## Lifecycle Stages\n' +
+hl(A,'1. PROPOSE  → API request submitted') + '\n' +
+hl(A,'2. DESIGN   → Schema reviewed against ISL-01') + '\n' +
+hl(A,'3. BUILD    → Implementation + tests') + '\n' +
+hl(A,'4. REVIEW   → Security + governance review') + '\n' +
+hl(A,'5. PUBLISH  → Deployed to APIM, registered') + '\n' +
+hl(A,'6. MONITOR  → Usage metrics, SLA tracking') + '\n' +
+hl(A,'7. SUNSET   → Deprecation + migration') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Approval Chain') + '\n' +
+hl(D,'Define who approves each lifecycle stage')
+        }
+      ]
+    },
+
+    'API Catalog / Registry': {
+      icon: 'generate', module: 'ISL-01', area: 'Integration & API',
+      desc: 'Fully auto-generated APIM catalog JSON and deployment script. The accelerator creates the API registry with naming conventions and security policies applied.',
+      files: [
+        { name: 'apim-catalog.json', type: 'json', content:
+hl(C,'// ↓ 100% auto-generated APIM catalog') + '\n' +
+'{\n' +
+'  ' + hl(A,'"instance": "apim-cto-prd"') + ',\n' +
+'  ' + hl(A,'"apis": [') + '\n' +
+'    ' + hl(A,'{') + '\n' +
+'      ' + hl(A,'"name": "cto-manufacturing-api"') + ',\n' +
+'      ' + hl(A,'"version": "v1"') + ',\n' +
+'      ' + hl(A,'"path": "/cto/v1/manufacturing"') + ',\n' +
+'      ' + hl(A,'"auth": "oauth2", "rateLimit": 1000') + '\n' +
+'    ' + hl(A,'}') + '\n' +
+'  ' + hl(A,']') + '\n' +
+'}'
+        },
+        { name: 'Deploy-ApimPolicies.ps1', type: 'ps1', content:
+hl(C,'# ↓ Auto-generated APIM deployment') + '\n' +
+hl(A,'# Deploy-ApimPolicies.ps1') + '\n' +
+hl(A,'param(') + '\n' +
+hl(A,'  [string]$ConfigPath = "./apim-catalog.json",') + '\n' +
+hl(A,'  [string]$ResourceGroup = "rg-cto-prd-apim",') + '\n' +
+hl(A,'  [switch]$WhatIf') + '\n' +
+hl(A,')') + '\n\n' +
+hl(A,'$config = Get-Content $ConfigPath | ConvertFrom-Json') + '\n' +
+hl(A,'foreach ($api in $config.apis) {') + '\n' +
+hl(A,'  Write-Host "Registering: $($api.name)"') + '\n' +
+hl(A,'}')
+        }
+      ]
+    },
+
+    'Rate Limiting & Throttling Policy': {
+      icon: 'adapt', module: 'ISL-01', area: 'Integration & API',
+      desc: 'Rate limiting tiers and throttling behavior. The accelerator pulls the default rate limit from APIM config and generates tier-based limits.',
+      files: [
+        { name: 'rate-limiting-policy.md', type: 'md', content:
+'# Rate Limiting &amp; Throttling Policy\n' +
+hl(A,'&gt; Module: ISL-01 | Client: Contoso Manufacturing') + '\n' +
+hl(A,'&gt; Default Rate Limit: 1000 req/min (from APIM config)') + '\n\n' +
+'## Rate Tiers\n' +
+hl(A,'| Free     | 100    | 20/sec  | 5,000/day   |') + '\n' +
+hl(A,'| Standard | 1,000  | 50/sec  | 50,000/day  |') + '\n' +
+hl(A,'| Premium  | 10,000 | 200/sec | 500,000/day |') + '\n\n' +
+'## Throttling Behavior\n' +
+hl(A,'HTTP 429 with Retry-After header') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Custom Tiers') + '\n' +
+hl(D,'Define partner-specific rate limits')
+        }
+      ]
+    },
+
+    'Integration Pattern Catalog': {
+      icon: 'adapt', module: 'ISL-05', area: 'Integration & API',
+      desc: 'Reference catalog of 8 integration patterns with selection criteria. The accelerator generates platform-specific implementation details based on the data platform choice.',
+      files: [
+        { name: 'integration-pattern-catalog.md', type: 'md', content:
+'# Integration Pattern Catalog\n' +
+hl(A,'&gt; Module: ISL-05 | Client: Contoso Manufacturing') + '\n' +
+hl(A,'&gt; Platform: Microsoft Fabric') + '\n\n' +
+'## Pattern Reference\n' +
+hl(A,'| Batch ETL    | Hours   | High   | Fabric Data Factory    |') + '\n' +
+hl(A,'| Streaming    | Seconds | Medium | Fabric Eventstream     |') + '\n' +
+hl(A,'| API-Mediated | Millis  | Low    | Azure APIM             |') + '\n' +
+hl(A,'| Event-Driven | Seconds | Medium | Event Hubs + Functions |') + '\n' +
+hl(A,'| File Transfer| Hours   | High   | SFTP + Fabric pipeline |') + '\n' +
+hl(A,'| CDC          | Minutes | Medium | Fabric Mirroring       |') + '\n' +
+hl(A,'| Pub-Sub      | Seconds | Medium | Service Bus            |') + '\n' +
+hl(A,'| Request-Reply| Millis  | Low    | APIM + Functions       |') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Pattern Selection') + '\n' +
+hl(D,'Map each source system to its recommended pattern')
+        }
+      ]
+    },
+
+    'ERP Integration Architecture': {
+      icon: 'adapt', module: 'ISL-05', area: 'Integration & API',
+      desc: 'Architecture document for ERP-to-lakehouse integration. The accelerator generates the integration pattern, domain mapping, and data flow based on the platform and industry profile.',
+      files: [
+        { name: 'erp-integration-architecture.md', type: 'md', content:
+'# ERP Integration Architecture\n' +
+hl(A,'&gt; Module: ISL-05 | Client: Contoso Manufacturing') + '\n' +
+hl(A,'&gt; Platform: Microsoft Fabric') + '\n\n' +
+'## Integration Pattern\n' +
+hl(A,'ERP → Batch ETL → Bronze → Silver → Gold') + '\n\n' +
+'## Data Flow\n' +
+hl(A,'| Production | mfg | Batch ETL | 4x daily  |') + '\n' +
+hl(A,'| Purchasing | scm | Batch ETL | 2x daily  |') + '\n' +
+hl(A,'| Quality    | qms | CDC       | Real-time |') + '\n' +
+hl(A,'| Finance    | fin | Batch ETL | Daily     |') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] ERP Details') + '\n' +
+hl(D,'Specify ERP vendor, version, and extract method')
+        }
+      ]
+    },
+
+    'Webhook / Event Delivery Config': {
+      icon: 'generate', module: 'ISL-05', area: 'Integration & API',
+      desc: 'Fully auto-generated webhook configuration and delivery script. Produces JSON config and PowerShell for event notifications.',
+      files: [
+        { name: 'webhook-config.json', type: 'json', content:
+hl(C,'// ↓ 100% auto-generated webhook configuration') + '\n' +
+'{\n' +
+'  ' + hl(A,'"endpoints": [') + '\n' +
+'    ' + hl(A,'{') + '\n' +
+'      ' + hl(A,'"name": "quality-alert"') + ',\n' +
+'      ' + hl(A,'"url": "https://hooks.contoso.com/quality"') + ',\n' +
+'      ' + hl(A,'"events": ["dq.rule.failed","dq.sla.breached"]') + ',\n' +
+'      ' + hl(A,'"retryPolicy": { "maxRetries": 3, "backoffMs": 1000 }') + '\n' +
+'    ' + hl(A,'}') + '\n' +
+'  ' + hl(A,']') + '\n' +
+'}'
+        },
+        { name: 'Send-Webhook.ps1', type: 'ps1', content:
+hl(C,'# ↓ Auto-generated webhook sender') + '\n' +
+hl(A,'# Send-Webhook.ps1') + '\n' +
+hl(A,'param(') + '\n' +
+hl(A,'  [string]$ConfigPath = "./webhook-config.json",') + '\n' +
+hl(A,'  [string]$Event,') + '\n' +
+hl(A,'  [string]$Payload') + '\n' +
+hl(A,')') + '\n\n' +
+hl(A,'$config = Get-Content $ConfigPath | ConvertFrom-Json') + '\n' +
+hl(A,'$ep = $config.endpoints | Where-Object { $_.events -contains $Event }') + '\n' +
+hl(A,'if ($ep) { Invoke-RestMethod -Uri $ep.url -Method POST -Body $Payload }')
+        }
+      ]
+    },
+
+    'Data Lineage Requirements': {
+      icon: 'adapt', module: 'ISL-02', area: 'Data Governance',
+      desc: 'Requirements for capturing and storing data lineage. The accelerator generates lineage requirements aligned with the governance platform and medallion architecture.',
+      files: [
+        { name: 'lineage-requirements.md', type: 'md', content:
+'# Data Lineage Requirements\n' +
+hl(A,'&gt; Module: ISL-02 | Client: Contoso Manufacturing') + '\n' +
+hl(A,'&gt; Platform: Microsoft Purview') + '\n\n' +
+'## Capture Requirements\n' +
+hl(A,'| Pipeline       | Fabric pipelines | Automatic (Purview)  |') + '\n' +
+hl(A,'| Transformation | Spark notebooks  | Annotation-based     |') + '\n' +
+hl(A,'| Cross-system   | ERP → Lakehouse  | Custom scanner       |') + '\n\n' +
+'## Storage\n' +
+hl(A,'Governance platform: Microsoft Purview') + '\n' +
+hl(A,'Retention: 3 years minimum') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Legacy Systems') + '\n' +
+hl(D,'Identify systems requiring custom lineage connectors')
+        }
+      ]
+    },
+
+    'Metadata Integration Patterns': {
+      icon: 'adapt', module: 'ISL-02', area: 'Data Governance',
+      desc: 'Patterns for integrating metadata across tools and platforms. The accelerator generates connector configurations for the selected governance and data platforms.',
+      files: [
+        { name: 'metadata-integration.md', type: 'md', content:
+'# Metadata Integration Patterns\n' +
+hl(A,'&gt; Module: ISL-02 | Client: Contoso Manufacturing') + '\n' +
+hl(A,'&gt; Governance: Purview | Data: Fabric') + '\n\n' +
+'## Connector Matrix\n' +
+hl(A,'| Fabric Lakehouse | Built-in | Real-time | Schema, lineage  |') + '\n' +
+hl(A,'| Power BI         | Built-in | Daily     | Reports, datasets|') + '\n' +
+hl(A,'| Azure SQL        | Built-in | Daily     | Tables, views    |') + '\n' +
+hl(A,'| APIM             | Custom   | Weekly    | API definitions  |') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Additional Sources') + '\n' +
+hl(D,'List on-premise and third-party systems to scan')
+        }
+      ]
+    },
+
+    'Remediation Workflow': {
+      icon: 'adapt', module: 'ISL-06', area: 'Data Engineering',
+      desc: 'Process for triaging and resolving data quality issues. The accelerator generates workflow steps, severity matrix, and escalation paths from the quality SLA framework.',
+      files: [
+        { name: 'remediation-workflow.md', type: 'md', content:
+'# Data Quality Remediation Workflow\n' +
+hl(A,'&gt; Module: ISL-06 | Client: Contoso Manufacturing') + '\n\n' +
+'## Triage Flow\n' +
+hl(A,'1. DETECT   → Quality rule fails (automated)') + '\n' +
+hl(A,'2. CLASSIFY → Severity assigned by tier + dimension') + '\n' +
+hl(A,'3. ASSIGN   → Routed to domain data steward') + '\n' +
+hl(A,'4. ANALYZE  → Root cause analysis') + '\n' +
+hl(A,'5. FIX      → Correction applied + validated') + '\n' +
+hl(A,'6. CLOSE    → Documented in remediation log') + '\n\n' +
+'## Severity Matrix\n' +
+hl(A,'| Restricted   | P1 | P1 | 15 minutes |') + '\n' +
+hl(A,'| Confidential | P2 | P1 | 1 hour     |') + '\n' +
+hl(A,'| Internal     | P3 | P2 | 4 hours    |') + '\n' +
+hl(A,'| Public       | P3 | P3 | Next day   |') + '\n\n' +
+'## ' + hl(D,'[ADAPTATION REQUIRED] Escalation Contacts') + '\n' +
+hl(D,'Define contact information for each severity level')
+        }
+      ]
+    }
+  };
+
+  /* ═══════════════════════════════════════════
+   * MODAL LOGIC — open, populate, close
+   * ═══════════════════════════════════════════ */
+  var overlay = document.getElementById('doc-modal');
+  var titleEl = document.getElementById('dm-title');
+  var metaEl  = document.getElementById('dm-meta');
+  var iconEl  = document.getElementById('dm-icon');
+  var bodyEl  = document.getElementById('dm-body');
+  var closeBtn= document.getElementById('dm-close');
+
+  function openModal(docName) {
+    var doc = DOC_EXAMPLES[docName];
+    if (!doc) return;
+
+    // Icon
+    iconEl.className = 'modal-icon ' + doc.icon;
+    var iconSymbols = { adapt: '&#9998;', generate: '&#9881;', manual: '&#9997;' };
+    iconEl.innerHTML = iconSymbols[doc.icon] || '&#128196;';
+
+    // Header
+    titleEl.textContent = docName;
+    var roleLabels = { adapt: 'Adapt \u2014 Template Pre-filled', generate: 'Generate \u2014 Fully Automated', manual: 'Manual \u2014 Consultant Authored' };
+    metaEl.innerHTML = '<span>' + doc.module + '</span><span>' + doc.area + '</span><span>' + (roleLabels[doc.icon] || '') + '</span>';
+
+    // Body
+    var html = '<p class="modal-desc">' + doc.desc + '</p>';
+
+    // Legend
+    html += '<div class="doc-legend">';
+    html += '<div class="doc-legend-item"><div class="doc-legend-swatch green"></div> Accelerator-generated</div>';
+    html += '<div class="doc-legend-item"><div class="doc-legend-swatch orange"></div> [ADAPTATION REQUIRED]</div>';
+    html += '<div class="doc-legend-item"><div class="doc-legend-swatch gray"></div> Comment / context</div>';
+    html += '</div>';
+
+    // File previews
+    doc.files.forEach(function(f) {
+      html += '<h4>' + escHtml(f.name) + '</h4>';
+      html += '<div class="doc-preview">';
+      html += '<div class="doc-preview-header"><span>' + escHtml(f.name) + '</span><span class="file-type ' + f.type + '">' + f.type.toUpperCase() + '</span></div>';
+      html += '<div class="doc-preview-body">' + f.content + '</div>';
+      html += '</div>';
+    });
+
+    bodyEl.innerHTML = html;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function escHtml(str) {
+    var d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  // Close handlers
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) closeModal();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+  });
+
+  // Wire up table row clicks
+  document.querySelectorAll('.doc-matrix tbody tr').forEach(function(row) {
+    row.addEventListener('click', function() {
+      var firstCell = row.querySelector('td');
+      if (firstCell) {
+        var docName = firstCell.textContent.trim();
+        openModal(docName);
+      }
+    });
+    row.title = 'Click to view example with accelerator highlights';
+  });
+})();
+</script>
 </body>
 </html>

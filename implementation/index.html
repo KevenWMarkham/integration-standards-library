@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ISL Implementation Accelerator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/accelerator.css" />
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-brand">
+      <span class="accent">ISL</span> Implementation Accelerator
+    </div>
+    <div class="nav-links" id="nav-links">
+      <a class="nav-link active" data-view="dashboard" href="#">Dashboard</a>
+      <a class="nav-link" data-view="modules" href="#">Modules</a>
+      <a class="nav-link" data-view="deploy" href="#">Deploy</a>
+      <a class="nav-link" data-view="wizard" href="#">Wizard</a>
+    </div>
+  </nav>
+
+  <!-- Main Content Area -->
+  <div id="app" style="margin-top:64px; min-height:calc(100vh - 64px); padding:2rem;">
+    <div style="text-align:center; padding:4rem 0;">
+      <div class="spinner" style="margin:0 auto 1rem;"></div>
+      <p class="text-muted">Loading accelerator...</p>
+    </div>
+  </div>
+
+  <!-- Import Config Modal -->
+  <div class="modal-overlay" id="import-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Import Configuration</h3>
+        <button class="modal-close" id="import-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="text-sm text-muted mb-2">Paste a previously exported ISL configuration JSON to restore settings.</p>
+        <textarea class="form-textarea" id="import-json" rows="10" placeholder='{"clientName":"...","industry":"..."}'></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="import-cancel">Cancel</button>
+        <button class="btn btn-primary" id="import-apply">Import</button>
+      </div>
+    </div>
+  </div>
+
+  <!--
+    Module loading strategy:
+    ES modules require HTTP (blocked by CORS on file://).
+    We load all scripts as classic scripts in dependency order,
+    each class is attached to globalThis.ISL namespace.
+  -->
+  <script>window.ISL = {};</script>
+  <script src="js/core/config-store.js"></script>
+  <script src="js/core/template-transformer.js"></script>
+  <script src="js/core/output-generator.js"></script>
+  <script src="js/core/engine.js"></script>
+  <script src="js/adapters/context/profile-loader.js"></script>
+  <script src="js/adapters/context/parameter-resolver.js"></script>
+  <script src="js/adapters/platform/fabric-adapter.js"></script>
+  <script src="js/adapters/platform/purview-adapter.js"></script>
+  <script src="js/adapters/platform/apim-adapter.js"></script>
+  <script src="js/adapters/platform/webhook-adapter.js"></script>
+  <script src="js/plugins/plugin-interface.js"></script>
+  <script src="js/plugins/plugin-registry.js"></script>
+  <script src="js/ui/wizard.js"></script>
+  <script src="js/ui/dashboard.js"></script>
+  <script src="js/ui/module-configurator.js"></script>
+  <script src="js/ui/deployment-console.js"></script>
+
+  <script>
+    (function() {
+      const {
+        ConfigStore, AdapterEngine, TemplateTransformer, OutputGenerator,
+        ProfileLoader, ParameterResolver,
+        FabricAdapter, PurviewAdapter, ApimAdapter, WebhookAdapter,
+        PluginRegistry,
+        Wizard, Dashboard, ModuleConfigurator, DeploymentConsole
+      } = window.ISL;
+
+      // ── Initialize ──────────────────────────────────────────
+      const configStore = new ConfigStore();
+      const profileLoader = new ProfileLoader();
+      const resolver = new ParameterResolver(profileLoader);
+      const pluginRegistry = new PluginRegistry();
+
+      // Create engine and register built-in adapters
+      const engine = new AdapterEngine(configStore);
+      engine.registerAdapter(FabricAdapter);
+      engine.registerAdapter(PurviewAdapter);
+      engine.registerAdapter(ApimAdapter);
+      engine.registerAdapter(WebhookAdapter);
+
+      // ── Views ───────────────────────────────────────────────
+      const app = document.getElementById('app');
+      let currentView = 'dashboard';
+
+      const wizard = new Wizard(configStore, (config) => {
+        navigateTo('dashboard');
+      });
+
+      const dashboard = new Dashboard(configStore, engine, {
+        onRunWizard: () => navigateTo('wizard'),
+        onGenerate: () => navigateTo('deploy')
+      });
+
+      const moduleConfigurator = new ModuleConfigurator(configStore);
+      const deployConsole = new DeploymentConsole(engine, configStore);
+
+      function navigateTo(view) {
+        currentView = view;
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+          link.classList.toggle('active', link.dataset.view === view);
+        });
+
+        app.innerHTML = '';
+        switch (view) {
+          case 'wizard': wizard.render(app); break;
+          case 'dashboard': dashboard.render(app); break;
+          case 'modules': moduleConfigurator.render(app); break;
+          case 'deploy': deployConsole.render(app); break;
+        }
+      }
+
+      // ── Navigation ──────────────────────────────────────────
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          navigateTo(link.dataset.view);
+        });
+      });
+
+      window.addEventListener('scroll', () => {
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10);
+      });
+
+      // ── Import Modal ────────────────────────────────────────
+      const importModal = document.getElementById('import-modal');
+      document.getElementById('import-close')?.addEventListener('click', () => importModal.classList.remove('active'));
+      document.getElementById('import-cancel')?.addEventListener('click', () => importModal.classList.remove('active'));
+      document.getElementById('import-apply')?.addEventListener('click', () => {
+        const json = document.getElementById('import-json').value;
+        if (configStore.importJSON(json)) {
+          importModal.classList.remove('active');
+          navigateTo(currentView);
+        } else {
+          alert('Invalid JSON configuration. Please check the format.');
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.key === 'i') {
+          e.preventDefault();
+          importModal.classList.add('active');
+        }
+      });
+
+      // ── Boot ────────────────────────────────────────────────
+      if (configStore.isFirstRun()) {
+        navigateTo('wizard');
+      } else {
+        navigateTo('dashboard');
+      }
+    })();
+  </script>
+</body>
+</html>

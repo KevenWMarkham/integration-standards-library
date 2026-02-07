@@ -1,0 +1,63 @@
+{
+  "id": "healthcare",
+  "name": "Healthcare",
+  "description": "Healthcare profile with HIPAA, HL7/FHIR, and PHI handling defaults.",
+  "industry": "healthcare",
+  "environment": {
+    "cloud": "azure",
+    "dataplatform": "fabric",
+    "governance": "purview"
+  },
+  "naming": {
+    "orgPrefix": "",
+    "envCodes": { "dev": "d", "test": "t", "staging": "s", "prod": "p" },
+    "separator": "_",
+    "domainPrefixes": {
+      "clinical": "cln",
+      "pharmacy": "phm",
+      "billing": "bil",
+      "claims": "clm",
+      "research": "rch",
+      "genomics": "gnm",
+      "imaging": "img",
+      "ehr": "ehr"
+    }
+  },
+  "classification": {
+    "tierCount": 4,
+    "tierLabels": ["Public", "Internal", "Confidential-PHI", "Restricted-PHI"],
+    "regulatoryFrameworks": ["HIPAA", "HITECH", "FDA-21CFR11", "GDPR"],
+    "specialCategories": ["PHI", "ePHI", "Psychotherapy-Notes", "Genomic-Data", "Substance-Abuse"]
+  },
+  "modules": {
+    "recommended": ["ISL-03", "ISL-04", "ISL-01", "ISL-06", "ISL-02"],
+    "phaseMap": {
+      "foundation": ["ISL-03", "ISL-04"],
+      "core": ["ISL-01", "ISL-06"],
+      "advanced": ["ISL-02"]
+    }
+  },
+  "adapters": {
+    "recommended": ["fabric", "purview"],
+    "config": {
+      "fabric": {
+        "workspacePattern": "{{orgPrefix}}_{{envCode}}_{{domain}}_{{layer}}",
+        "lakehouseLayers": ["brz", "slv", "gld"],
+        "medallionEnabled": true,
+        "phiIsolation": true
+      },
+      "purview": {
+        "labelPrefix": "{{orgPrefix}}",
+        "autoClassification": true,
+        "hipaaLabelsEnabled": true,
+        "phiDetection": true
+      }
+    }
+  },
+  "overlays": {
+    "hipaa": true,
+    "fhir": true,
+    "phi": true,
+    "medallion": true
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "id": "manufacturing",
+  "name": "Manufacturing",
+  "description": "Manufacturing industry profile with ITAR/EAR, IoT/OT, and ERP integration defaults. Aligned with ISL manufacturing overlays.",
+  "industry": "manufacturing",
+  "environment": {
+    "cloud": "azure",
+    "dataplatform": "fabric",
+    "governance": "purview"
+  },
+  "naming": {
+    "orgPrefix": "",
+    "envCodes": { "dev": "d", "test": "t", "staging": "s", "prod": "p" },
+    "separator": "_",
+    "domainPrefixes": {
+      "manufacturing": "mfg",
+      "supplyChain": "scm",
+      "quality": "qms",
+      "maintenance": "mnt",
+      "iot": "iot",
+      "erp": "erp",
+      "finance": "fin",
+      "hr": "hcm"
+    }
+  },
+  "classification": {
+    "tierCount": 4,
+    "tierLabels": ["Public", "Internal", "Confidential", "Restricted"],
+    "regulatoryFrameworks": ["ITAR", "EAR", "SOX", "NIST-800-171", "CMMC"],
+    "specialCategories": ["CUI", "ITAR-Controlled", "OT-Safety-Critical"]
+  },
+  "modules": {
+    "recommended": ["ISL-03", "ISL-04", "ISL-01", "ISL-06", "ISL-02", "ISL-05"],
+    "phaseMap": {
+      "foundation": ["ISL-03", "ISL-04"],
+      "core": ["ISL-01", "ISL-06"],
+      "advanced": ["ISL-02", "ISL-05"]
+    }
+  },
+  "adapters": {
+    "recommended": ["fabric", "purview", "apim"],
+    "config": {
+      "fabric": {
+        "workspacePattern": "{{orgPrefix}}_{{envCode}}_{{domain}}_{{layer}}",
+        "lakehouseLayers": ["brz", "slv", "gld"],
+        "medallionEnabled": true
+      },
+      "purview": {
+        "labelPrefix": "{{orgPrefix}}",
+        "autoClassification": true,
+        "itarLabelsEnabled": true
+      },
+      "apim": {
+        "versioningStrategy": "url-path",
+        "authMethod": "oauth2",
+        "rateLimitDefault": 1000
+      }
+    }
+  },
+  "overlays": {
+    "itar": true,
+    "iot": true,
+    "erp": true,
+    "medallion": true
+  }
+}

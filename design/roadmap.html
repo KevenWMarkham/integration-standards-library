@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Strategic Roadmap | DMTSP Integration Standards Library</title>
+    <title>Engagement Deployment Roadmap | DMTSP Integration Standards Library</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -208,6 +208,14 @@
         .hero h1 strong {
             color: var(--primary);
             font-weight: 800;
+        }
+
+        .hero-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+            max-width: 780px;
         }
 
         .hero-meta {
@@ -738,6 +746,93 @@
             border-color: var(--border-light);
         }
 
+        /* ======================== COMPARISON BOX ======================== */
+
+        .comparison-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1.25rem 0;
+        }
+
+        .comparison-side {
+            border-radius: var(--radius-sm);
+            padding: 1.25rem;
+            position: relative;
+        }
+
+        .comparison-side.baseline {
+            background: rgba(231, 76, 60, 0.06);
+            border: 1px solid rgba(231, 76, 60, 0.2);
+        }
+
+        .comparison-side.accelerated {
+            background: rgba(134, 188, 37, 0.06);
+            border: 1px solid rgba(134, 188, 37, 0.2);
+        }
+
+        .comparison-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .comparison-side.baseline .comparison-label {
+            color: var(--danger);
+        }
+
+        .comparison-side.accelerated .comparison-label {
+            color: var(--primary);
+        }
+
+        .comparison-value {
+            font-size: 1.75rem;
+            font-weight: 800;
+            display: block;
+            margin-bottom: 0.25rem;
+            letter-spacing: -0.02em;
+        }
+
+        .comparison-side.baseline .comparison-value {
+            color: #e0e0e0;
+        }
+
+        .comparison-side.accelerated .comparison-value {
+            color: var(--primary);
+        }
+
+        .comparison-detail {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .comparison-savings {
+            text-align: center;
+            padding: 0.75rem;
+            margin-top: 0rem;
+            margin-bottom: 1rem;
+            background: rgba(134, 188, 37, 0.08);
+            border: 1px solid rgba(134, 188, 37, 0.15);
+            border-radius: var(--radius-sm);
+            grid-column: 1 / -1;
+        }
+
+        .comparison-savings .savings-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .comparison-savings .savings-label {
+            font-size: 0.775rem;
+            color: var(--text-secondary);
+            margin-left: 0.5rem;
+        }
+
         /* ======================== RISK TABLE ======================== */
 
         .risk-high {
@@ -877,6 +972,9 @@
             .footer {
                 margin-left: 0;
             }
+            .comparison-box {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 600px) {
@@ -920,16 +1018,16 @@
     <!-- ======================== HERO ======================== -->
     <section class="hero">
         <div class="hero-inner">
-            <h1>Strategic <strong>Roadmap</strong></h1>
+            <h1>Engagement <strong>Deployment Roadmap</strong></h1>
+            <p class="hero-subtitle">
+                Phase 4 accelerated standards delivery &mdash; deploy pre-built modules to reduce per-engagement standards effort by 30&ndash;57%
+            </p>
             <div class="hero-meta">
                 <span class="hero-meta-item">
-                    <span class="meta-icon">&#9998;</span> Keven Markham
+                    <span class="meta-icon">&#9878;</span> Execution Model: Phase 4 Accelerated Delivery
                 </span>
                 <span class="hero-meta-item">
-                    <span class="meta-icon">&#128197;</span> February 6, 2026
-                </span>
-                <span class="hero-meta-item">
-                    <span class="meta-icon">&#9878;</span> Version 1.0
+                    <span class="meta-icon">&#127760;</span> Reusability: Global &mdash; every engagement
                 </span>
             </div>
             <div class="hero-stats">
@@ -938,16 +1036,16 @@
                     <span class="stat-label">Modules</span>
                 </div>
                 <div class="hero-stat">
-                    <span class="stat-value">4</span>
-                    <span class="stat-label">Phases</span>
+                    <span class="stat-value">~300 hrs</span>
+                    <span class="stat-label">Accelerated Budget</span>
                 </div>
                 <div class="hero-stat">
-                    <span class="stat-value">~470</span>
-                    <span class="stat-label">Build Hours</span>
+                    <span class="stat-value">8 wks</span>
+                    <span class="stat-label">Target Timeline</span>
                 </div>
                 <div class="hero-stat">
-                    <span class="stat-value">~50%</span>
-                    <span class="stat-label">Per-Engagement Reduction</span>
+                    <span class="stat-value">30&ndash;57%</span>
+                    <span class="stat-label">Effort Reduction</span>
                 </div>
             </div>
             <div class="hero-actions">
@@ -965,28 +1063,27 @@
             <div class="toc-divider"></div>
             <li><a href="#scope-module-inventory" data-section="scope-module-inventory">Scope &amp; Module Inventory</a></li>
             <li><a href="#module-breakdown" data-section="module-breakdown" class="toc-sub">Module Breakdown</a></li>
-            <li><a href="#dependency-map" data-section="dependency-map" class="toc-sub">Dependency Map</a></li>
+            <li><a href="#deployment-order" data-section="deployment-order" class="toc-sub">Deployment Order</a></li>
             <div class="toc-divider"></div>
             <li><a href="#prerequisites" data-section="prerequisites">Prerequisites &amp; Dependencies</a></li>
-            <li><a href="#prereq-resources" data-section="prereq-resources" class="toc-sub">Resources</a></li>
-            <li><a href="#prereq-tooling" data-section="prereq-tooling" class="toc-sub">Tooling</a></li>
-            <li><a href="#prereq-team" data-section="prereq-team" class="toc-sub">Team</a></li>
-            <li><a href="#prereq-external" data-section="prereq-external" class="toc-sub">External</a></li>
+            <li><a href="#prereq-engagement" data-section="prereq-engagement" class="toc-sub">Engagement Prerequisites</a></li>
+            <li><a href="#prereq-team" data-section="prereq-team" class="toc-sub">Engagement Team</a></li>
             <div class="toc-divider"></div>
-            <li><a href="#phase-0" data-section="phase-0">Phase 0: Discovery &amp; Baseline</a></li>
-            <li><a href="#phase-1" data-section="phase-1">Phase 1: Foundation Modules</a></li>
+            <li><a href="#phase-0" data-section="phase-0">Phase 0: Accelerator Setup</a></li>
+            <li><a href="#phase-1" data-section="phase-1">Phase 1: Foundation Deployment</a></li>
             <li><a href="#phase-1-isl03" data-section="phase-1-isl03" class="toc-sub">ISL-03 Naming Conventions</a></li>
             <li><a href="#phase-1-isl04" data-section="phase-1-isl04" class="toc-sub">ISL-04 Data Classification</a></li>
-            <li><a href="#phase-2" data-section="phase-2">Phase 2: Core Modules</a></li>
+            <li><a href="#phase-2" data-section="phase-2">Phase 2: Core Deployment</a></li>
             <li><a href="#phase-2-isl01" data-section="phase-2-isl01" class="toc-sub">ISL-01 API Governance</a></li>
             <li><a href="#phase-2-isl06" data-section="phase-2-isl06" class="toc-sub">ISL-06 Data Quality</a></li>
-            <li><a href="#phase-3" data-section="phase-3">Phase 3: Advanced Modules</a></li>
+            <li><a href="#phase-3" data-section="phase-3">Phase 3: Advanced Deployment</a></li>
             <li><a href="#phase-3-isl02" data-section="phase-3-isl02" class="toc-sub">ISL-02 Metadata &amp; Lineage</a></li>
             <li><a href="#phase-3-isl05" data-section="phase-3-isl05" class="toc-sub">ISL-05 Integration Patterns</a></li>
-            <li><a href="#phase-4" data-section="phase-4">Phase 4: Packaging &amp; Pilot</a></li>
+            <li><a href="#phase-4" data-section="phase-4">Phase 4: Validation &amp; Handoff</a></li>
             <div class="toc-divider"></div>
             <li><a href="#risk-register" data-section="risk-register">Risk Register</a></li>
             <li><a href="#success-criteria" data-section="success-criteria">Success Criteria</a></li>
+            <li><a href="#reference-standards" data-section="reference-standards">Reference Standards</a></li>
         </ul>
     </aside>
 
@@ -1001,10 +1098,13 @@
                         <h2 class="card-title"><span class="section-num">1.</span> Executive Summary</h2>
                     </div>
                     <p>
-                        The <strong>Integration Standards Library</strong> (ACC-03) is a reusable collection of 6 pre-built standards modules that accelerate Phase 4 (Standards Definition) of Enterprise Data Architecture engagements. Rather than building governance artifacts from scratch at each client, practitioners adapt proven templates &mdash; reducing per-engagement standards effort by 30&ndash;40% and improving cross-portfolio consistency. This roadmap defines a 4-sprint internal buildout (10 weeks) to take the library from concept to production-ready accelerator.
+                        The <strong>Integration Standards Library</strong> (ISL) is a production-ready accelerator deployed at every Enterprise Data Architecture engagement. Rather than building governance artifacts from scratch at each client, engagement teams adapt pre-built standards modules to client context &mdash; saving 200&ndash;400 hours per engagement and compressing Phase 4 timelines from 12&ndash;16 weeks down to 8 weeks.
+                    </p>
+                    <p>
+                        This roadmap defines the <strong>engagement deployment sequence</strong> &mdash; the precise order in which engagement teams adapt and deliver pre-built standards modules, the prerequisites required before deployment begins, and the phase gates that ensure quality and client sign-off at every step.
                     </p>
 
-                    <h3>Hours Impact (Per Engagement)</h3>
+                    <h3>Engagement Hours Impact</h3>
                     <div class="data-table-wrapper">
                         <table class="data-table">
                             <thead>
@@ -1015,28 +1115,20 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Base Hours (Phase 4 Standards Definition)</td>
+                                    <td>Baseline Hours (Phase 4 without ISL)</td>
                                     <td class="col-hours">500&ndash;700</td>
                                 </tr>
                                 <tr>
                                     <td>Accelerated Hours (with ISL)</td>
-                                    <td class="col-hours">350&ndash;500</td>
-                                </tr>
-                                <tr>
-                                    <td>Phase 4 Hours Saved</td>
-                                    <td class="col-hours">150&ndash;200</td>
-                                </tr>
-                                <tr>
-                                    <td>Cross-Phase Additional Savings (P1&ndash;P3)</td>
-                                    <td class="col-hours">110&ndash;200</td>
+                                    <td class="col-hours">~300</td>
                                 </tr>
                                 <tr class="row-total">
                                     <td>Total Per-Engagement Savings</td>
-                                    <td class="col-hours">260&ndash;400</td>
+                                    <td class="col-hours">200&ndash;400</td>
                                 </tr>
                                 <tr class="row-total">
                                     <td>Reduction</td>
-                                    <td class="col-reduction">~35%</td>
+                                    <td class="col-reduction">30&ndash;57%</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1054,104 +1146,97 @@
                         <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th>#</th>
                                     <th>Module</th>
                                     <th>ID</th>
-                                    <th>Templates</th>
-                                    <th>Examples</th>
-                                    <th>Build Hrs</th>
-                                    <th>Per-Engagement Savings</th>
+                                    <th>Accelerated Hrs</th>
+                                    <th>Baseline Hrs</th>
+                                    <th>Hours Saved</th>
                                     <th>Reduction %</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td class="col-num">1</td>
                                     <td>Naming Conventions</td>
                                     <td class="col-id">ISL-03</td>
-                                    <td>7</td>
-                                    <td>2</td>
-                                    <td class="col-hours">20&ndash;30</td>
+                                    <td class="col-hours">10&ndash;18</td>
+                                    <td class="col-hours">30&ndash;50</td>
                                     <td class="col-hours">20&ndash;32</td>
                                     <td class="col-reduction">55&ndash;65%</td>
                                 </tr>
                                 <tr>
-                                    <td class="col-num">2</td>
                                     <td>Data Classification</td>
                                     <td class="col-id">ISL-04</td>
-                                    <td>6</td>
-                                    <td>3</td>
-                                    <td class="col-hours">40&ndash;60</td>
+                                    <td class="col-hours">25&ndash;40</td>
+                                    <td class="col-hours">60&ndash;100</td>
                                     <td class="col-hours">35&ndash;60</td>
                                     <td class="col-reduction">50&ndash;60%</td>
                                 </tr>
                                 <tr>
-                                    <td class="col-num">3</td>
                                     <td>API Governance</td>
                                     <td class="col-id">ISL-01</td>
-                                    <td>6</td>
-                                    <td>2</td>
-                                    <td class="col-hours">40&ndash;60</td>
+                                    <td class="col-hours">20&ndash;35</td>
+                                    <td class="col-hours">80&ndash;120</td>
                                     <td class="col-hours">60&ndash;85</td>
                                     <td class="col-reduction">55&ndash;70%</td>
                                 </tr>
                                 <tr>
-                                    <td class="col-num">4</td>
                                     <td>Data Quality</td>
                                     <td class="col-id">ISL-06</td>
-                                    <td>6</td>
-                                    <td>3</td>
-                                    <td class="col-hours">30&ndash;50</td>
+                                    <td class="col-hours">20&ndash;35</td>
+                                    <td class="col-hours">50&ndash;80</td>
                                     <td class="col-hours">30&ndash;45</td>
                                     <td class="col-reduction">50&ndash;60%</td>
                                 </tr>
                                 <tr>
-                                    <td class="col-num">5</td>
                                     <td>Metadata &amp; Lineage</td>
                                     <td class="col-id">ISL-02</td>
-                                    <td>6</td>
-                                    <td>3</td>
-                                    <td class="col-hours">60&ndash;80</td>
+                                    <td class="col-hours">30&ndash;50</td>
+                                    <td class="col-hours">100&ndash;160</td>
                                     <td class="col-hours">70&ndash;110</td>
                                     <td class="col-reduction">60&ndash;70%</td>
                                 </tr>
                                 <tr>
-                                    <td class="col-num">6</td>
                                     <td>Integration Patterns</td>
                                     <td class="col-id">ISL-05</td>
-                                    <td>8 patterns</td>
-                                    <td>3 diagrams</td>
-                                    <td class="col-hours">60&ndash;80</td>
+                                    <td class="col-hours">30&ndash;45</td>
+                                    <td class="col-hours">80&ndash;120</td>
                                     <td class="col-hours">60&ndash;90</td>
                                     <td class="col-reduction">35&ndash;45%</td>
                                 </tr>
+                                <tr>
+                                    <td>Setup + Validation</td>
+                                    <td class="col-id">&mdash;</td>
+                                    <td class="col-hours">80</td>
+                                    <td class="col-hours">120&ndash;160</td>
+                                    <td class="col-hours">40&ndash;80</td>
+                                    <td class="col-reduction">33&ndash;50%</td>
+                                </tr>
                                 <tr class="row-total">
-                                    <td class="col-num"></td>
                                     <td><strong>Total</strong></td>
                                     <td></td>
-                                    <td><strong>39</strong></td>
-                                    <td><strong>16</strong></td>
-                                    <td class="col-hours"><strong>250&ndash;360</strong></td>
-                                    <td class="col-hours"><strong>275&ndash;422</strong></td>
-                                    <td class="col-reduction"><strong>~50%</strong></td>
+                                    <td class="col-hours"><strong>~300</strong></td>
+                                    <td class="col-hours"><strong>500&ndash;700</strong></td>
+                                    <td class="col-hours"><strong>200&ndash;400</strong></td>
+                                    <td class="col-reduction"><strong>30&ndash;57%</strong></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
 
-                    <h3 id="dependency-map">Dependency Map</h3>
+                    <h3 id="deployment-order">Deployment Order</h3>
+                    <p>Deploy modules in this order &mdash; each layer depends on the one before it:</p>
                     <div class="code-block">
-                        <span class="code-label">Dependencies</span>
-<span class="kw-green">ISL-03</span>: Naming Conventions <span class="dep-ref">(Sprint 1)</span>
-  <span class="arrow">&#9492;&#9472;&#9472;&#9654;</span> <span class="kw-green">ISL-04</span>: Data Classification <span class="dep-ref">(Sprint 1)</span>
-         <span class="arrow">&#9500;&#9472;&#9472;&#9654;</span> <span class="kw-orange">ISL-01</span>: API Governance <span class="dep-ref">(Sprint 2)</span> <span class="arrow">&#9668;&#9472;&#9472;</span> <span class="kw-green">ISL-03</span>
-         <span class="arrow">&#9500;&#9472;&#9472;&#9654;</span> <span class="kw-orange">ISL-06</span>: Data Quality <span class="dep-ref">(Sprint 2)</span> <span class="arrow">&#9668;&#9472;&#9472;</span> <span class="kw-green">ISL-03</span>
-         <span class="arrow">&#9500;&#9472;&#9472;&#9654;</span> <span class="kw-blue">ISL-02</span>: Metadata &amp; Lineage <span class="dep-ref">(Sprint 3)</span> <span class="arrow">&#9668;&#9472;&#9472;</span> <span class="kw-green">ISL-03</span>, <span class="kw-orange">ISL-06</span>
-         <span class="arrow">&#9492;&#9472;&#9472;&#9654;</span> <span class="kw-blue">ISL-05</span>: Integration Patterns <span class="dep-ref">(Sprint 3)</span> <span class="arrow">&#9668;&#9472;&#9472;</span> <span class="kw-green">ISL-03</span>, <span class="kw-orange">ISL-01</span>, <span class="kw-orange">ISL-06</span>
-               <span class="arrow">&#9492;&#9472;&#9472;&#9654;</span> <span class="kw-purple">Manufacturing Overlays</span> <span class="dep-ref">(Sprint 4)</span> <span class="arrow">&#9668;&#9472;&#9472;</span> <span class="dep-ref">All modules</span>
+                        <span class="code-label">Deploy in this order</span>
+<span class="kw-green">ISL-03</span>: Naming Conventions <span class="dep-ref">(Phase 1 &mdash; Foundation)</span>
+  <span class="arrow">&#9492;&#9472;&#9472;&#9654;</span> <span class="kw-green">ISL-04</span>: Data Classification <span class="dep-ref">(Phase 1 &mdash; Foundation)</span>
+         <span class="arrow">&#9500;&#9472;&#9472;&#9654;</span> <span class="kw-orange">ISL-01</span>: API Governance <span class="dep-ref">(Phase 2 &mdash; Core)</span> <span class="arrow">&#9668;&#9472;&#9472;</span> <span class="kw-green">ISL-03</span>
+         <span class="arrow">&#9500;&#9472;&#9472;&#9654;</span> <span class="kw-orange">ISL-06</span>: Data Quality <span class="dep-ref">(Phase 2 &mdash; Core)</span> <span class="arrow">&#9668;&#9472;&#9472;</span> <span class="kw-green">ISL-03</span>
+         <span class="arrow">&#9500;&#9472;&#9472;&#9654;</span> <span class="kw-blue">ISL-02</span>: Metadata &amp; Lineage <span class="dep-ref">(Phase 3 &mdash; Advanced)</span> <span class="arrow">&#9668;&#9472;&#9472;</span> <span class="kw-green">ISL-03</span>, <span class="kw-orange">ISL-06</span>
+         <span class="arrow">&#9492;&#9472;&#9472;&#9654;</span> <span class="kw-blue">ISL-05</span>: Integration Patterns <span class="dep-ref">(Phase 3 &mdash; Advanced)</span> <span class="arrow">&#9668;&#9472;&#9472;</span> <span class="kw-green">ISL-03</span>, <span class="kw-orange">ISL-01</span>, <span class="kw-orange">ISL-06</span>
+               <span class="arrow">&#9492;&#9472;&#9472;&#9654;</span> <span class="kw-purple">Validation &amp; Handoff</span> <span class="dep-ref">(Phase 4)</span> <span class="arrow">&#9668;&#9472;&#9472;</span> <span class="dep-ref">All modules</span>
                     </div>
                     <p>
-                        ISL-03 (Naming Conventions) is the foundational module &mdash; every other module references it. ISL-04 (Data Classification) is the second dependency &mdash; security tiers are referenced by API governance, quality SLAs, and metadata attributes.
+                        ISL-03 (Naming Conventions) is the foundational module &mdash; every other module references its vocabulary and patterns. ISL-04 (Data Classification) establishes security tiers referenced by API governance, quality SLAs, and metadata attributes. Deploying in this order prevents rework and ensures cross-module consistency.
                     </p>
                 </div>
 
@@ -1161,511 +1246,558 @@
                         <h2 class="card-title"><span class="section-num">3.</span> Prerequisites &amp; Dependencies</h2>
                     </div>
 
-                    <h3 id="prereq-resources">Internal Resources</h3>
+                    <h3 id="prereq-engagement">Engagement Prerequisites</h3>
+                    <p>The following must be in place before ISL deployment begins:</p>
                     <ul class="checklist checklist-open">
-                        <li>Lead Architect assigned &mdash; standards design authority, peer review (Sprint 0)</li>
-                        <li>Senior Data Governance Specialist assigned &mdash; classification, metadata, quality (Sprint 0)</li>
-                        <li>Senior Integration Architect assigned &mdash; API governance, integration patterns (Sprint 0)</li>
-                        <li>Prior engagement artifacts &mdash; access to 2&ndash;3 completed Phase 4 deliverables for reference (Sprint 0)</li>
+                        <li>Client Fabric/Azure environment access &mdash; workspace provisioned, permissions granted</li>
+                        <li>Stakeholder alignment &mdash; data governance, architecture, and security stakeholders identified and committed</li>
+                        <li>Engagement SOW with Phase 4 scope defined &mdash; modules selected, timeline agreed</li>
+                        <li>ISL v1.0 deployed to engagement workspace &mdash; repository cloned, templates accessible</li>
                     </ul>
 
-                    <h3>Reference Materials</h3>
-                    <ul class="checklist checklist-open">
-                        <li>Microsoft Purview documentation &mdash; sensitivity labels, metadata schema, lineage capabilities</li>
-                        <li>Microsoft Fabric documentation &mdash; naming conventions, workspace RBAC, OneLake taxonomy</li>
-                        <li>Azure Cloud Adoption Framework &mdash; resource naming, tagging, governance best practices</li>
-                        <li>OWASP API Security Top 10 (2023) &mdash; API governance alignment</li>
-                        <li>Industry compliance frameworks &mdash; SOX, GDPR, ITAR, HIPAA control requirements</li>
-                    </ul>
-
-                    <h3 id="prereq-tooling">Tooling</h3>
-                    <ul class="checklist">
-                        <li>Git repository initialized &mdash; version control and collaboration (Complete)</li>
-                        <li>Markdown authoring environment &mdash; VS Code + Markdown Preview</li>
-                        <li>Diagram tooling &mdash; Mermaid, draw.io, or Lucidchart for architecture diagrams</li>
-                        <li>Review platform &mdash; GitHub PR reviews or SharePoint for stakeholder feedback</li>
-                    </ul>
-
-                    <h3 id="prereq-team">Team Allocation</h3>
+                    <h3 id="prereq-team">Engagement Team</h3>
                     <div class="data-table-wrapper">
                         <table class="data-table">
                             <thead>
                                 <tr>
                                     <th>Role</th>
                                     <th>Allocation</th>
-                                    <th>Sprint Capacity</th>
+                                    <th>Capacity</th>
                                     <th>Primary Modules</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Lead Architect</td>
-                                    <td>50%</td>
-                                    <td class="col-hours">35 hrs/sprint</td>
-                                    <td>All</td>
+                                    <td>Engagement Lead</td>
+                                    <td>60%</td>
+                                    <td class="col-hours">30 hrs/sprint</td>
+                                    <td>All &mdash; design authority, client liaison</td>
                                 </tr>
                                 <tr>
-                                    <td>Sr Data Governance Specialist</td>
-                                    <td>75%</td>
-                                    <td class="col-hours">50 hrs/sprint</td>
-                                    <td>ISL-02, ISL-04, ISL-06</td>
-                                </tr>
-                                <tr>
-                                    <td>Sr Integration Architect</td>
-                                    <td>75%</td>
-                                    <td class="col-hours">50 hrs/sprint</td>
+                                    <td>Integration Architect</td>
+                                    <td>80%</td>
+                                    <td class="col-hours">40 hrs/sprint</td>
                                     <td>ISL-01, ISL-03, ISL-05</td>
                                 </tr>
                                 <tr>
-                                    <td>Technical Writer</td>
-                                    <td>25%</td>
-                                    <td class="col-hours">15 hrs/sprint</td>
-                                    <td>All</td>
+                                    <td>Data Governance Lead</td>
+                                    <td>80%</td>
+                                    <td class="col-hours">40 hrs/sprint</td>
+                                    <td>ISL-02, ISL-04, ISL-06</td>
+                                </tr>
+                                <tr>
+                                    <td>Client Stakeholder</td>
+                                    <td>20%</td>
+                                    <td class="col-hours">10 hrs/sprint</td>
+                                    <td>All &mdash; review and approval</td>
                                 </tr>
                                 <tr class="row-total">
                                     <td><strong>Total</strong></td>
                                     <td></td>
-                                    <td class="col-hours"><strong>150 hrs/sprint</strong></td>
+                                    <td class="col-hours"><strong>120 hrs/sprint</strong></td>
                                     <td></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-
-                    <h3 id="prereq-external">External Dependencies</h3>
-                    <ul class="checklist checklist-open">
-                        <li>ACC-04 (Governance Maturity Assessment) &mdash; maturity tier definitions inform adoption tiers in each module (nice-to-have, not blocking)</li>
-                        <li>ACC-02 (RFP Discovery Questionnaire) &mdash; discovery questions Q18&ndash;Q22 inform adaptation workflows (nice-to-have)</li>
-                        <li>Lincoln Electric engagement kickoff &mdash; target pilot deployment of ISL at first live engagement (Sprint 4+)</li>
-                    </ul>
                 </div>
 
                 <!-- ==================== 4. PHASE 0 ==================== -->
                 <div class="content-card phase-teal" id="phase-0">
                     <div class="card-header">
-                        <h2 class="card-title"><span class="section-num">4.</span> Phase 0: Discovery &amp; Baseline</h2>
-                        <span class="card-badge badge-teal">Sprint 0</span>
+                        <h2 class="card-title"><span class="section-num">4.</span> Phase 0: Accelerator Setup &amp; Assessment</h2>
+                        <span class="card-badge badge-teal">Week 1</span>
                     </div>
                     <div class="card-subtitle">
-                        <span>&#9201; ~40 hours</span>
+                        <span>&#9201; ~40 hours accelerated</span>
                         <span>&#128197; 1 week</span>
-                        <span>&#9654; Pre-Sprint</span>
+                        <span>&#9654; Pre-deployment</span>
                     </div>
 
-                    <h3>Prior Engagement Audit</h3>
-                    <p>Review 2&ndash;3 completed Phase 4 deliverables from prior DMTSP engagements to extract reusable patterns and calibrate baseline effort.</p>
-                    <div class="data-table-wrapper">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Deliverable</th>
-                                    <th>Description</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Common Standards Patterns</td>
-                                    <td>Identify what gets built every time across engagements</td>
-                                </tr>
-                                <tr>
-                                    <td>Engagement-Specific Customizations</td>
-                                    <td>Document what varies per client for adaptation workflows</td>
-                                </tr>
-                                <tr>
-                                    <td>Gaps &amp; Quality Issues</td>
-                                    <td>Catalog what was missed or under-specified in past work</td>
-                                </tr>
-                                <tr>
-                                    <td>Baseline Hour Calibration</td>
-                                    <td>Actual time spent per standards artifact for ROI validation</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <p>
+                        Deploy the ISL to the engagement workspace, assess client maturity, select applicable modules, and lock scope before adaptation begins.
+                    </p>
+
+                    <ul class="checklist checklist-open">
+                        <li>Deploy ISL repository to engagement workspace &mdash; clone, configure, verify access</li>
+                        <li>Run maturity assessment &mdash; evaluate client governance maturity across 6 domains</li>
+                        <li>Score client across 6 domains &mdash; determine Crawl/Walk/Run tier per module</li>
+                        <li>Select modules and customize checklists &mdash; tailor adaptation scope to client needs</li>
+                        <li>Lock scope &mdash; finalize module selection and adaptation depth per SOW</li>
+                    </ul>
+
+                    <div class="comparison-box">
+                        <div class="comparison-side baseline">
+                            <span class="comparison-label">Baseline (without ISL)</span>
+                            <span class="comparison-value">60&ndash;80 hrs</span>
+                            <span class="comparison-detail">Manual discovery, custom assessment design, scope negotiation from scratch</span>
+                        </div>
+                        <div class="comparison-side accelerated">
+                            <span class="comparison-label">Accelerated (with ISL)</span>
+                            <span class="comparison-value">~40 hrs</span>
+                            <span class="comparison-detail">Pre-built assessment, template checklists, structured scope lock</span>
+                        </div>
+                        <div class="comparison-savings">
+                            <span class="savings-value">33&ndash;50% reduction</span>
+                            <span class="savings-label">| 20&ndash;40 hours saved</span>
+                        </div>
                     </div>
 
-                    <h3>Industry Standards Survey</h3>
-                    <p>Review external standards frameworks for alignment and best-practice integration.</p>
-                    <div class="data-table-wrapper">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Deliverable</th>
-                                    <th>Description</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Microsoft REST API Guidelines</td>
-                                    <td>API design standards baseline for ISL-01</td>
-                                </tr>
-                                <tr>
-                                    <td>Microsoft Fabric / OneLake Conventions</td>
-                                    <td>Naming conventions and best practices for ISL-03</td>
-                                </tr>
-                                <tr>
-                                    <td>Azure Cloud Adoption Framework</td>
-                                    <td>Resource naming, tagging, governance patterns</td>
-                                </tr>
-                                <tr>
-                                    <td>OWASP API Security Top 10</td>
-                                    <td>API security alignment for ISL-01</td>
-                                </tr>
-                                <tr>
-                                    <td>DAMA DMBOK</td>
-                                    <td>Data management body of knowledge for ISL-02, ISL-06</td>
-                                </tr>
-                                <tr>
-                                    <td>ISO 27001 / NIST 800-53</td>
-                                    <td>Data classification controls alignment for ISL-04</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <h3>Module Scope Finalization</h3>
-                    <div class="data-table-wrapper">
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Deliverable</th>
-                                    <th>Description</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Template List Finalized</td>
-                                    <td>Artifacts to build per module confirmed</td>
-                                </tr>
-                                <tr>
-                                    <td>Example List Finalized</td>
-                                    <td>Client-specific adaptations to demonstrate confirmed</td>
-                                </tr>
-                                <tr>
-                                    <td>Adaptation Workflows Defined</td>
-                                    <td>How practitioners customize per engagement documented</td>
-                                </tr>
-                                <tr>
-                                    <td>Acceptance Criteria Agreed</td>
-                                    <td>Definition of done for each module locked</td>
-                                </tr>
-                                <tr class="row-subtotal">
-                                    <td><strong>Phase 0 Exit Gate</strong></td>
-                                    <td><strong>Buildout scope locked &mdash; proceed to Phase 1</strong></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <h3>Phase 0 Exit Gate</h3>
+                    <ul class="checklist checklist-open">
+                        <li>ISL deployed and verified in engagement workspace</li>
+                        <li>Client maturity scored across all 6 domains</li>
+                        <li>Module selection finalized and approved by Engagement Lead</li>
+                        <li>Adaptation checklists customized per client context</li>
+                        <li>Phase 4 scope locked &mdash; proceed to Phase 1</li>
+                    </ul>
                 </div>
 
                 <!-- ==================== 5. PHASE 1 ==================== -->
                 <div class="content-card phase-green" id="phase-1">
                     <div class="card-header">
-                        <h2 class="card-title"><span class="section-num">5.</span> Phase 1: Foundation Modules</h2>
-                        <span class="card-badge badge-green">Sprint 1</span>
+                        <h2 class="card-title"><span class="section-num">5.</span> Phase 1: Foundation Standards Deployment</h2>
+                        <span class="card-badge badge-green">Weeks 2&ndash;3</span>
                     </div>
                     <div class="card-subtitle">
-                        <span>&#9201; ~90 hours</span>
-                        <span>&#128197; Weeks 1&ndash;2</span>
-                        <span>&#9654; 2-week sprint</span>
+                        <span>&#9201; ~60 hours accelerated</span>
+                        <span>&#128197; 2 weeks</span>
+                        <span>&#9654; Foundation layer</span>
                     </div>
                     <p>
-                        Foundation modules are built first because every subsequent module depends on them. ISL-03 (Naming Conventions) establishes the vocabulary; ISL-04 (Data Classification) establishes the security framework.
+                        Foundation modules deploy first because every subsequent module depends on them. ISL-03 (Naming Conventions) establishes the vocabulary; ISL-04 (Data Classification) establishes the security framework. Both are adapted to client-specific Fabric environment and compliance requirements.
                     </p>
 
                     <h4 id="phase-1-isl03">ISL-03: Naming Convention Standards</h4>
+                    <p>Adapt ISL-03 naming conventions to the client Fabric environment &mdash; workspace names, lakehouse schemas, pipeline conventions, and abbreviation dictionaries customized to client domain.</p>
                     <div class="data-table-wrapper">
                         <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th>Deliverable</th>
+                                    <th>Adaptation Task</th>
                                     <th>Description</th>
                                     <th>Hours</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>7 naming templates</td>
-                                    <td>Database/schema, table/view, column, pipeline, API, infrastructure, abbreviation dictionary</td>
-                                    <td class="col-hours">12&ndash;18</td>
+                                    <td>Environment mapping</td>
+                                    <td>Map ISL naming templates to client Fabric workspace structure</td>
+                                    <td class="col-hours">3&ndash;5</td>
                                 </tr>
                                 <tr>
-                                    <td>2 examples</td>
-                                    <td>Fabric naming reference, manufacturing domain names</td>
-                                    <td class="col-hours">4&ndash;6</td>
+                                    <td>Domain customization</td>
+                                    <td>Adapt abbreviation dictionary and domain-specific naming to client industry</td>
+                                    <td class="col-hours">3&ndash;5</td>
                                 </tr>
                                 <tr>
-                                    <td>Enforcement guidance</td>
-                                    <td>Azure Policy definitions, linting rules, pre-commit hooks</td>
-                                    <td class="col-hours">4&ndash;6</td>
+                                    <td>Enforcement rules</td>
+                                    <td>Configure Azure Policy definitions and linting rules for client environment</td>
+                                    <td class="col-hours">2&ndash;4</td>
+                                </tr>
+                                <tr>
+                                    <td>Client review</td>
+                                    <td>Stakeholder walkthrough and approval</td>
+                                    <td class="col-hours">2&ndash;4</td>
                                 </tr>
                                 <tr class="row-subtotal">
                                     <td><strong>Subtotal</strong></td>
                                     <td></td>
-                                    <td class="col-hours"><strong>20&ndash;30</strong></td>
+                                    <td class="col-hours"><strong>10&ndash;18</strong></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
 
                     <h4 id="phase-1-isl04">ISL-04: Data Classification Framework</h4>
+                    <p>Adapt ISL-04 data classification to client compliance requirements &mdash; sensitivity tiers, labeling policies, and handling procedures mapped to client regulatory landscape.</p>
                     <div class="data-table-wrapper">
                         <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th>Deliverable</th>
+                                    <th>Adaptation Task</th>
                                     <th>Description</th>
                                     <th>Hours</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>6 classification templates</td>
-                                    <td>Tier definitions, labeling, handling, access control, compliance mapping, decision tree</td>
-                                    <td class="col-hours">20&ndash;35</td>
+                                    <td>Compliance mapping</td>
+                                    <td>Map ISL classification tiers to client regulatory requirements (SOX, GDPR, HIPAA, ITAR)</td>
+                                    <td class="col-hours">8&ndash;12</td>
                                 </tr>
                                 <tr>
-                                    <td>3 examples</td>
-                                    <td>Manufacturing classification, Fabric security model, Purview label config</td>
-                                    <td class="col-hours">10&ndash;15</td>
+                                    <td>Sensitivity labels</td>
+                                    <td>Configure Purview sensitivity labels for client data landscape</td>
+                                    <td class="col-hours">6&ndash;10</td>
                                 </tr>
                                 <tr>
-                                    <td>Manufacturing overlay</td>
-                                    <td>ITAR/EAR, trade secrets, IoT/OT sensitivity, supply chain</td>
-                                    <td class="col-hours">10&ndash;15</td>
+                                    <td>Handling procedures</td>
+                                    <td>Adapt data handling and access control procedures to client security model</td>
+                                    <td class="col-hours">6&ndash;10</td>
+                                </tr>
+                                <tr>
+                                    <td>Client review</td>
+                                    <td>Security and compliance stakeholder walkthrough and approval</td>
+                                    <td class="col-hours">5&ndash;8</td>
                                 </tr>
                                 <tr class="row-subtotal">
                                     <td><strong>Subtotal</strong></td>
                                     <td></td>
-                                    <td class="col-hours"><strong>40&ndash;65</strong></td>
+                                    <td class="col-hours"><strong>25&ndash;40</strong></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
+
+                    <div class="comparison-box">
+                        <div class="comparison-side baseline">
+                            <span class="comparison-label">Baseline (without ISL)</span>
+                            <span class="comparison-value">90&ndash;150 hrs</span>
+                            <span class="comparison-detail">Author naming conventions and classification framework from scratch per client</span>
+                        </div>
+                        <div class="comparison-side accelerated">
+                            <span class="comparison-label">Accelerated (with ISL)</span>
+                            <span class="comparison-value">~60 hrs</span>
+                            <span class="comparison-detail">Adapt pre-built ISL-03 and ISL-04 modules to client context</span>
+                        </div>
+                        <div class="comparison-savings">
+                            <span class="savings-value">33&ndash;60% reduction</span>
+                            <span class="savings-label">| 30&ndash;90 hours saved</span>
+                        </div>
+                    </div>
+
+                    <h3>Phase 1 Exit Gate</h3>
+                    <ul class="checklist checklist-open">
+                        <li>ISL-03 naming conventions adapted and approved by client</li>
+                        <li>ISL-04 data classification adapted and approved by client security</li>
+                        <li>Foundation vocabulary and security tiers locked for downstream modules</li>
+                    </ul>
                 </div>
 
                 <!-- ==================== 6. PHASE 2 ==================== -->
                 <div class="content-card phase-orange" id="phase-2">
                     <div class="card-header">
-                        <h2 class="card-title"><span class="section-num">6.</span> Phase 2: Core Modules</h2>
-                        <span class="card-badge badge-orange">Sprint 2</span>
+                        <h2 class="card-title"><span class="section-num">6.</span> Phase 2: Core Standards Deployment</h2>
+                        <span class="card-badge badge-orange">Weeks 4&ndash;5</span>
                     </div>
                     <div class="card-subtitle">
-                        <span>&#9201; ~100 hours</span>
-                        <span>&#128197; Weeks 3&ndash;4</span>
-                        <span>&#9654; 2-week sprint</span>
+                        <span>&#9201; ~70 hours accelerated</span>
+                        <span>&#128197; 2 weeks</span>
+                        <span>&#9654; Core layer</span>
                     </div>
                     <p>
-                        Core modules build on the foundation and cover the two most universally applicable governance domains: API management and data quality.
+                        Core modules build on the foundation and cover the two most universally applicable governance domains: API management and data quality. Both reference ISL-03 naming and ISL-04 classification tiers deployed in Phase 1.
                     </p>
 
                     <h4 id="phase-2-isl01">ISL-01: API Governance Standards</h4>
+                    <p>Adapt ISL-01 API governance to the client tech stack &mdash; API design standards, versioning, security, and lifecycle management customized to client API management platform and integration patterns.</p>
                     <div class="data-table-wrapper">
                         <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th>Deliverable</th>
+                                    <th>Adaptation Task</th>
                                     <th>Description</th>
                                     <th>Hours</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>6 API templates</td>
-                                    <td>Design standards, versioning, security, lifecycle, catalog, rate limiting</td>
-                                    <td class="col-hours">24&ndash;38</td>
+                                    <td>Tech stack mapping</td>
+                                    <td>Map ISL API templates to client APIM, gateway, and integration platform</td>
+                                    <td class="col-hours">6&ndash;10</td>
                                 </tr>
                                 <tr>
-                                    <td>2 examples</td>
-                                    <td>Manufacturing API standards, Fabric-native API patterns</td>
-                                    <td class="col-hours">8&ndash;12</td>
+                                    <td>Security alignment</td>
+                                    <td>Adapt API security standards to client auth model and ISL-04 classification</td>
+                                    <td class="col-hours">5&ndash;8</td>
                                 </tr>
                                 <tr>
-                                    <td>OWASP alignment</td>
-                                    <td>Cross-reference each template against OWASP API Top 10</td>
-                                    <td class="col-hours">4&ndash;6</td>
+                                    <td>OWASP cross-reference</td>
+                                    <td>Validate all API standards against OWASP API Security Top 10</td>
+                                    <td class="col-hours">3&ndash;5</td>
+                                </tr>
+                                <tr>
+                                    <td>Lifecycle and versioning</td>
+                                    <td>Adapt API lifecycle and versioning to client release cadence</td>
+                                    <td class="col-hours">3&ndash;6</td>
+                                </tr>
+                                <tr>
+                                    <td>Client review</td>
+                                    <td>Architecture stakeholder walkthrough and approval</td>
+                                    <td class="col-hours">3&ndash;6</td>
                                 </tr>
                                 <tr class="row-subtotal">
                                     <td><strong>Subtotal</strong></td>
                                     <td></td>
-                                    <td class="col-hours"><strong>36&ndash;56</strong></td>
+                                    <td class="col-hours"><strong>20&ndash;35</strong></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
 
                     <h4 id="phase-2-isl06">ISL-06: Data Quality Standards</h4>
+                    <p>Adapt ISL-06 data quality to the client data landscape &mdash; quality dimensions, SLA frameworks, rule libraries, and monitoring patterns customized to client data sources and business requirements.</p>
                     <div class="data-table-wrapper">
                         <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th>Deliverable</th>
+                                    <th>Adaptation Task</th>
                                     <th>Description</th>
                                     <th>Hours</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>6 quality templates</td>
-                                    <td>Dimensions, SLA framework, rule library, monitoring, remediation, scorecard</td>
-                                    <td class="col-hours">18&ndash;32</td>
+                                    <td>Data landscape mapping</td>
+                                    <td>Map quality dimensions and SLAs to client data sources and criticality</td>
+                                    <td class="col-hours">6&ndash;10</td>
                                 </tr>
                                 <tr>
-                                    <td>3 examples</td>
-                                    <td>Manufacturing quality rules, Fabric quality implementation, dashboard spec</td>
-                                    <td class="col-hours">8&ndash;12</td>
+                                    <td>Rule library customization</td>
+                                    <td>Select and adapt pre-built quality rules for client domain</td>
+                                    <td class="col-hours">5&ndash;10</td>
                                 </tr>
                                 <tr>
-                                    <td>Quality rule library</td>
-                                    <td>50+ pre-built rules across schema, row-level, aggregate, business categories</td>
-                                    <td class="col-hours">8&ndash;12</td>
+                                    <td>Monitoring and remediation</td>
+                                    <td>Configure quality monitoring and remediation workflows for client platform</td>
+                                    <td class="col-hours">5&ndash;8</td>
+                                </tr>
+                                <tr>
+                                    <td>Client review</td>
+                                    <td>Data governance stakeholder walkthrough and approval</td>
+                                    <td class="col-hours">4&ndash;7</td>
                                 </tr>
                                 <tr class="row-subtotal">
                                     <td><strong>Subtotal</strong></td>
                                     <td></td>
-                                    <td class="col-hours"><strong>34&ndash;56</strong></td>
+                                    <td class="col-hours"><strong>20&ndash;35</strong></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
+
+                    <div class="comparison-box">
+                        <div class="comparison-side baseline">
+                            <span class="comparison-label">Baseline (without ISL)</span>
+                            <span class="comparison-value">130&ndash;200 hrs</span>
+                            <span class="comparison-detail">Author API governance and data quality frameworks from scratch per client</span>
+                        </div>
+                        <div class="comparison-side accelerated">
+                            <span class="comparison-label">Accelerated (with ISL)</span>
+                            <span class="comparison-value">~70 hrs</span>
+                            <span class="comparison-detail">Adapt pre-built ISL-01 and ISL-06 modules to client tech stack</span>
+                        </div>
+                        <div class="comparison-savings">
+                            <span class="savings-value">46&ndash;65% reduction</span>
+                            <span class="savings-label">| 60&ndash;130 hours saved</span>
+                        </div>
+                    </div>
+
+                    <h3>Phase 2 Exit Gate</h3>
+                    <ul class="checklist checklist-open">
+                        <li>ISL-01 API governance adapted and approved by client architecture</li>
+                        <li>ISL-06 data quality adapted and approved by client data governance</li>
+                        <li>OWASP cross-reference validation complete &mdash; zero gaps</li>
+                        <li>Core standards locked for downstream modules</li>
+                    </ul>
                 </div>
 
                 <!-- ==================== 7. PHASE 3 ==================== -->
                 <div class="content-card phase-blue" id="phase-3">
                     <div class="card-header">
-                        <h2 class="card-title"><span class="section-num">7.</span> Phase 3: Advanced Modules</h2>
-                        <span class="card-badge badge-blue">Sprint 3 (Double)</span>
+                        <h2 class="card-title"><span class="section-num">7.</span> Phase 3: Advanced Standards Deployment</h2>
+                        <span class="card-badge badge-blue">Weeks 5&ndash;7</span>
                     </div>
                     <div class="card-subtitle">
-                        <span>&#9201; ~160 hours</span>
-                        <span>&#128197; Weeks 5&ndash;8</span>
-                        <span>&#9654; 4-week double sprint</span>
+                        <span>&#9201; ~90 hours accelerated</span>
+                        <span>&#128197; 3 weeks</span>
+                        <span>&#9654; Advanced layer</span>
                     </div>
                     <p>
-                        Advanced modules are the most complex and provide the deepest per-engagement savings. Sprint 3 runs as a double sprint (4 weeks) to accommodate the higher build effort.
+                        Advanced modules are the most complex and provide the deepest per-engagement savings. They depend on all foundation and core modules, and require 3 weeks to accommodate the higher adaptation effort and client review cycles.
                     </p>
 
                     <h4 id="phase-3-isl02">ISL-02: Metadata &amp; Data Lineage Framework</h4>
+                    <p>Adapt ISL-02 metadata and lineage to the client Purview/catalog environment &mdash; business glossary, technical metadata schema, lineage requirements, and catalog governance customized to client data estate.</p>
                     <div class="data-table-wrapper">
                         <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th>Deliverable</th>
+                                    <th>Adaptation Task</th>
                                     <th>Description</th>
                                     <th>Hours</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>6 metadata templates</td>
-                                    <td>Business glossary, technical metadata schema, lineage requirements, catalog governance, metadata integration, lineage visualization</td>
-                                    <td class="col-hours">40&ndash;55</td>
+                                    <td>Catalog mapping</td>
+                                    <td>Map ISL metadata templates to client Purview/catalog structure and taxonomy</td>
+                                    <td class="col-hours">8&ndash;14</td>
                                 </tr>
                                 <tr>
-                                    <td>3 examples</td>
-                                    <td>Manufacturing metadata model, Fabric OneLake metadata, Purview config guide</td>
-                                    <td class="col-hours">12&ndash;18</td>
+                                    <td>Glossary customization</td>
+                                    <td>Adapt business glossary structure and terms to client domain vocabulary</td>
+                                    <td class="col-hours">6&ndash;10</td>
                                 </tr>
                                 <tr>
-                                    <td>Manufacturing overlay</td>
-                                    <td>IoT/OT metadata, ERP mapping, product data management</td>
-                                    <td class="col-hours">8&ndash;12</td>
+                                    <td>Lineage configuration</td>
+                                    <td>Configure lineage requirements for client data pipelines and transformations</td>
+                                    <td class="col-hours">8&ndash;14</td>
+                                </tr>
+                                <tr>
+                                    <td>Manufacturing overlays</td>
+                                    <td>IoT/OT metadata, ERP mapping, product data management (if applicable)</td>
+                                    <td class="col-hours">4&ndash;6</td>
+                                </tr>
+                                <tr>
+                                    <td>Client review</td>
+                                    <td>Data governance and catalog stakeholder walkthrough and approval</td>
+                                    <td class="col-hours">4&ndash;6</td>
                                 </tr>
                                 <tr class="row-subtotal">
                                     <td><strong>Subtotal</strong></td>
                                     <td></td>
-                                    <td class="col-hours"><strong>60&ndash;85</strong></td>
+                                    <td class="col-hours"><strong>30&ndash;50</strong></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
 
                     <h4 id="phase-3-isl05">ISL-05: Integration Pattern Library</h4>
+                    <p>Adapt ISL-05 integration patterns to client architecture &mdash; pattern selection, architecture diagrams, and decision frameworks customized to client source systems and integration requirements.</p>
                     <div class="data-table-wrapper">
                         <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th>Deliverable</th>
+                                    <th>Adaptation Task</th>
                                     <th>Description</th>
                                     <th>Hours</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>8 integration patterns</td>
-                                    <td>ERP extract, IoT ingestion, API gateway, event-driven, MDM sync, file-based, medallion, reverse ETL</td>
-                                    <td class="col-hours">40&ndash;55</td>
+                                    <td>Architecture mapping</td>
+                                    <td>Map ISL integration patterns to client source systems and target architecture</td>
+                                    <td class="col-hours">10&ndash;15</td>
                                 </tr>
                                 <tr>
-                                    <td>3 architecture diagrams</td>
-                                    <td>Landscape overview, Fabric integration architecture, pattern decision tree</td>
-                                    <td class="col-hours">12&ndash;18</td>
+                                    <td>Pattern selection</td>
+                                    <td>Select applicable patterns from library based on client requirements</td>
+                                    <td class="col-hours">6&ndash;10</td>
                                 </tr>
                                 <tr>
-                                    <td>Decision framework</td>
-                                    <td>Pattern selection criteria (source, latency, volume, security)</td>
-                                    <td class="col-hours">8&ndash;12</td>
+                                    <td>Diagram customization</td>
+                                    <td>Adapt architecture diagrams to client-specific landscape</td>
+                                    <td class="col-hours">6&ndash;10</td>
+                                </tr>
+                                <tr>
+                                    <td>Manufacturing overlays</td>
+                                    <td>ERP extract, IoT ingestion, and OT integration patterns (if applicable)</td>
+                                    <td class="col-hours">4&ndash;5</td>
+                                </tr>
+                                <tr>
+                                    <td>Client review</td>
+                                    <td>Architecture stakeholder walkthrough and approval</td>
+                                    <td class="col-hours">4&ndash;5</td>
                                 </tr>
                                 <tr class="row-subtotal">
                                     <td><strong>Subtotal</strong></td>
                                     <td></td>
-                                    <td class="col-hours"><strong>60&ndash;85</strong></td>
+                                    <td class="col-hours"><strong>30&ndash;45</strong></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
+
+                    <div class="comparison-box">
+                        <div class="comparison-side baseline">
+                            <span class="comparison-label">Baseline (without ISL)</span>
+                            <span class="comparison-value">160&ndash;240 hrs</span>
+                            <span class="comparison-detail">Author metadata, lineage, and integration pattern frameworks from scratch per client</span>
+                        </div>
+                        <div class="comparison-side accelerated">
+                            <span class="comparison-label">Accelerated (with ISL)</span>
+                            <span class="comparison-value">~90 hrs</span>
+                            <span class="comparison-detail">Adapt pre-built ISL-02 and ISL-05 modules to client architecture</span>
+                        </div>
+                        <div class="comparison-savings">
+                            <span class="savings-value">44&ndash;63% reduction</span>
+                            <span class="savings-label">| 70&ndash;150 hours saved</span>
+                        </div>
+                    </div>
+
+                    <h3>Phase 3 Exit Gate</h3>
+                    <ul class="checklist checklist-open">
+                        <li>ISL-02 metadata and lineage adapted and approved by client data governance</li>
+                        <li>ISL-05 integration patterns adapted and approved by client architecture</li>
+                        <li>Manufacturing overlays applied where applicable</li>
+                        <li>All 6 modules adapted &mdash; proceed to validation</li>
+                    </ul>
                 </div>
 
                 <!-- ==================== 8. PHASE 4 ==================== -->
                 <div class="content-card phase-purple" id="phase-4">
                     <div class="card-header">
-                        <h2 class="card-title"><span class="section-num">8.</span> Phase 4: Packaging &amp; Pilot</h2>
-                        <span class="card-badge badge-purple">Sprint 4</span>
+                        <h2 class="card-title"><span class="section-num">8.</span> Phase 4: Validation &amp; Handoff</h2>
+                        <span class="card-badge badge-purple">Week 8</span>
                     </div>
                     <div class="card-subtitle">
-                        <span>&#9201; ~80 hours</span>
-                        <span>&#128197; Weeks 9&ndash;10</span>
-                        <span>&#9654; 2-week sprint</span>
+                        <span>&#9201; ~40 hours accelerated</span>
+                        <span>&#128197; 1 week</span>
+                        <span>&#9654; Final validation</span>
                     </div>
 
-                    <h3>Manufacturing Industry Overlays</h3>
-                    <p>Consolidate and enhance industry-specific extensions across all modules:</p>
+                    <p>
+                        The final phase ensures cross-module consistency, validates compliance alignment, delivers the final client presentation, and hands off to the implementation team.
+                    </p>
+
+                    <h3>Cross-Module Consistency Review</h3>
                     <ul class="checklist checklist-open">
-                        <li>ITAR/EAR compliance overlay finalized (ISL-04)</li>
-                        <li>IoT/OT metadata standards finalized (ISL-02)</li>
-                        <li>ERP integration patterns finalized (ISL-05)</li>
-                        <li>Manufacturing quality rules validated (ISL-06)</li>
-                        <li>Welding/process data classification completed (ISL-04)</li>
+                        <li>ISL-03 naming conventions used consistently across all 6 adapted modules</li>
+                        <li>ISL-04 classification tiers referenced correctly in API, quality, and metadata modules</li>
+                        <li>Terminology alignment verified &mdash; no conflicting definitions across modules</li>
+                        <li>Cross-references between modules validated and linked</li>
                     </ul>
 
-                    <h3>Peer Review &amp; Quality Assurance</h3>
-                    <p>External review of all 6 modules:</p>
+                    <h3>Compliance Alignment Audit</h3>
                     <ul class="checklist checklist-open">
-                        <li>Lead Architect conducts full cross-module review</li>
-                        <li>Cross-references validated (ISL-03 naming used consistently across all modules)</li>
-                        <li>Compliance alignment verified (OWASP, NIST, ISO 27001, DAMA)</li>
-                        <li>Spelling, grammar, and formatting audit</li>
-                        <li>All review comments resolved</li>
+                        <li>OWASP API Security Top 10 &mdash; zero gaps in ISL-01 adapted standards</li>
+                        <li>Client regulatory requirements &mdash; SOX, GDPR, HIPAA, ITAR coverage verified</li>
+                        <li>Azure Cloud Adoption Framework &mdash; alignment confirmed for naming and governance</li>
+                        <li>DAMA DMBOK &mdash; metadata and quality standards alignment verified</li>
                     </ul>
 
-                    <h3>Packaging &amp; Distribution</h3>
-                    <p>Prepare the library for engagement deployment:</p>
+                    <h3>Final Client Presentation &amp; Sign-Off</h3>
                     <ul class="checklist checklist-open">
-                        <li>Module README files finalized with usage instructions</li>
-                        <li>Adaptation workflow documented (step-by-step for practitioners)</li>
-                        <li>Engagement kickoff integration guide (how to introduce ISL in Sprint 0)</li>
-                        <li>Git repository tagged with v1.0 release</li>
-                        <li>Distribution via internal artifact repository or SharePoint</li>
+                        <li>Executive summary presentation prepared for client leadership</li>
+                        <li>Module-by-module walkthrough with client stakeholders</li>
+                        <li>Formal client sign-off on all adapted standards</li>
                     </ul>
 
-                    <h3>Pilot Deployment</h3>
-                    <p>Deploy ISL at the next available engagement (target: Lincoln Electric):</p>
+                    <h3>Implementation Team Handoff</h3>
                     <ul class="checklist checklist-open">
-                        <li>Identify pilot engagement and Phase 4 scope</li>
-                        <li>Assign ISL champion on the engagement team</li>
-                        <li>Track actual adaptation hours vs. estimated hours</li>
-                        <li>Collect practitioner feedback on template quality and usability</li>
-                        <li>Document lessons learned and incorporate into v1.1</li>
+                        <li>Handoff package assembled &mdash; all adapted modules, decision logs, and adaptation notes</li>
+                        <li>Implementation team briefing &mdash; walkthrough of standards and enforcement guidance</li>
+                        <li>Knowledge transfer complete &mdash; client team can maintain standards independently</li>
                     </ul>
+
+                    <div class="comparison-box">
+                        <div class="comparison-side baseline">
+                            <span class="comparison-label">Baseline (without ISL)</span>
+                            <span class="comparison-value">60&ndash;80 hrs</span>
+                            <span class="comparison-detail">Ad-hoc review, manual consistency checks, custom handoff documentation</span>
+                        </div>
+                        <div class="comparison-side accelerated">
+                            <span class="comparison-label">Accelerated (with ISL)</span>
+                            <span class="comparison-value">~40 hrs</span>
+                            <span class="comparison-detail">Structured validation checklists, pre-built handoff templates, automated cross-references</span>
+                        </div>
+                        <div class="comparison-savings">
+                            <span class="savings-value">33&ndash;50% reduction</span>
+                            <span class="savings-label">| 20&ndash;40 hours saved</span>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- ==================== 9. RISK REGISTER ==================== -->
@@ -1673,6 +1805,7 @@
                     <div class="card-header">
                         <h2 class="card-title"><span class="section-num">9.</span> Risk Register</h2>
                     </div>
+                    <p>Engagement delivery risks and mitigations for ISL deployment:</p>
                     <div class="data-table-wrapper">
                         <table class="data-table">
                             <thead>
@@ -1682,73 +1815,50 @@
                                     <th>Probability</th>
                                     <th>Impact</th>
                                     <th>Mitigation</th>
-                                    <th>Phase</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td class="col-id">R1</td>
-                                    <td>Standards too generic &mdash; heavy adaptation required per engagement</td>
+                                    <td>Client has existing standards that conflict with ISL modules</td>
                                     <td class="risk-medium">Medium</td>
                                     <td class="risk-medium">Medium</td>
-                                    <td>Include manufacturing-specific overlays and 2&ndash;3 concrete client examples per module</td>
-                                    <td>Phase 1&ndash;3</td>
+                                    <td>Discovery in Phase 0; adapt rather than replace &mdash; integrate client standards where possible</td>
                                 </tr>
                                 <tr>
                                     <td class="col-id">R2</td>
-                                    <td>Technology drift &mdash; Fabric/Purview features change before deployment</td>
-                                    <td class="risk-low">Low</td>
-                                    <td class="risk-high">High</td>
-                                    <td>Version-lock templates to current GA features; plan quarterly refresh cycle</td>
-                                    <td>Phase 3&ndash;4</td>
+                                    <td>Client maturity too low for full adoption</td>
+                                    <td class="risk-medium">Medium</td>
+                                    <td class="risk-medium">Medium</td>
+                                    <td>Crawl/Walk/Run tiers built into each module; scope to appropriate tier in Phase 0</td>
                                 </tr>
                                 <tr>
                                     <td class="col-id">R3</td>
-                                    <td>Practitioner adoption resistance &mdash; teams prefer building from scratch</td>
-                                    <td class="risk-medium">Medium</td>
+                                    <td>Scope creep beyond agreed modules</td>
                                     <td class="risk-high">High</td>
-                                    <td>Mandate library review at engagement kickoff; embed in Phase 4 SOW templates</td>
-                                    <td>Phase 4</td>
+                                    <td class="risk-medium">Medium</td>
+                                    <td>Fixed module scope per SOW; additional requests deferred to v2 engagement</td>
                                 </tr>
                                 <tr>
                                     <td class="col-id">R4</td>
-                                    <td>Compliance gaps &mdash; missing regulatory requirements</td>
-                                    <td class="risk-low">Low</td>
+                                    <td>Stakeholder availability for reviews</td>
+                                    <td class="risk-medium">Medium</td>
                                     <td class="risk-high">High</td>
-                                    <td>External review against NIST, ISO 27001, OWASP, DAMA; legal review for ITAR</td>
-                                    <td>Phase 4</td>
+                                    <td>Schedule review workshops at engagement kickoff; book all sessions in Phase 0</td>
                                 </tr>
                                 <tr>
                                     <td class="col-id">R5</td>
-                                    <td>Build team availability &mdash; key resources pulled to client work</td>
-                                    <td class="risk-high">High</td>
+                                    <td>Technology stack differs from templates</td>
+                                    <td class="risk-low">Low</td>
                                     <td class="risk-medium">Medium</td>
-                                    <td>Protect 75% allocation through Sprint 3; Sprint 4 can absorb slippage</td>
-                                    <td>Phase 1&ndash;3</td>
+                                    <td>Templates are platform-agnostic; adaptation workflow handles variance in Phase 1&ndash;3</td>
                                 </tr>
                                 <tr>
                                     <td class="col-id">R6</td>
-                                    <td>Cross-module inconsistency &mdash; naming/terminology drift between modules</td>
+                                    <td>Cross-module inconsistency after adaptation</td>
                                     <td class="risk-medium">Medium</td>
                                     <td class="risk-medium">Medium</td>
-                                    <td>ISL-03 naming conventions enforced as first deliverable; Lead Architect review gate</td>
-                                    <td>Phase 2&ndash;3</td>
-                                </tr>
-                                <tr>
-                                    <td class="col-id">R7</td>
-                                    <td>Scope creep &mdash; modules expand beyond defined template lists</td>
-                                    <td class="risk-medium">Medium</td>
-                                    <td class="risk-low">Low</td>
-                                    <td>Fixed template count per module; additional artifacts deferred to v1.1</td>
-                                    <td>Phase 1&ndash;3</td>
-                                </tr>
-                                <tr>
-                                    <td class="col-id">R8</td>
-                                    <td>Pilot engagement timing &mdash; no suitable engagement for pilot deployment</td>
-                                    <td class="risk-low">Low</td>
-                                    <td class="risk-medium">Medium</td>
-                                    <td>Build pilot plan for 2 candidate engagements; deploy to whichever kicks off first</td>
-                                    <td>Phase 4</td>
+                                    <td>ISL-03 naming enforced first; cross-validation in Phase 4 catches drift</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1763,21 +1873,80 @@
 
                     <h3>Quantitative</h3>
                     <ul class="checklist">
-                        <li>Module completeness &mdash; 6/6 modules with all templates and examples delivered</li>
-                        <li>Template count &mdash; 39 templates + 16 examples completed</li>
-                        <li>Build hours within estimate &mdash; within 15% of 310&ndash;440 hour budget</li>
-                        <li>Pilot engagement savings &mdash; Phase 4 hours reduced by &ge;25% vs. baseline</li>
-                        <li>Practitioner satisfaction &mdash; &ge;4/5 rating from pilot engagement team</li>
+                        <li>All selected modules adapted and approved by client &mdash; 6/6 modules delivered</li>
+                        <li>Engagement hours within 300-hr accelerated budget &mdash; &plusmn;15% tolerance</li>
+                        <li>Phase 4 timeline &le; 8 weeks &mdash; vs. 12&ndash;16 week baseline</li>
+                        <li>Client satisfaction &ge; 4/5 &mdash; measured via post-engagement survey</li>
                     </ul>
 
                     <h3>Qualitative</h3>
                     <ul class="checklist">
-                        <li>Cross-module consistency &mdash; naming conventions from ISL-03 used uniformly</li>
-                        <li>Compliance coverage &mdash; zero gaps identified in peer review against OWASP, NIST, DAMA</li>
-                        <li>Adaptation workflow clarity &mdash; new practitioner can deploy a module in &lt;1 day</li>
-                        <li>Reusability validated &mdash; templates work for manufacturing and general enterprise clients</li>
-                        <li>Repository quality &mdash; clean git history, tagged release, documentation complete</li>
+                        <li>Cross-module consistency verified &mdash; naming conventions from ISL-03 used uniformly</li>
+                        <li>Compliance coverage zero gaps &mdash; OWASP, NIST, DAMA, CAF alignment confirmed</li>
+                        <li>Client team can maintain standards independently &mdash; no ongoing dependency on engagement team</li>
+                        <li>Implementation team handoff clean &mdash; no rework required, all artifacts self-documenting</li>
                     </ul>
+                </div>
+
+                <!-- ==================== 11. REFERENCE STANDARDS ==================== -->
+                <div class="content-card" id="reference-standards">
+                    <div class="card-header">
+                        <h2 class="card-title"><span class="section-num">11.</span> Reference Standards &amp; Frameworks</h2>
+                    </div>
+                    <p>Each ISL module aligns to recognized industry standards. The following frameworks are cross-referenced during adaptation to ensure compliance and best-practice alignment:</p>
+                    <div class="data-table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Framework</th>
+                                    <th>Scope</th>
+                                    <th>ISL Modules</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>OWASP API Security Top 10 (2023)</td>
+                                    <td>API security controls, threat mitigation, authentication/authorization</td>
+                                    <td>ISL-01</td>
+                                </tr>
+                                <tr>
+                                    <td>Azure Cloud Adoption Framework (CAF)</td>
+                                    <td>Resource naming, tagging, governance patterns, landing zone design</td>
+                                    <td>ISL-03, ISL-05</td>
+                                </tr>
+                                <tr>
+                                    <td>Microsoft Purview</td>
+                                    <td>Sensitivity labels, metadata schema, data lineage, catalog governance</td>
+                                    <td>ISL-02, ISL-04</td>
+                                </tr>
+                                <tr>
+                                    <td>Microsoft Fabric / OneLake</td>
+                                    <td>Workspace naming, lakehouse conventions, pipeline standards</td>
+                                    <td>ISL-03, ISL-05</td>
+                                </tr>
+                                <tr>
+                                    <td>DAMA DMBOK</td>
+                                    <td>Data management body of knowledge &mdash; quality, metadata, governance</td>
+                                    <td>ISL-02, ISL-06</td>
+                                </tr>
+                                <tr>
+                                    <td>ISO 27001 / NIST 800-53</td>
+                                    <td>Information security, data classification controls, access management</td>
+                                    <td>ISL-04</td>
+                                </tr>
+                                <tr>
+                                    <td>Microsoft REST API Guidelines</td>
+                                    <td>API design standards, versioning, error handling, pagination</td>
+                                    <td>ISL-01</td>
+                                </tr>
+                                <tr>
+                                    <td>SOX / GDPR / HIPAA / ITAR</td>
+                                    <td>Regulatory compliance &mdash; data handling, classification, audit requirements</td>
+                                    <td>ISL-04, ISL-06</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
             </div>
@@ -1790,7 +1959,7 @@
             <div class="footer-col">
                 <h4>Navigation</h4>
                 <a href="index.html">Overview</a>
-                <a href="roadmap.html">Strategic Roadmap</a>
+                <a href="roadmap.html">Deployment Roadmap</a>
                 <a href="backlog.html">Product Backlog</a>
                 <a href="orchestrator.html">Sprint Orchestrator</a>
             </div>
@@ -1808,7 +1977,7 @@
                 <p>Author: Keven Markham<br>
                 VP Enterprise Transformation &mdash; DMTSP</p>
                 <p>Date: February 6, 2026<br>
-                Version 1.0 &mdash; Draft</p>
+                Version 1.0 &mdash; Engagement Deployment</p>
             </div>
         </div>
         <div class="footer-bottom">

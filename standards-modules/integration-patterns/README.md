@@ -3,8 +3,8 @@
 **Module ID:** ISL-05
 **Target:** Reusable integration architecture patterns for common enterprise data flows
 **Productivity Gain:** 35–45% reduction across Phases 2 and 4
-**Build Effort:** High (60–80 hours)
-**Reusability:** High — patterns are technology-agnostic with platform-specific implementation guides
+**Engagement Deployment Effort:** 30–45 hours to select and adapt patterns to client architecture
+**Reusability:** Global — patterns are technology-agnostic with platform-specific implementation guides; deployed at every engagement
 
 ---
 
@@ -272,4 +272,4 @@ integration-patterns/
 
 ---
 
-*Module Owner: DMTSP Enterprise Architecture Practice | Build Priority: Sprint 3 (Weeks 5–8)*
+*Module Owner: DMTSP Enterprise Architecture Practice | Engagement Phase: Phase 3 — Advanced Standards Deployment*

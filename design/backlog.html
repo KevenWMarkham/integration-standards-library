@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Backlog — Integration Standards Library</title>
+    <title>Engagement Execution Backlog — Integration Standards Library</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -876,6 +876,12 @@
             margin: 2rem 0;
         }
 
+        /* ── Savings highlight ── */
+        .savings-highlight {
+            color: var(--primary-dark);
+            font-weight: 700;
+        }
+
         /* ── Footer ── */
         .footer {
             background: var(--dark);
@@ -1088,10 +1094,11 @@
     <section class="hero">
         <div class="hero-inner">
             <div class="hero-label">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-                Integration Standards Library
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                ACC-03
             </div>
-            <h1>Reusable Product <span class="highlight">Backlog</span></h1>
+            <h1>Engagement Execution <span class="highlight">Backlog</span></h1>
+            <p style="font-size:1.05rem;color:rgba(255,255,255,0.7);margin-bottom:1.5rem;max-width:760px;line-height:1.7;">Phase 4 accelerated delivery backlog &mdash; engagement teams adapt pre-built standards modules to client context, saving 200&ndash;400 hours per engagement</p>
             <div class="hero-meta">
                 <span>
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -1104,9 +1111,9 @@
             </div>
             <div class="hero-stats">
                 <span class="stat-pill"><span class="stat-value">5</span> Epics (E0&ndash;E4)</span>
-                <span class="stat-pill"><span class="stat-value">12</span> Stories</span>
-                <span class="stat-pill"><span class="stat-value">6</span> Modules / <span class="stat-value">39</span> Templates / <span class="stat-value">16</span> Examples</span>
-                <span class="stat-pill">~<span class="stat-value">470</span> Build Hours</span>
+                <span class="stat-pill"><span class="stat-value">10</span> Stories</span>
+                <span class="stat-pill">~<span class="stat-value">300</span> Accelerated Hrs</span>
+                <span class="stat-pill"><span class="stat-value">200&ndash;400</span> Hrs Saved Per Engagement</span>
             </div>
             <div class="hero-links">
                 <a class="hero-link primary" href="roadmap.html">
@@ -1132,40 +1139,38 @@
                     <li><a href="#overview"><span class="toc-dot"></span> Backlog Overview</a></li>
                     <li><a href="#dependency-graph"><span class="toc-dot"></span> Dependency Graph</a></li>
                     <li>
-                        <a href="#epic-e0"><span class="toc-dot" style="background:var(--epic-e0)"></span> E0: Discovery &amp; Baseline</a>
+                        <a href="#epic-e0"><span class="toc-dot" style="background:var(--epic-e0)"></span> E0: Setup &amp; Assessment</a>
                         <ul class="toc-sub">
-                            <li><a href="#e0-s1"><span class="toc-dot"></span> E0-S1: Prior Engagement Audit</a></li>
-                            <li><a href="#e0-s2"><span class="toc-dot"></span> E0-S2: Standards Survey</a></li>
+                            <li><a href="#e0-s1"><span class="toc-dot"></span> E0-S1: Environment Setup</a></li>
+                            <li><a href="#e0-s2"><span class="toc-dot"></span> E0-S2: Maturity Assessment</a></li>
                         </ul>
                     </li>
                     <li>
-                        <a href="#epic-e1"><span class="toc-dot" style="background:var(--epic-e1)"></span> E1: Foundation Modules</a>
+                        <a href="#epic-e1"><span class="toc-dot" style="background:var(--epic-e1)"></span> E1: Foundation Deployment</a>
                         <ul class="toc-sub">
                             <li><a href="#e1-s1"><span class="toc-dot"></span> E1-S1: ISL-03 Naming</a></li>
                             <li><a href="#e1-s2"><span class="toc-dot"></span> E1-S2: ISL-04 Classification</a></li>
                         </ul>
                     </li>
                     <li>
-                        <a href="#epic-e2"><span class="toc-dot" style="background:var(--epic-e2)"></span> E2: Core Modules</a>
+                        <a href="#epic-e2"><span class="toc-dot" style="background:var(--epic-e2)"></span> E2: Core Deployment</a>
                         <ul class="toc-sub">
                             <li><a href="#e2-s1"><span class="toc-dot"></span> E2-S1: ISL-01 API Governance</a></li>
                             <li><a href="#e2-s2"><span class="toc-dot"></span> E2-S2: ISL-06 Data Quality</a></li>
                         </ul>
                     </li>
                     <li>
-                        <a href="#epic-e3"><span class="toc-dot" style="background:var(--epic-e3)"></span> E3: Advanced Modules</a>
+                        <a href="#epic-e3"><span class="toc-dot" style="background:var(--epic-e3)"></span> E3: Advanced Deployment</a>
                         <ul class="toc-sub">
                             <li><a href="#e3-s1"><span class="toc-dot"></span> E3-S1: ISL-02 Metadata</a></li>
                             <li><a href="#e3-s2"><span class="toc-dot"></span> E3-S2: ISL-05 Patterns</a></li>
                         </ul>
                     </li>
                     <li>
-                        <a href="#epic-e4"><span class="toc-dot" style="background:var(--epic-e4)"></span> E4: Packaging &amp; Pilot</a>
+                        <a href="#epic-e4"><span class="toc-dot" style="background:var(--epic-e4)"></span> E4: Validation &amp; Handoff</a>
                         <ul class="toc-sub">
-                            <li><a href="#e4-s1"><span class="toc-dot"></span> E4-S1: Mfg Overlays</a></li>
-                            <li><a href="#e4-s2"><span class="toc-dot"></span> E4-S2: Peer Review &amp; QA</a></li>
-                            <li><a href="#e4-s3"><span class="toc-dot"></span> E4-S3: Packaging</a></li>
-                            <li><a href="#e4-s4"><span class="toc-dot"></span> E4-S4: Pilot</a></li>
+                            <li><a href="#e4-s1"><span class="toc-dot"></span> E4-S1: Cross-Module Validation</a></li>
+                            <li><a href="#e4-s2"><span class="toc-dot"></span> E4-S2: Client Handoff</a></li>
                         </ul>
                     </li>
                     <li><a href="#summary"><span class="toc-dot"></span> Summary</a></li>
@@ -1181,7 +1186,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h2 class="card-title">Backlog Overview</h2>
-                        <p class="card-subtitle">Scope, priority, and effort definitions for the ISL product backlog</p>
+                        <p class="card-subtitle">Scope, priority, and effort definitions for the engagement execution backlog &mdash; teams adapt pre-built ISL modules to each client context</p>
                     </div>
 
                     <div class="overview-grid">
@@ -1190,24 +1195,24 @@
                             <div class="stat-label">Epics (E0&ndash;E4)</div>
                         </div>
                         <div class="overview-stat">
-                            <div class="stat-number">12</div>
+                            <div class="stat-number">10</div>
                             <div class="stat-label">Stories</div>
                         </div>
                         <div class="overview-stat">
-                            <div class="stat-number">6 / 39 / 16</div>
-                            <div class="stat-label">Modules / Templates / Examples</div>
+                            <div class="stat-number">~300</div>
+                            <div class="stat-label">Accelerated Engagement Hrs</div>
                         </div>
                         <div class="overview-stat">
-                            <div class="stat-number">~310&ndash;440</div>
-                            <div class="stat-label">Core Build Hours</div>
+                            <div class="stat-number">500&ndash;700</div>
+                            <div class="stat-label">Baseline Hrs (Without ISL)</div>
                         </div>
                         <div class="overview-stat">
-                            <div class="stat-number">~470</div>
-                            <div class="stat-label">Total Hours (w/ Packaging)</div>
+                            <div class="stat-number">200&ndash;400</div>
+                            <div class="stat-label">Hours Saved Per Engagement</div>
                         </div>
                         <div class="overview-stat">
-                            <div class="stat-number">0&ndash;4</div>
-                            <div class="stat-label">Sprint Range</div>
+                            <div class="stat-number">30&ndash;57%</div>
+                            <div class="stat-label">Reduction</div>
                         </div>
                     </div>
 
@@ -1222,13 +1227,13 @@
                             </div>
                         </div>
                         <div class="legend-section">
-                            <h4>Effort Scale</h4>
+                            <h4>Effort Scale (Engagement Adaptation)</h4>
                             <div class="legend-items">
-                                <span class="legend-item"><span class="legend-tag">XS</span> <span class="legend-desc">1&ndash;8 hrs</span></span>
-                                <span class="legend-item"><span class="legend-tag">S</span> <span class="legend-desc">9&ndash;20 hrs</span></span>
-                                <span class="legend-item"><span class="legend-tag">M</span> <span class="legend-desc">21&ndash;50 hrs</span></span>
-                                <span class="legend-item"><span class="legend-tag">L</span> <span class="legend-desc">51&ndash;80 hrs</span></span>
-                                <span class="legend-item"><span class="legend-tag">XL</span> <span class="legend-desc">81+ hrs</span></span>
+                                <span class="legend-item"><span class="legend-tag">XS</span> <span class="legend-desc">1&ndash;8 hrs &middot; Single template adaptation</span></span>
+                                <span class="legend-item"><span class="legend-tag">S</span> <span class="legend-desc">9&ndash;20 hrs &middot; Module adaptation w/ customization</span></span>
+                                <span class="legend-item"><span class="legend-tag">M</span> <span class="legend-desc">21&ndash;40 hrs &middot; Full module deployment w/ review cycles</span></span>
+                                <span class="legend-item"><span class="legend-tag">L</span> <span class="legend-desc">41&ndash;60 hrs &middot; Complex module w/ mfg overlays</span></span>
+                                <span class="legend-item"><span class="legend-tag">XL</span> <span class="legend-desc">61+ hrs &middot; Multi-module cross-validation &amp; handoff</span></span>
                             </div>
                         </div>
                     </div>
@@ -1240,19 +1245,19 @@
                 <div class="card">
                     <div class="card-header">
                         <h2 class="card-title">Dependency Graph</h2>
-                        <p class="card-subtitle">Epic and module dependency chain across sprints</p>
+                        <p class="card-subtitle">Engagement execution order &mdash; module adaptation sequence across sprints</p>
                     </div>
-                    <div class="dep-graph"><span class="dep-epic">E0: Discovery &amp; Baseline</span> <span class="dep-arrow">(Sprint 0)</span>
-<span class="dep-arrow">  &#x2514;&#x2500;&#x2500;&#x25BA;</span> <span class="dep-epic">E1: Foundation Modules</span> <span class="dep-arrow">(Sprint 1)</span>
+                    <div class="dep-graph"><span class="dep-epic">E0: Setup &amp; Assessment</span> <span class="dep-arrow">(Sprint 0)</span>
+<span class="dep-arrow">  &#x2514;&#x2500;&#x2500;&#x25BA;</span> <span class="dep-epic">E1: Foundation Deployment</span> <span class="dep-arrow">(Sprint 1)</span>
 <span class="dep-arrow">         &#x251C;&#x2500;&#x2500;</span> <span class="dep-module">ISL-03: Naming Conventions</span>
 <span class="dep-arrow">         &#x2514;&#x2500;&#x2500;</span> <span class="dep-module">ISL-04: Data Classification</span>
-<span class="dep-arrow">               &#x2514;&#x2500;&#x2500;&#x25BA;</span> <span class="dep-epic">E2: Core Modules</span> <span class="dep-arrow">(Sprint 2)</span>
+<span class="dep-arrow">               &#x2514;&#x2500;&#x2500;&#x25BA;</span> <span class="dep-epic">E2: Core Deployment</span> <span class="dep-arrow">(Sprint 2)</span>
 <span class="dep-arrow">                      &#x251C;&#x2500;&#x2500;</span> <span class="dep-module">ISL-01: API Governance</span>
 <span class="dep-arrow">                      &#x2514;&#x2500;&#x2500;</span> <span class="dep-module">ISL-06: Data Quality</span>
-<span class="dep-arrow">                            &#x2514;&#x2500;&#x2500;&#x25BA;</span> <span class="dep-epic">E3: Advanced Modules</span> <span class="dep-arrow">(Sprint 3)</span>
+<span class="dep-arrow">                            &#x2514;&#x2500;&#x2500;&#x25BA;</span> <span class="dep-epic">E3: Advanced Deployment</span> <span class="dep-arrow">(Sprint 3)</span>
 <span class="dep-arrow">                                   &#x251C;&#x2500;&#x2500;</span> <span class="dep-module">ISL-02: Metadata &amp; Lineage</span>
 <span class="dep-arrow">                                   &#x2514;&#x2500;&#x2500;</span> <span class="dep-module">ISL-05: Integration Patterns</span>
-<span class="dep-arrow">                                         &#x2514;&#x2500;&#x2500;&#x25BA;</span> <span class="dep-epic">E4: Packaging &amp; Pilot</span> <span class="dep-arrow">(Sprint 4)</span></div>
+<span class="dep-arrow">                                         &#x2514;&#x2500;&#x2500;&#x25BA;</span> <span class="dep-epic">E4: Validation &amp; Handoff</span> <span class="dep-arrow">(Sprint 4)</span></div>
                 </div>
             </section>
 
@@ -1264,10 +1269,11 @@
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                             Epic E0
                         </span>
-                        <h2>Discovery &amp; Baseline</h2>
+                        <h2>Accelerator Setup &amp; Assessment</h2>
                         <div class="epic-meta">
                             <span>Sprint 0</span>
-                            <span>~40 hours</span>
+                            <span>~40 accelerated hrs</span>
+                            <span>Baseline: 60&ndash;80 hrs</span>
                             <span>2 Stories</span>
                         </div>
                     </div>
@@ -1277,28 +1283,30 @@
                         <div class="story-card" id="e0-s1">
                             <div class="story-header">
                                 <span class="story-id" style="background:var(--epic-e0);">E0-S1</span>
-                                <span class="story-title">Prior Engagement Audit</span>
+                                <span class="story-title">Environment Setup &amp; ISL Deployment</span>
                                 <div class="story-badges">
                                     <span class="badge badge-priority p0">P0</span>
                                     <span class="badge badge-effort">S</span>
-                                    <span class="badge badge-hours">20 hrs</span>
+                                    <span class="badge badge-hours">15 hrs</span>
                                 </div>
                             </div>
                             <div class="story-body">
                                 <div class="story-field">
                                     <div class="story-field-label">Owner</div>
-                                    <div class="story-field-value">Lead Architect</div>
+                                    <div class="story-field-value">Engagement Lead</div>
                                 </div>
                                 <div class="story-field">
                                     <div class="story-field-label">Depends On</div>
-                                    <div class="story-field-value">Access to prior deliverables</div>
+                                    <div class="story-field-value">Client SOW signed, ISL v1.0 available</div>
                                 </div>
                                 <div class="story-field">
                                     <div class="story-field-label">Acceptance Criteria</div>
                                     <ul class="ac-list">
-                                        <li>Common patterns extracted</li>
-                                        <li>Engagement-specific variations cataloged</li>
-                                        <li>Actual hours documented</li>
+                                        <li>ISL deployed to engagement workspace</li>
+                                        <li>Client Git access configured</li>
+                                        <li>Collaboration tools operational</li>
+                                        <li>Stakeholder-to-role mapping complete</li>
+                                        <li>Engagement folder structure created</li>
                                     </ul>
                                 </div>
                                 <div class="story-field">
@@ -1315,33 +1323,33 @@
                                         <tbody>
                                             <tr>
                                                 <td class="task-id">E0-S1.T1</td>
-                                                <td>Identify 2&ndash;3 completed Phase 4 deliverables</td>
-                                                <td class="hours-cell">2</td>
-                                                <td class="role-cell">Lead Architect</td>
+                                                <td>Deploy ISL to engagement workspace</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Engagement Lead</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">E0-S1.T2</td>
-                                                <td>Extract common patterns</td>
-                                                <td class="hours-cell">6</td>
-                                                <td class="role-cell">Lead Architect</td>
+                                                <td>Configure client Git access</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Engagement Lead</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">E0-S1.T3</td>
-                                                <td>Catalog customizations</td>
-                                                <td class="hours-cell">4</td>
-                                                <td class="role-cell">Lead Architect</td>
+                                                <td>Set up collaboration tools (Teams, SharePoint)</td>
+                                                <td class="hours-cell">2</td>
+                                                <td class="role-cell">Engagement Lead</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">E0-S1.T4</td>
-                                                <td>Document gaps</td>
-                                                <td class="hours-cell">4</td>
-                                                <td class="role-cell">Sr Data Gov</td>
+                                                <td>Map client stakeholders to delivery roles</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Engagement Lead</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">E0-S1.T5</td>
-                                                <td>Record actual hours</td>
+                                                <td>Create engagement-specific folder structure</td>
                                                 <td class="hours-cell">4</td>
-                                                <td class="role-cell">Lead Architect</td>
+                                                <td class="role-cell">Engagement Lead</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1353,17 +1361,17 @@
                         <div class="story-card" id="e0-s2">
                             <div class="story-header">
                                 <span class="story-id" style="background:var(--epic-e0);">E0-S2</span>
-                                <span class="story-title">Industry Standards Survey &amp; Scope Lock</span>
+                                <span class="story-title">Maturity Assessment &amp; Module Selection</span>
                                 <div class="story-badges">
                                     <span class="badge badge-priority p0">P0</span>
                                     <span class="badge badge-effort">S</span>
-                                    <span class="badge badge-hours">20 hrs</span>
+                                    <span class="badge badge-hours">25 hrs</span>
                                 </div>
                             </div>
                             <div class="story-body">
                                 <div class="story-field">
                                     <div class="story-field-label">Owner</div>
-                                    <div class="story-field-value">Lead Architect + Sr Integration Architect</div>
+                                    <div class="story-field-value">Lead Architect + Sr Data Governance</div>
                                 </div>
                                 <div class="story-field">
                                     <div class="story-field-label">Depends On</div>
@@ -1372,10 +1380,11 @@
                                 <div class="story-field">
                                     <div class="story-field-label">Acceptance Criteria</div>
                                     <ul class="ac-list">
-                                        <li>External standards reviewed</li>
-                                        <li>Template lists finalized</li>
-                                        <li>Adaptation workflow defined</li>
-                                        <li>Scope locked</li>
+                                        <li>Governance maturity assessment scored across 6 domains</li>
+                                        <li>Client existing standards reviewed</li>
+                                        <li>Applicable ISL modules selected</li>
+                                        <li>Adaptation checklists customized</li>
+                                        <li>Acceptance criteria defined and scope locked</li>
                                     </ul>
                                 </div>
                                 <div class="story-field">
@@ -1392,39 +1401,45 @@
                                         <tbody>
                                             <tr>
                                                 <td class="task-id">E0-S2.T1</td>
-                                                <td>Review Microsoft REST API + Fabric docs</td>
-                                                <td class="hours-cell">3</td>
-                                                <td class="role-cell">Sr Int Arch</td>
+                                                <td>Run governance maturity assessment</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Lead Architect</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">E0-S2.T2</td>
-                                                <td>Review OWASP + DAMA</td>
+                                                <td>Score client across 6 domains</td>
                                                 <td class="hours-cell">3</td>
-                                                <td class="role-cell">Sr Data Gov</td>
+                                                <td class="role-cell">Lead Architect</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">E0-S2.T3</td>
-                                                <td>Review Azure CAF + ISO/NIST</td>
-                                                <td class="hours-cell">3</td>
-                                                <td class="role-cell">Lead Arch</td>
+                                                <td>Review client existing standards</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Sr Data Gov</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">E0-S2.T4</td>
-                                                <td>Finalize template lists</td>
-                                                <td class="hours-cell">4</td>
-                                                <td class="role-cell">Lead Arch</td>
+                                                <td>Select applicable modules</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Lead Architect</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">E0-S2.T5</td>
-                                                <td>Define adaptation workflow</td>
+                                                <td>Customize adaptation checklists</td>
                                                 <td class="hours-cell">4</td>
-                                                <td class="role-cell">Lead Arch</td>
+                                                <td class="role-cell">Lead Architect</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">E0-S2.T6</td>
-                                                <td>Document AC and lock scope</td>
+                                                <td>Define acceptance criteria</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Lead Architect</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">E0-S2.T7</td>
+                                                <td>Lock scope</td>
                                                 <td class="hours-cell">3</td>
-                                                <td class="role-cell">Lead Arch</td>
+                                                <td class="role-cell">Lead Architect</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1444,10 +1459,12 @@
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
                             Epic E1
                         </span>
-                        <h2>Foundation Modules</h2>
+                        <h2>Foundation Standards Deployment</h2>
                         <div class="epic-meta">
                             <span>Sprint 1</span>
-                            <span>~90 hours</span>
+                            <span>~60 accelerated hrs</span>
+                            <span>Baseline: 90&ndash;150 hrs</span>
+                            <span>Savings: 30&ndash;90 hrs (33&ndash;60%)</span>
                             <span>2 Stories</span>
                         </div>
                     </div>
@@ -1457,11 +1474,11 @@
                         <div class="story-card" id="e1-s1">
                             <div class="story-header">
                                 <span class="story-id" style="background:var(--epic-e1); color:var(--dark);">E1-S1</span>
-                                <span class="story-title">ISL-03 Naming Convention Standards</span>
+                                <span class="story-title">ISL-03 Naming Conventions Adaptation</span>
                                 <div class="story-badges">
                                     <span class="badge badge-priority p0">P0</span>
                                     <span class="badge badge-effort">S</span>
-                                    <span class="badge badge-hours">20&ndash;30 hrs</span>
+                                    <span class="badge badge-hours">20 hrs</span>
                                 </div>
                             </div>
                             <div class="story-body">
@@ -1476,9 +1493,10 @@
                                 <div class="story-field">
                                     <div class="story-field-label">Acceptance Criteria</div>
                                     <ul class="ac-list">
-                                        <li>7 naming templates + 2 examples completed</li>
-                                        <li>Fabric patterns validated</li>
-                                        <li>Abbreviation dictionary seeded with 50+ entries</li>
+                                        <li>Client naming patterns reviewed and gap-analyzed</li>
+                                        <li>All 7 naming domains adapted to client context</li>
+                                        <li>Abbreviation dictionary customized for client industry</li>
+                                        <li>Client review workshop completed with feedback incorporated</li>
                                     </ul>
                                 </div>
                                 <div class="story-field">
@@ -1495,63 +1513,57 @@
                                         <tbody>
                                             <tr>
                                                 <td class="task-id">T1</td>
-                                                <td>Database &amp; schema naming</td>
+                                                <td>Review client existing naming patterns</td>
                                                 <td class="hours-cell">2</td>
                                                 <td class="role-cell">Sr Int Arch</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T2</td>
-                                                <td>Table &amp; view naming</td>
-                                                <td class="hours-cell">3</td>
+                                                <td>Adapt database/schema naming to client domains</td>
+                                                <td class="hours-cell">2</td>
                                                 <td class="role-cell">Sr Int Arch</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T3</td>
-                                                <td>Column naming</td>
+                                                <td>Adapt table/view naming to client entities</td>
                                                 <td class="hours-cell">2</td>
                                                 <td class="role-cell">Sr Int Arch</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T4</td>
-                                                <td>Pipeline naming</td>
-                                                <td class="hours-cell">3</td>
+                                                <td>Adapt column naming to client standards</td>
+                                                <td class="hours-cell">2</td>
                                                 <td class="role-cell">Sr Int Arch</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T5</td>
-                                                <td>API naming</td>
+                                                <td>Adapt pipeline naming to client orchestration</td>
                                                 <td class="hours-cell">2</td>
                                                 <td class="role-cell">Sr Int Arch</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T6</td>
-                                                <td>Infrastructure naming</td>
+                                                <td>Adapt API naming to client tech stack</td>
                                                 <td class="hours-cell">2</td>
                                                 <td class="role-cell">Sr Int Arch</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T7</td>
-                                                <td>Abbreviation dictionary</td>
-                                                <td class="hours-cell">3</td>
-                                                <td class="role-cell">Tech Writer</td>
+                                                <td>Customize abbreviation dictionary</td>
+                                                <td class="hours-cell">2</td>
+                                                <td class="role-cell">Sr Int Arch</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T8</td>
-                                                <td>Fabric naming example</td>
+                                                <td>Client review workshop</td>
                                                 <td class="hours-cell">3</td>
                                                 <td class="role-cell">Sr Int Arch</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T9</td>
-                                                <td>Mfg domain names example</td>
+                                                <td>Incorporate feedback</td>
                                                 <td class="hours-cell">3</td>
                                                 <td class="role-cell">Sr Int Arch</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T10</td>
-                                                <td>Peer review</td>
-                                                <td class="hours-cell">4</td>
-                                                <td class="role-cell">Lead Arch</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1563,11 +1575,11 @@
                         <div class="story-card" id="e1-s2">
                             <div class="story-header">
                                 <span class="story-id" style="background:var(--epic-e1); color:var(--dark);">E1-S2</span>
-                                <span class="story-title">ISL-04 Data Classification Framework</span>
+                                <span class="story-title">ISL-04 Data Classification Adaptation</span>
                                 <div class="story-badges">
                                     <span class="badge badge-priority p0">P0</span>
                                     <span class="badge badge-effort">M</span>
-                                    <span class="badge badge-hours">40&ndash;60 hrs</span>
+                                    <span class="badge badge-hours">35 hrs</span>
                                 </div>
                             </div>
                             <div class="story-body">
@@ -1582,10 +1594,12 @@
                                 <div class="story-field">
                                     <div class="story-field-label">Acceptance Criteria</div>
                                     <ul class="ac-list">
-                                        <li>6 templates + 3 examples completed</li>
-                                        <li>4-tier model defined</li>
-                                        <li>Purview labels documented</li>
-                                        <li>Compliance mapping covers SOX/GDPR/CCPA/ITAR/HIPAA</li>
+                                        <li>Client regulatory drivers identified (SOX/GDPR/ITAR/HIPAA)</li>
+                                        <li>4-tier classification model adapted to client terminology</li>
+                                        <li>Purview sensitivity labels configured</li>
+                                        <li>Access controls mapped to client Entra ID groups</li>
+                                        <li>Compliance mapping matrix complete</li>
+                                        <li>Client review and approval obtained</li>
                                     </ul>
                                 </div>
                                 <div class="story-field">
@@ -1602,63 +1616,63 @@
                                         <tbody>
                                             <tr>
                                                 <td class="task-id">T1</td>
-                                                <td>Classification tier definitions</td>
-                                                <td class="hours-cell">5</td>
-                                                <td class="role-cell">Sr Data Gov</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T2</td>
-                                                <td>Sensitivity labeling</td>
-                                                <td class="hours-cell">6</td>
-                                                <td class="role-cell">Sr Data Gov</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T3</td>
-                                                <td>Data handling requirements</td>
-                                                <td class="hours-cell">5</td>
-                                                <td class="role-cell">Sr Data Gov</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T4</td>
-                                                <td>Access control alignment</td>
-                                                <td class="hours-cell">6</td>
-                                                <td class="role-cell">Sr Data Gov</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T5</td>
-                                                <td>Compliance mapping matrix</td>
-                                                <td class="hours-cell">6</td>
-                                                <td class="role-cell">Sr Data Gov</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T6</td>
-                                                <td>Classification decision tree</td>
+                                                <td>Identify client regulatory drivers (SOX/GDPR/ITAR/HIPAA)</td>
                                                 <td class="hours-cell">3</td>
                                                 <td class="role-cell">Sr Data Gov</td>
                                             </tr>
                                             <tr>
+                                                <td class="task-id">T2</td>
+                                                <td>Adapt 4-tier classification model to client terminology</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T3</td>
+                                                <td>Configure Purview sensitivity labels</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T4</td>
+                                                <td>Adapt handling requirements per tier</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T5</td>
+                                                <td>Map access controls to client Entra ID groups</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T6</td>
+                                                <td>Adapt compliance mapping matrix to client regulatory landscape</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
                                                 <td class="task-id">T7</td>
-                                                <td>Mfg classification example</td>
-                                                <td class="hours-cell">5</td>
+                                                <td>Create classification decision tree</td>
+                                                <td class="hours-cell">3</td>
                                                 <td class="role-cell">Sr Data Gov</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T8</td>
-                                                <td>Fabric security model example</td>
-                                                <td class="hours-cell">4</td>
-                                                <td class="role-cell">Sr Int Arch</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T9</td>
-                                                <td>Purview label config example</td>
+                                                <td>Apply manufacturing overlays if needed</td>
                                                 <td class="hours-cell">4</td>
                                                 <td class="role-cell">Sr Data Gov</td>
                                             </tr>
                                             <tr>
+                                                <td class="task-id">T9</td>
+                                                <td>Client review and approval</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
                                                 <td class="task-id">T10</td>
-                                                <td>Peer review</td>
-                                                <td class="hours-cell">6</td>
-                                                <td class="role-cell">Lead Arch</td>
+                                                <td>Incorporate feedback</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Sr Data Gov</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1678,10 +1692,12 @@
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                             Epic E2
                         </span>
-                        <h2>Core Modules</h2>
+                        <h2>Core Standards Deployment</h2>
                         <div class="epic-meta">
                             <span>Sprint 2</span>
-                            <span>~100 hours</span>
+                            <span>~70 accelerated hrs</span>
+                            <span>Baseline: 130&ndash;200 hrs</span>
+                            <span>Savings: 60&ndash;130 hrs (46&ndash;65%)</span>
                             <span>2 Stories</span>
                         </div>
                     </div>
@@ -1691,11 +1707,11 @@
                         <div class="story-card" id="e2-s1">
                             <div class="story-header">
                                 <span class="story-id" style="background:var(--epic-e2);">E2-S1</span>
-                                <span class="story-title">ISL-01 API Governance Standards</span>
+                                <span class="story-title">ISL-01 API Governance Adaptation</span>
                                 <div class="story-badges">
                                     <span class="badge badge-priority p1">P1</span>
                                     <span class="badge badge-effort">M</span>
-                                    <span class="badge badge-hours">40&ndash;60 hrs</span>
+                                    <span class="badge badge-hours">35 hrs</span>
                                 </div>
                             </div>
                             <div class="story-body">
@@ -1710,9 +1726,11 @@
                                 <div class="story-field">
                                     <div class="story-field-label">Acceptance Criteria</div>
                                     <ul class="ac-list">
-                                        <li>6 API templates + 2 examples</li>
-                                        <li>OWASP cross-referenced</li>
-                                        <li>OAuth 2.0/OIDC documented</li>
+                                        <li>Client API technology stack mapped (APIM/MuleSoft/etc.)</li>
+                                        <li>API design standards adapted to client patterns</li>
+                                        <li>OAuth 2.0/OIDC customized to client Entra ID</li>
+                                        <li>OWASP API Top 10 cross-reference validated</li>
+                                        <li>Client review and approval obtained</li>
                                     </ul>
                                 </div>
                                 <div class="story-field">
@@ -1729,63 +1747,45 @@
                                         <tbody>
                                             <tr>
                                                 <td class="task-id">T1</td>
-                                                <td>API design standards</td>
-                                                <td class="hours-cell">6</td>
+                                                <td>Map client API technology stack (APIM/MuleSoft/etc.)</td>
+                                                <td class="hours-cell">4</td>
                                                 <td class="role-cell">Sr Int Arch</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T2</td>
-                                                <td>Versioning policy</td>
-                                                <td class="hours-cell">3</td>
+                                                <td>Adapt API design standards to client patterns</td>
+                                                <td class="hours-cell">6</td>
                                                 <td class="role-cell">Sr Int Arch</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T3</td>
-                                                <td>Security standards/OWASP</td>
-                                                <td class="hours-cell">8</td>
+                                                <td>Configure versioning policy for client lifecycle</td>
+                                                <td class="hours-cell">3</td>
                                                 <td class="role-cell">Sr Int Arch</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T4</td>
-                                                <td>Lifecycle governance</td>
+                                                <td>Customize OAuth 2.0/OIDC to client Entra ID</td>
                                                 <td class="hours-cell">5</td>
                                                 <td class="role-cell">Sr Int Arch</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T5</td>
-                                                <td>Catalog requirements</td>
-                                                <td class="hours-cell">4</td>
-                                                <td class="role-cell">Sr Int Arch</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T6</td>
-                                                <td>Rate limiting</td>
+                                                <td>Adapt rate limiting to client SLA tiers</td>
                                                 <td class="hours-cell">3</td>
                                                 <td class="role-cell">Sr Int Arch</td>
                                             </tr>
                                             <tr>
+                                                <td class="task-id">T6</td>
+                                                <td>Validate OWASP API Top 10 cross-reference</td>
+                                                <td class="hours-cell">6</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
                                                 <td class="task-id">T7</td>
-                                                <td>Mfg API example</td>
-                                                <td class="hours-cell">5</td>
+                                                <td>Client review and approval</td>
+                                                <td class="hours-cell">8</td>
                                                 <td class="role-cell">Sr Int Arch</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T8</td>
-                                                <td>Fabric API example</td>
-                                                <td class="hours-cell">4</td>
-                                                <td class="role-cell">Sr Int Arch</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T9</td>
-                                                <td>OWASP audit</td>
-                                                <td class="hours-cell">4</td>
-                                                <td class="role-cell">Lead Arch</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T10</td>
-                                                <td>Peer review</td>
-                                                <td class="hours-cell">5</td>
-                                                <td class="role-cell">Lead Arch</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1797,17 +1797,17 @@
                         <div class="story-card" id="e2-s2">
                             <div class="story-header">
                                 <span class="story-id" style="background:var(--epic-e2);">E2-S2</span>
-                                <span class="story-title">ISL-06 Data Quality Standards</span>
+                                <span class="story-title">ISL-06 Data Quality Adaptation</span>
                                 <div class="story-badges">
                                     <span class="badge badge-priority p1">P1</span>
                                     <span class="badge badge-effort">M</span>
-                                    <span class="badge badge-hours">30&ndash;50 hrs</span>
+                                    <span class="badge badge-hours">30 hrs</span>
                                 </div>
                             </div>
                             <div class="story-body">
                                 <div class="story-field">
                                     <div class="story-field-label">Owner</div>
-                                    <div class="story-field-value">Sr Data Gov Specialist</div>
+                                    <div class="story-field-value">Sr Data Governance Specialist</div>
                                 </div>
                                 <div class="story-field">
                                     <div class="story-field-label">Depends On</div>
@@ -1816,9 +1816,12 @@
                                 <div class="story-field">
                                     <div class="story-field-label">Acceptance Criteria</div>
                                     <ul class="ac-list">
-                                        <li>6 quality templates + 3 examples</li>
-                                        <li>50+ rules cataloged</li>
-                                        <li>SLAs per classification tier</li>
+                                        <li>Client data quality maturity assessed</li>
+                                        <li>Quality dimensions adapted to client priorities</li>
+                                        <li>SLA thresholds configured per classification tier</li>
+                                        <li>Quality rules selected and customized from 50+ library</li>
+                                        <li>Remediation workflow configured</li>
+                                        <li>Client review and approval obtained</li>
                                     </ul>
                                 </div>
                                 <div class="story-field">
@@ -1835,63 +1838,45 @@
                                         <tbody>
                                             <tr>
                                                 <td class="task-id">T1</td>
-                                                <td>Quality dimensions</td>
+                                                <td>Assess client data quality maturity</td>
                                                 <td class="hours-cell">3</td>
                                                 <td class="role-cell">Sr Data Gov</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T2</td>
-                                                <td>SLA framework</td>
-                                                <td class="hours-cell">5</td>
-                                                <td class="role-cell">Sr Data Gov</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T3</td>
-                                                <td>Quality rule library 50+ rules</td>
-                                                <td class="hours-cell">10</td>
-                                                <td class="role-cell">Sr Data Gov</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T4</td>
-                                                <td>Monitoring standards</td>
+                                                <td>Adapt quality dimensions to client priorities</td>
                                                 <td class="hours-cell">4</td>
                                                 <td class="role-cell">Sr Data Gov</td>
                                             </tr>
                                             <tr>
+                                                <td class="task-id">T3</td>
+                                                <td>Configure SLA thresholds per classification tier</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T4</td>
+                                                <td>Select and customize quality rules from 50+ library</td>
+                                                <td class="hours-cell">6</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
                                                 <td class="task-id">T5</td>
-                                                <td>Remediation workflow</td>
-                                                <td class="hours-cell">3</td>
+                                                <td>Adapt monitoring standards to client tooling</td>
+                                                <td class="hours-cell">4</td>
                                                 <td class="role-cell">Sr Data Gov</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T6</td>
-                                                <td>Quality scorecard</td>
+                                                <td>Configure remediation workflow</td>
                                                 <td class="hours-cell">3</td>
                                                 <td class="role-cell">Sr Data Gov</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T7</td>
-                                                <td>Mfg quality rules example</td>
-                                                <td class="hours-cell">4</td>
+                                                <td>Client review and approval</td>
+                                                <td class="hours-cell">6</td>
                                                 <td class="role-cell">Sr Data Gov</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T8</td>
-                                                <td>Fabric quality implementation example</td>
-                                                <td class="hours-cell">5</td>
-                                                <td class="role-cell">Sr Int Arch</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T9</td>
-                                                <td>Quality dashboard spec</td>
-                                                <td class="hours-cell">4</td>
-                                                <td class="role-cell">Sr Data Gov</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T10</td>
-                                                <td>Peer review</td>
-                                                <td class="hours-cell">5</td>
-                                                <td class="role-cell">Lead Arch</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1911,10 +1896,12 @@
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
                             Epic E3
                         </span>
-                        <h2>Advanced Modules</h2>
+                        <h2>Advanced Standards Deployment</h2>
                         <div class="epic-meta">
-                            <span>Sprint 3 (double sprint)</span>
-                            <span>~160 hours</span>
+                            <span>Sprint 3</span>
+                            <span>~90 accelerated hrs</span>
+                            <span>Baseline: 160&ndash;240 hrs</span>
+                            <span>Savings: 70&ndash;150 hrs (44&ndash;63%)</span>
                             <span>2 Stories</span>
                         </div>
                     </div>
@@ -1924,17 +1911,17 @@
                         <div class="story-card" id="e3-s1">
                             <div class="story-header">
                                 <span class="story-id" style="background:var(--epic-e3);">E3-S1</span>
-                                <span class="story-title">ISL-02 Metadata &amp; Data Lineage Framework</span>
+                                <span class="story-title">ISL-02 Metadata &amp; Lineage Adaptation</span>
                                 <div class="story-badges">
                                     <span class="badge badge-priority p1">P1</span>
                                     <span class="badge badge-effort">L</span>
-                                    <span class="badge badge-hours">60&ndash;80 hrs</span>
+                                    <span class="badge badge-hours">50 hrs</span>
                                 </div>
                             </div>
                             <div class="story-body">
                                 <div class="story-field">
                                     <div class="story-field-label">Owner</div>
-                                    <div class="story-field-value">Sr Data Gov Specialist</div>
+                                    <div class="story-field-value">Sr Data Governance Specialist</div>
                                 </div>
                                 <div class="story-field">
                                     <div class="story-field-label">Depends On</div>
@@ -1943,10 +1930,12 @@
                                 <div class="story-field">
                                     <div class="story-field-label">Acceptance Criteria</div>
                                     <ul class="ac-list">
-                                        <li>6 metadata templates + 3 examples</li>
-                                        <li>Purview aligned</li>
-                                        <li>Lineage covers column/table/pipeline levels</li>
-                                        <li>Manufacturing IoT/ERP extensions</li>
+                                        <li>Client metadata landscape inventoried</li>
+                                        <li>Business glossary adapted to client domains</li>
+                                        <li>Technical metadata schema configured for client Purview/catalog</li>
+                                        <li>Lineage requirements defined for client pipeline architecture</li>
+                                        <li>Manufacturing overlays applied (IoT/ERP/PLM if applicable)</li>
+                                        <li>Client review and approval obtained</li>
                                     </ul>
                                 </div>
                                 <div class="story-field">
@@ -1963,69 +1952,51 @@
                                         <tbody>
                                             <tr>
                                                 <td class="task-id">T1</td>
-                                                <td>Business glossary</td>
-                                                <td class="hours-cell">6</td>
-                                                <td class="role-cell">Sr Data Gov</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T2</td>
-                                                <td>Technical metadata schema</td>
-                                                <td class="hours-cell">10</td>
-                                                <td class="role-cell">Sr Data Gov</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T3</td>
-                                                <td>Lineage requirements</td>
-                                                <td class="hours-cell">6</td>
-                                                <td class="role-cell">Sr Data Gov</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T4</td>
-                                                <td>Catalog governance</td>
+                                                <td>Inventory client metadata landscape</td>
                                                 <td class="hours-cell">5</td>
                                                 <td class="role-cell">Sr Data Gov</td>
                                             </tr>
                                             <tr>
-                                                <td class="task-id">T5</td>
-                                                <td>Metadata integration patterns</td>
-                                                <td class="hours-cell">8</td>
-                                                <td class="role-cell">Sr Int Arch</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T6</td>
-                                                <td>Lineage visualization</td>
-                                                <td class="hours-cell">4</td>
+                                                <td class="task-id">T2</td>
+                                                <td>Adapt business glossary to client domains</td>
+                                                <td class="hours-cell">6</td>
                                                 <td class="role-cell">Sr Data Gov</td>
                                             </tr>
                                             <tr>
+                                                <td class="task-id">T3</td>
+                                                <td>Configure technical metadata schema for client Purview/catalog</td>
+                                                <td class="hours-cell">8</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T4</td>
+                                                <td>Define lineage requirements for client pipeline architecture</td>
+                                                <td class="hours-cell">6</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T5</td>
+                                                <td>Adapt catalog governance to client tooling</td>
+                                                <td class="hours-cell">5</td>
+                                                <td class="role-cell">Sr Data Gov</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="task-id">T6</td>
+                                                <td>Configure metadata integration patterns</td>
+                                                <td class="hours-cell">6</td>
+                                                <td class="role-cell">Sr Int Arch</td>
+                                            </tr>
+                                            <tr>
                                                 <td class="task-id">T7</td>
-                                                <td>Mfg metadata model example</td>
+                                                <td>Apply manufacturing overlays (IoT/ERP/PLM if applicable)</td>
                                                 <td class="hours-cell">6</td>
                                                 <td class="role-cell">Sr Data Gov</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T8</td>
-                                                <td>Fabric OneLake metadata example</td>
-                                                <td class="hours-cell">5</td>
-                                                <td class="role-cell">Sr Int Arch</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T9</td>
-                                                <td>Purview config guide example</td>
-                                                <td class="hours-cell">5</td>
-                                                <td class="role-cell">Sr Data Gov</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T10</td>
-                                                <td>Manufacturing overlays</td>
+                                                <td>Client review and approval</td>
                                                 <td class="hours-cell">8</td>
                                                 <td class="role-cell">Sr Data Gov</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T11</td>
-                                                <td>Peer review</td>
-                                                <td class="hours-cell">7</td>
-                                                <td class="role-cell">Lead Arch</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -2037,11 +2008,11 @@
                         <div class="story-card" id="e3-s2">
                             <div class="story-header">
                                 <span class="story-id" style="background:var(--epic-e3);">E3-S2</span>
-                                <span class="story-title">ISL-05 Integration Pattern Library</span>
+                                <span class="story-title">ISL-05 Integration Patterns Selection</span>
                                 <div class="story-badges">
                                     <span class="badge badge-priority p1">P1</span>
                                     <span class="badge badge-effort">L</span>
-                                    <span class="badge badge-hours">60&ndash;80 hrs</span>
+                                    <span class="badge badge-hours">40 hrs</span>
                                 </div>
                             </div>
                             <div class="story-body">
@@ -2056,9 +2027,12 @@
                                 <div class="story-field">
                                     <div class="story-field-label">Acceptance Criteria</div>
                                     <ul class="ac-list">
-                                        <li>8 patterns + 3 diagrams</li>
-                                        <li>Each pattern has architecture diagram, decision criteria, anti-patterns, Fabric guide</li>
-                                        <li>Decision framework complete</li>
+                                        <li>Client integration landscape mapped (sources, targets, flows)</li>
+                                        <li>Applicable patterns selected from 8-pattern library</li>
+                                        <li>ERP patterns adapted to client SAP/Epicor config</li>
+                                        <li>Medallion architecture configured for client Fabric environment</li>
+                                        <li>Pattern decision documentation built</li>
+                                        <li>Client review and approval obtained</li>
                                     </ul>
                                 </div>
                                 <div class="story-field">
@@ -2075,81 +2049,45 @@
                                         <tbody>
                                             <tr>
                                                 <td class="task-id">T1</td>
-                                                <td>ERP Extract &amp; Load</td>
+                                                <td>Map client integration landscape (sources, targets, flows)</td>
                                                 <td class="hours-cell">6</td>
                                                 <td class="role-cell">Sr Int Arch</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T2</td>
-                                                <td>IoT/OT Ingestion</td>
-                                                <td class="hours-cell">6</td>
+                                                <td>Select applicable patterns from 8-pattern library</td>
+                                                <td class="hours-cell">4</td>
                                                 <td class="role-cell">Sr Int Arch</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T3</td>
-                                                <td>API Gateway Integration</td>
-                                                <td class="hours-cell">5</td>
+                                                <td>Adapt ERP patterns to client SAP/Epicor config</td>
+                                                <td class="hours-cell">6</td>
                                                 <td class="role-cell">Sr Int Arch</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T4</td>
-                                                <td>Event-Driven Architecture</td>
-                                                <td class="hours-cell">6</td>
+                                                <td>Adapt IoT patterns if applicable</td>
+                                                <td class="hours-cell">5</td>
                                                 <td class="role-cell">Sr Int Arch</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T5</td>
-                                                <td>Master Data Sync</td>
-                                                <td class="hours-cell">6</td>
+                                                <td>Configure medallion architecture for client Fabric environment</td>
+                                                <td class="hours-cell">5</td>
                                                 <td class="role-cell">Sr Int Arch</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T6</td>
-                                                <td>File-Based Integration</td>
-                                                <td class="hours-cell">4</td>
+                                                <td>Configure pattern decision documentation for client context</td>
+                                                <td class="hours-cell">6</td>
                                                 <td class="role-cell">Sr Int Arch</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T7</td>
-                                                <td>Medallion Architecture</td>
-                                                <td class="hours-cell">5</td>
-                                                <td class="role-cell">Sr Int Arch</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T8</td>
-                                                <td>Reverse ETL</td>
-                                                <td class="hours-cell">4</td>
-                                                <td class="role-cell">Sr Int Arch</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T9</td>
-                                                <td>Integration landscape diagram</td>
-                                                <td class="hours-cell">5</td>
-                                                <td class="role-cell">Sr Int Arch</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T10</td>
-                                                <td>Fabric integration diagram</td>
-                                                <td class="hours-cell">5</td>
-                                                <td class="role-cell">Sr Int Arch</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T11</td>
-                                                <td>Pattern decision tree diagram</td>
-                                                <td class="hours-cell">4</td>
-                                                <td class="role-cell">Sr Int Arch</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T12</td>
-                                                <td>Decision framework</td>
-                                                <td class="hours-cell">4</td>
-                                                <td class="role-cell">Lead Arch</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T13</td>
-                                                <td>Peer review</td>
+                                                <td>Client review and approval</td>
                                                 <td class="hours-cell">8</td>
-                                                <td class="role-cell">Lead Arch</td>
+                                                <td class="role-cell">Sr Int Arch</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -2169,11 +2107,13 @@
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
                             Epic E4
                         </span>
-                        <h2>Packaging, Review &amp; Pilot</h2>
+                        <h2>Validation &amp; Handoff</h2>
                         <div class="epic-meta">
                             <span>Sprint 4</span>
-                            <span>~80 hours</span>
-                            <span>4 Stories</span>
+                            <span>~40 accelerated hrs</span>
+                            <span>Baseline: 60&ndash;80 hrs</span>
+                            <span>Savings: 20&ndash;40 hrs (33&ndash;50%)</span>
+                            <span>2 Stories</span>
                         </div>
                     </div>
                     <div class="epic-body">
@@ -2182,17 +2122,17 @@
                         <div class="story-card" id="e4-s1">
                             <div class="story-header">
                                 <span class="story-id" style="background:var(--epic-e4);">E4-S1</span>
-                                <span class="story-title">Manufacturing Overlays Consolidation</span>
+                                <span class="story-title">Cross-Module Validation</span>
                                 <div class="story-badges">
-                                    <span class="badge badge-priority p2">P2</span>
+                                    <span class="badge badge-priority p1">P1</span>
                                     <span class="badge badge-effort">S</span>
-                                    <span class="badge badge-hours">20 hrs</span>
+                                    <span class="badge badge-hours">15 hrs</span>
                                 </div>
                             </div>
                             <div class="story-body">
                                 <div class="story-field">
                                     <div class="story-field-label">Owner</div>
-                                    <div class="story-field-value">Sr Data Gov</div>
+                                    <div class="story-field-value">Lead Architect</div>
                                 </div>
                                 <div class="story-field">
                                     <div class="story-field-label">Depends On</div>
@@ -2201,8 +2141,10 @@
                                 <div class="story-field">
                                     <div class="story-field-label">Acceptance Criteria</div>
                                     <ul class="ac-list">
-                                        <li>Overlays consolidated</li>
-                                        <li>ITAR/EAR, IoT/OT, ERP, supply chain coverage validated</li>
+                                        <li>Cross-module naming consistency verified</li>
+                                        <li>Inter-module references validated</li>
+                                        <li>Compliance alignment audited (OWASP, NIST, ISO, DAMA)</li>
+                                        <li>All cross-module conflicts resolved</li>
                                     </ul>
                                 </div>
                                 <div class="story-field">
@@ -2219,39 +2161,27 @@
                                         <tbody>
                                             <tr>
                                                 <td class="task-id">T1</td>
-                                                <td>ITAR/EAR overlay</td>
+                                                <td>Cross-module naming consistency review</td>
                                                 <td class="hours-cell">4</td>
-                                                <td class="role-cell">Sr Data Gov</td>
+                                                <td class="role-cell">Lead Architect</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T2</td>
-                                                <td>IoT/OT extensions</td>
-                                                <td class="hours-cell">4</td>
-                                                <td class="role-cell">Sr Data Gov</td>
+                                                <td>Inter-module reference validation</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Lead Architect</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T3</td>
-                                                <td>ERP extensions</td>
-                                                <td class="hours-cell">4</td>
-                                                <td class="role-cell">Sr Int Arch</td>
+                                                <td>Compliance alignment audit (OWASP, NIST, ISO, DAMA)</td>
+                                                <td class="hours-cell">5</td>
+                                                <td class="role-cell">Lead Architect</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T4</td>
-                                                <td>Supply chain classification</td>
-                                                <td class="hours-cell">2</td>
-                                                <td class="role-cell">Sr Data Gov</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T5</td>
-                                                <td>Cross-check examples</td>
-                                                <td class="hours-cell">4</td>
-                                                <td class="role-cell">Lead Arch</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T6</td>
-                                                <td>Fill gaps</td>
-                                                <td class="hours-cell">2</td>
-                                                <td class="role-cell">Sr Data Gov</td>
+                                                <td>Resolve any cross-module conflicts</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Lead Architect</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -2263,7 +2193,7 @@
                         <div class="story-card" id="e4-s2">
                             <div class="story-header">
                                 <span class="story-id" style="background:var(--epic-e4);">E4-S2</span>
-                                <span class="story-title">Peer Review &amp; QA</span>
+                                <span class="story-title">Client Handoff</span>
                                 <div class="story-badges">
                                     <span class="badge badge-priority p1">P1</span>
                                     <span class="badge badge-effort">S</span>
@@ -2273,7 +2203,7 @@
                             <div class="story-body">
                                 <div class="story-field">
                                     <div class="story-field-label">Owner</div>
-                                    <div class="story-field-value">Lead Architect</div>
+                                    <div class="story-field-value">Lead Architect + Engagement Lead</div>
                                 </div>
                                 <div class="story-field">
                                     <div class="story-field-label">Depends On</div>
@@ -2282,10 +2212,11 @@
                                 <div class="story-field">
                                     <div class="story-field-label">Acceptance Criteria</div>
                                     <ul class="ac-list">
-                                        <li>Full cross-module review</li>
-                                        <li>Naming consistency</li>
-                                        <li>Compliance verified</li>
-                                        <li>All comments resolved</li>
+                                        <li>Final client presentation delivered</li>
+                                        <li>Executive sign-off obtained</li>
+                                        <li>Implementation team knowledge transfer complete</li>
+                                        <li>Standards adoption guide created for client team</li>
+                                        <li>Lessons learned documented for ISL feedback loop</li>
                                     </ul>
                                 </div>
                                 <div class="story-field">
@@ -2302,204 +2233,33 @@
                                         <tbody>
                                             <tr>
                                                 <td class="task-id">T1</td>
-                                                <td>Cross-module review</td>
-                                                <td class="hours-cell">6</td>
-                                                <td class="role-cell">Lead Arch</td>
+                                                <td>Final client presentation preparation</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Lead Architect</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T2</td>
-                                                <td>Compliance audit</td>
-                                                <td class="hours-cell">4</td>
-                                                <td class="role-cell">Lead Arch</td>
+                                                <td>Executive sign-off meeting</td>
+                                                <td class="hours-cell">3</td>
+                                                <td class="role-cell">Engagement Lead</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T3</td>
-                                                <td>Cross-reference validation</td>
-                                                <td class="hours-cell">3</td>
-                                                <td class="role-cell">Tech Writer</td>
+                                                <td>Implementation team knowledge transfer</td>
+                                                <td class="hours-cell">5</td>
+                                                <td class="role-cell">Lead Architect</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T4</td>
-                                                <td>Spelling/grammar audit</td>
-                                                <td class="hours-cell">3</td>
-                                                <td class="role-cell">Tech Writer</td>
+                                                <td>Create standards adoption guide for client team</td>
+                                                <td class="hours-cell">4</td>
+                                                <td class="role-cell">Lead Architect</td>
                                             </tr>
                                             <tr>
                                                 <td class="task-id">T5</td>
-                                                <td>Resolve comments</td>
+                                                <td>Document lessons learned for ISL feedback loop</td>
                                                 <td class="hours-cell">4</td>
-                                                <td class="role-cell">All</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- E4-S3 -->
-                        <div class="story-card" id="e4-s3">
-                            <div class="story-header">
-                                <span class="story-id" style="background:var(--epic-e4);">E4-S3</span>
-                                <span class="story-title">Packaging &amp; Distribution</span>
-                                <div class="story-badges">
-                                    <span class="badge badge-priority p1">P1</span>
-                                    <span class="badge badge-effort">S</span>
-                                    <span class="badge badge-hours">15 hrs</span>
-                                </div>
-                            </div>
-                            <div class="story-body">
-                                <div class="story-field">
-                                    <div class="story-field-label">Owner</div>
-                                    <div class="story-field-value">Technical Writer</div>
-                                </div>
-                                <div class="story-field">
-                                    <div class="story-field-label">Depends On</div>
-                                    <div class="story-field-value">E4-S2</div>
-                                </div>
-                                <div class="story-field">
-                                    <div class="story-field-label">Acceptance Criteria</div>
-                                    <ul class="ac-list">
-                                        <li>READMEs finalized</li>
-                                        <li>Adaptation workflow documented</li>
-                                        <li>v1.0 tagged</li>
-                                    </ul>
-                                </div>
-                                <div class="story-field">
-                                    <div class="story-field-label">Tasks</div>
-                                    <table class="compact-table">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Task</th>
-                                                <th>Hours</th>
-                                                <th>Role</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="task-id">T1</td>
-                                                <td>Finalize READMEs</td>
-                                                <td class="hours-cell">4</td>
-                                                <td class="role-cell">Tech Writer</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T2</td>
-                                                <td>Document adaptation workflow</td>
-                                                <td class="hours-cell">3</td>
-                                                <td class="role-cell">Lead Arch</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T3</td>
-                                                <td>Engagement kickoff guide</td>
-                                                <td class="hours-cell">3</td>
-                                                <td class="role-cell">Lead Arch</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T4</td>
-                                                <td>Tag v1.0</td>
-                                                <td class="hours-cell">1</td>
-                                                <td class="role-cell">Sr Int Arch</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T5</td>
-                                                <td>Configure distribution</td>
-                                                <td class="hours-cell">2</td>
-                                                <td class="role-cell">Sr Int Arch</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T6</td>
-                                                <td>Publish release notes</td>
-                                                <td class="hours-cell">2</td>
-                                                <td class="role-cell">Tech Writer</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- E4-S4 -->
-                        <div class="story-card" id="e4-s4">
-                            <div class="story-header">
-                                <span class="story-id" style="background:var(--epic-e4);">E4-S4</span>
-                                <span class="story-title">Pilot Deployment</span>
-                                <div class="story-badges">
-                                    <span class="badge badge-priority p2">P2</span>
-                                    <span class="badge badge-effort">S</span>
-                                    <span class="badge badge-hours">20 hrs</span>
-                                </div>
-                            </div>
-                            <div class="story-body">
-                                <div class="story-field">
-                                    <div class="story-field-label">Owner</div>
-                                    <div class="story-field-value">Lead Architect</div>
-                                </div>
-                                <div class="story-field">
-                                    <div class="story-field-label">Depends On</div>
-                                    <div class="story-field-value">E4-S3</div>
-                                </div>
-                                <div class="story-field">
-                                    <div class="story-field-label">Acceptance Criteria</div>
-                                    <ul class="ac-list">
-                                        <li>ISL deployed at pilot</li>
-                                        <li>Adaptation hours tracked</li>
-                                        <li>Feedback collected</li>
-                                        <li>Lessons learned documented</li>
-                                    </ul>
-                                </div>
-                                <div class="story-field">
-                                    <div class="story-field-label">Tasks</div>
-                                    <table class="compact-table">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Task</th>
-                                                <th>Hours</th>
-                                                <th>Role</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="task-id">T1</td>
-                                                <td>Identify pilot engagement</td>
-                                                <td class="hours-cell">2</td>
-                                                <td class="role-cell">Lead Arch</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T2</td>
-                                                <td>Assign champion</td>
-                                                <td class="hours-cell">1</td>
-                                                <td class="role-cell">Lead Arch</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T3</td>
-                                                <td>Onboarding session</td>
-                                                <td class="hours-cell">3</td>
-                                                <td class="role-cell">Lead Arch</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T4</td>
-                                                <td>Monitor adaptation hours</td>
-                                                <td class="hours-cell">4</td>
-                                                <td class="role-cell">Lead Arch</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T5</td>
-                                                <td>Collect feedback</td>
-                                                <td class="hours-cell">4</td>
-                                                <td class="role-cell">Tech Writer</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T6</td>
-                                                <td>Document lessons learned</td>
-                                                <td class="hours-cell">4</td>
-                                                <td class="role-cell">Lead Arch</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="task-id">T7</td>
-                                                <td>Incorporate feedback for v1.1</td>
-                                                <td class="hours-cell">2</td>
-                                                <td class="role-cell">All</td>
+                                                <td class="role-cell">Engagement Lead</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -2516,7 +2276,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h2 class="card-title">Summary</h2>
-                        <p class="card-subtitle">Full backlog breakdown by epic with deliverable counts</p>
+                        <p class="card-subtitle">Full engagement execution backlog &mdash; accelerated hours vs. baseline with savings per epic</p>
                     </div>
 
                     <table class="summary-table">
@@ -2524,55 +2284,69 @@
                             <tr>
                                 <th>Epic</th>
                                 <th>Stories</th>
-                                <th>Sprint(s)</th>
-                                <th>Hours</th>
-                                <th>Deliverables</th>
+                                <th>Sprint</th>
+                                <th>Accelerated Hrs</th>
+                                <th>Baseline Hrs</th>
+                                <th>Savings</th>
+                                <th>Reduction</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><span class="epic-tag e0">E0</span> Discovery &amp; Baseline</td>
+                                <td><span class="epic-tag e0">E0</span> Setup &amp; Assessment</td>
                                 <td>2</td>
                                 <td>0</td>
                                 <td>~40</td>
-                                <td>Audit findings, scope lock</td>
+                                <td>60&ndash;80</td>
+                                <td>20&ndash;40</td>
+                                <td>33&ndash;50%</td>
                             </tr>
                             <tr>
-                                <td><span class="epic-tag e1">E1</span> Foundation Modules</td>
+                                <td><span class="epic-tag e1">E1</span> Foundation Deployment</td>
                                 <td>2</td>
                                 <td>1</td>
-                                <td>~90</td>
-                                <td>ISL-03 (9), ISL-04 (9)</td>
+                                <td>~60</td>
+                                <td>90&ndash;150</td>
+                                <td>30&ndash;90</td>
+                                <td>33&ndash;60%</td>
                             </tr>
                             <tr>
-                                <td><span class="epic-tag e2">E2</span> Core Modules</td>
+                                <td><span class="epic-tag e2">E2</span> Core Deployment</td>
                                 <td>2</td>
                                 <td>2</td>
-                                <td>~100</td>
-                                <td>ISL-01 (8), ISL-06 (9)</td>
+                                <td>~70</td>
+                                <td>130&ndash;200</td>
+                                <td>60&ndash;130</td>
+                                <td>46&ndash;65%</td>
                             </tr>
                             <tr>
-                                <td><span class="epic-tag e3">E3</span> Advanced Modules</td>
+                                <td><span class="epic-tag e3">E3</span> Advanced Deployment</td>
                                 <td>2</td>
                                 <td>3</td>
-                                <td>~160</td>
-                                <td>ISL-02 (9), ISL-05 (11)</td>
+                                <td>~90</td>
+                                <td>160&ndash;240</td>
+                                <td>70&ndash;150</td>
+                                <td>44&ndash;63%</td>
                             </tr>
                             <tr>
-                                <td><span class="epic-tag e4">E4</span> Packaging &amp; Pilot</td>
+                                <td><span class="epic-tag e4">E4</span> Validation &amp; Handoff</td>
+                                <td>2</td>
                                 <td>4</td>
-                                <td>4</td>
-                                <td>~80</td>
-                                <td>Overlays, review, v1.0</td>
+                                <td>~40</td>
+                                <td>60&ndash;80</td>
+                                <td>20&ndash;40</td>
+                                <td>33&ndash;50%</td>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr>
                                 <td>Total</td>
-                                <td>12</td>
+                                <td>10</td>
                                 <td>0&ndash;4</td>
-                                <td>~470</td>
-                                <td>39 templates, 16 examples, 3 diagrams</td>
+                                <td>~300</td>
+                                <td>500&ndash;700</td>
+                                <td>200&ndash;400</td>
+                                <td>30&ndash;57%</td>
                             </tr>
                         </tfoot>
                     </table>
@@ -2588,7 +2362,7 @@
             <div class="footer-grid">
                 <div>
                     <div class="footer-brand">ISL <span class="brand-accent">Design</span></div>
-                    <p class="footer-desc">DMTSP Integration Standards Library &mdash; Internal Use Only</p>
+                    <p class="footer-desc">DMTSP Integration Standards Library &mdash; Engagement Accelerator &mdash; Internal Use Only</p>
                 </div>
                 <div>
                     <div class="footer-heading">Design Documents</div>
@@ -2604,15 +2378,15 @@
                     <ul class="footer-links">
                         <li><a href="#">Author: Keven Markham</a></li>
                         <li><a href="#">Date: February 6, 2026</a></li>
-                        <li><a href="#">Version 1.0</a></li>
+                        <li><a href="#">ACC-03 Engagement Execution Backlog</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <span class="footer-copy">DMTSP Integration Standards Library &mdash; Internal Use Only</span>
+                <span class="footer-copy">DMTSP Integration Standards Library &mdash; Engagement Accelerator &mdash; Internal Use Only</span>
                 <span class="footer-badge">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                    v1.0
+                    ACC-03
                 </span>
             </div>
         </div>

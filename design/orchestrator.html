@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sprint Orchestrator — Integration Standards Library | DMTSP</title>
+    <title>Engagement Sprint Orchestrator — Integration Standards Library | DMTSP</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -176,7 +176,7 @@
         .blockers h4 { font-size: 0.8125rem; color: var(--gray-800); margin-bottom: 0.5rem; }
         .blockers ul { list-style: none; padding: 0; }
         .blockers li { font-size: 0.8125rem; padding: 0.25rem 0 0.25rem 1.25rem; position: relative; color: var(--gray-700); }
-        .blockers li::before { content: '⚠'; position: absolute; left: 0; }
+        .blockers li::before { content: '\26A0'; position: absolute; left: 0; }
 
         /* === Info Note === */
         .info-note { background: rgba(13,131,144,0.06); border: 1px solid rgba(13,131,144,0.15); border-radius: var(--radius-md); padding: 1rem 1.25rem; font-size: 0.875rem; color: var(--gray-700); margin-bottom: 1.5rem; }
@@ -248,17 +248,17 @@
         <li><a href="#team-allocation">Team Allocation</a></li>
         <li><a href="#sprint-timeline">Sprint Timeline</a></li>
         <li class="toc-section-label">Sprints</li>
-        <li><a href="#sprint-0">Sprint 0: Discovery</a></li>
+        <li><a href="#sprint-0">Sprint 0: Setup</a></li>
         <li><a href="#sprint-1">Sprint 1: Foundation</a></li>
         <li><a href="#sprint-2">Sprint 2: Core</a></li>
         <li><a href="#sprint-3">Sprint 3: Advanced</a></li>
-        <li><a href="#sprint-4">Sprint 4: Packaging</a></li>
+        <li><a href="#sprint-4">Sprint 4: Validation</a></li>
         <li class="toc-section-label">Metrics</li>
         <li><a href="#module-progress">Module Progress</a></li>
         <li><a href="#hours-burn">Hours Burn</a></li>
         <li><a href="#milestone-summary">Milestones</a></li>
         <li class="toc-section-label">Appendices</li>
-        <li><a href="#appendix-a">A: Checklists</a></li>
+        <li><a href="#appendix-a">A: Adaptation Checklist</a></li>
         <li><a href="#appendix-b">B: Escalation</a></li>
     </ul>
 </aside>
@@ -268,13 +268,12 @@
 
 <!-- ============ HERO ============ -->
 <div class="page-hero">
-    <div class="page-hero-badge">Sprint Orchestrator</div>
-    <h1>Integration Standards <span class="highlight">Orchestrator</span></h1>
-    <p class="page-hero-subtitle">Sprint-by-sprint execution plan for building 6 standards modules with 39 templates and 16 examples across 5 sprints</p>
+    <div class="page-hero-badge">Engagement Sprint Orchestrator</div>
+    <h1>Engagement Sprint <span class="highlight">Orchestrator</span></h1>
+    <p class="page-hero-subtitle">Phase 4 accelerated delivery &mdash; engagement teams deploy pre-built standards modules to reduce per-engagement effort by 30&ndash;57%</p>
     <div class="page-hero-meta">
-        <span><strong>Author:</strong> Keven Markham, VP Enterprise Transformation</span>
-        <span><strong>Date:</strong> February 6, 2026</span>
-        <span><strong>Version:</strong> 1.0</span>
+        <span><strong>Execution Model:</strong> Phase 4 Accelerated Delivery</span>
+        <span><strong>Reusability:</strong> Global &mdash; every engagement</span>
     </div>
     <div class="page-hero-links">
         <a href="roadmap.html">&rarr; Roadmap</a>
@@ -285,28 +284,28 @@
 
 <!-- ============ TEAM ALLOCATION ============ -->
 <div class="section-card" id="team-allocation">
-    <h2>Team Allocation Matrix</h2>
+    <h2>Engagement Team Allocation Matrix</h2>
     <div class="stats-strip">
-        <div class="stat-card"><span class="stat-value">5</span><span class="stat-label">Sprints (0&ndash;4)</span></div>
-        <div class="stat-card"><span class="stat-value">4</span><span class="stat-label">FTEs</span></div>
-        <div class="stat-card"><span class="stat-value">~470</span><span class="stat-label">Total Hours</span></div>
-        <div class="stat-card"><span class="stat-value">10&ndash;12</span><span class="stat-label">Weeks</span></div>
+        <div class="stat-card"><span class="stat-value">300</span><span class="stat-label">Total Accelerated Hrs</span></div>
+        <div class="stat-card"><span class="stat-value">500&ndash;700</span><span class="stat-label">Baseline Hrs</span></div>
+        <div class="stat-card"><span class="stat-value">200&ndash;400</span><span class="stat-label">Hrs Saved</span></div>
+        <div class="stat-card"><span class="stat-value">30&ndash;57%</span><span class="stat-label">Reduction</span></div>
     </div>
     <div class="table-wrap">
         <table>
             <thead>
-                <tr><th>Role</th><th>Sprint 0</th><th>Sprint 1</th><th>Sprint 2</th><th>Sprint 3 (&times;2)</th><th>Sprint 4</th></tr>
+                <tr><th>Role</th><th>Sprint 0</th><th>Sprint 1</th><th>Sprint 2</th><th>Sprint 3</th><th>Sprint 4</th></tr>
             </thead>
             <tbody>
-                <tr><td>Lead Architect (1&times;35)</td><td>20</td><td>15</td><td>14</td><td>24</td><td>30</td></tr>
-                <tr><td>Sr Data Gov Specialist (1&times;50)</td><td>8</td><td>45</td><td>39</td><td>65</td><td>18</td></tr>
-                <tr><td>Sr Integration Architect (1&times;50)</td><td>9</td><td>22</td><td>42</td><td>62</td><td>12</td></tr>
-                <tr><td>Technical Writer (1&times;15)</td><td>3</td><td>8</td><td>5</td><td>9</td><td>20</td></tr>
-                <tr style="font-weight:700; background:var(--gray-100);"><td>Sprint Subtotal</td><td>40</td><td>90</td><td>100</td><td>160</td><td>80</td></tr>
+                <tr><td>Engagement Lead (1&times;30)</td><td>20</td><td>12</td><td>12</td><td>15</td><td>25</td></tr>
+                <tr><td>Integration Architect (1&times;40)</td><td>8</td><td>20</td><td>35</td><td>45</td><td>5</td></tr>
+                <tr><td>Data Governance Lead (1&times;40)</td><td>8</td><td>25</td><td>20</td><td>25</td><td>8</td></tr>
+                <tr><td>Client Stakeholder (1&times;10)</td><td>4</td><td>3</td><td>3</td><td>5</td><td>2</td></tr>
+                <tr style="font-weight:700; background:var(--gray-100);"><td>Sprint Subtotal</td><td>40</td><td>60</td><td>70</td><td>90</td><td>40</td></tr>
             </tbody>
         </table>
     </div>
-    <div class="info-note"><strong>Note:</strong> Sprint 3 is a 4-week double sprint due to the complexity of ISL-02 (Metadata &amp; Lineage) and ISL-05 (Integration Patterns). All other sprints are standard 2-week sprints.</div>
+    <div class="info-note"><strong>Accelerator Model:</strong> The ISL provides pre-built templates, checklists, and examples that engagement teams adapt to client context rather than creating from scratch. This shifts effort from authoring to adaptation, reducing total hours by 30&ndash;57% compared to baseline delivery.</div>
 </div>
 
 <!-- ============ SPRINT TIMELINE ============ -->
@@ -315,23 +314,23 @@
     <div class="sprint-timeline">
         <div class="timeline-node">
             <div class="timeline-node-dot" style="background:var(--sprint0);">S0</div>
-            <div class="timeline-node-label"><strong>Discovery</strong>Week 0 &middot; 40 hrs</div>
+            <div class="timeline-node-label"><strong>Setup &amp; Assessment</strong>Week 1 &middot; 40 hrs</div>
         </div>
         <div class="timeline-node">
             <div class="timeline-node-dot" style="background:var(--sprint1);">S1</div>
-            <div class="timeline-node-label"><strong>Foundation</strong>Week 1&ndash;2 &middot; 90 hrs</div>
+            <div class="timeline-node-label"><strong>Foundation Deployment</strong>Week 2&ndash;3 &middot; 60 hrs</div>
         </div>
         <div class="timeline-node">
             <div class="timeline-node-dot" style="background:var(--sprint2);">S2</div>
-            <div class="timeline-node-label"><strong>Core</strong>Week 3&ndash;4 &middot; 100 hrs</div>
+            <div class="timeline-node-label"><strong>Core Deployment</strong>Week 4&ndash;5 &middot; 70 hrs</div>
         </div>
         <div class="timeline-node">
             <div class="timeline-node-dot" style="background:var(--sprint3);">S3</div>
-            <div class="timeline-node-label"><strong>Advanced</strong>Week 5&ndash;8 &middot; 160 hrs</div>
+            <div class="timeline-node-label"><strong>Advanced Deployment</strong>Week 6&ndash;8 &middot; 90 hrs</div>
         </div>
         <div class="timeline-node">
             <div class="timeline-node-dot" style="background:var(--sprint4);">S4</div>
-            <div class="timeline-node-label"><strong>Packaging</strong>Week 9&ndash;10 &middot; 80 hrs</div>
+            <div class="timeline-node-label"><strong>Validation &amp; Handoff</strong>Week 9 &middot; 40 hrs</div>
         </div>
     </div>
 </div>
@@ -341,8 +340,8 @@
     <div class="sprint-card-header" onclick="toggleSprint(this)">
         <div class="sprint-badge s0">S0</div>
         <div class="sprint-card-title">
-            <h2>Sprint 0 &mdash; Discovery &amp; Baseline</h2>
-            <p>Engagement audit, standards survey, scope lock, adaptation workflow</p>
+            <h2>Sprint 0 &mdash; Accelerator Setup &amp; Assessment</h2>
+            <p>Deploy ISL repository, assess client maturity, select modules, customize checklists, align stakeholders</p>
         </div>
         <div class="sprint-card-meta">
             <span class="sprint-meta-pill">1 week</span>
@@ -355,20 +354,20 @@
             <div class="criteria-box entry">
                 <h4>Entry Criteria</h4>
                 <ul>
-                    <li>Build team assigned (Lead Architect, Sr Data Gov, Sr Integration Architect, Technical Writer)</li>
-                    <li>Access to 2&ndash;3 completed Phase 4 engagement deliverables</li>
-                    <li>Reference standards documentation available (Microsoft, OWASP, DAMA, NIST)</li>
-                    <li>Git repository initialized with project structure</li>
+                    <li>Engagement SOW signed and project formally kicked off</li>
+                    <li>Client environment access provisioned (Fabric, Purview, Azure)</li>
+                    <li>ISL v1.0 available in DMTSP repository</li>
+                    <li>Engagement team assigned (Engagement Lead, Integration Architect, Data Governance Lead)</li>
                 </ul>
             </div>
             <div class="criteria-box exit">
                 <h4>Exit Criteria</h4>
                 <ul>
-                    <li>Prior engagement patterns extracted and documented</li>
-                    <li>External standards surveyed and alignment points identified</li>
-                    <li>Template lists finalized for all 6 modules (39 templates, 16 examples)</li>
-                    <li>Adaptation workflow defined</li>
-                    <li>Buildout scope locked &mdash; no template additions after Sprint 0 exit</li>
+                    <li>Module selection locked based on engagement scope</li>
+                    <li>Adaptation checklists customized per selected module</li>
+                    <li>Stakeholders aligned on delivery phases and acceptance criteria</li>
+                    <li>Delivery schedule created and approved</li>
+                    <li>Client technology stack mapped to ISL templates</li>
                 </ul>
             </div>
         </div>
@@ -376,34 +375,35 @@
         <h3>Tasks</h3>
         <div class="table-wrap">
             <table>
-                <thead><tr><th>ID</th><th>Task</th><th>Hours</th><th>Role</th><th>Backlog Ref</th></tr></thead>
+                <thead><tr><th>ID</th><th>Task</th><th>Hours</th><th>Role</th></tr></thead>
                 <tbody>
-                    <tr><td class="task-id">S0-T1</td><td>Identify and access 2&ndash;3 completed Phase 4 deliverables</td><td>2</td><td>Lead Architect</td><td>E0-S1.T1</td></tr>
-                    <tr><td class="task-id">S0-T2</td><td>Extract common standards patterns across engagements</td><td>6</td><td>Lead Architect</td><td>E0-S1.T2</td></tr>
-                    <tr><td class="task-id">S0-T3</td><td>Catalog engagement-specific customizations</td><td>4</td><td>Lead Architect</td><td>E0-S1.T3</td></tr>
-                    <tr><td class="task-id">S0-T4</td><td>Document gaps and quality issues in prior deliverables</td><td>4</td><td>Sr Data Gov</td><td>E0-S1.T4</td></tr>
-                    <tr><td class="task-id">S0-T5</td><td>Record actual hours per artifact for baseline calibration</td><td>4</td><td>Lead Architect</td><td>E0-S1.T5</td></tr>
-                    <tr><td class="task-id">S0-T6</td><td>Review Microsoft REST API Guidelines, Fabric docs</td><td>3</td><td>Sr Integration Arch</td><td>E0-S2.T1</td></tr>
-                    <tr><td class="task-id">S0-T7</td><td>Review OWASP, DAMA DMBOK, ISO/NIST</td><td>6</td><td>Sr Data Gov, Lead Arch</td><td>E0-S2.T2&ndash;T3</td></tr>
-                    <tr><td class="task-id">S0-T8</td><td>Finalize template lists per module</td><td>4</td><td>Lead Architect</td><td>E0-S2.T4</td></tr>
-                    <tr><td class="task-id">S0-T9</td><td>Define adaptation workflow</td><td>4</td><td>Lead Architect</td><td>E0-S2.T5</td></tr>
-                    <tr><td class="task-id">S0-T10</td><td>Document acceptance criteria and lock scope</td><td>3</td><td>Lead Architect</td><td>E0-S2.T6</td></tr>
+                    <tr><td class="task-id">S0-T1</td><td>Deploy ISL repository to engagement workspace</td><td>2</td><td>Engagement Lead</td></tr>
+                    <tr><td class="task-id">S0-T2</td><td>Run governance maturity assessment against client current state</td><td>4</td><td>Data Governance Lead</td></tr>
+                    <tr><td class="task-id">S0-T3</td><td>Score client across 6 standards domains (API, metadata, naming, classification, integration, quality)</td><td>4</td><td>Data Governance Lead</td></tr>
+                    <tr><td class="task-id">S0-T4</td><td>Review client existing standards, policies, and governance documentation</td><td>4</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S0-T5</td><td>Select ISL modules based on engagement scope and maturity gaps</td><td>3</td><td>Engagement Lead</td></tr>
+                    <tr><td class="task-id">S0-T6</td><td>Customize adaptation checklists per selected module</td><td>4</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S0-T7</td><td>Map client technology stack to ISL templates (Fabric, Purview, Entra ID, APIM)</td><td>4</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S0-T8</td><td>Align stakeholders on delivery phases and sprint cadence</td><td>4</td><td>Engagement Lead</td></tr>
+                    <tr><td class="task-id">S0-T9</td><td>Define engagement-specific acceptance criteria with client</td><td>4</td><td>Client Stakeholder</td></tr>
+                    <tr><td class="task-id">S0-T10</td><td>Lock scope and create delivery schedule</td><td>3</td><td>Engagement Lead</td></tr>
                 </tbody>
             </table>
         </div>
+        <div class="info-note"><strong>Baseline without accelerator:</strong> 60&ndash;80 hrs. ISL templates and checklists eliminate the need to design assessment frameworks and governance structures from scratch.</div>
 
         <h3>Milestones</h3>
         <div class="milestones">
-            <div class="milestone-item"><div class="milestone-dot">M0.1</div><div class="milestone-content"><strong>Engagement Audit Complete</strong><span>Patterns extracted from 2&ndash;3 prior deliverables</span></div><div class="milestone-day">Day 3</div></div>
-            <div class="milestone-item"><div class="milestone-dot">M0.2</div><div class="milestone-content"><strong>Standards Survey Complete</strong><span>External frameworks reviewed and alignment points noted</span></div><div class="milestone-day">Day 4</div></div>
-            <div class="milestone-item"><div class="milestone-dot">M0.3</div><div class="milestone-content"><strong>Scope Locked</strong><span>Template lists finalized; adaptation workflow defined; no additions</span></div><div class="milestone-day">Day 5</div></div>
+            <div class="milestone-item"><div class="milestone-dot">M0.1</div><div class="milestone-content"><strong>ISL Deployed</strong><span>ISL repository cloned to engagement workspace, team access confirmed</span></div><div class="milestone-day">Day 1</div></div>
+            <div class="milestone-item"><div class="milestone-dot">M0.2</div><div class="milestone-content"><strong>Assessment Complete</strong><span>Maturity scored across 6 domains; client standards reviewed</span></div><div class="milestone-day">Day 3</div></div>
+            <div class="milestone-item"><div class="milestone-dot">M0.3</div><div class="milestone-content"><strong>Scope Locked</strong><span>Modules selected, checklists customized, schedule approved</span></div><div class="milestone-day">Day 5</div></div>
         </div>
 
         <div class="blockers">
             <h4>Blockers to Escalate</h4>
             <ul>
-                <li>Prior engagement deliverables not accessible &rarr; Escalate to DMTSP Practice Lead</li>
-                <li>Build team member unavailable &rarr; Escalate to resource manager; minimum viable: Lead Architect + 1 specialist</li>
+                <li>Client environment access not provisioned &rarr; Escalate to Client IT / Engagement Lead; cannot begin adaptation without Fabric/Purview access</li>
+                <li>Client stakeholder unavailable for acceptance criteria &rarr; Escalate to Client project sponsor; acceptance criteria required before Sprint 1</li>
             </ul>
         </div>
     </div>
@@ -414,12 +414,12 @@
     <div class="sprint-card-header" onclick="toggleSprint(this)">
         <div class="sprint-badge s1">S1</div>
         <div class="sprint-card-title">
-            <h2>Sprint 1 &mdash; Foundation Modules</h2>
-            <p>ISL-03 Naming Conventions (7 templates + 2 examples) &amp; ISL-04 Data Classification (6 templates + 3 examples)</p>
+            <h2>Sprint 1 &mdash; Foundation Standards Deployment</h2>
+            <p>Adapt ISL-03 Naming Conventions &amp; ISL-04 Data Classification to client environment</p>
         </div>
         <div class="sprint-card-meta">
             <span class="sprint-meta-pill">2 weeks</span>
-            <span class="sprint-meta-pill">90 hrs</span>
+            <span class="sprint-meta-pill">60 hrs</span>
         </div>
         <svg class="sprint-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
@@ -429,82 +429,74 @@
                 <h4>Entry Criteria</h4>
                 <ul>
                     <li>M0.3 Scope Locked achieved</li>
-                    <li>Template lists confirmed for ISL-03 (7 templates) and ISL-04 (6 templates)</li>
-                    <li>Reference materials organized and accessible</li>
+                    <li>ISL-03 and ISL-04 templates selected for adaptation</li>
+                    <li>Client Fabric environment accessible for naming validation</li>
+                    <li>Client compliance requirements documented (SOX, GDPR, CCPA, ITAR, HIPAA)</li>
                 </ul>
             </div>
             <div class="criteria-box exit">
                 <h4>Exit Criteria</h4>
                 <ul>
-                    <li>ISL-03: 7 naming templates + 2 examples completed and peer-reviewed</li>
-                    <li>ISL-04: 6 classification templates + 3 examples completed and peer-reviewed</li>
-                    <li>ISL-03 naming conventions validated against Fabric documentation</li>
-                    <li>ISL-04 compliance mapping covers SOX, GDPR, CCPA, ITAR, HIPAA</li>
-                    <li>Foundation modules ready for downstream consumption in Sprint 2</li>
+                    <li>ISL-03 naming conventions fully adapted to client Fabric environment</li>
+                    <li>ISL-04 classification framework adapted to client sensitivity requirements</li>
+                    <li>Client review workshop completed with feedback incorporated</li>
+                    <li>Client stakeholder approval on ISL-03 + ISL-04 deliverables</li>
                 </ul>
             </div>
         </div>
 
-        <h3>Tasks &mdash; ISL-03: Naming Convention Standards</h3>
+        <h3>Tasks &mdash; ISL-03: Naming Convention Adaptation</h3>
         <div class="table-wrap">
             <table>
-                <thead><tr><th>ID</th><th>Task</th><th>Hours</th><th>Role</th><th>Backlog Ref</th></tr></thead>
+                <thead><tr><th>ID</th><th>Task</th><th>Hours</th><th>Role</th></tr></thead>
                 <tbody>
-                    <tr><td class="task-id">S1-T1</td><td>Draft database &amp; schema naming template</td><td>2</td><td>Sr Integration Arch</td><td>E1-S1.T1</td></tr>
-                    <tr><td class="task-id">S1-T2</td><td>Draft table &amp; view naming template</td><td>3</td><td>Sr Integration Arch</td><td>E1-S1.T2</td></tr>
-                    <tr><td class="task-id">S1-T3</td><td>Draft column naming standards template</td><td>2</td><td>Sr Integration Arch</td><td>E1-S1.T3</td></tr>
-                    <tr><td class="task-id">S1-T4</td><td>Draft pipeline &amp; dataflow naming template</td><td>3</td><td>Sr Integration Arch</td><td>E1-S1.T4</td></tr>
-                    <tr><td class="task-id">S1-T5</td><td>Draft API &amp; endpoint naming template</td><td>2</td><td>Sr Integration Arch</td><td>E1-S1.T5</td></tr>
-                    <tr><td class="task-id">S1-T6</td><td>Draft infrastructure resource naming template</td><td>2</td><td>Sr Integration Arch</td><td>E1-S1.T6</td></tr>
-                    <tr><td class="task-id">S1-T7</td><td>Build abbreviation dictionary (50+ entries)</td><td>3</td><td>Technical Writer</td><td>E1-S1.T7</td></tr>
-                    <tr><td class="task-id">S1-T8</td><td>Create Fabric naming reference example</td><td>3</td><td>Sr Integration Arch</td><td>E1-S1.T8</td></tr>
-                    <tr><td class="task-id">S1-T9</td><td>Create manufacturing domain names example</td><td>3</td><td>Sr Integration Arch</td><td>E1-S1.T9</td></tr>
-                    <tr><td class="task-id">S1-T10</td><td>Peer review ISL-03 templates</td><td>4</td><td>Lead Architect</td><td>E1-S1.T10</td></tr>
+                    <tr><td class="task-id">S1-T1</td><td>Adapt database &amp; schema naming conventions to client Fabric workspaces</td><td>3</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S1-T2</td><td>Adapt table &amp; view naming standards to client data model</td><td>3</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S1-T3</td><td>Adapt column naming standards to client business terminology</td><td>3</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S1-T4</td><td>Adapt pipeline &amp; dataflow naming to client orchestration patterns</td><td>3</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S1-T5</td><td>Adapt API &amp; endpoint naming to client API management conventions</td><td>2</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S1-T6</td><td>Adapt infrastructure resource naming to client Azure subscription model</td><td>2</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S1-T7</td><td>Customize abbreviation dictionary with client-specific domain terms</td><td>2</td><td>Data Governance Lead</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <h3>Tasks &mdash; ISL-04: Data Classification Framework</h3>
+        <h3>Tasks &mdash; ISL-04: Data Classification Adaptation</h3>
         <div class="table-wrap">
             <table>
-                <thead><tr><th>ID</th><th>Task</th><th>Hours</th><th>Role</th><th>Backlog Ref</th></tr></thead>
+                <thead><tr><th>ID</th><th>Task</th><th>Hours</th><th>Role</th></tr></thead>
                 <tbody>
-                    <tr><td class="task-id">S1-T11</td><td>Draft classification tier definitions (4-tier model)</td><td>5</td><td>Sr Data Gov</td><td>E1-S2.T1</td></tr>
-                    <tr><td class="task-id">S1-T12</td><td>Draft sensitivity labeling standards (Purview)</td><td>6</td><td>Sr Data Gov</td><td>E1-S2.T2</td></tr>
-                    <tr><td class="task-id">S1-T13</td><td>Draft data handling requirements</td><td>5</td><td>Sr Data Gov</td><td>E1-S2.T3</td></tr>
-                    <tr><td class="task-id">S1-T14</td><td>Draft access control alignment (Entra ID, Fabric RBAC)</td><td>6</td><td>Sr Data Gov</td><td>E1-S2.T4</td></tr>
-                    <tr><td class="task-id">S1-T15</td><td>Draft compliance mapping matrix</td><td>6</td><td>Sr Data Gov</td><td>E1-S2.T5</td></tr>
-                    <tr><td class="task-id">S1-T16</td><td>Create classification decision tree flowchart</td><td>3</td><td>Sr Data Gov</td><td>E1-S2.T6</td></tr>
-                    <tr><td class="task-id">S1-T17</td><td>Create manufacturing classification example</td><td>5</td><td>Sr Data Gov</td><td>E1-S2.T7</td></tr>
-                    <tr><td class="task-id">S1-T18</td><td>Create Fabric security model example</td><td>4</td><td>Sr Integration Arch</td><td>E1-S2.T8</td></tr>
-                    <tr><td class="task-id">S1-T19</td><td>Create Purview label configuration example</td><td>4</td><td>Sr Data Gov</td><td>E1-S2.T9</td></tr>
-                    <tr><td class="task-id">S1-T20</td><td>Peer review ISL-04 templates</td><td>6</td><td>Lead Architect</td><td>E1-S2.T10</td></tr>
+                    <tr><td class="task-id">S1-T8</td><td>Adapt classification tier definitions to client data sensitivity model</td><td>4</td><td>Data Governance Lead</td></tr>
+                    <tr><td class="task-id">S1-T9</td><td>Adapt sensitivity labeling standards to client Purview configuration</td><td>4</td><td>Data Governance Lead</td></tr>
+                    <tr><td class="task-id">S1-T10</td><td>Adapt data handling requirements to client security policies</td><td>3</td><td>Data Governance Lead</td></tr>
+                    <tr><td class="task-id">S1-T11</td><td>Adapt access control alignment to client Entra ID and Fabric RBAC model</td><td>4</td><td>Data Governance Lead</td></tr>
+                    <tr><td class="task-id">S1-T12</td><td>Adapt compliance mapping matrix to client regulatory landscape</td><td>4</td><td>Data Governance Lead</td></tr>
+                    <tr><td class="task-id">S1-T13</td><td>Adapt classification decision tree to client data domains</td><td>2</td><td>Data Governance Lead</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <h3>Role Assignment Matrix &mdash; Sprint 1</h3>
+        <h3>Tasks &mdash; Client Review &amp; Approval</h3>
         <div class="table-wrap">
             <table>
-                <thead><tr><th>Role</th><th>ISL-03 Tasks</th><th>ISL-04 Tasks</th><th>Total</th></tr></thead>
+                <thead><tr><th>ID</th><th>Task</th><th>Hours</th><th>Role</th></tr></thead>
                 <tbody>
-                    <tr><td>Sr Integration Architect</td><td>S1-T1&ndash;T6, T8, T9</td><td>S1-T18</td><td>24</td></tr>
-                    <tr><td>Sr Data Gov Specialist</td><td>&mdash;</td><td>S1-T11&ndash;T17, T19</td><td>41</td></tr>
-                    <tr><td>Lead Architect</td><td>S1-T10</td><td>S1-T20</td><td>10</td></tr>
-                    <tr><td>Technical Writer</td><td>S1-T7</td><td>&mdash;</td><td>3</td></tr>
-                    <tr style="font-weight:700; background:var(--gray-100);"><td colspan="3">Sprint Total</td><td>78</td></tr>
+                    <tr><td class="task-id">S1-T14</td><td>Conduct client review workshop for ISL-03 naming conventions</td><td>3</td><td>Engagement Lead</td></tr>
+                    <tr><td class="task-id">S1-T15</td><td>Conduct client review workshop for ISL-04 classification framework</td><td>3</td><td>Engagement Lead</td></tr>
+                    <tr><td class="task-id">S1-T16</td><td>Incorporate client feedback and finalize ISL-03 + ISL-04</td><td>4</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S1-T17</td><td>Obtain client stakeholder sign-off on foundation standards</td><td>3</td><td>Client Stakeholder</td></tr>
                 </tbody>
             </table>
         </div>
-        <div class="info-note"><strong>Buffer:</strong> ~12 hrs for rework, clarification, and cross-team coordination.</div>
+        <div class="info-note"><strong>Baseline without accelerator:</strong> 90&ndash;150 hrs to author naming conventions and classification frameworks from scratch. ISL templates reduce this to 60 hrs of adaptation work.</div>
 
         <h3>Milestones</h3>
         <div class="milestones">
-            <div class="milestone-item"><div class="milestone-dot">M1.1</div><div class="milestone-content"><strong>ISL-03 Drafts Complete</strong><span>7 naming templates in draft</span></div><div class="milestone-day">Day 5</div></div>
-            <div class="milestone-item"><div class="milestone-dot">M1.2</div><div class="milestone-content"><strong>ISL-04 Drafts Complete</strong><span>6 classification templates in draft</span></div><div class="milestone-day">Day 7</div></div>
-            <div class="milestone-item"><div class="milestone-dot">M1.3</div><div class="milestone-content"><strong>ISL-03 Peer Review Pass</strong><span>All ISL-03 templates approved by Lead Architect</span></div><div class="milestone-day">Day 8</div></div>
-            <div class="milestone-item"><div class="milestone-dot">M1.4</div><div class="milestone-content"><strong>ISL-04 Peer Review Pass</strong><span>All ISL-04 templates approved by Lead Architect</span></div><div class="milestone-day">Day 9</div></div>
-            <div class="milestone-item"><div class="milestone-dot">M1.5</div><div class="milestone-content"><strong>Foundation Complete</strong><span>ISL-03 + ISL-04 finalized; examples complete</span></div><div class="milestone-day">Day 10</div></div>
+            <div class="milestone-item"><div class="milestone-dot">M1.1</div><div class="milestone-content"><strong>ISL-03 Adaptation Complete</strong><span>All 7 naming convention templates adapted to client Fabric environment</span></div><div class="milestone-day">Day 4</div></div>
+            <div class="milestone-item"><div class="milestone-dot">M1.2</div><div class="milestone-content"><strong>ISL-04 Adaptation Complete</strong><span>All 6 classification templates adapted to client sensitivity model</span></div><div class="milestone-day">Day 6</div></div>
+            <div class="milestone-item"><div class="milestone-dot">M1.3</div><div class="milestone-content"><strong>Client Review Workshops</strong><span>ISL-03 and ISL-04 presented to client; feedback collected</span></div><div class="milestone-day">Day 8</div></div>
+            <div class="milestone-item"><div class="milestone-dot">M1.4</div><div class="milestone-content"><strong>Feedback Incorporated</strong><span>All client feedback addressed; deliverables finalized</span></div><div class="milestone-day">Day 9</div></div>
+            <div class="milestone-item"><div class="milestone-dot">M1.5</div><div class="milestone-content"><strong>Foundation Approved</strong><span>Client sign-off on ISL-03 + ISL-04; ready for downstream consumption</span></div><div class="milestone-day">Day 10</div></div>
         </div>
     </div>
 </div>
@@ -514,12 +506,12 @@
     <div class="sprint-card-header" onclick="toggleSprint(this)">
         <div class="sprint-badge s2">S2</div>
         <div class="sprint-card-title">
-            <h2>Sprint 2 &mdash; Core Modules</h2>
-            <p>ISL-01 API Governance (6 templates + 2 examples) &amp; ISL-06 Data Quality (6 templates + 3 examples)</p>
+            <h2>Sprint 2 &mdash; Core Standards Deployment</h2>
+            <p>Adapt ISL-01 API Governance &amp; ISL-06 Data Quality to client technology stack</p>
         </div>
         <div class="sprint-card-meta">
             <span class="sprint-meta-pill">2 weeks</span>
-            <span class="sprint-meta-pill">100 hrs</span>
+            <span class="sprint-meta-pill">70 hrs</span>
         </div>
         <svg class="sprint-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
@@ -528,84 +520,76 @@
             <div class="criteria-box entry">
                 <h4>Entry Criteria</h4>
                 <ul>
-                    <li>M1.5 Foundation Complete achieved</li>
-                    <li>ISL-03 naming conventions available for reference</li>
-                    <li>ISL-04 classification tiers available for cross-reference</li>
+                    <li>M1.5 Foundation Approved achieved</li>
+                    <li>ISL-01 and ISL-06 templates selected for adaptation</li>
+                    <li>Client API management platform documented (APIM, Kong, etc.)</li>
+                    <li>Client data landscape and quality pain points identified</li>
                 </ul>
             </div>
             <div class="criteria-box exit">
                 <h4>Exit Criteria</h4>
                 <ul>
-                    <li>ISL-01: 6 API templates + 2 examples completed and peer-reviewed</li>
-                    <li>ISL-06: 6 quality templates + 3 examples completed and peer-reviewed</li>
-                    <li>ISL-01 OWASP API Top 10 cross-reference complete</li>
-                    <li>ISL-06 quality rule library contains 50+ rules</li>
-                    <li>ISL-06 SLA thresholds aligned to ISL-04 classification tiers</li>
+                    <li>ISL-01 API governance standards adapted to client tech stack</li>
+                    <li>ISL-06 data quality standards adapted to client data landscape</li>
+                    <li>OWASP API Top 10 cross-reference validated for client context</li>
+                    <li>Client stakeholder approval on ISL-01 + ISL-06 deliverables</li>
                 </ul>
             </div>
         </div>
 
-        <h3>Tasks &mdash; ISL-01: API Governance Standards</h3>
+        <h3>Tasks &mdash; ISL-01: API Governance Adaptation</h3>
         <div class="table-wrap">
             <table>
-                <thead><tr><th>ID</th><th>Task</th><th>Hours</th><th>Role</th><th>Backlog Ref</th></tr></thead>
+                <thead><tr><th>ID</th><th>Task</th><th>Hours</th><th>Role</th></tr></thead>
                 <tbody>
-                    <tr><td class="task-id">S2-T1</td><td>Draft API design standards template</td><td>6</td><td>Sr Integration Arch</td><td>E2-S1.T1</td></tr>
-                    <tr><td class="task-id">S2-T2</td><td>Draft API versioning policy template</td><td>3</td><td>Sr Integration Arch</td><td>E2-S1.T2</td></tr>
-                    <tr><td class="task-id">S2-T3</td><td>Draft API security standards template (OWASP-aligned)</td><td>8</td><td>Sr Integration Arch</td><td>E2-S1.T3</td></tr>
-                    <tr><td class="task-id">S2-T4</td><td>Draft API lifecycle governance template</td><td>5</td><td>Sr Integration Arch</td><td>E2-S1.T4</td></tr>
-                    <tr><td class="task-id">S2-T5</td><td>Draft API catalog requirements template</td><td>4</td><td>Sr Integration Arch</td><td>E2-S1.T5</td></tr>
-                    <tr><td class="task-id">S2-T6</td><td>Draft rate limiting &amp; throttling policy template</td><td>3</td><td>Sr Integration Arch</td><td>E2-S1.T6</td></tr>
-                    <tr><td class="task-id">S2-T7</td><td>Create manufacturing API standards example</td><td>5</td><td>Sr Integration Arch</td><td>E2-S1.T7</td></tr>
-                    <tr><td class="task-id">S2-T8</td><td>Create Fabric-native API patterns example</td><td>4</td><td>Sr Integration Arch</td><td>E2-S1.T8</td></tr>
-                    <tr><td class="task-id">S2-T9</td><td>OWASP API Top 10 cross-reference audit</td><td>4</td><td>Lead Architect</td><td>E2-S1.T9</td></tr>
-                    <tr><td class="task-id">S2-T10</td><td>Peer review ISL-01 templates</td><td>5</td><td>Lead Architect</td><td>E2-S1.T10</td></tr>
+                    <tr><td class="task-id">S2-T1</td><td>Adapt API design standards to client REST/GraphQL conventions</td><td>5</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S2-T2</td><td>Adapt API versioning policy to client release management process</td><td>3</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S2-T3</td><td>Adapt API security standards to client authentication model (Entra ID, OAuth)</td><td>6</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S2-T4</td><td>Adapt API lifecycle governance to client SDLC and change management</td><td>4</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S2-T5</td><td>Adapt API catalog requirements to client developer portal</td><td>3</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S2-T6</td><td>Adapt rate limiting and throttling policies to client SLAs</td><td>2</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S2-T7</td><td>Validate OWASP API Top 10 cross-reference for client-specific threat model</td><td>4</td><td>Integration Architect</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <h3>Tasks &mdash; ISL-06: Data Quality Standards</h3>
+        <h3>Tasks &mdash; ISL-06: Data Quality Adaptation</h3>
         <div class="table-wrap">
             <table>
-                <thead><tr><th>ID</th><th>Task</th><th>Hours</th><th>Role</th><th>Backlog Ref</th></tr></thead>
+                <thead><tr><th>ID</th><th>Task</th><th>Hours</th><th>Role</th></tr></thead>
                 <tbody>
-                    <tr><td class="task-id">S2-T11</td><td>Draft quality dimension definitions template</td><td>3</td><td>Sr Data Gov</td><td>E2-S2.T1</td></tr>
-                    <tr><td class="task-id">S2-T12</td><td>Draft quality SLA framework template</td><td>5</td><td>Sr Data Gov</td><td>E2-S2.T2</td></tr>
-                    <tr><td class="task-id">S2-T13</td><td>Build quality rule library (50+ rules)</td><td>10</td><td>Sr Data Gov</td><td>E2-S2.T3</td></tr>
-                    <tr><td class="task-id">S2-T14</td><td>Draft quality monitoring standards template</td><td>4</td><td>Sr Data Gov</td><td>E2-S2.T4</td></tr>
-                    <tr><td class="task-id">S2-T15</td><td>Draft remediation workflow template</td><td>3</td><td>Sr Data Gov</td><td>E2-S2.T5</td></tr>
-                    <tr><td class="task-id">S2-T16</td><td>Draft quality scorecard template</td><td>3</td><td>Sr Data Gov</td><td>E2-S2.T6</td></tr>
-                    <tr><td class="task-id">S2-T17</td><td>Create manufacturing quality rules example</td><td>4</td><td>Sr Data Gov</td><td>E2-S2.T7</td></tr>
-                    <tr><td class="task-id">S2-T18</td><td>Create Fabric quality implementation example</td><td>5</td><td>Sr Integration Arch</td><td>E2-S2.T8</td></tr>
-                    <tr><td class="task-id">S2-T19</td><td>Create quality dashboard spec example</td><td>4</td><td>Sr Data Gov</td><td>E2-S2.T9</td></tr>
-                    <tr><td class="task-id">S2-T20</td><td>Peer review ISL-06 templates</td><td>5</td><td>Lead Architect</td><td>E2-S2.T10</td></tr>
+                    <tr><td class="task-id">S2-T8</td><td>Adapt quality dimension definitions to client data domains</td><td>3</td><td>Data Governance Lead</td></tr>
+                    <tr><td class="task-id">S2-T9</td><td>Adapt quality SLA framework to client operational thresholds</td><td>4</td><td>Data Governance Lead</td></tr>
+                    <tr><td class="task-id">S2-T10</td><td>Customize quality rule library for client-specific data patterns</td><td>5</td><td>Data Governance Lead</td></tr>
+                    <tr><td class="task-id">S2-T11</td><td>Adapt quality monitoring standards to client observability stack</td><td>3</td><td>Data Governance Lead</td></tr>
+                    <tr><td class="task-id">S2-T12</td><td>Adapt remediation workflow to client incident management process</td><td>3</td><td>Data Governance Lead</td></tr>
+                    <tr><td class="task-id">S2-T13</td><td>Adapt quality scorecard to client KPI reporting structure</td><td>2</td><td>Data Governance Lead</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <h3>Role Assignment Matrix &mdash; Sprint 2</h3>
+        <h3>Tasks &mdash; Client Review &amp; Approval</h3>
         <div class="table-wrap">
             <table>
-                <thead><tr><th>Role</th><th>ISL-01 Tasks</th><th>ISL-06 Tasks</th><th>Total</th></tr></thead>
+                <thead><tr><th>ID</th><th>Task</th><th>Hours</th><th>Role</th></tr></thead>
                 <tbody>
-                    <tr><td>Sr Integration Architect</td><td>S2-T1&ndash;T8</td><td>S2-T18</td><td>43</td></tr>
-                    <tr><td>Sr Data Gov Specialist</td><td>&mdash;</td><td>S2-T11&ndash;T17, T19</td><td>36</td></tr>
-                    <tr><td>Lead Architect</td><td>S2-T9, T10</td><td>S2-T20</td><td>14</td></tr>
-                    <tr><td>Technical Writer</td><td>&mdash;</td><td>&mdash;</td><td>0</td></tr>
-                    <tr style="font-weight:700; background:var(--gray-100);"><td colspan="3">Sprint Total</td><td>93</td></tr>
+                    <tr><td class="task-id">S2-T14</td><td>Conduct client review workshop for ISL-01 API governance</td><td>3</td><td>Engagement Lead</td></tr>
+                    <tr><td class="task-id">S2-T15</td><td>Conduct client review workshop for ISL-06 data quality</td><td>3</td><td>Engagement Lead</td></tr>
+                    <tr><td class="task-id">S2-T16</td><td>Incorporate client feedback and finalize ISL-01 + ISL-06</td><td>4</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S2-T17</td><td>Obtain client stakeholder sign-off on core standards</td><td>3</td><td>Client Stakeholder</td></tr>
                 </tbody>
             </table>
         </div>
-        <div class="info-note"><strong>Buffer:</strong> ~7 hrs for rework and coordination. Technical Writer available for formatting support if needed.</div>
+        <div class="info-note"><strong>Baseline without accelerator:</strong> 130&ndash;200 hrs to author API governance and data quality standards from scratch. ISL templates reduce this to 70 hrs of adaptation work.</div>
 
         <h3>Milestones</h3>
         <div class="milestones">
-            <div class="milestone-item"><div class="milestone-dot">M2.1</div><div class="milestone-content"><strong>ISL-01 Drafts Complete</strong><span>6 API templates in draft</span></div><div class="milestone-day">Day 5</div></div>
-            <div class="milestone-item"><div class="milestone-dot">M2.2</div><div class="milestone-content"><strong>ISL-06 Rule Library Complete</strong><span>50+ quality rules cataloged</span></div><div class="milestone-day">Day 6</div></div>
-            <div class="milestone-item"><div class="milestone-dot">M2.3</div><div class="milestone-content"><strong>ISL-06 Drafts Complete</strong><span>6 quality templates in draft</span></div><div class="milestone-day">Day 7</div></div>
-            <div class="milestone-item"><div class="milestone-dot">M2.4</div><div class="milestone-content"><strong>OWASP Cross-Reference Pass</strong><span>ISL-01 validated against OWASP Top 10</span></div><div class="milestone-day">Day 8</div></div>
-            <div class="milestone-item"><div class="milestone-dot">M2.5</div><div class="milestone-content"><strong>ISL-01 Peer Review Pass</strong><span>All ISL-01 templates approved</span></div><div class="milestone-day">Day 9</div></div>
-            <div class="milestone-item"><div class="milestone-dot">M2.6</div><div class="milestone-content"><strong>Core Complete</strong><span>ISL-01 + ISL-06 finalized; examples complete</span></div><div class="milestone-day">Day 10</div></div>
+            <div class="milestone-item"><div class="milestone-dot">M2.1</div><div class="milestone-content"><strong>ISL-01 Adaptation Complete</strong><span>All 6 API governance templates adapted to client tech stack</span></div><div class="milestone-day">Day 4</div></div>
+            <div class="milestone-item"><div class="milestone-dot">M2.2</div><div class="milestone-content"><strong>ISL-06 Adaptation Complete</strong><span>All 6 data quality templates adapted to client data landscape</span></div><div class="milestone-day">Day 5</div></div>
+            <div class="milestone-item"><div class="milestone-dot">M2.3</div><div class="milestone-content"><strong>OWASP Validation Pass</strong><span>ISL-01 validated against OWASP API Top 10 in client context</span></div><div class="milestone-day">Day 6</div></div>
+            <div class="milestone-item"><div class="milestone-dot">M2.4</div><div class="milestone-content"><strong>Client Review Workshops</strong><span>ISL-01 and ISL-06 presented to client; feedback collected</span></div><div class="milestone-day">Day 8</div></div>
+            <div class="milestone-item"><div class="milestone-dot">M2.5</div><div class="milestone-content"><strong>Feedback Incorporated</strong><span>All client feedback addressed; deliverables finalized</span></div><div class="milestone-day">Day 9</div></div>
+            <div class="milestone-item"><div class="milestone-dot">M2.6</div><div class="milestone-content"><strong>Core Approved</strong><span>Client sign-off on ISL-01 + ISL-06; ready for advanced deployment</span></div><div class="milestone-day">Day 10</div></div>
         </div>
     </div>
 </div>
@@ -615,78 +599,81 @@
     <div class="sprint-card-header" onclick="toggleSprint(this)">
         <div class="sprint-badge s3">S3</div>
         <div class="sprint-card-title">
-            <h2>Sprint 3 &mdash; Advanced Modules (Double Sprint)</h2>
-            <p>ISL-02 Metadata &amp; Lineage (6 templates + 3 examples) &amp; ISL-05 Integration Patterns (8 patterns + 3 diagrams)</p>
+            <h2>Sprint 3 &mdash; Advanced Standards Deployment</h2>
+            <p>Adapt ISL-02 Metadata &amp; Lineage &amp; ISL-05 Integration Patterns to client architecture</p>
         </div>
         <div class="sprint-card-meta">
-            <span class="sprint-meta-pill">4 weeks</span>
-            <span class="sprint-meta-pill">160 hrs</span>
+            <span class="sprint-meta-pill">3 weeks</span>
+            <span class="sprint-meta-pill">90 hrs</span>
         </div>
         <svg class="sprint-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
     <div class="sprint-card-body">
-        <div class="info-note"><strong>Double Sprint:</strong> ISL-02 and ISL-05 are the highest-complexity modules, each requiring 60&ndash;80 hours. The 4-week duration allows thorough architecture diagrams and cross-module validation.</div>
+        <div class="info-note"><strong>Advanced Deployment:</strong> ISL-02 and ISL-05 require deeper client architecture understanding. The 3-week duration allows thorough adaptation to client Purview/catalog configuration and integration landscape, plus manufacturing overlays where applicable.</div>
 
         <div class="criteria-row">
             <div class="criteria-box entry">
                 <h4>Entry Criteria</h4>
                 <ul>
-                    <li>M2.6 Core Complete achieved</li>
-                    <li>ISL-01 API governance available (ISL-05 API gateway pattern references it)</li>
-                    <li>ISL-06 quality standards available (ISL-05 medallion pattern references quality gates)</li>
-                    <li>ISL-03 naming and ISL-04 classification available (referenced throughout)</li>
+                    <li>M2.6 Core Approved achieved</li>
+                    <li>Client Purview / data catalog environment accessible</li>
+                    <li>Client integration architecture documented (ERP, IoT/OT, APIs, event streams)</li>
+                    <li>ISL-03, ISL-04, ISL-01, and ISL-06 adapted standards available for cross-reference</li>
                 </ul>
             </div>
             <div class="criteria-box exit">
                 <h4>Exit Criteria</h4>
                 <ul>
-                    <li>ISL-02: 6 metadata templates + 3 examples completed and peer-reviewed</li>
-                    <li>ISL-05: 8 integration patterns + 3 diagrams completed and peer-reviewed</li>
-                    <li>Manufacturing extensions complete for both modules</li>
-                    <li>All inter-module cross-references validated</li>
-                    <li><strong>All 6 standards modules complete</strong></li>
+                    <li>ISL-02 metadata and lineage standards adapted to client Purview/catalog</li>
+                    <li>ISL-05 integration patterns adapted to client architecture</li>
+                    <li>Manufacturing overlays applied where applicable (IoT/OT, ERP, PLM)</li>
+                    <li>All 6 ISL modules fully adapted to client context</li>
+                    <li>Client stakeholder approval on ISL-02 + ISL-05 deliverables</li>
                 </ul>
             </div>
         </div>
 
-        <h3>Tasks &mdash; ISL-02: Metadata &amp; Data Lineage Framework</h3>
+        <h3>Tasks &mdash; ISL-02: Metadata &amp; Lineage Adaptation</h3>
         <div class="table-wrap">
             <table>
-                <thead><tr><th>ID</th><th>Task</th><th>Hours</th><th>Role</th><th>Backlog Ref</th></tr></thead>
+                <thead><tr><th>ID</th><th>Task</th><th>Hours</th><th>Role</th></tr></thead>
                 <tbody>
-                    <tr><td class="task-id">S3-T1</td><td>Draft business glossary standards template</td><td>6</td><td>Sr Data Gov</td><td>E3-S1.T1</td></tr>
-                    <tr><td class="task-id">S3-T2</td><td>Draft technical metadata schema template</td><td>10</td><td>Sr Data Gov</td><td>E3-S1.T2</td></tr>
-                    <tr><td class="task-id">S3-T3</td><td>Draft data lineage requirements template</td><td>6</td><td>Sr Data Gov</td><td>E3-S1.T3</td></tr>
-                    <tr><td class="task-id">S3-T4</td><td>Draft data catalog governance template</td><td>5</td><td>Sr Data Gov</td><td>E3-S1.T4</td></tr>
-                    <tr><td class="task-id">S3-T5</td><td>Draft metadata integration patterns template</td><td>8</td><td>Sr Integration Arch</td><td>E3-S1.T5</td></tr>
-                    <tr><td class="task-id">S3-T6</td><td>Draft lineage visualization standards template</td><td>4</td><td>Sr Data Gov</td><td>E3-S1.T6</td></tr>
-                    <tr><td class="task-id">S3-T7</td><td>Create manufacturing metadata model example</td><td>6</td><td>Sr Data Gov</td><td>E3-S1.T7</td></tr>
-                    <tr><td class="task-id">S3-T8</td><td>Create Fabric OneLake metadata example</td><td>5</td><td>Sr Integration Arch</td><td>E3-S1.T8</td></tr>
-                    <tr><td class="task-id">S3-T9</td><td>Create Purview configuration guide example</td><td>5</td><td>Sr Data Gov</td><td>E3-S1.T9</td></tr>
-                    <tr><td class="task-id">S3-T10</td><td>Build manufacturing overlays (IoT/OT, ERP, PLM)</td><td>8</td><td>Sr Data Gov</td><td>E3-S1.T10</td></tr>
-                    <tr><td class="task-id">S3-T11</td><td>Peer review ISL-02 templates</td><td>7</td><td>Lead Architect</td><td>E3-S1.T11</td></tr>
+                    <tr><td class="task-id">S3-T1</td><td>Adapt business glossary standards to client domain terminology</td><td>4</td><td>Data Governance Lead</td></tr>
+                    <tr><td class="task-id">S3-T2</td><td>Adapt technical metadata schema to client Purview/catalog configuration</td><td>6</td><td>Data Governance Lead</td></tr>
+                    <tr><td class="task-id">S3-T3</td><td>Adapt data lineage requirements to client pipeline and ETL architecture</td><td>4</td><td>Data Governance Lead</td></tr>
+                    <tr><td class="task-id">S3-T4</td><td>Adapt data catalog governance to client Purview tenant and policies</td><td>4</td><td>Data Governance Lead</td></tr>
+                    <tr><td class="task-id">S3-T5</td><td>Adapt metadata integration patterns to client source system landscape</td><td>5</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S3-T6</td><td>Adapt lineage visualization standards to client reporting tools</td><td>3</td><td>Integration Architect</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <h3>Tasks &mdash; ISL-05: Integration Pattern Library</h3>
+        <h3>Tasks &mdash; ISL-05: Integration Pattern Adaptation</h3>
         <div class="table-wrap">
             <table>
-                <thead><tr><th>ID</th><th>Task</th><th>Hours</th><th>Role</th><th>Backlog Ref</th></tr></thead>
+                <thead><tr><th>ID</th><th>Task</th><th>Hours</th><th>Role</th></tr></thead>
                 <tbody>
-                    <tr><td class="task-id">S3-T12</td><td>Draft ERP Extract &amp; Load pattern</td><td>6</td><td>Sr Integration Arch</td><td>E3-S2.T1</td></tr>
-                    <tr><td class="task-id">S3-T13</td><td>Draft IoT/OT Ingestion pattern</td><td>6</td><td>Sr Integration Arch</td><td>E3-S2.T2</td></tr>
-                    <tr><td class="task-id">S3-T14</td><td>Draft API Gateway Integration pattern</td><td>5</td><td>Sr Integration Arch</td><td>E3-S2.T3</td></tr>
-                    <tr><td class="task-id">S3-T15</td><td>Draft Event-Driven Architecture pattern</td><td>6</td><td>Sr Integration Arch</td><td>E3-S2.T4</td></tr>
-                    <tr><td class="task-id">S3-T16</td><td>Draft Master Data Synchronization pattern</td><td>6</td><td>Sr Integration Arch</td><td>E3-S2.T5</td></tr>
-                    <tr><td class="task-id">S3-T17</td><td>Draft File-Based Integration pattern</td><td>4</td><td>Sr Integration Arch</td><td>E3-S2.T6</td></tr>
-                    <tr><td class="task-id">S3-T18</td><td>Draft Medallion Architecture pattern</td><td>5</td><td>Sr Integration Arch</td><td>E3-S2.T7</td></tr>
-                    <tr><td class="task-id">S3-T19</td><td>Draft Reverse ETL pattern</td><td>4</td><td>Sr Integration Arch</td><td>E3-S2.T8</td></tr>
-                    <tr><td class="task-id">S3-T20</td><td>Create integration landscape overview diagram</td><td>5</td><td>Sr Integration Arch</td><td>E3-S2.T9</td></tr>
-                    <tr><td class="task-id">S3-T21</td><td>Create Fabric integration architecture diagram</td><td>5</td><td>Sr Integration Arch</td><td>E3-S2.T10</td></tr>
-                    <tr><td class="task-id">S3-T22</td><td>Create pattern decision tree diagram</td><td>4</td><td>Sr Integration Arch</td><td>E3-S2.T11</td></tr>
-                    <tr><td class="task-id">S3-T23</td><td>Build pattern selection decision framework</td><td>4</td><td>Lead Architect</td><td>E3-S2.T12</td></tr>
-                    <tr><td class="task-id">S3-T24</td><td>Peer review ISL-05 patterns and diagrams</td><td>8</td><td>Lead Architect</td><td>E3-S2.T13</td></tr>
+                    <tr><td class="task-id">S3-T7</td><td>Adapt ERP Extract &amp; Load pattern to client ERP system (SAP, Oracle, D365)</td><td>5</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S3-T8</td><td>Adapt IoT/OT Ingestion pattern to client sensor and SCADA landscape</td><td>5</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S3-T9</td><td>Adapt API Gateway Integration pattern to client APIM configuration</td><td>4</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S3-T10</td><td>Adapt Event-Driven Architecture pattern to client messaging platform</td><td>4</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S3-T11</td><td>Adapt Medallion Architecture pattern to client lakehouse design</td><td>4</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S3-T12</td><td>Adapt remaining patterns (MDM, file-based, reverse ETL) to client needs</td><td>6</td><td>Integration Architect</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Tasks &mdash; Manufacturing Overlays &amp; Client Review</h3>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>ID</th><th>Task</th><th>Hours</th><th>Role</th></tr></thead>
+                <tbody>
+                    <tr><td class="task-id">S3-T13</td><td>Apply manufacturing overlays (IoT/OT, ERP, PLM) if applicable</td><td>6</td><td>Data Governance Lead</td></tr>
+                    <tr><td class="task-id">S3-T14</td><td>Validate cross-module references (ISL-02/05 referencing ISL-01/03/04/06)</td><td>4</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S3-T15</td><td>Conduct client review workshop for ISL-02 metadata &amp; lineage</td><td>4</td><td>Engagement Lead</td></tr>
+                    <tr><td class="task-id">S3-T16</td><td>Conduct client review workshop for ISL-05 integration patterns</td><td>4</td><td>Engagement Lead</td></tr>
+                    <tr><td class="task-id">S3-T17</td><td>Incorporate client feedback and finalize ISL-02 + ISL-05</td><td>5</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S3-T18</td><td>Obtain client stakeholder sign-off on advanced standards</td><td>5</td><td>Client Stakeholder</td></tr>
                 </tbody>
             </table>
         </div>
@@ -696,37 +683,22 @@
             <table>
                 <thead><tr><th>Week</th><th>ISL-02 Focus</th><th>ISL-05 Focus</th><th>Key Deliverables</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>Week 5</strong></td><td>S3-T1&ndash;T4 (glossary, metadata schema, lineage, catalog)</td><td>S3-T12&ndash;T15 (ERP, IoT, API, event-driven)</td><td>4 templates + 4 patterns in draft</td></tr>
-                    <tr><td><strong>Week 6</strong></td><td>S3-T5, T6 (metadata integration, lineage viz)</td><td>S3-T16&ndash;T19 (MDM, file, medallion, reverse ETL)</td><td>6 templates + 8 patterns in draft</td></tr>
-                    <tr><td><strong>Week 7</strong></td><td>S3-T7&ndash;T10 (examples, mfg overlays)</td><td>S3-T20&ndash;T22 (diagrams)</td><td>All examples + diagrams</td></tr>
-                    <tr><td><strong>Week 8</strong></td><td>S3-T11 (peer review)</td><td>S3-T23, T24 (decision framework, peer review)</td><td>Peer review complete</td></tr>
+                    <tr><td><strong>Week 6</strong></td><td>S3-T1&ndash;T4 (glossary, metadata, lineage, catalog)</td><td>S3-T7&ndash;T10 (ERP, IoT, API, event-driven)</td><td>Core adaptations drafted</td></tr>
+                    <tr><td><strong>Week 7</strong></td><td>S3-T5, T6 (metadata integration, lineage viz)</td><td>S3-T11, T12 (medallion, remaining patterns)</td><td>All adaptations complete; overlays applied</td></tr>
+                    <tr><td><strong>Week 8</strong></td><td>S3-T13, T14 (mfg overlays, cross-ref validation)</td><td>S3-T15&ndash;T18 (client review, feedback, sign-off)</td><td>Client approval on all advanced standards</td></tr>
                 </tbody>
             </table>
         </div>
-
-        <h3>Role Assignment Matrix &mdash; Sprint 3</h3>
-        <div class="table-wrap">
-            <table>
-                <thead><tr><th>Role</th><th>ISL-02 Tasks</th><th>ISL-05 Tasks</th><th>Total</th></tr></thead>
-                <tbody>
-                    <tr><td>Sr Data Gov Specialist</td><td>S3-T1&ndash;T4, T6, T7, T9, T10</td><td>&mdash;</td><td>51</td></tr>
-                    <tr><td>Sr Integration Architect</td><td>S3-T5, T8</td><td>S3-T12&ndash;T22</td><td>69</td></tr>
-                    <tr><td>Lead Architect</td><td>S3-T11</td><td>S3-T23, T24</td><td>19</td></tr>
-                    <tr><td>Technical Writer</td><td>&mdash;</td><td>&mdash;</td><td>0</td></tr>
-                    <tr style="font-weight:700; background:var(--gray-100);"><td colspan="3">Sprint Total</td><td>139</td></tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="info-note"><strong>Buffer:</strong> ~21 hrs across the 4-week sprint for rework, cross-module validation, and coordination.</div>
+        <div class="info-note"><strong>Baseline without accelerator:</strong> 160&ndash;240 hrs to author metadata, lineage, and integration pattern standards from scratch. ISL templates reduce this to 90 hrs of adaptation work.</div>
 
         <h3>Milestones</h3>
         <div class="milestones">
-            <div class="milestone-item"><div class="milestone-dot">M3.1</div><div class="milestone-content"><strong>ISL-02 Drafts Complete</strong><span>6 metadata templates in draft</span></div><div class="milestone-day">Day 10</div></div>
-            <div class="milestone-item"><div class="milestone-dot">M3.2</div><div class="milestone-content"><strong>ISL-05 Patterns Complete</strong><span>8 patterns in draft</span></div><div class="milestone-day">Day 10</div></div>
-            <div class="milestone-item"><div class="milestone-dot">M3.3</div><div class="milestone-content"><strong>Examples &amp; Diagrams Complete</strong><span>All ISL-02 examples + ISL-05 diagrams</span></div><div class="milestone-day">Day 15</div></div>
-            <div class="milestone-item"><div class="milestone-dot">M3.4</div><div class="milestone-content"><strong>ISL-02 Peer Review Pass</strong><span>All metadata templates approved</span></div><div class="milestone-day">Day 18</div></div>
-            <div class="milestone-item"><div class="milestone-dot">M3.5</div><div class="milestone-content"><strong>ISL-05 Peer Review Pass</strong><span>All patterns and diagrams approved</span></div><div class="milestone-day">Day 19</div></div>
-            <div class="milestone-item"><div class="milestone-dot">M3.6</div><div class="milestone-content"><strong>All 6 Modules Complete</strong><span>ISL-01 through ISL-06 finalized</span></div><div class="milestone-day">Day 20</div></div>
+            <div class="milestone-item"><div class="milestone-dot">M3.1</div><div class="milestone-content"><strong>ISL-02 Adaptation Complete</strong><span>6 metadata/lineage templates adapted to client Purview/catalog</span></div><div class="milestone-day">Day 7</div></div>
+            <div class="milestone-item"><div class="milestone-dot">M3.2</div><div class="milestone-content"><strong>ISL-05 Adaptation Complete</strong><span>8 integration patterns adapted to client architecture</span></div><div class="milestone-day">Day 9</div></div>
+            <div class="milestone-item"><div class="milestone-dot">M3.3</div><div class="milestone-content"><strong>Manufacturing Overlays Applied</strong><span>IoT/OT, ERP, PLM overlays integrated where applicable</span></div><div class="milestone-day">Day 10</div></div>
+            <div class="milestone-item"><div class="milestone-dot">M3.4</div><div class="milestone-content"><strong>Cross-Module Validation</strong><span>All inter-module references validated across 6 adapted modules</span></div><div class="milestone-day">Day 11</div></div>
+            <div class="milestone-item"><div class="milestone-dot">M3.5</div><div class="milestone-content"><strong>Client Review Workshops</strong><span>ISL-02 and ISL-05 presented to client; feedback collected</span></div><div class="milestone-day">Day 13</div></div>
+            <div class="milestone-item"><div class="milestone-dot">M3.6</div><div class="milestone-content"><strong>All 6 Modules Adapted</strong><span>Client sign-off on ISL-02 + ISL-05; all modules complete</span></div><div class="milestone-day">Day 15</div></div>
         </div>
     </div>
 </div>
@@ -736,12 +708,12 @@
     <div class="sprint-card-header" onclick="toggleSprint(this)">
         <div class="sprint-badge s4">S4</div>
         <div class="sprint-card-title">
-            <h2>Sprint 4 &mdash; Packaging, Review &amp; Pilot</h2>
-            <p>Manufacturing overlays, cross-module review, v1.0 release, pilot onboarding</p>
+            <h2>Sprint 4 &mdash; Validation &amp; Handoff</h2>
+            <p>Cross-module consistency, compliance audit, client presentation, implementation handoff</p>
         </div>
         <div class="sprint-card-meta">
-            <span class="sprint-meta-pill">2 weeks</span>
-            <span class="sprint-meta-pill">80 hrs</span>
+            <span class="sprint-meta-pill">1 week</span>
+            <span class="sprint-meta-pill">40 hrs</span>
         </div>
         <svg class="sprint-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
@@ -750,100 +722,60 @@
             <div class="criteria-box entry">
                 <h4>Entry Criteria</h4>
                 <ul>
-                    <li>M3.6 All 6 Modules Complete achieved</li>
-                    <li>All module drafts committed to repository</li>
-                    <li>Pilot engagement candidate identified</li>
+                    <li>M3.6 All 6 Modules Adapted achieved</li>
+                    <li>All adapted module deliverables committed to engagement repository</li>
+                    <li>Client implementation team identified for handoff</li>
                 </ul>
             </div>
             <div class="criteria-box exit">
                 <h4>Exit Criteria</h4>
                 <ul>
-                    <li>Manufacturing overlays consolidated across all modules</li>
-                    <li>Full cross-module review complete with zero open comments</li>
-                    <li>v1.0 release tagged in Git repository</li>
-                    <li>Pilot engagement onboarding scheduled</li>
-                    <li><strong>ISL v1.0 production-ready</strong></li>
+                    <li>Cross-module consistency review complete with zero open issues</li>
+                    <li>Compliance audit passed (OWASP, NIST, ISO, DAMA alignment confirmed)</li>
+                    <li>Final client presentation delivered to executive stakeholders</li>
+                    <li>Implementation team handoff complete with adoption roadmap</li>
+                    <li><strong>Client sign-off on complete standards package</strong></li>
                 </ul>
             </div>
         </div>
 
-        <h3>Tasks &mdash; Manufacturing Overlays</h3>
+        <h3>Tasks &mdash; Validation</h3>
         <div class="table-wrap">
             <table>
-                <thead><tr><th>ID</th><th>Task</th><th>Hours</th><th>Role</th><th>Backlog Ref</th></tr></thead>
+                <thead><tr><th>ID</th><th>Task</th><th>Hours</th><th>Role</th></tr></thead>
                 <tbody>
-                    <tr><td class="task-id">S4-T1</td><td>Consolidate ITAR/EAR overlay (ISL-04, ISL-01)</td><td>4</td><td>Sr Data Gov</td><td>E4-S1.T1</td></tr>
-                    <tr><td class="task-id">S4-T2</td><td>Consolidate IoT/OT extensions (ISL-02, ISL-04, ISL-05)</td><td>4</td><td>Sr Data Gov</td><td>E4-S1.T2</td></tr>
-                    <tr><td class="task-id">S4-T3</td><td>Consolidate ERP integration extensions (ISL-02, ISL-05)</td><td>4</td><td>Sr Integration Arch</td><td>E4-S1.T3</td></tr>
-                    <tr><td class="task-id">S4-T4</td><td>Validate supply chain classification (ISL-04)</td><td>2</td><td>Sr Data Gov</td><td>E4-S1.T4</td></tr>
-                    <tr><td class="task-id">S4-T5</td><td>Cross-check manufacturing examples</td><td>4</td><td>Lead Architect</td><td>E4-S1.T5</td></tr>
-                    <tr><td class="task-id">S4-T6</td><td>Fill identified gaps</td><td>2</td><td>Sr Data Gov</td><td>E4-S1.T6</td></tr>
+                    <tr><td class="task-id">S4-T1</td><td>Cross-module consistency review (naming, terminology, references)</td><td>5</td><td>Engagement Lead</td></tr>
+                    <tr><td class="task-id">S4-T2</td><td>Compliance audit against OWASP, NIST, ISO, DAMA frameworks</td><td>4</td><td>Data Governance Lead</td></tr>
+                    <tr><td class="task-id">S4-T3</td><td>Validate all inter-module cross-references and dependency links</td><td>3</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S4-T4</td><td>Resolve any validation findings and re-verify</td><td>3</td><td>Integration Architect</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <h3>Tasks &mdash; Peer Review &amp; QA</h3>
+        <h3>Tasks &mdash; Client Presentation &amp; Handoff</h3>
         <div class="table-wrap">
             <table>
-                <thead><tr><th>ID</th><th>Task</th><th>Hours</th><th>Role</th><th>Backlog Ref</th></tr></thead>
+                <thead><tr><th>ID</th><th>Task</th><th>Hours</th><th>Role</th></tr></thead>
                 <tbody>
-                    <tr><td class="task-id">S4-T7</td><td>Full cross-module review (naming, terminology, consistency)</td><td>6</td><td>Lead Architect</td><td>E4-S2.T1</td></tr>
-                    <tr><td class="task-id">S4-T8</td><td>Compliance alignment audit (OWASP, NIST, ISO, DAMA)</td><td>4</td><td>Lead Architect</td><td>E4-S2.T2</td></tr>
-                    <tr><td class="task-id">S4-T9</td><td>Cross-reference validation (inter-module links)</td><td>3</td><td>Technical Writer</td><td>E4-S2.T3</td></tr>
-                    <tr><td class="task-id">S4-T10</td><td>Spelling, grammar, formatting audit</td><td>3</td><td>Technical Writer</td><td>E4-S2.T4</td></tr>
-                    <tr><td class="task-id">S4-T11</td><td>Resolve review comments and re-review</td><td>4</td><td>All</td><td>E4-S2.T5</td></tr>
+                    <tr><td class="task-id">S4-T5</td><td>Prepare final executive presentation (standards overview + adoption roadmap)</td><td>5</td><td>Engagement Lead</td></tr>
+                    <tr><td class="task-id">S4-T6</td><td>Deliver final client presentation to executive stakeholders</td><td>3</td><td>Engagement Lead</td></tr>
+                    <tr><td class="task-id">S4-T7</td><td>Conduct implementation team handoff session (standards walkthrough)</td><td>4</td><td>Integration Architect</td></tr>
+                    <tr><td class="task-id">S4-T8</td><td>Create adoption roadmap and implementation prioritization guide</td><td>4</td><td>Engagement Lead</td></tr>
+                    <tr><td class="task-id">S4-T9</td><td>Document lessons learned and engagement retrospective</td><td>3</td><td>Engagement Lead</td></tr>
+                    <tr><td class="task-id">S4-T10</td><td>Obtain final client sign-off on complete standards package</td><td>2</td><td>Client Stakeholder</td></tr>
+                    <tr><td class="task-id">S4-T11</td><td>Archive engagement deliverables and update ISL feedback log</td><td>2</td><td>Data Governance Lead</td></tr>
+                    <tr><td class="task-id">S4-T12</td><td>Close out engagement workstream</td><td>2</td><td>Engagement Lead</td></tr>
                 </tbody>
             </table>
         </div>
-
-        <h3>Tasks &mdash; Packaging &amp; Distribution</h3>
-        <div class="table-wrap">
-            <table>
-                <thead><tr><th>ID</th><th>Task</th><th>Hours</th><th>Role</th><th>Backlog Ref</th></tr></thead>
-                <tbody>
-                    <tr><td class="task-id">S4-T12</td><td>Finalize all module README files</td><td>4</td><td>Technical Writer</td><td>E4-S3.T1</td></tr>
-                    <tr><td class="task-id">S4-T13</td><td>Document adaptation workflow</td><td>3</td><td>Lead Architect</td><td>E4-S3.T2</td></tr>
-                    <tr><td class="task-id">S4-T14</td><td>Create engagement kickoff integration guide</td><td>3</td><td>Lead Architect</td><td>E4-S3.T3</td></tr>
-                    <tr><td class="task-id">S4-T15</td><td>Tag Git repository with v1.0 release</td><td>1</td><td>Sr Integration Arch</td><td>E4-S3.T4</td></tr>
-                    <tr><td class="task-id">S4-T16</td><td>Configure distribution channel</td><td>2</td><td>Sr Integration Arch</td><td>E4-S3.T5</td></tr>
-                    <tr><td class="task-id">S4-T17</td><td>Publish release notes</td><td>2</td><td>Technical Writer</td><td>E4-S3.T6</td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        <h3>Tasks &mdash; Pilot Deployment</h3>
-        <div class="table-wrap">
-            <table>
-                <thead><tr><th>ID</th><th>Task</th><th>Hours</th><th>Role</th><th>Backlog Ref</th></tr></thead>
-                <tbody>
-                    <tr><td class="task-id">S4-T18</td><td>Identify pilot engagement and Phase 4 scope</td><td>2</td><td>Lead Architect</td><td>E4-S4.T1</td></tr>
-                    <tr><td class="task-id">S4-T19</td><td>Assign ISL champion on engagement team</td><td>1</td><td>Lead Architect</td><td>E4-S4.T2</td></tr>
-                    <tr><td class="task-id">S4-T20</td><td>Conduct ISL onboarding session</td><td>3</td><td>Lead Architect</td><td>E4-S4.T3</td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        <h3>Role Assignment Matrix &mdash; Sprint 4</h3>
-        <div class="table-wrap">
-            <table>
-                <thead><tr><th>Role</th><th>Overlays</th><th>Review/QA</th><th>Packaging</th><th>Pilot</th><th>Total</th></tr></thead>
-                <tbody>
-                    <tr><td>Lead Architect</td><td>S4-T5</td><td>S4-T7, T8, T11</td><td>S4-T13, T14</td><td>S4-T18&ndash;T20</td><td>30</td></tr>
-                    <tr><td>Sr Data Gov Specialist</td><td>S4-T1, T2, T4, T6</td><td>S4-T11</td><td>&mdash;</td><td>&mdash;</td><td>16</td></tr>
-                    <tr><td>Sr Integration Architect</td><td>S4-T3</td><td>S4-T11</td><td>S4-T15, T16</td><td>&mdash;</td><td>9</td></tr>
-                    <tr><td>Technical Writer</td><td>&mdash;</td><td>S4-T9, T10</td><td>S4-T12, T17</td><td>&mdash;</td><td>12</td></tr>
-                    <tr style="font-weight:700; background:var(--gray-100);"><td colspan="5">Sprint Total</td><td>67</td></tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="info-note"><strong>Buffer:</strong> ~13 hrs for unexpected review feedback, rework, and pilot preparation.</div>
+        <div class="info-note"><strong>Baseline without accelerator:</strong> 60&ndash;80 hrs for final validation, packaging, and handoff when standards are authored from scratch. ISL reduces this to 40 hrs by providing pre-validated compliance mappings and standardized handoff templates.</div>
 
         <h3>Milestones</h3>
         <div class="milestones">
-            <div class="milestone-item"><div class="milestone-dot">M4.1</div><div class="milestone-content"><strong>Overlays Consolidated</strong><span>Manufacturing extensions finalized across modules</span></div><div class="milestone-day">Day 4</div></div>
-            <div class="milestone-item"><div class="milestone-dot">M4.2</div><div class="milestone-content"><strong>Review Complete</strong><span>Cross-module review pass; zero open comments</span></div><div class="milestone-day">Day 7</div></div>
-            <div class="milestone-item"><div class="milestone-dot">M4.3</div><div class="milestone-content"><strong>v1.0 Tagged</strong><span>Git release tagged; release notes published</span></div><div class="milestone-day">Day 9</div></div>
-            <div class="milestone-item"><div class="milestone-dot">M4.4</div><div class="milestone-content"><strong>ISL v1.0 Production-Ready</strong><span>Packaging complete; pilot onboarding scheduled</span></div><div class="milestone-day">Day 10</div></div>
+            <div class="milestone-item"><div class="milestone-dot">M4.1</div><div class="milestone-content"><strong>Validation Complete</strong><span>Cross-module review and compliance audit passed; zero open issues</span></div><div class="milestone-day">Day 2</div></div>
+            <div class="milestone-item"><div class="milestone-dot">M4.2</div><div class="milestone-content"><strong>Client Presentation Delivered</strong><span>Executive stakeholders briefed on complete standards package</span></div><div class="milestone-day">Day 3</div></div>
+            <div class="milestone-item"><div class="milestone-dot">M4.3</div><div class="milestone-content"><strong>Implementation Handoff</strong><span>Implementation team trained; adoption roadmap delivered</span></div><div class="milestone-day">Day 4</div></div>
+            <div class="milestone-item"><div class="milestone-dot">M4.4</div><div class="milestone-content"><strong>Engagement Complete</strong><span>Client sign-off obtained; deliverables archived; retrospective documented</span></div><div class="milestone-day">Day 5</div></div>
         </div>
     </div>
 </div>
@@ -854,17 +786,18 @@
     <div class="table-wrap">
         <table>
             <thead>
-                <tr><th>Module</th><th>ID</th><th>Templates</th><th>Examples</th><th>S0</th><th>S1</th><th>S2</th><th>S3</th><th>S4</th></tr>
+                <tr><th>Module</th><th>ID</th><th>Baseline Hrs</th><th>Accelerated Hrs</th><th>Savings</th><th>Reduction</th><th>Sprint</th></tr>
             </thead>
             <tbody>
-                <tr><td>Naming Conventions</td><td>ISL-03</td><td>7</td><td>2</td><td>&mdash;</td><td>9 &#10003;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-                <tr><td>Data Classification</td><td>ISL-04</td><td>6</td><td>3</td><td>&mdash;</td><td>9 &#10003;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-                <tr><td>API Governance</td><td>ISL-01</td><td>6</td><td>2</td><td>&mdash;</td><td>&mdash;</td><td>8 &#10003;</td><td>&mdash;</td><td>&mdash;</td></tr>
-                <tr><td>Data Quality</td><td>ISL-06</td><td>6</td><td>3</td><td>&mdash;</td><td>&mdash;</td><td>9 &#10003;</td><td>&mdash;</td><td>&mdash;</td></tr>
-                <tr><td>Metadata &amp; Lineage</td><td>ISL-02</td><td>6</td><td>3</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>9 &#10003;</td><td>&mdash;</td></tr>
-                <tr><td>Integration Patterns</td><td>ISL-05</td><td>8</td><td>3</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>11 &#10003;</td><td>&mdash;</td></tr>
-                <tr><td>Mfg Overlays</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&#10003;</td></tr>
-                <tr style="font-weight:700; background:var(--gray-100);"><td>Cumulative Artifacts</td><td></td><td>39</td><td>16</td><td>0</td><td>18</td><td>35</td><td>55</td><td>55+</td></tr>
+                <tr><td>Setup &amp; Assessment</td><td>&mdash;</td><td>60&ndash;80</td><td>40</td><td>20&ndash;40</td><td>33&ndash;50%</td><td>S0</td></tr>
+                <tr><td>Naming Conventions (ISL-03)</td><td>ISL-03</td><td>45&ndash;75</td><td>30</td><td>15&ndash;45</td><td>33&ndash;60%</td><td>S1</td></tr>
+                <tr><td>Data Classification (ISL-04)</td><td>ISL-04</td><td>45&ndash;75</td><td>30</td><td>15&ndash;45</td><td>33&ndash;60%</td><td>S1</td></tr>
+                <tr><td>API Governance (ISL-01)</td><td>ISL-01</td><td>65&ndash;100</td><td>35</td><td>30&ndash;65</td><td>46&ndash;65%</td><td>S2</td></tr>
+                <tr><td>Data Quality (ISL-06)</td><td>ISL-06</td><td>65&ndash;100</td><td>35</td><td>30&ndash;65</td><td>46&ndash;65%</td><td>S2</td></tr>
+                <tr><td>Metadata &amp; Lineage (ISL-02)</td><td>ISL-02</td><td>80&ndash;120</td><td>45</td><td>35&ndash;75</td><td>44&ndash;63%</td><td>S3</td></tr>
+                <tr><td>Integration Patterns (ISL-05)</td><td>ISL-05</td><td>80&ndash;120</td><td>45</td><td>35&ndash;75</td><td>44&ndash;63%</td><td>S3</td></tr>
+                <tr><td>Validation &amp; Handoff</td><td>&mdash;</td><td>60&ndash;80</td><td>40</td><td>20&ndash;40</td><td>33&ndash;50%</td><td>S4</td></tr>
+                <tr style="font-weight:700; background:var(--gray-100);"><td>Total</td><td></td><td>500&ndash;700</td><td>300</td><td>200&ndash;400</td><td>30&ndash;57%</td><td>S0&ndash;S4</td></tr>
             </tbody>
         </table>
     </div>
@@ -875,17 +808,18 @@
     <div class="table-wrap">
         <table>
             <thead>
-                <tr><th>Sprint</th><th>Duration</th><th>Sprint Hours</th><th>Cumulative</th><th>% of ~470</th><th style="min-width:200px;">Progress</th></tr>
+                <tr><th>Sprint</th><th>Duration</th><th>Accelerated Hrs</th><th>Cumulative</th><th>% of 300</th><th style="min-width:200px;">Progress</th></tr>
             </thead>
             <tbody>
-                <tr><td><strong>Sprint 0</strong></td><td>1 week</td><td>40</td><td>40</td><td>9%</td><td><div class="progress-bar"><div class="progress-fill" style="width:9%;"></div></div></td></tr>
-                <tr><td><strong>Sprint 1</strong></td><td>2 weeks</td><td>90</td><td>130</td><td>28%</td><td><div class="progress-bar"><div class="progress-fill" style="width:28%;"></div></div></td></tr>
-                <tr><td><strong>Sprint 2</strong></td><td>2 weeks</td><td>100</td><td>230</td><td>49%</td><td><div class="progress-bar"><div class="progress-fill" style="width:49%;"></div></div></td></tr>
-                <tr><td><strong>Sprint 3</strong></td><td>4 weeks</td><td>160</td><td>390</td><td>83%</td><td><div class="progress-bar"><div class="progress-fill" style="width:83%;"></div></div></td></tr>
-                <tr><td><strong>Sprint 4</strong></td><td>2 weeks</td><td>80</td><td>470</td><td>100%</td><td><div class="progress-bar"><div class="progress-fill" style="width:100%;"></div></div></td></tr>
+                <tr><td><strong>Sprint 0</strong></td><td>1 week</td><td>40</td><td>40</td><td>13%</td><td><div class="progress-bar"><div class="progress-fill" style="width:13%;"></div></div></td></tr>
+                <tr><td><strong>Sprint 1</strong></td><td>2 weeks</td><td>60</td><td>100</td><td>33%</td><td><div class="progress-bar"><div class="progress-fill" style="width:33%;"></div></div></td></tr>
+                <tr><td><strong>Sprint 2</strong></td><td>2 weeks</td><td>70</td><td>170</td><td>57%</td><td><div class="progress-bar"><div class="progress-fill" style="width:57%;"></div></div></td></tr>
+                <tr><td><strong>Sprint 3</strong></td><td>3 weeks</td><td>90</td><td>260</td><td>87%</td><td><div class="progress-bar"><div class="progress-fill" style="width:87%;"></div></div></td></tr>
+                <tr><td><strong>Sprint 4</strong></td><td>1 week</td><td>40</td><td>300</td><td>100%</td><td><div class="progress-bar"><div class="progress-fill" style="width:100%;"></div></div></td></tr>
             </tbody>
         </table>
     </div>
+    <div class="info-note"><strong>Baseline comparison:</strong> Without the ISL accelerator, the same scope would require 500&ndash;700 hours across 14&ndash;18 weeks. The accelerated model delivers in 9 weeks and 300 hours, saving 200&ndash;400 hours per engagement.</div>
 </div>
 
 <div class="section-card" id="milestone-summary">
@@ -894,30 +828,30 @@
         <table>
             <thead><tr><th>ID</th><th>Milestone</th><th>Sprint</th><th>Day</th><th>Status</th></tr></thead>
             <tbody>
-                <tr><td class="task-id">M0.1</td><td>Engagement Audit Complete</td><td>0</td><td>3</td><td>&#9744;</td></tr>
-                <tr><td class="task-id">M0.2</td><td>Standards Survey Complete</td><td>0</td><td>4</td><td>&#9744;</td></tr>
+                <tr><td class="task-id">M0.1</td><td>ISL Deployed</td><td>0</td><td>1</td><td>&#9744;</td></tr>
+                <tr><td class="task-id">M0.2</td><td>Assessment Complete</td><td>0</td><td>3</td><td>&#9744;</td></tr>
                 <tr><td class="task-id">M0.3</td><td><strong>Scope Locked</strong></td><td>0</td><td>5</td><td>&#9744;</td></tr>
-                <tr><td class="task-id">M1.1</td><td>ISL-03 Drafts Complete</td><td>1</td><td>5</td><td>&#9744;</td></tr>
-                <tr><td class="task-id">M1.2</td><td>ISL-04 Drafts Complete</td><td>1</td><td>7</td><td>&#9744;</td></tr>
-                <tr><td class="task-id">M1.3</td><td>ISL-03 Peer Review Pass</td><td>1</td><td>8</td><td>&#9744;</td></tr>
-                <tr><td class="task-id">M1.4</td><td>ISL-04 Peer Review Pass</td><td>1</td><td>9</td><td>&#9744;</td></tr>
-                <tr><td class="task-id">M1.5</td><td><strong>Foundation Complete</strong></td><td>1</td><td>10</td><td>&#9744;</td></tr>
-                <tr><td class="task-id">M2.1</td><td>ISL-01 Drafts Complete</td><td>2</td><td>5</td><td>&#9744;</td></tr>
-                <tr><td class="task-id">M2.2</td><td>ISL-06 Rule Library Complete</td><td>2</td><td>6</td><td>&#9744;</td></tr>
-                <tr><td class="task-id">M2.3</td><td>ISL-06 Drafts Complete</td><td>2</td><td>7</td><td>&#9744;</td></tr>
-                <tr><td class="task-id">M2.4</td><td>OWASP Cross-Reference Pass</td><td>2</td><td>8</td><td>&#9744;</td></tr>
-                <tr><td class="task-id">M2.5</td><td>ISL-01 Peer Review Pass</td><td>2</td><td>9</td><td>&#9744;</td></tr>
-                <tr><td class="task-id">M2.6</td><td><strong>Core Complete</strong></td><td>2</td><td>10</td><td>&#9744;</td></tr>
-                <tr><td class="task-id">M3.1</td><td>ISL-02 Drafts Complete</td><td>3</td><td>10</td><td>&#9744;</td></tr>
-                <tr><td class="task-id">M3.2</td><td>ISL-05 Patterns Complete</td><td>3</td><td>10</td><td>&#9744;</td></tr>
-                <tr><td class="task-id">M3.3</td><td>Examples &amp; Diagrams Complete</td><td>3</td><td>15</td><td>&#9744;</td></tr>
-                <tr><td class="task-id">M3.4</td><td>ISL-02 Peer Review Pass</td><td>3</td><td>18</td><td>&#9744;</td></tr>
-                <tr><td class="task-id">M3.5</td><td>ISL-05 Peer Review Pass</td><td>3</td><td>19</td><td>&#9744;</td></tr>
-                <tr><td class="task-id">M3.6</td><td><strong>All 6 Modules Complete</strong></td><td>3</td><td>20</td><td>&#9744;</td></tr>
-                <tr><td class="task-id">M4.1</td><td>Overlays Consolidated</td><td>4</td><td>4</td><td>&#9744;</td></tr>
-                <tr><td class="task-id">M4.2</td><td>Review Complete</td><td>4</td><td>7</td><td>&#9744;</td></tr>
-                <tr><td class="task-id">M4.3</td><td>v1.0 Tagged</td><td>4</td><td>9</td><td>&#9744;</td></tr>
-                <tr><td class="task-id">M4.4</td><td><strong>ISL v1.0 Production-Ready</strong></td><td>4</td><td>10</td><td>&#9744;</td></tr>
+                <tr><td class="task-id">M1.1</td><td>ISL-03 Adaptation Complete</td><td>1</td><td>4</td><td>&#9744;</td></tr>
+                <tr><td class="task-id">M1.2</td><td>ISL-04 Adaptation Complete</td><td>1</td><td>6</td><td>&#9744;</td></tr>
+                <tr><td class="task-id">M1.3</td><td>Client Review Workshops</td><td>1</td><td>8</td><td>&#9744;</td></tr>
+                <tr><td class="task-id">M1.4</td><td>Feedback Incorporated</td><td>1</td><td>9</td><td>&#9744;</td></tr>
+                <tr><td class="task-id">M1.5</td><td><strong>Foundation Approved</strong></td><td>1</td><td>10</td><td>&#9744;</td></tr>
+                <tr><td class="task-id">M2.1</td><td>ISL-01 Adaptation Complete</td><td>2</td><td>4</td><td>&#9744;</td></tr>
+                <tr><td class="task-id">M2.2</td><td>ISL-06 Adaptation Complete</td><td>2</td><td>5</td><td>&#9744;</td></tr>
+                <tr><td class="task-id">M2.3</td><td>OWASP Validation Pass</td><td>2</td><td>6</td><td>&#9744;</td></tr>
+                <tr><td class="task-id">M2.4</td><td>Client Review Workshops</td><td>2</td><td>8</td><td>&#9744;</td></tr>
+                <tr><td class="task-id">M2.5</td><td>Feedback Incorporated</td><td>2</td><td>9</td><td>&#9744;</td></tr>
+                <tr><td class="task-id">M2.6</td><td><strong>Core Approved</strong></td><td>2</td><td>10</td><td>&#9744;</td></tr>
+                <tr><td class="task-id">M3.1</td><td>ISL-02 Adaptation Complete</td><td>3</td><td>7</td><td>&#9744;</td></tr>
+                <tr><td class="task-id">M3.2</td><td>ISL-05 Adaptation Complete</td><td>3</td><td>9</td><td>&#9744;</td></tr>
+                <tr><td class="task-id">M3.3</td><td>Manufacturing Overlays Applied</td><td>3</td><td>10</td><td>&#9744;</td></tr>
+                <tr><td class="task-id">M3.4</td><td>Cross-Module Validation</td><td>3</td><td>11</td><td>&#9744;</td></tr>
+                <tr><td class="task-id">M3.5</td><td>Client Review Workshops</td><td>3</td><td>13</td><td>&#9744;</td></tr>
+                <tr><td class="task-id">M3.6</td><td><strong>All 6 Modules Adapted</strong></td><td>3</td><td>15</td><td>&#9744;</td></tr>
+                <tr><td class="task-id">M4.1</td><td>Validation Complete</td><td>4</td><td>2</td><td>&#9744;</td></tr>
+                <tr><td class="task-id">M4.2</td><td>Client Presentation Delivered</td><td>4</td><td>3</td><td>&#9744;</td></tr>
+                <tr><td class="task-id">M4.3</td><td>Implementation Handoff</td><td>4</td><td>4</td><td>&#9744;</td></tr>
+                <tr><td class="task-id">M4.4</td><td><strong>Engagement Complete</strong></td><td>4</td><td>5</td><td>&#9744;</td></tr>
             </tbody>
         </table>
     </div>
@@ -925,85 +859,93 @@
 
 <!-- ============ APPENDIX A ============ -->
 <div class="section-card" id="appendix-a">
-    <h2>Appendix A: Template &amp; Example Checklist</h2>
+    <h2>Appendix A: Adaptation Checklist (Per Module)</h2>
+    <div class="info-note"><strong>Usage:</strong> For each ISL module selected during Sprint 0, the engagement team works through this checklist to ensure complete adaptation to client context. Check each item as it is completed and approved.</div>
 
-    <h3>ISL-03: Naming Conventions (Sprint 1)</h3>
+    <h3>Pre-Adaptation (applies to every module)</h3>
     <ul class="checklist">
-        <li><code>templates/database-schema-naming.md</code></li>
-        <li><code>templates/table-view-naming.md</code></li>
-        <li><code>templates/column-naming-standards.md</code></li>
-        <li><code>templates/pipeline-dataflow-naming.md</code></li>
-        <li><code>templates/api-endpoint-naming.md</code></li>
-        <li><code>templates/infrastructure-resource-naming.md</code></li>
-        <li><code>templates/abbreviation-dictionary.md</code></li>
-        <li><code>examples/fabric-naming-reference.md</code></li>
-        <li><code>examples/manufacturing-domain-names.md</code></li>
+        <li>ISL template reviewed and understood by assigned team member</li>
+        <li>Client-specific requirements documented (regulatory, technical, organizational)</li>
+        <li>Client terminology and naming conventions identified</li>
+        <li>Client technology stack mapped to template assumptions</li>
+        <li>Adaptation scope agreed with Engagement Lead</li>
+        <li>Estimated adaptation hours confirmed within sprint budget</li>
     </ul>
 
-    <h3>ISL-04: Data Classification (Sprint 1)</h3>
+    <h3>ISL-03: Naming Conventions Adaptation</h3>
     <ul class="checklist">
-        <li><code>templates/classification-tier-definitions.md</code></li>
-        <li><code>templates/sensitivity-labeling-standards.md</code></li>
-        <li><code>templates/data-handling-requirements.md</code></li>
-        <li><code>templates/access-control-alignment.md</code></li>
-        <li><code>templates/compliance-mapping-matrix.md</code></li>
-        <li><code>templates/classification-decision-tree.md</code></li>
-        <li><code>examples/manufacturing-classification.md</code></li>
-        <li><code>examples/fabric-security-model.md</code></li>
-        <li><code>examples/purview-label-configuration.md</code></li>
+        <li>Database &amp; schema naming adapted to client Fabric workspace model</li>
+        <li>Table &amp; view naming adapted to client data model patterns</li>
+        <li>Column naming standards aligned with client business glossary</li>
+        <li>Pipeline &amp; dataflow naming adapted to client orchestration tools</li>
+        <li>API &amp; endpoint naming adapted to client API management conventions</li>
+        <li>Infrastructure resource naming adapted to client Azure subscription model</li>
+        <li>Abbreviation dictionary extended with client-specific domain abbreviations</li>
+        <li>Client review workshop conducted; feedback incorporated</li>
+        <li>Client stakeholder sign-off obtained</li>
     </ul>
 
-    <h3>ISL-01: API Governance (Sprint 2)</h3>
+    <h3>ISL-04: Data Classification Adaptation</h3>
     <ul class="checklist">
-        <li><code>templates/api-design-standards.md</code></li>
-        <li><code>templates/api-versioning-policy.md</code></li>
-        <li><code>templates/api-security-standards.md</code></li>
-        <li><code>templates/api-lifecycle-governance.md</code></li>
-        <li><code>templates/api-catalog-requirements.md</code></li>
-        <li><code>templates/rate-limiting-policy.md</code></li>
-        <li><code>examples/manufacturing-api-standards.md</code></li>
-        <li><code>examples/fabric-native-api-patterns.md</code></li>
+        <li>Classification tier definitions adapted to client sensitivity model</li>
+        <li>Sensitivity labeling standards mapped to client Purview labels</li>
+        <li>Data handling requirements aligned with client security policies</li>
+        <li>Access controls mapped to client Entra ID groups and Fabric RBAC roles</li>
+        <li>Compliance mapping matrix updated for client regulatory landscape</li>
+        <li>Classification decision tree adapted to client data domains</li>
+        <li>Client review workshop conducted; feedback incorporated</li>
+        <li>Client stakeholder sign-off obtained</li>
     </ul>
 
-    <h3>ISL-06: Data Quality (Sprint 2)</h3>
+    <h3>ISL-01: API Governance Adaptation</h3>
     <ul class="checklist">
-        <li><code>templates/quality-dimension-definitions.md</code></li>
-        <li><code>templates/quality-sla-framework.md</code></li>
-        <li><code>templates/quality-rule-library.md</code></li>
-        <li><code>templates/quality-monitoring-standards.md</code></li>
-        <li><code>templates/remediation-workflow.md</code></li>
-        <li><code>templates/quality-scorecard-template.md</code></li>
-        <li><code>examples/manufacturing-quality-rules.md</code></li>
-        <li><code>examples/fabric-quality-implementation.md</code></li>
-        <li><code>examples/quality-dashboard-spec.md</code></li>
+        <li>API design standards adapted to client REST/GraphQL conventions</li>
+        <li>API versioning policy aligned with client release management</li>
+        <li>API security standards mapped to client Entra ID and OAuth flows</li>
+        <li>API lifecycle governance integrated with client SDLC</li>
+        <li>API catalog requirements adapted to client developer portal</li>
+        <li>Rate limiting policies aligned with client SLAs</li>
+        <li>OWASP API Top 10 cross-reference validated for client threat model</li>
+        <li>Client review workshop conducted; feedback incorporated</li>
+        <li>Client stakeholder sign-off obtained</li>
     </ul>
 
-    <h3>ISL-02: Metadata &amp; Lineage (Sprint 3)</h3>
+    <h3>ISL-06: Data Quality Adaptation</h3>
     <ul class="checklist">
-        <li><code>templates/business-glossary-standards.md</code></li>
-        <li><code>templates/technical-metadata-schema.md</code></li>
-        <li><code>templates/data-lineage-requirements.md</code></li>
-        <li><code>templates/data-catalog-governance.md</code></li>
-        <li><code>templates/metadata-integration-patterns.md</code></li>
-        <li><code>templates/lineage-visualization-standards.md</code></li>
-        <li><code>examples/manufacturing-metadata-model.md</code></li>
-        <li><code>examples/fabric-onelake-metadata.md</code></li>
-        <li><code>examples/purview-configuration-guide.md</code></li>
+        <li>Quality dimension definitions adapted to client data domains</li>
+        <li>Quality SLA framework aligned with client operational thresholds</li>
+        <li>Quality rule library customized for client-specific data patterns</li>
+        <li>Quality monitoring standards adapted to client observability stack</li>
+        <li>Remediation workflow aligned with client incident management</li>
+        <li>Quality scorecard mapped to client KPI reporting structure</li>
+        <li>Client review workshop conducted; feedback incorporated</li>
+        <li>Client stakeholder sign-off obtained</li>
     </ul>
 
-    <h3>ISL-05: Integration Patterns (Sprint 3)</h3>
+    <h3>ISL-02: Metadata &amp; Lineage Adaptation</h3>
     <ul class="checklist">
-        <li><code>patterns/erp-extract-load.md</code></li>
-        <li><code>patterns/iot-ot-ingestion.md</code></li>
-        <li><code>patterns/api-gateway-integration.md</code></li>
-        <li><code>patterns/event-driven-architecture.md</code></li>
-        <li><code>patterns/master-data-synchronization.md</code></li>
-        <li><code>patterns/file-based-integration.md</code></li>
-        <li><code>patterns/medallion-architecture.md</code></li>
-        <li><code>patterns/reverse-etl.md</code></li>
-        <li><code>diagrams/integration-landscape-overview.md</code></li>
-        <li><code>diagrams/fabric-integration-architecture.md</code></li>
-        <li><code>diagrams/pattern-decision-tree.md</code></li>
+        <li>Business glossary standards adapted to client domain terminology</li>
+        <li>Technical metadata schema mapped to client Purview/catalog configuration</li>
+        <li>Data lineage requirements aligned with client pipeline architecture</li>
+        <li>Data catalog governance adapted to client Purview tenant policies</li>
+        <li>Metadata integration patterns mapped to client source systems</li>
+        <li>Lineage visualization standards adapted to client reporting tools</li>
+        <li>Client review workshop conducted; feedback incorporated</li>
+        <li>Client stakeholder sign-off obtained</li>
+    </ul>
+
+    <h3>ISL-05: Integration Patterns Adaptation</h3>
+    <ul class="checklist">
+        <li>ERP Extract &amp; Load pattern adapted to client ERP system</li>
+        <li>IoT/OT Ingestion pattern adapted to client sensor landscape</li>
+        <li>API Gateway Integration adapted to client APIM configuration</li>
+        <li>Event-Driven Architecture adapted to client messaging platform</li>
+        <li>Master Data Synchronization adapted to client MDM approach</li>
+        <li>File-Based Integration adapted to client file transfer protocols</li>
+        <li>Medallion Architecture adapted to client lakehouse design</li>
+        <li>Reverse ETL adapted to client operational system requirements</li>
+        <li>Client review workshop conducted; feedback incorporated</li>
+        <li>Client stakeholder sign-off obtained</li>
     </ul>
 </div>
 
@@ -1014,12 +956,14 @@
         <table>
             <thead><tr><th>Issue</th><th>First Response</th><th>Escalation Path</th><th>SLA</th></tr></thead>
             <tbody>
-                <tr><td>Build team member pulled to client work</td><td>Redistribute tasks within remaining team</td><td>DMTSP Practice Lead &rarr; protect allocation</td><td>24 hrs</td></tr>
-                <tr><td>Template scope disagreement</td><td>Lead Architect decision</td><td>DMTSP VP &rarr; final authority</td><td>48 hrs</td></tr>
-                <tr><td>External standards conflict</td><td>Document both options with rationale</td><td>Lead Architect makes binding call</td><td>24 hrs</td></tr>
-                <tr><td>Peer review blocker (fundamental rework)</td><td>Schedule working session to resolve</td><td>Lead Architect + module owner pair</td><td>8 hrs</td></tr>
-                <tr><td>Pilot engagement not available</td><td>Identify secondary candidate engagement</td><td>DMTSP account leads &rarr; next suitable account</td><td>1 week</td></tr>
-                <tr><td>Fabric/Purview documentation gap</td><td>Document current state + known gap</td><td>Flag for quarterly refresh in v1.1</td><td>Non-blocking</td></tr>
+                <tr><td>Client environment access delayed</td><td>Work with client IT to expedite provisioning</td><td>Engagement Lead &rarr; Client project sponsor</td><td>24 hrs</td></tr>
+                <tr><td>Client stakeholder unavailable for review</td><td>Reschedule within sprint window; proceed with available approvers</td><td>Engagement Lead &rarr; Client executive sponsor</td><td>48 hrs</td></tr>
+                <tr><td>Module adaptation scope creep</td><td>Engagement Lead decision to defer to future phase</td><td>Engagement Lead &rarr; DMTSP Practice Lead</td><td>24 hrs</td></tr>
+                <tr><td>Client rejects adapted standard</td><td>Schedule working session to align on specific objections</td><td>Engagement Lead + Integration Architect pair session with client</td><td>8 hrs</td></tr>
+                <tr><td>Cross-module consistency conflict</td><td>Integration Architect resolves using ISL reference as baseline</td><td>Engagement Lead makes binding call</td><td>24 hrs</td></tr>
+                <tr><td>Client compliance requirement not covered by ISL</td><td>Document gap and create engagement-specific supplement</td><td>Data Governance Lead authors supplement; flag for ISL v1.1 inclusion</td><td>48 hrs</td></tr>
+                <tr><td>Implementation team not identified for handoff</td><td>Engage client project sponsor to assign implementation lead</td><td>Engagement Lead &rarr; Client executive sponsor</td><td>1 week</td></tr>
+                <tr><td>Manufacturing overlay not applicable</td><td>Skip overlay tasks; reallocate hours to deeper core adaptation</td><td>Engagement Lead documents scope adjustment</td><td>Non-blocking</td></tr>
             </tbody>
         </table>
     </div>
@@ -1040,12 +984,12 @@
                 <a href="../index.html">Dashboard</a>
             </div>
             <div class="footer-meta">
-                <p><strong style="color: var(--gray-400);">Author:</strong> Keven Markham, VP Enterprise Transformation</p>
-                <p><strong style="color: var(--gray-400);">Date:</strong> February 6, 2026 &nbsp;|&nbsp; <strong style="color: var(--gray-400);">Version:</strong> 1.0</p>
+                <p><strong style="color: var(--gray-400);">Execution Model:</strong> Phase 4 Accelerated Delivery</p>
+                <p><strong style="color: var(--gray-400);">Reusability:</strong> Global &mdash; every engagement</p>
             </div>
         </div>
         <hr>
-        <p class="copyright">DMTSP Integration Standards Library &mdash; Internal Use Only</p>
+        <p class="copyright">DMTSP Integration Standards Library &mdash; Engagement Sprint Orchestrator</p>
     </div>
 </footer>
 

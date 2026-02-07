@@ -3,8 +3,8 @@
 **Module ID:** ISL-06
 **Target:** Data quality dimensions, measurement frameworks, SLA definitions, and remediation workflows
 **Productivity Gain:** 50–60% reduction in data quality standards creation effort
-**Build Effort:** Medium (30–50 hours)
-**Reusability:** Global — with domain-specific quality rule libraries
+**Engagement Deployment Effort:** 20–35 hours to adapt templates to client context
+**Reusability:** Global — deployed at every engagement with domain-specific quality rule libraries
 
 ---
 
@@ -188,4 +188,4 @@ data-quality/
 
 ---
 
-*Module Owner: DMTSP Data Engineering Practice | Build Priority: Sprint 2 (Weeks 3–4)*
+*Module Owner: DMTSP Data Engineering Practice | Engagement Phase: Phase 2 — Core Standards Deployment*

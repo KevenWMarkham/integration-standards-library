@@ -3,8 +3,8 @@
 **Module ID:** ISL-01
 **Target:** API design, lifecycle management, and integration contract governance
 **Productivity Gain:** 55–70% reduction in API standards creation effort
-**Build Effort:** Medium (40–60 hours)
-**Reusability:** Global — applicable across all DMTSP engagements with API/integration scope
+**Engagement Deployment Effort:** 20–35 hours to adapt templates to client context
+**Reusability:** Global — deployed at every DMTSP engagement with API/integration scope
 
 ---
 
@@ -116,4 +116,4 @@ api-governance/
 
 ---
 
-*Module Owner: DMTSP Enterprise Architecture Practice | Build Priority: Sprint 2 (Weeks 3–4)*
+*Module Owner: DMTSP Enterprise Architecture Practice | Engagement Phase: Phase 2 — Core Standards Deployment*

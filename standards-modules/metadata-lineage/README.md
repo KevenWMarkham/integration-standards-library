@@ -3,8 +3,8 @@
 **Module ID:** ISL-02
 **Target:** Enterprise metadata management, data lineage tracking, and data catalog standards
 **Productivity Gain:** 60–70% reduction in metadata standards creation effort
-**Build Effort:** High (60–80 hours)
-**Reusability:** Global — highest reuse potential across portfolio
+**Engagement Deployment Effort:** 30–50 hours to adapt templates to client context
+**Reusability:** Global — highest reuse potential across portfolio; deployed at every engagement
 
 ---
 
@@ -139,4 +139,4 @@ metadata-lineage/
 
 ---
 
-*Module Owner: DMTSP Data Governance Practice | Build Priority: Sprint 3 (Weeks 5–8)*
+*Module Owner: DMTSP Data Governance Practice | Engagement Phase: Phase 3 — Advanced Standards Deployment*

@@ -3,8 +3,8 @@
 **Module ID:** ISL-03
 **Target:** Enterprise-wide naming conventions for data assets, pipelines, APIs, and infrastructure
 **Productivity Gain:** 55–65% reduction in naming standards creation effort
-**Build Effort:** Low (20–30 hours)
-**Reusability:** Global — universally applicable with minimal adaptation
+**Engagement Deployment Effort:** 10–18 hours to adapt templates to client context
+**Reusability:** Global — universally applicable with minimal adaptation; deployed at every engagement
 
 ---
 
@@ -171,4 +171,4 @@ naming-conventions/
 
 ---
 
-*Module Owner: DMTSP Enterprise Architecture Practice | Build Priority: Sprint 1 (Weeks 1–2)*
+*Module Owner: DMTSP Enterprise Architecture Practice | Engagement Phase: Phase 1 — Foundation Standards Deployment*

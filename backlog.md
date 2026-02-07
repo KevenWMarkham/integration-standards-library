@@ -1,13 +1,13 @@
-# Integration Standards Library — Reusable Product Backlog
+# Integration Standards Library — Engagement Accelerator Backlog
 
-**Version:** 1.0
+**Version:** 2.0
 **Author:** Keven Markham, VP Enterprise Transformation — DMTSP
 **Date:** February 6, 2026
-**Reusability:** Internal buildout — this backlog manages the one-time creation of the ISL accelerator. The resulting templates are then deployed globally across engagements.
+**Reusability:** Global — this accelerator is deployed at every engagement to reduce Phase 4 delivery effort by 30-57%.
 **Related Documents:**
 - [Roadmap](roadmap.md) — Strategic phases and rationale
 - [Orchestrator](design/orchestrator_integration_standards.md) — Sprint-by-sprint execution plan
-- [Buildout Recommendation](Integration_Standards_Library_DMTSP_Buildout.md) — Accelerator overview and ROI analysis
+- [Accelerator Overview](Integration_Standards_Library_DMTSP_Accelerator.md) — Accelerator overview and ROI analysis
 
 ---
 
@@ -17,393 +17,482 @@
 |--------|-------|
 | Epics | 5 (E0–E4) |
 | Stories | 18 |
-| Total Build Scope | 6 modules, 39 templates, 16 examples |
-| Total Build Hours | ~310–440 |
-| Sprint Range | 0–4 |
+| Standards Domains | 6 modules, 39 pre-built templates, 16 reference examples |
+| Total Accelerated Hours | ~300 |
+| Baseline Hours (without accelerator) | 500–750 |
+| Hours Saved per Engagement | 200–400 |
+| Reduction | 30–57% |
+| Engagement Duration | 8 weeks |
+
+### Roles
+
+| Role | Responsibility |
+|------|----------------|
+| **Engagement Lead** | Owns engagement delivery; manages scope, timeline, and client relationship |
+| **Integration Architect** | Adapts API, integration pattern, and Fabric-specific templates to client environment |
+| **Data Governance Lead** | Adapts classification, metadata, quality, and compliance templates to client requirements |
+| **Client Stakeholder** | Reviews deliverables, provides domain context, approves standards for adoption |
 
 ### Priority Legend
 
 | Priority | Meaning |
 |----------|---------|
-| **P0** | Blocker — must complete before any downstream module |
-| **P1** | Critical — on the sprint critical path |
-| **P2** | Important — needed for sprint completion |
-| **P3** | Nice-to-have — can slip to next sprint if needed |
+| **P0** | Blocker — must complete before any downstream deployment phase |
+| **P1** | Critical — on the engagement critical path |
+| **P2** | Important — needed for phase completion |
+| **P3** | Nice-to-have — can defer if client timeline is compressed |
 
 ### Effort Scale
 
 | Size | Hours | Example |
 |------|-------|---------|
-| XS | 1–8 | Abbreviation dictionary, single template |
-| S | 9–20 | Naming conventions module, quality scorecard |
-| M | 21–50 | API governance module, data quality module |
-| L | 51–80 | Metadata/lineage framework, integration patterns |
-| XL | 81+ | Full module + manufacturing overlays |
+| XS | 1–8 | Single template adaptation, client review session |
+| S | 9–20 | Module adaptation with minor customization |
+| M | 21–50 | Module adaptation with significant client-specific customization |
+| L | 51–80 | Multi-module deployment with manufacturing overlays |
+| XL | 81+ | Full standards domain with cross-module integration |
 
 ---
 
 ## Dependency Graph
 
 ```
-E0: Discovery & Baseline (Sprint 0)
+E0: Accelerator Setup & Assessment (Week 0)
   │
-  └──► E1: Foundation Modules (Sprint 1)
+  └──► E1: Foundation Standards Deployment (Weeks 1–2)
          │
-         ├── ISL-03: Naming Conventions ◄── Foundation for all modules
+         ├── ISL-03: Naming Conventions ◄── Foundation for all adapted modules
          │     │
-         │     └──► ISL-04: Data Classification ◄── References ISL-03 naming
+         │     └──► ISL-04: Data Classification ◄── Classification tiers follow ISL-03 naming
          │
-         └──► E2: Core Modules (Sprint 2)
+         └──► E2: Core Standards Deployment (Weeks 3–4)
                 │
-                ├── ISL-01: API Governance ◄── ISL-03, ISL-04
+                ├── ISL-01: API Governance ◄── ISL-03 naming, ISL-04 security tiers
                 │
-                └── ISL-06: Data Quality ◄── ISL-03, ISL-04
+                └── ISL-06: Data Quality ◄── ISL-03 naming, ISL-04 SLA tiers
                       │
-                      └──► E3: Advanced Modules (Sprint 3)
+                      └──► E3: Advanced Standards Deployment (Weeks 5–7)
                              │
                              ├── ISL-02: Metadata & Lineage ◄── ISL-03, ISL-04, ISL-06
                              │
                              └── ISL-05: Integration Patterns ◄── ISL-01, ISL-03, ISL-04, ISL-06
                                    │
-                                   └──► E4: Packaging & Pilot (Sprint 4) ◄── All modules
+                                   └──► E4: Validation & Handoff (Week 8) ◄── All modules deployed
 ```
 
 ---
 
-## Epic E0: Discovery & Baseline
+## Epic E0: Accelerator Setup & Assessment
 
-**Sprint:** 0 (Pre-Sprint, 1 week) | **Total Hours:** ~40 | **Roadmap:** [Phase 0](roadmap.md#4-phase-0-discovery--baseline)
+**Phase:** Week 0 (~40 accelerated hrs) | **Baseline without accelerator:** 60–80 hrs | **With accelerator:** ~40 hrs (33–50% reduction)
 
-### E0-S1: Prior Engagement Audit
+> The engagement team deploys the ISL repository into the client workspace, runs the maturity assessment using pre-built ISL assessment templates, scores the client across 6 standards domains, selects modules based on engagement scope, and customizes the adaptation checklist. Without the accelerator, this phase requires building assessment frameworks from scratch and manually surveying the client landscape.
+
+### E0-S1: Deploy ISL Repository to Engagement Workspace
+
+| Field | Value |
+|-------|-------|
+| **Priority** | P0 |
+| **Effort** | XS (8 hrs) |
+| **Phase** | Week 0 |
+| **Owner** | Integration Architect |
+| **Depends On** | Engagement kickoff; client workspace access provisioned |
+| **Acceptance Criteria** | ISL repository cloned to engagement workspace; module folders structured per client scope; team onboarded on accelerator workflow and E-S.T ID conventions |
+
+**Tasks:**
+
+| ID | Task | Hours | Role |
+|----|------|-------|------|
+| E0-S1.T1 | Clone ISL repository into engagement workspace and verify template integrity across all 6 modules | 1 | Integration Architect |
+| E0-S1.T2 | Configure repository branch for client engagement (naming conventions, access controls, folder permissions) | 1 | Integration Architect |
+| E0-S1.T3 | Review ISL module inventory against engagement SOW and flag in-scope modules and templates | 2 | Engagement Lead |
+| E0-S1.T4 | Conduct accelerator onboarding session with engagement team (template structure, adaptation workflow, ID conventions, review cadence) | 2 | Engagement Lead |
+| E0-S1.T5 | Set up client collaboration workspace (review folders, feedback tracking spreadsheet, approval log) | 2 | Integration Architect |
+
+### E0-S2: Run Maturity Assessment Using ISL Assessment Templates
+
+| Field | Value |
+|-------|-------|
+| **Priority** | P0 |
+| **Effort** | S (18 hrs) |
+| **Phase** | Week 0 |
+| **Owner** | Data Governance Lead |
+| **Depends On** | E0-S1 (repository deployed, team onboarded) |
+| **Acceptance Criteria** | Maturity scores recorded across 6 standards domains; module selection finalized based on scores and SOW; adaptation checklist customized per module; baseline hour estimates documented |
+
+**Tasks:**
+
+| ID | Task | Hours | Role |
+|----|------|-------|------|
+| E0-S2.T1 | Conduct ISL maturity assessment questionnaire with client stakeholders across all 6 standards domains | 3 | Data Governance Lead |
+| E0-S2.T2 | Score client maturity across 6 domains: API governance, metadata/lineage, naming conventions, data classification, integration patterns, data quality | 2 | Data Governance Lead |
+| E0-S2.T3 | Map client's existing standards artifacts to ISL template inventory and identify reuse opportunities vs. gaps | 3 | Integration Architect |
+| E0-S2.T4 | Identify client-specific compliance requirements (SOX, GDPR, CCPA, ITAR, HIPAA) and flag affected templates across modules | 2 | Data Governance Lead |
+| E0-S2.T5 | Select ISL modules and templates based on engagement scope, assessment results, and client priority | 2 | Engagement Lead |
+| E0-S2.T6 | Customize adaptation checklist for each selected module (what to adapt, what to use as-is, what to skip) | 3 | Engagement Lead |
+| E0-S2.T7 | Document baseline hour estimates and confirm accelerated timeline with client stakeholders | 2 | Engagement Lead |
+| E0-S2.T8 | Obtain client sign-off on assessment findings and engagement scope | 1 | Client Stakeholder |
+
+### E0-S3: Client Environment Discovery & Configuration Mapping
+
+| Field | Value |
+|-------|-------|
+| **Priority** | P0 |
+| **Effort** | S (14 hrs) |
+| **Phase** | Week 0 |
+| **Owner** | Integration Architect |
+| **Depends On** | E0-S2 (module scope selected) |
+| **Acceptance Criteria** | Client technology stack documented; Fabric workspace topology mapped; existing naming conventions and data classifications inventoried; integration landscape cataloged; industry-specific overlay requirements identified |
+
+**Tasks:**
+
+| ID | Task | Hours | Role |
+|----|------|-------|------|
+| E0-S3.T1 | Catalog client's current Fabric workspace topology (lakehouses, warehouses, pipelines, dataflows) | 2 | Integration Architect |
+| E0-S3.T2 | Inventory client's existing naming conventions and identify conflicts with ISL-03 patterns | 2 | Integration Architect |
+| E0-S3.T3 | Document client's current data classification scheme and Purview/sensitivity label configuration | 2 | Data Governance Lead |
+| E0-S3.T4 | Map client's API landscape (internal APIs, third-party integrations, gateway topology, authentication flows) | 2 | Integration Architect |
+| E0-S3.T5 | Catalog client's data sources and integration patterns currently in use (ERP, IoT, file-based, event-driven) | 3 | Integration Architect |
+| E0-S3.T6 | Identify industry-specific overlays needed (manufacturing ITAR/EAR, IoT/OT, ERP; or equivalent for other verticals) | 2 | Data Governance Lead |
+| E0-S3.T7 | Compile environment discovery report and distribute to engagement team for adaptation planning | 1 | Engagement Lead |
+
+---
+
+## Epic E1: Foundation Standards Deployment
+
+**Phase:** Weeks 1–2 (~60 accelerated hrs) | **Baseline without accelerator:** 90–150 hrs | **With accelerator:** ~60 hrs (33–60% reduction)
+
+> The engagement team adapts the ISL foundation modules (ISL-03 Naming Conventions and ISL-04 Data Classification) to the client's Fabric environment and compliance requirements. These adapted standards become the foundation referenced by all subsequent modules. Without the accelerator, teams draft these frameworks from scratch, consuming 90–150 hours.
+
+### E1-S1: Adapt ISL-03 Naming Conventions to Client's Fabric Environment
 
 | Field | Value |
 |-------|-------|
 | **Priority** | P0 |
 | **Effort** | S (20 hrs) |
-| **Sprint** | 0 |
-| **Owner** | Lead Architect |
-| **Depends On** | Access to 2–3 completed Phase 4 deliverables |
-| **Acceptance Criteria** | Common patterns extracted; engagement-specific variations cataloged; actual hours documented per artifact type |
+| **Phase** | Weeks 1–2 |
+| **Owner** | Integration Architect |
+| **Depends On** | E0 complete (environment discovered, scope locked, adaptation checklist finalized) |
+| **Acceptance Criteria** | 7 naming templates adapted with client-specific prefixes, abbreviations, and Fabric workspace names; abbreviation dictionary extended with client domain terms; naming conventions validated against client's existing assets for backward compatibility; client review completed and approval obtained |
 
 **Tasks:**
 
 | ID | Task | Hours | Role |
 |----|------|-------|------|
-| E0-S1.T1 | Identify 2–3 completed Phase 4 deliverables for reference | 2 | Lead Architect |
-| E0-S1.T2 | Extract common standards patterns (repeated across engagements) | 6 | Lead Architect |
-| E0-S1.T3 | Catalog engagement-specific customizations (what varies) | 4 | Lead Architect |
-| E0-S1.T4 | Document gaps and quality issues from prior deliverables | 4 | Sr Data Gov Specialist |
-| E0-S1.T5 | Record actual hours spent per artifact type for baseline calibration | 4 | Lead Architect |
+| E1-S1.T1 | Adapt database & schema naming template to client's Fabric workspace structure and environment tiers (dev/test/prod) | 2 | Integration Architect |
+| E1-S1.T2 | Adapt table & view naming template using client's domain terminology and business unit prefixes | 2 | Integration Architect |
+| E1-S1.T3 | Adapt column naming standards to client's data dictionary conventions and legacy system naming patterns | 2 | Integration Architect |
+| E1-S1.T4 | Adapt pipeline & dataflow naming template to client's orchestration patterns and scheduling conventions | 2 | Integration Architect |
+| E1-S1.T5 | Adapt API & endpoint naming template to client's service catalog and existing API inventory | 1 | Integration Architect |
+| E1-S1.T6 | Adapt infrastructure resource naming template to client's Azure CAF conventions and subscription structure | 2 | Integration Architect |
+| E1-S1.T7 | Extend abbreviation dictionary with client-specific domain abbreviations (industry terms, business units, product lines, system acronyms) | 2 | Data Governance Lead |
+| E1-S1.T8 | Customize Fabric naming reference example with client workspace names and lakehouse structure | 2 | Integration Architect |
+| E1-S1.T9 | Validate adapted naming conventions against client's existing assets for backward compatibility conflicts | 2 | Integration Architect |
+| E1-S1.T10 | Conduct client review session, walk through naming standards with data engineers, and incorporate feedback | 2 | Client Stakeholder |
+| E1-S1.T11 | Obtain client approval on finalized naming convention standards | 1 | Engagement Lead |
 
-### E0-S2: Industry Standards Survey & Scope Lock
+### E1-S2: Adapt ISL-04 Data Classification to Client's Compliance Requirements
 
 | Field | Value |
 |-------|-------|
 | **Priority** | P0 |
-| **Effort** | S (20 hrs) |
-| **Sprint** | 0 |
-| **Owner** | Lead Architect, Sr Integration Architect |
-| **Depends On** | E0-S1 (prior engagement audit complete) |
-| **Acceptance Criteria** | External standards reviewed; template lists finalized per module; adaptation workflow defined; buildout scope locked |
+| **Effort** | M (30 hrs) |
+| **Phase** | Weeks 1–2 |
+| **Owner** | Data Governance Lead |
+| **Depends On** | E1-S1 (adapted naming conventions — classification tier names follow ISL-03 patterns) |
+| **Acceptance Criteria** | 6 classification templates adapted to client's regulatory environment; 4-tier model mapped to client's existing sensitivity labels; Purview label taxonomy configured for client tenant; compliance mapping validated against client's specific regulatory obligations; client stakeholders trained on classification decision tree |
 
 **Tasks:**
 
 | ID | Task | Hours | Role |
 |----|------|-------|------|
-| E0-S2.T1 | Review Microsoft REST API Guidelines and Fabric docs | 3 | Sr Integration Architect |
-| E0-S2.T2 | Review OWASP API Security Top 10, DAMA DMBOK | 3 | Sr Data Gov Specialist |
-| E0-S2.T3 | Review Azure CAF naming/governance, ISO 27001 classification | 3 | Lead Architect |
-| E0-S2.T4 | Finalize template list per module (39 templates, 16 examples) | 4 | Lead Architect |
-| E0-S2.T5 | Define adaptation workflow (how practitioners customize per engagement) | 4 | Lead Architect |
-| E0-S2.T6 | Document acceptance criteria per module and lock scope | 3 | Lead Architect |
+| E1-S2.T1 | Adapt classification tier definitions to client's data sensitivity requirements and map to existing labels | 3 | Data Governance Lead |
+| E1-S2.T2 | Configure ISL sensitivity labeling standards for client's Purview/Microsoft 365 label configuration and auto-classification rules | 4 | Data Governance Lead |
+| E1-S2.T3 | Adapt data handling requirements to client's existing security policies, infrastructure controls, and DLP configuration | 3 | Data Governance Lead |
+| E1-S2.T4 | Customize access control alignment for client's Entra ID groups, Fabric RBAC roles, and workspace permissions model | 3 | Integration Architect |
+| E1-S2.T5 | Tailor compliance mapping matrix to client's specific obligations (select applicable: SOX, GDPR, CCPA, ITAR, HIPAA) and add client internal policies | 4 | Data Governance Lead |
+| E1-S2.T6 | Adapt classification decision tree to client's data landscape, approval workflows, and exception handling process | 3 | Data Governance Lead |
+| E1-S2.T7 | Customize industry-specific classification example using client's actual data categories and sensitivity scenarios | 3 | Data Governance Lead |
+| E1-S2.T8 | Configure Fabric security model example with client's workspace structure, lakehouse permissions, and row-level security patterns | 3 | Integration Architect |
+| E1-S2.T9 | Validate adapted classification standards with client's legal/compliance team for regulatory sufficiency | 2 | Client Stakeholder |
+| E1-S2.T10 | Conduct client review session, walk through decision tree with data stewards, and incorporate feedback | 2 | Data Governance Lead |
 
----
-
-## Epic E1: Foundation Modules
-
-**Sprint:** 1 (Weeks 1–2) | **Total Hours:** ~90 | **Roadmap:** [Phase 1](roadmap.md#5-phase-1-foundation-modules)
-
-### E1-S1: ISL-03 Naming Convention Standards
-
-| Field | Value |
-|-------|-------|
-| **Priority** | P0 |
-| **Effort** | S (20–30 hrs) |
-| **Sprint** | 1 |
-| **Owner** | Sr Integration Architect |
-| **Depends On** | E0 complete (scope locked) |
-| **Acceptance Criteria** | 7 naming templates + 2 examples completed; Fabric-specific patterns validated; abbreviation dictionary seeded with 50+ entries |
-
-**Tasks:**
-
-| ID | Task | Hours | Role |
-|----|------|-------|------|
-| E1-S1.T1 | Draft database & schema naming template | 2 | Sr Integration Architect |
-| E1-S1.T2 | Draft table & view naming template | 3 | Sr Integration Architect |
-| E1-S1.T3 | Draft column naming standards template | 2 | Sr Integration Architect |
-| E1-S1.T4 | Draft pipeline & dataflow naming template | 3 | Sr Integration Architect |
-| E1-S1.T5 | Draft API & endpoint naming template | 2 | Sr Integration Architect |
-| E1-S1.T6 | Draft infrastructure resource naming template (CAF-aligned) | 2 | Sr Integration Architect |
-| E1-S1.T7 | Build abbreviation dictionary (50+ entries) | 3 | Technical Writer |
-| E1-S1.T8 | Create Fabric naming reference example | 3 | Sr Integration Architect |
-| E1-S1.T9 | Create manufacturing domain names example | 3 | Sr Integration Architect |
-| E1-S1.T10 | Peer review all templates | 4 | Lead Architect |
-
-### E1-S2: ISL-04 Data Classification Framework
-
-| Field | Value |
-|-------|-------|
-| **Priority** | P0 |
-| **Effort** | M (40–60 hrs) |
-| **Sprint** | 1 |
-| **Owner** | Sr Data Governance Specialist |
-| **Depends On** | E1-S1 (naming conventions — classification tier naming follows ISL-03) |
-| **Acceptance Criteria** | 6 classification templates + 3 examples completed; 4-tier model defined; Purview label taxonomy documented; compliance mapping covers SOX, GDPR, CCPA, ITAR, HIPAA |
-
-**Tasks:**
-
-| ID | Task | Hours | Role |
-|----|------|-------|------|
-| E1-S2.T1 | Draft classification tier definitions (4-tier model) | 5 | Sr Data Gov Specialist |
-| E1-S2.T2 | Draft sensitivity labeling standards (Purview alignment) | 6 | Sr Data Gov Specialist |
-| E1-S2.T3 | Draft data handling requirements (per-tier controls) | 5 | Sr Data Gov Specialist |
-| E1-S2.T4 | Draft access control alignment (Entra ID, Fabric RBAC) | 6 | Sr Data Gov Specialist |
-| E1-S2.T5 | Draft compliance mapping matrix (SOX, GDPR, CCPA, ITAR, HIPAA) | 6 | Sr Data Gov Specialist |
-| E1-S2.T6 | Create classification decision tree flowchart | 3 | Sr Data Gov Specialist |
-| E1-S2.T7 | Create manufacturing classification example (ITAR, trade secrets, IoT) | 5 | Sr Data Gov Specialist |
-| E1-S2.T8 | Create Fabric security model example | 4 | Sr Integration Architect |
-| E1-S2.T9 | Create Purview label configuration example | 4 | Sr Data Gov Specialist |
-| E1-S2.T10 | Peer review all templates | 6 | Lead Architect |
-
----
-
-## Epic E2: Core Modules
-
-**Sprint:** 2 (Weeks 3–4) | **Total Hours:** ~100 | **Roadmap:** [Phase 2](roadmap.md#6-phase-2-core-modules)
-
-### E2-S1: ISL-01 API Governance Standards
+### E1-S3: Foundation Standards Integration Check
 
 | Field | Value |
 |-------|-------|
 | **Priority** | P1 |
-| **Effort** | M (40–60 hrs) |
-| **Sprint** | 2 |
-| **Owner** | Sr Integration Architect |
-| **Depends On** | E1-S1 (ISL-03 naming — API naming follows enterprise conventions); E1-S2 (ISL-04 classification — security standards reference classification tiers) |
-| **Acceptance Criteria** | 6 API templates + 2 examples completed; OWASP API Top 10 cross-referenced; OAuth 2.0/OIDC patterns documented with Entra ID specifics |
+| **Effort** | S (10 hrs) |
+| **Phase** | Week 2 |
+| **Owner** | Engagement Lead |
+| **Depends On** | E1-S1, E1-S2 (both foundation modules adapted and client-approved) |
+| **Acceptance Criteria** | ISL-03 and ISL-04 cross-references validated; naming conventions consistently applied in classification templates; foundation standards baselined for downstream module adaptation; client briefed on upcoming core deployments |
 
 **Tasks:**
 
 | ID | Task | Hours | Role |
 |----|------|-------|------|
-| E2-S1.T1 | Draft API design standards template (REST, pagination, error formats) | 6 | Sr Integration Architect |
-| E2-S1.T2 | Draft API versioning policy template | 3 | Sr Integration Architect |
-| E2-S1.T3 | Draft API security standards template (OAuth 2.0, mTLS, OWASP) | 8 | Sr Integration Architect |
-| E2-S1.T4 | Draft API lifecycle governance template (gates, deprecation, SLAs) | 5 | Sr Integration Architect |
-| E2-S1.T5 | Draft API catalog requirements template | 4 | Sr Integration Architect |
-| E2-S1.T6 | Draft rate limiting & throttling policy template | 3 | Sr Integration Architect |
-| E2-S1.T7 | Create manufacturing API standards example | 5 | Sr Integration Architect |
-| E2-S1.T8 | Create Fabric-native API patterns example | 4 | Sr Integration Architect |
-| E2-S1.T9 | OWASP API Top 10 cross-reference audit | 4 | Lead Architect |
-| E2-S1.T10 | Peer review all templates | 5 | Lead Architect |
-
-### E2-S2: ISL-06 Data Quality Standards
-
-| Field | Value |
-|-------|-------|
-| **Priority** | P1 |
-| **Effort** | M (30–50 hrs) |
-| **Sprint** | 2 |
-| **Owner** | Sr Data Governance Specialist |
-| **Depends On** | E1-S1 (ISL-03 naming — quality rule naming); E1-S2 (ISL-04 classification — SLA thresholds vary by tier) |
-| **Acceptance Criteria** | 6 quality templates + 3 examples completed; 50+ quality rules cataloged; SLA thresholds defined per classification tier |
-
-**Tasks:**
-
-| ID | Task | Hours | Role |
-|----|------|-------|------|
-| E2-S2.T1 | Draft quality dimension definitions template (6 dimensions) | 3 | Sr Data Gov Specialist |
-| E2-S2.T2 | Draft quality SLA framework template (thresholds per tier) | 5 | Sr Data Gov Specialist |
-| E2-S2.T3 | Build quality rule library (50+ rules: schema, row, aggregate, business) | 10 | Sr Data Gov Specialist |
-| E2-S2.T4 | Draft quality monitoring standards template | 4 | Sr Data Gov Specialist |
-| E2-S2.T5 | Draft remediation workflow template | 3 | Sr Data Gov Specialist |
-| E2-S2.T6 | Draft quality scorecard template | 3 | Sr Data Gov Specialist |
-| E2-S2.T7 | Create manufacturing quality rules example | 4 | Sr Data Gov Specialist |
-| E2-S2.T8 | Create Fabric quality implementation example (PySpark notebooks) | 5 | Sr Integration Architect |
-| E2-S2.T9 | Create quality dashboard spec example (Power BI) | 4 | Sr Data Gov Specialist |
-| E2-S2.T10 | Peer review all templates | 5 | Lead Architect |
+| E1-S3.T1 | Verify ISL-03 naming patterns are consistently referenced in all ISL-04 classification templates | 2 | Integration Architect |
+| E1-S3.T2 | Validate classification tier names, label names, and security group names follow adapted naming conventions | 1 | Data Governance Lead |
+| E1-S3.T3 | Confirm Fabric workspace naming and classification labels align consistently across both foundation modules | 2 | Integration Architect |
+| E1-S3.T4 | Baseline foundation standards in engagement repository (tag as foundation-approved, lock from further edits) | 1 | Integration Architect |
+| E1-S3.T5 | Brief client on foundation standards completion and preview upcoming core and advanced module deployments | 2 | Engagement Lead |
+| E1-S3.T6 | Update engagement tracker with actual hours vs. accelerated estimates and adjust forecast for remaining phases | 2 | Engagement Lead |
 
 ---
 
-## Epic E3: Advanced Modules
+## Epic E2: Core Standards Deployment
 
-**Sprint:** 3 (Weeks 5–8, double sprint) | **Total Hours:** ~160 | **Roadmap:** [Phase 3](roadmap.md#7-phase-3-advanced-modules)
+**Phase:** Weeks 3–4 (~70 accelerated hrs) | **Baseline without accelerator:** 130–200 hrs | **With accelerator:** ~70 hrs (46–65% reduction)
 
-### E3-S1: ISL-02 Metadata & Data Lineage Framework
+> The engagement team adapts the ISL core modules (ISL-01 API Governance and ISL-06 Data Quality) to the client's technology stack and data landscape. These modules reference the foundation standards deployed in E1. Without the accelerator, teams spend 130–200 hours developing API governance frameworks and data quality rule libraries from the ground up.
+
+### E2-S1: Adapt ISL-01 API Governance to Client's Technology Stack
 
 | Field | Value |
 |-------|-------|
 | **Priority** | P1 |
-| **Effort** | L (60–80 hrs) |
-| **Sprint** | 3 |
-| **Owner** | Sr Data Governance Specialist |
+| **Effort** | M (35 hrs) |
+| **Phase** | Weeks 3–4 |
+| **Owner** | Integration Architect |
+| **Depends On** | E1-S1 (ISL-03 naming — API naming follows adapted enterprise conventions); E1-S2 (ISL-04 classification — security standards reference adapted classification tiers) |
+| **Acceptance Criteria** | 6 API templates adapted to client's gateway and service topology; OWASP API Top 10 cross-referenced against client's security posture; OAuth 2.0/OIDC patterns configured for client's Entra ID tenant; client API team review completed and approval obtained |
+
+**Tasks:**
+
+| ID | Task | Hours | Role |
+|----|------|-------|------|
+| E2-S1.T1 | Adapt API design standards template to client's existing REST conventions, pagination approach, and error response formats | 4 | Integration Architect |
+| E2-S1.T2 | Customize API versioning policy for client's release cadence, consumer notification process, and backward compatibility requirements | 2 | Integration Architect |
+| E2-S1.T3 | Adapt API security standards to client's Entra ID configuration, OAuth 2.0 flows, scope definitions, and mTLS requirements | 5 | Integration Architect |
+| E2-S1.T4 | Customize API lifecycle governance for client's approval gates, deprecation policy, SLA targets, and change advisory board process | 3 | Integration Architect |
+| E2-S1.T5 | Adapt API catalog requirements to client's existing developer portal, service registry, or API management platform | 3 | Integration Architect |
+| E2-S1.T6 | Tailor rate limiting & throttling policies to client's traffic patterns, infrastructure capacity, and business tier requirements | 2 | Integration Architect |
+| E2-S1.T7 | Customize industry-specific API standards example using client's actual API inventory and representative integration scenarios | 3 | Integration Architect |
+| E2-S1.T8 | Adapt Fabric-native API patterns example to client's lakehouse endpoints, warehouse query APIs, and pipeline triggers | 3 | Integration Architect |
+| E2-S1.T9 | Run OWASP API Top 10 cross-reference validation against adapted standards and document coverage/gaps | 4 | Integration Architect |
+| E2-S1.T10 | Conduct client review session with API team and integration architects; capture feedback and iterate | 3 | Client Stakeholder |
+| E2-S1.T11 | Obtain client approval on finalized API governance standards | 1 | Engagement Lead |
+| E2-S1.T12 | Update engagement tracker with actual vs. estimated hours for E2-S1 | 2 | Engagement Lead |
+
+### E2-S2: Adapt ISL-06 Data Quality to Client's Data Landscape
+
+| Field | Value |
+|-------|-------|
+| **Priority** | P1 |
+| **Effort** | M (35 hrs) |
+| **Phase** | Weeks 3–4 |
+| **Owner** | Data Governance Lead |
+| **Depends On** | E1-S1 (ISL-03 naming — quality rule naming follows adapted conventions); E1-S2 (ISL-04 classification — SLA thresholds vary by adapted classification tier) |
+| **Acceptance Criteria** | 6 quality templates adapted to client's data landscape; quality rules customized for client's critical data elements; SLA thresholds calibrated to client's tolerance levels per classification tier; quality monitoring aligned with client's Fabric environment; client review completed and approval obtained |
+
+**Tasks:**
+
+| ID | Task | Hours | Role |
+|----|------|-------|------|
+| E2-S2.T1 | Adapt quality dimension definitions to client's data maturity level and prioritize dimensions based on business impact | 2 | Data Governance Lead |
+| E2-S2.T2 | Customize quality SLA framework with client-specific thresholds per classification tier (negotiate acceptable ranges with data stewards) | 4 | Data Governance Lead |
+| E2-S2.T3 | Select and adapt quality rules from ISL rule library for client's critical data elements (schema validation, row-level, aggregate, business rules) | 8 | Data Governance Lead |
+| E2-S2.T4 | Adapt quality monitoring standards to client's Fabric workspace, pipeline architecture, and alerting infrastructure | 3 | Data Governance Lead |
+| E2-S2.T5 | Customize remediation workflow to client's incident management system, escalation matrix, and data stewardship processes | 3 | Data Governance Lead |
+| E2-S2.T6 | Adapt quality scorecard template with client's KPIs, reporting cadence, and executive stakeholder audience | 2 | Data Governance Lead |
+| E2-S2.T7 | Customize industry-specific quality rules using client's actual data domains and known data quality pain points | 3 | Data Governance Lead |
+| E2-S2.T8 | Adapt Fabric quality implementation example (PySpark notebooks) to client's lakehouse schema and data pipeline structure | 4 | Integration Architect |
+| E2-S2.T9 | Configure quality dashboard spec for client's Power BI workspace, refresh schedule, and stakeholder distribution | 3 | Data Governance Lead |
+| E2-S2.T10 | Conduct client review session with data stewards and quality team; capture feedback and iterate | 2 | Client Stakeholder |
+| E2-S2.T11 | Obtain client approval on finalized data quality standards | 1 | Engagement Lead |
+
+---
+
+## Epic E3: Advanced Standards Deployment
+
+**Phase:** Weeks 5–7 (~90 accelerated hrs) | **Baseline without accelerator:** 160–240 hrs | **With accelerator:** ~90 hrs (44–63% reduction)
+
+> The engagement team adapts the ISL advanced modules (ISL-02 Metadata & Lineage and ISL-05 Integration Patterns) to the client's Purview/catalog environment and integration architecture. Manufacturing overlays (ITAR/EAR, IoT/OT, ERP) are applied where applicable. Without the accelerator, teams spend 160–240 hours building metadata frameworks and integration pattern libraries from scratch.
+
+### E3-S1: Adapt ISL-02 Metadata & Lineage to Client's Purview/Catalog Environment
+
+| Field | Value |
+|-------|-------|
+| **Priority** | P1 |
+| **Effort** | M (35 hrs) |
+| **Phase** | Weeks 5–6 |
+| **Owner** | Data Governance Lead |
 | **Depends On** | E1-S1 (ISL-03 naming); E1-S2 (ISL-04 classification labels as metadata); E2-S2 (ISL-06 quality scores as metadata) |
-| **Acceptance Criteria** | 6 metadata templates + 3 examples completed; Purview metadata schema aligned; lineage requirements cover column/table/pipeline levels; manufacturing extensions for IoT/ERP |
+| **Acceptance Criteria** | 6 metadata templates adapted to client's Purview/catalog configuration; lineage mapping covers client's actual data flows across Fabric pipelines; business glossary seeded with client's domain terms; manufacturing/industry extensions applied where relevant; client review completed and approval obtained |
 
 **Tasks:**
 
 | ID | Task | Hours | Role |
 |----|------|-------|------|
-| E3-S1.T1 | Draft business glossary standards template | 6 | Sr Data Gov Specialist |
-| E3-S1.T2 | Draft technical metadata schema template (Purview/OpenMetadata aligned) | 10 | Sr Data Gov Specialist |
-| E3-S1.T3 | Draft data lineage requirements template | 6 | Sr Data Gov Specialist |
-| E3-S1.T4 | Draft data catalog governance template | 5 | Sr Data Gov Specialist |
-| E3-S1.T5 | Draft metadata integration patterns template (Purview, Collibra, Alation) | 8 | Sr Integration Architect |
-| E3-S1.T6 | Draft lineage visualization standards template | 4 | Sr Data Gov Specialist |
-| E3-S1.T7 | Create manufacturing metadata model example (IoT, ERP, BOM) | 6 | Sr Data Gov Specialist |
-| E3-S1.T8 | Create Fabric OneLake metadata example | 5 | Sr Integration Architect |
-| E3-S1.T9 | Create Purview configuration guide example | 5 | Sr Data Gov Specialist |
-| E3-S1.T10 | Build manufacturing overlays (IoT/OT, ERP mapping, PLM/PDM) | 8 | Sr Data Gov Specialist |
-| E3-S1.T11 | Peer review all templates | 7 | Lead Architect |
+| E3-S1.T1 | Adapt business glossary standards to client's domain terminology, data ownership model, and stewardship hierarchy | 4 | Data Governance Lead |
+| E3-S1.T2 | Customize technical metadata schema for client's Purview/OpenMetadata instance, custom types, and managed attributes | 5 | Data Governance Lead |
+| E3-S1.T3 | Adapt data lineage requirements to client's actual pipeline topology (column-level, table-level, pipeline-level granularity) | 4 | Data Governance Lead |
+| E3-S1.T4 | Customize data catalog governance for client's stewardship roles, collection hierarchy, and approval workflows | 3 | Data Governance Lead |
+| E3-S1.T5 | Adapt metadata integration patterns to client's catalog platform (Purview, Collibra, or Alation) and connected source systems | 5 | Integration Architect |
+| E3-S1.T6 | Customize lineage visualization standards for client's reporting, governance dashboard, and audit requirements | 3 | Data Governance Lead |
+| E3-S1.T7 | Configure Fabric OneLake metadata example with client's actual lakehouse, shortcut topology, and connected services | 4 | Integration Architect |
+| E3-S1.T8 | Adapt Purview configuration guide to client's tenant, collection hierarchy, and scan schedule | 3 | Data Governance Lead |
+| E3-S1.T9 | Conduct client review session with data governance team and catalog administrators; capture feedback and iterate | 3 | Client Stakeholder |
+| E3-S1.T10 | Obtain client approval on finalized metadata & lineage framework | 1 | Engagement Lead |
 
-### E3-S2: ISL-05 Integration Pattern Library
+### E3-S2: Adapt ISL-05 Integration Patterns to Client's Architecture
 
 | Field | Value |
 |-------|-------|
 | **Priority** | P1 |
-| **Effort** | L (60–80 hrs) |
-| **Sprint** | 3 |
-| **Owner** | Sr Integration Architect |
+| **Effort** | M (35 hrs) |
+| **Phase** | Weeks 6–7 |
+| **Owner** | Integration Architect |
 | **Depends On** | E2-S1 (ISL-01 API governance for API gateway pattern); E1-S1 (ISL-03 naming for all patterns); E2-S2 (ISL-06 quality gates for medallion pattern) |
-| **Acceptance Criteria** | 8 integration patterns + 3 diagrams completed; each pattern includes architecture diagram, decision criteria, anti-patterns, and Fabric implementation guide; decision framework enables pattern selection |
+| **Acceptance Criteria** | Applicable integration patterns selected and adapted from ISL-05 library (typically 4–6 of 8 patterns); architecture diagrams customized with client's actual systems and network zones; pattern decision framework calibrated to client's technology stack; client review completed and approval obtained |
 
 **Tasks:**
 
 | ID | Task | Hours | Role |
 |----|------|-------|------|
-| E3-S2.T1 | Draft ERP Extract & Load pattern (4 variants) | 6 | Sr Integration Architect |
-| E3-S2.T2 | Draft IoT/OT Ingestion pattern (4 variants) | 6 | Sr Integration Architect |
-| E3-S2.T3 | Draft API Gateway Integration pattern (4 variants) | 5 | Sr Integration Architect |
-| E3-S2.T4 | Draft Event-Driven Architecture pattern (4 variants) | 6 | Sr Integration Architect |
-| E3-S2.T5 | Draft Master Data Synchronization pattern (4 variants) | 6 | Sr Integration Architect |
-| E3-S2.T6 | Draft File-Based Integration pattern (4 variants) | 4 | Sr Integration Architect |
-| E3-S2.T7 | Draft Medallion Architecture pattern (3 layers) | 5 | Sr Integration Architect |
-| E3-S2.T8 | Draft Reverse ETL pattern (4 variants) | 4 | Sr Integration Architect |
-| E3-S2.T9 | Create integration landscape overview diagram | 5 | Sr Integration Architect |
-| E3-S2.T10 | Create Fabric integration architecture diagram | 5 | Sr Integration Architect |
-| E3-S2.T11 | Create pattern decision tree diagram | 4 | Sr Integration Architect |
-| E3-S2.T12 | Build pattern selection decision framework | 4 | Lead Architect |
-| E3-S2.T13 | Peer review all patterns and diagrams | 8 | Lead Architect |
+| E3-S2.T1 | Select applicable patterns from ISL-05 library using pattern decision framework and client's integration landscape discovery from E0 | 3 | Integration Architect |
+| E3-S2.T2 | Adapt ERP Extract & Load patterns to client's specific ERP system (SAP, Oracle, Dynamics) and existing extract processes | 4 | Integration Architect |
+| E3-S2.T3 | Adapt IoT/OT Ingestion patterns to client's device infrastructure, telemetry protocols, and edge computing topology (if applicable) | 3 | Integration Architect |
+| E3-S2.T4 | Adapt API Gateway Integration patterns to client's APIM configuration, consumer topology, and deployed ISL-01 governance standards | 3 | Integration Architect |
+| E3-S2.T5 | Adapt Event-Driven Architecture patterns to client's messaging infrastructure (Event Hub, Service Bus, Kafka) and event schema requirements | 3 | Integration Architect |
+| E3-S2.T6 | Adapt Medallion Architecture pattern to client's Fabric lakehouse layer structure and data zone naming from ISL-03 | 3 | Integration Architect |
+| E3-S2.T7 | Customize integration landscape diagram with client's actual systems, data flows, and network boundaries | 4 | Integration Architect |
+| E3-S2.T8 | Customize Fabric integration architecture diagram for client's workspace topology and connected services | 3 | Integration Architect |
+| E3-S2.T9 | Calibrate pattern decision framework with client-specific selection criteria, constraints, and validated against 2–3 real integration use cases | 3 | Integration Architect |
+| E3-S2.T10 | Conduct client review session with integration team and enterprise architects; walk through pattern selection for upcoming integrations | 3 | Client Stakeholder |
+| E3-S2.T11 | Obtain client approval on finalized integration pattern standards | 1 | Engagement Lead |
+| E3-S2.T12 | Update engagement tracker with actual vs. estimated hours for E3 | 2 | Engagement Lead |
 
----
-
-## Epic E4: Packaging, Review & Pilot
-
-**Sprint:** 4 (Weeks 9–10) | **Total Hours:** ~80 | **Roadmap:** [Phase 4](roadmap.md#8-phase-4-packaging-review--pilot)
-
-### E4-S1: Manufacturing Overlays Consolidation
+### E3-S3: Manufacturing Overlays Deployment (ITAR/EAR, IoT/OT, ERP)
 
 | Field | Value |
 |-------|-------|
 | **Priority** | P2 |
 | **Effort** | S (20 hrs) |
-| **Sprint** | 4 |
-| **Owner** | Sr Data Governance Specialist |
-| **Depends On** | E3 complete (all 6 modules built) |
-| **Acceptance Criteria** | Manufacturing overlays consolidated and enhanced across all applicable modules; ITAR/EAR, IoT/OT, ERP, supply chain coverage validated |
+| **Phase** | Week 7 |
+| **Owner** | Data Governance Lead |
+| **Depends On** | E3-S1, E3-S2 (advanced modules adapted) |
+| **Acceptance Criteria** | ITAR/EAR compliance overlay applied across ISL-04 and ISL-01 if client requires export control; IoT/OT extensions applied across ISL-02, ISL-04, ISL-05 if client has OT environment; ERP integration extensions validated across ISL-02, ISL-05; all overlays consistent with foundation and core adapted standards |
 
 **Tasks:**
 
 | ID | Task | Hours | Role |
 |----|------|-------|------|
-| E4-S1.T1 | Consolidate ITAR/EAR compliance overlay across ISL-04, ISL-01 | 4 | Sr Data Gov Specialist |
-| E4-S1.T2 | Consolidate IoT/OT extensions across ISL-02, ISL-04, ISL-05 | 4 | Sr Data Gov Specialist |
-| E4-S1.T3 | Consolidate ERP integration extensions across ISL-02, ISL-05 | 4 | Sr Integration Architect |
-| E4-S1.T4 | Validate supply chain data classification (ISL-04) | 2 | Sr Data Gov Specialist |
-| E4-S1.T5 | Cross-check manufacturing examples for consistency | 4 | Lead Architect |
-| E4-S1.T6 | Fill gaps identified during cross-module review | 2 | Sr Data Gov Specialist |
+| E3-S3.T1 | Apply ITAR/EAR compliance overlay to adapted ISL-04 classification tiers and ISL-01 API security controls (if client requires export control) | 4 | Data Governance Lead |
+| E3-S3.T2 | Apply IoT/OT extensions to adapted ISL-02 metadata (device metadata, telemetry schemas), ISL-04 classification (OT data sensitivity), and ISL-05 ingestion patterns (if client has OT environment) | 4 | Integration Architect |
+| E3-S3.T3 | Apply ERP integration extensions to adapted ISL-02 lineage (ERP entity mappings, BOM lineage) and ISL-05 extract patterns (ERP-specific variants) | 4 | Integration Architect |
+| E3-S3.T4 | Validate supply chain data classification overlay against client's actual supply chain data flows and vendor data sharing agreements | 2 | Data Governance Lead |
+| E3-S3.T5 | Cross-check all manufacturing overlays for consistency with adapted foundation and core module standards | 3 | Engagement Lead |
+| E3-S3.T6 | Conduct client review of manufacturing-specific extensions with operations and compliance stakeholders | 3 | Client Stakeholder |
 
-### E4-S2: Peer Review & Quality Assurance
+---
+
+## Epic E4: Validation & Handoff
+
+**Phase:** Week 8 (~40 accelerated hrs) | **Baseline without accelerator:** 60–80 hrs | **With accelerator:** ~40 hrs (33–50% reduction)
+
+> The engagement team performs cross-module consistency review, compliance alignment audit, final client presentation and sign-off, and handoff to the implementation team. Without the accelerator, validation takes longer due to inconsistencies from standards developed independently rather than adapted from a unified template library.
+
+### E4-S1: Cross-Module Consistency Review
 
 | Field | Value |
 |-------|-------|
 | **Priority** | P1 |
-| **Effort** | S (20 hrs) |
-| **Sprint** | 4 |
-| **Owner** | Lead Architect |
-| **Depends On** | E4-S1 (manufacturing overlays consolidated) |
-| **Acceptance Criteria** | Full cross-module review complete; ISL-03 naming used consistently; compliance alignment verified; all review comments resolved |
+| **Effort** | S (10 hrs) |
+| **Phase** | Week 8 |
+| **Owner** | Engagement Lead |
+| **Depends On** | E3 complete (all 6 modules adapted and client-reviewed) |
+| **Acceptance Criteria** | ISL-03 naming conventions applied consistently across all 6 adapted modules; cross-references between modules validated and correct; terminology and formatting consistent throughout deliverable package; all outstanding review comments from E1–E3 resolved |
 
 **Tasks:**
 
 | ID | Task | Hours | Role |
 |----|------|-------|------|
-| E4-S2.T1 | Full cross-module review (naming consistency, terminology) | 6 | Lead Architect |
-| E4-S2.T2 | Compliance alignment audit (OWASP, NIST, ISO 27001, DAMA) | 4 | Lead Architect |
-| E4-S2.T3 | Cross-reference validation (all inter-module links correct) | 3 | Technical Writer |
-| E4-S2.T4 | Spelling, grammar, and formatting audit | 3 | Technical Writer |
-| E4-S2.T5 | Resolve all review comments and re-review | 4 | All |
+| E4-S1.T1 | Perform full cross-module naming consistency audit (verify ISL-03 conventions used uniformly in all 6 adapted modules) | 2 | Integration Architect |
+| E4-S1.T2 | Validate all inter-module cross-references (links, section references, dependency callouts, template IDs) | 2 | Data Governance Lead |
+| E4-S1.T3 | Verify classification tier references are consistent across ISL-04, ISL-01, ISL-06, ISL-02 adapted standards | 2 | Data Governance Lead |
+| E4-S1.T4 | Audit terminology consistency (confirm identical terms used identically across all adapted modules) | 2 | Engagement Lead |
+| E4-S1.T5 | Resolve all outstanding client review comments from E1–E3 review sessions and verify resolution | 2 | Integration Architect |
 
-### E4-S3: Packaging & Distribution
+### E4-S2: Compliance Alignment Audit
 
 | Field | Value |
 |-------|-------|
 | **Priority** | P1 |
-| **Effort** | S (15 hrs) |
-| **Sprint** | 4 |
-| **Owner** | Technical Writer |
-| **Depends On** | E4-S2 (review complete) |
-| **Acceptance Criteria** | All module READMEs finalized; adaptation workflow documented; engagement kickoff guide created; v1.0 release tagged |
+| **Effort** | S (10 hrs) |
+| **Phase** | Week 8 |
+| **Owner** | Data Governance Lead |
+| **Depends On** | E4-S1 (consistency review complete, all issues resolved) |
+| **Acceptance Criteria** | OWASP API Top 10 alignment verified in adapted ISL-01; NIST/ISO 27001 alignment verified in adapted ISL-04; DAMA DMBOK alignment verified in adapted ISL-02 and ISL-06; all client-specific regulatory requirements validated across all modules |
 
 **Tasks:**
 
 | ID | Task | Hours | Role |
 |----|------|-------|------|
-| E4-S3.T1 | Finalize all module README files with usage instructions | 4 | Technical Writer |
-| E4-S3.T2 | Document adaptation workflow (step-by-step for practitioners) | 3 | Lead Architect |
-| E4-S3.T3 | Create engagement kickoff integration guide | 3 | Lead Architect |
-| E4-S3.T4 | Tag Git repository with v1.0 release | 1 | Sr Integration Architect |
-| E4-S3.T5 | Configure distribution (artifact repository or SharePoint) | 2 | Sr Integration Architect |
-| E4-S3.T6 | Publish release notes | 2 | Technical Writer |
+| E4-S2.T1 | Validate OWASP API Security Top 10 coverage in adapted ISL-01 API governance standards | 2 | Integration Architect |
+| E4-S2.T2 | Validate NIST and ISO 27001 alignment in adapted ISL-04 data classification framework | 2 | Data Governance Lead |
+| E4-S2.T3 | Validate DAMA DMBOK alignment in adapted ISL-02 metadata/lineage and ISL-06 data quality standards | 2 | Data Governance Lead |
+| E4-S2.T4 | Verify all client-specific regulatory requirements (identified in E0-S2) are addressed across all adapted modules | 2 | Data Governance Lead |
+| E4-S2.T5 | Resolve any compliance gaps identified during audit and document residual risk items for client awareness | 2 | Engagement Lead |
 
-### E4-S4: Pilot Deployment
+### E4-S3: Final Client Presentation & Sign-Off
 
 | Field | Value |
 |-------|-------|
-| **Priority** | P2 |
-| **Effort** | S (20 hrs) |
-| **Sprint** | 4+ (extends beyond Sprint 4 into engagement) |
-| **Owner** | Lead Architect |
-| **Depends On** | E4-S3 (packaging complete); pilot engagement identified |
-| **Acceptance Criteria** | ISL deployed at pilot engagement; actual adaptation hours tracked; practitioner feedback collected; lessons learned documented |
+| **Priority** | P0 |
+| **Effort** | S (12 hrs) |
+| **Phase** | Week 8 |
+| **Owner** | Engagement Lead |
+| **Depends On** | E4-S1, E4-S2 (consistency review and compliance audit complete) |
+| **Acceptance Criteria** | Executive summary presentation delivered to client leadership; all 6 adapted standards modules formally approved; sign-off documented for engagement closure; deliverable package compiled and transferred |
 
 **Tasks:**
 
 | ID | Task | Hours | Role |
 |----|------|-------|------|
-| E4-S4.T1 | Identify pilot engagement and Phase 4 scope | 2 | Lead Architect |
-| E4-S4.T2 | Assign ISL champion on engagement team | 1 | Lead Architect |
-| E4-S4.T3 | Conduct ISL onboarding session for engagement team | 3 | Lead Architect |
-| E4-S4.T4 | Monitor adaptation hours vs. estimated (ongoing) | 4 | Lead Architect |
-| E4-S4.T5 | Collect practitioner feedback via structured survey | 4 | Technical Writer |
-| E4-S4.T6 | Document lessons learned; plan v1.1 backlog items | 4 | Lead Architect |
-| E4-S4.T7 | Incorporate feedback and release v1.1 | 2 | All |
+| E4-S3.T1 | Prepare executive summary presentation covering all 6 adapted standards domains, key decisions, and compliance coverage | 3 | Engagement Lead |
+| E4-S3.T2 | Compile final deliverable package (all adapted modules, customized examples, compliance matrices, decision frameworks) | 2 | Data Governance Lead |
+| E4-S3.T3 | Deliver final presentation to client leadership, executive sponsors, and key stakeholders | 2 | Engagement Lead |
+| E4-S3.T4 | Address final client questions, incorporate last-round feedback, and finalize all deliverable documents | 3 | Integration Architect |
+| E4-S3.T5 | Obtain formal client sign-off on all adapted standards and document approval for engagement closure | 2 | Client Stakeholder |
+
+### E4-S4: Handoff to Implementation Team
+
+| Field | Value |
+|-------|-------|
+| **Priority** | P1 |
+| **Effort** | XS (8 hrs) |
+| **Phase** | Week 8 |
+| **Owner** | Engagement Lead |
+| **Depends On** | E4-S3 (client sign-off obtained) |
+| **Acceptance Criteria** | Implementation team briefed on all adapted standards and key client-specific decisions; handoff documentation complete with adaptation rationale; client adoption roadmap delivered; engagement metrics captured for accelerator continuous improvement |
+
+**Tasks:**
+
+| ID | Task | Hours | Role |
+|----|------|-------|------|
+| E4-S4.T1 | Conduct implementation team briefing on adapted standards (structure, key adaptation decisions, client context, known constraints) | 2 | Engagement Lead |
+| E4-S4.T2 | Deliver handoff documentation (adaptation decisions log, client-specific rationale, open items, risk register) | 2 | Integration Architect |
+| E4-S4.T3 | Provide client adoption roadmap with 30/60/90-day milestones for standards rollout, training needs, and governance ownership transfer | 2 | Data Governance Lead |
+| E4-S4.T4 | Capture engagement metrics (actual hours per phase, baseline comparison, variance analysis) for accelerator ROI tracking | 1 | Engagement Lead |
+| E4-S4.T5 | Submit accelerator feedback and lessons learned to ISL product team for continuous improvement of templates and assessment tools | 1 | Engagement Lead |
 
 ---
 
-## Summary
+## Summary — Baseline vs. Accelerated Comparison
 
-| Epic | Stories | Sprint(s) | Hours | Deliverables |
-|------|---------|-----------|-------|-------------|
-| E0: Discovery & Baseline | 2 | 0 | ~40 | Audit findings, scope lock |
-| E1: Foundation Modules | 2 | 1 | ~90 | ISL-03 (7 templates, 2 examples), ISL-04 (6 templates, 3 examples) |
-| E2: Core Modules | 2 | 2 | ~100 | ISL-01 (6 templates, 2 examples), ISL-06 (6 templates, 3 examples) |
-| E3: Advanced Modules | 2 | 3 | ~160 | ISL-02 (6 templates, 3 examples), ISL-05 (8 patterns, 3 diagrams) |
-| E4: Packaging & Pilot | 4 | 4 | ~80 | Overlays, review, packaging, pilot |
-| **Total** | **12 stories** | **0–4** | **~470** | **39 templates, 16 examples, 3 diagrams** |
+| Epic | Stories | Phase | Baseline Hours | Accelerated Hours | Hours Saved | Reduction |
+|------|---------|-------|----------------|-------------------|-------------|-----------|
+| E0: Accelerator Setup & Assessment | 3 | Week 0 | 60–80 | ~40 | 20–40 | 33–50% |
+| E1: Foundation Standards Deployment | 3 | Weeks 1–2 | 90–150 | ~60 | 30–90 | 33–60% |
+| E2: Core Standards Deployment | 2 | Weeks 3–4 | 130–200 | ~70 | 60–130 | 46–65% |
+| E3: Advanced Standards Deployment | 3 | Weeks 5–7 | 160–240 | ~90 | 70–150 | 44–63% |
+| E4: Validation & Handoff | 4 | Week 8 | 60–80 | ~40 | 20–40 | 33–50% |
+| **Total** | **15 stories** | **8 weeks** | **500–750** | **~300** | **200–400** | **30–57%** |
 
-> Note: Total hours (~470) includes manufacturing overlays, peer review, packaging, and pilot deployment beyond the core module build effort (250–360 hrs). The difference accounts for quality assurance and deployment activities.
+> **Accelerator Impact:** By deploying pre-built ISL templates and adapting them to the client's environment rather than drafting standards from scratch, engagement teams save 200–400 hours per engagement. The greatest savings occur in Core and Advanced modules (46–65% reduction) where the ISL's pre-built rule libraries, pattern catalogs, and compliance matrices eliminate the most labor-intensive authoring work. Every hour in the accelerated column is high-value client-facing adaptation and customization work — the blank-page problem is eliminated.
 
 ---
 
-*Backlog derived from the [Roadmap](roadmap.md) and aligned with the [Buildout Recommendation](Integration_Standards_Library_DMTSP_Buildout.md). Each story maps to specific orchestrator tasks in the [execution plan](design/orchestrator_integration_standards.md).*
+*Backlog derived from the [Roadmap](roadmap.md) and aligned with the [Accelerator Overview](Integration_Standards_Library_DMTSP_Accelerator.md). Each story maps to specific orchestrator tasks in the [execution plan](design/orchestrator_integration_standards.md). Engagement teams should adapt this backlog to their specific SOW scope — not all stories apply to every engagement.*

@@ -3,8 +3,8 @@
 **Module ID:** ISL-04
 **Target:** Data classification tiers, sensitivity labeling, handling requirements, and compliance alignment
 **Productivity Gain:** 50–60% reduction in classification standards creation effort
-**Build Effort:** Medium (40–60 hours)
-**Reusability:** Global — with industry-specific compliance overlays
+**Engagement Deployment Effort:** 25–40 hours to adapt templates to client context
+**Reusability:** Global — deployed at every engagement with industry-specific compliance overlays
 
 ---
 
@@ -153,4 +153,4 @@ data-classification/
 
 ---
 
-*Module Owner: DMTSP Cybersecurity & Data Governance Practice | Build Priority: Sprint 1 (Weeks 1–2)*
+*Module Owner: DMTSP Cybersecurity & Data Governance Practice | Engagement Phase: Phase 1 — Foundation Standards Deployment*

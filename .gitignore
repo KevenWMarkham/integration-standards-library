@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Claude Code
+.claude/
+
+# Test artifacts
+*.png
+screenshots/
+test-screenshots/
+implementation/screenshots/
+implementation/TEST_RESULTS.md
+test_*.py
+test_*.js
+test_*.md
+
+# OS / editor
+nul
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Build output
+implementation/output/*.zip

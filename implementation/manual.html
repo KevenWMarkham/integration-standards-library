@@ -339,6 +339,17 @@
     <li><a href="#profile-hc" class="sub">Healthcare</a></li>
     <li><a href="#profile-custom" class="sub">Custom Industries</a></li>
     <li class="divider"></li>
+    <li><a href="#cross-module-deps">Cross-Module Dependencies</a></li>
+    <li><a href="#regulatory-foundations">Regulatory Foundations</a></li>
+    <li><a href="#naming-philosophy">Naming Philosophy</a></li>
+    <li><a href="#classification-theory">Classification Principles</a></li>
+    <li><a href="#architecture-decisions">Architecture Decisions</a></li>
+    <li><a href="#fabric-deep-dive">Fabric Platform Guide</a></li>
+    <li><a href="#quality-foundations">Quality Foundations</a></li>
+    <li><a href="#metadata-concepts">Metadata &amp; Lineage Theory</a></li>
+    <li><a href="#engagement-ceremonies">Engagement Ceremonies</a></li>
+    <li><a href="#change-adoption">Change &amp; Adoption</a></li>
+    <li class="divider"></li>
     <li><a href="#how-it-connects">How It All Connects</a></li>
     <li><a href="#connect-resolution" class="sub">Parameter Resolution</a></li>
     <li><a href="#connect-validation" class="sub">Validation &amp; Guards</a></li>
@@ -2348,6 +2359,2463 @@ Example:
   <div class="callout callout-success">
     <span class="callout-icon">&check;</span>
     <div><strong>Reusability:</strong> Once created, a custom profile can be exported as JSON and reused across engagements in the same industry. Build once, deploy many times — the marginal cost of the second engagement in a new industry drops to near zero.</div>
+  </div>
+</section>
+<!-- ============================================================
+     Section 1: Cross-Module Dependencies
+     ============================================================ -->
+<section id="cross-module-deps">
+  <h2>Cross-Module Dependencies</h2>
+  <p>
+    The six ISL modules form a directed dependency graph. Deploying modules out of sequence creates
+    broken cross-references, inconsistent naming, and unenforceable classification controls. The
+    diagram below shows the canonical deployment flow and the data contracts that bind modules together.
+  </p>
+
+  <h3 id="cross-module-deps-flow">Dependency Flow</h3>
+  <pre class="arch-diagram">
+  Sprint 1 (Foundation)         Sprint 2 (Core)             Sprint 3 (Advanced)
+  ========================      ========================    ========================
+
+  +------------------+
+  | ISL-03  Naming   |------+-----------------------------&gt; ISL-01, 02, 05, 06
+  | Conventions      |      |                                (all modules consume
+  +------------------+      |                                 naming patterns)
+         |                  |
+         v                  |
+  +------------------+      |    +------------------+       +------------------+
+  | ISL-04  Data     |------+--->| ISL-01  API      |------&gt;| ISL-02  Metadata |
+  | Classification   |---+  |   | Governance       |   +--&gt;| &amp; Lineage       |
+  +------------------+   |  |   +------------------+   |   +------------------+
+                         |  |          |               |
+                         |  |          v               |   +------------------+
+                         |  |   +------------------+   +--&gt;| ISL-05  Integ.   |
+                         |  +--&gt;| ISL-06  Data     |------&gt;| Patterns         |
+                         |      | Quality          |       +------------------+
+                         +-----&gt;+------------------+
+                        (tiers drive SLAs)
+
+  Legend:   ------&gt;  "must be deployed before"
+  </pre>
+
+  <h3 id="cross-module-deps-sequencing">Deployment Sequencing Rules</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Prerequisite Module</th>
+          <th>Dependent Module</th>
+          <th>Dependency Type</th>
+          <th>What Breaks If Skipped</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge badge-primary">ISL-03</span> Naming</td>
+          <td><span class="badge badge-secondary">ISL-04</span> Classification</td>
+          <td>Tier abbreviations encoded in names</td>
+          <td>Workspace and table names lack classification suffixes (<code>_conf</code>, <code>_restr</code>)</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-primary">ISL-03</span> Naming</td>
+          <td><span class="badge badge-secondary">ISL-01</span> API Governance</td>
+          <td>API endpoint &amp; resource naming patterns</td>
+          <td>REST URLs, webhook names, and APIM resources follow inconsistent patterns</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-primary">ISL-03</span> Naming</td>
+          <td><span class="badge badge-secondary">ISL-06</span> Data Quality</td>
+          <td>Quality rule IDs and pipeline naming</td>
+          <td>Quality rule identifiers and monitoring pipeline names become ad hoc</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-primary">ISL-03</span> Naming</td>
+          <td><span class="badge badge-secondary">ISL-02</span> Metadata &amp; Lineage</td>
+          <td>Catalog asset naming, glossary term format</td>
+          <td>Purview catalog entries use inconsistent names; search and discovery degrades</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-primary">ISL-03</span> Naming</td>
+          <td><span class="badge badge-secondary">ISL-05</span> Integration Patterns</td>
+          <td>Pipeline, lakehouse, and medallion naming</td>
+          <td>Medallion architecture layers and pipeline names diverge from standard</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-accent">ISL-04</span> Classification</td>
+          <td><span class="badge badge-secondary">ISL-01</span> API Governance</td>
+          <td>API security controls vary by data tier</td>
+          <td>API authentication and rate-limiting not calibrated to data sensitivity</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-accent">ISL-04</span> Classification</td>
+          <td><span class="badge badge-secondary">ISL-06</span> Data Quality</td>
+          <td>Quality SLA thresholds reference tiers</td>
+          <td>No tier-differentiated SLAs; Tier 4 data gets same quality targets as Tier 2</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-accent">ISL-04</span> Classification</td>
+          <td><span class="badge badge-secondary">ISL-02</span> Metadata &amp; Lineage</td>
+          <td>Classification stored as metadata attribute</td>
+          <td>Purview catalog lacks sensitivity labels; lineage cannot track tier propagation</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-accent">ISL-04</span> Classification</td>
+          <td><span class="badge badge-secondary">ISL-05</span> Integration Patterns</td>
+          <td>Cross-tier pipeline validation gates</td>
+          <td>Data moves between tiers without classification checks at pipeline boundaries</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-secondary">ISL-01</span> API Governance</td>
+          <td><span class="badge badge-secondary">ISL-05</span> Integration Patterns</td>
+          <td>API gateway pattern references ISL-01</td>
+          <td>API-based integrations lack standardized security, versioning, and lifecycle controls</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-secondary">ISL-06</span> Data Quality</td>
+          <td><span class="badge badge-secondary">ISL-05</span> Integration Patterns</td>
+          <td>Medallion quality gates reference ISL-06 rules</td>
+          <td>Bronze-to-silver and silver-to-gold promotion lacks quality validation</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-warning">
+    <span class="callout-icon">&#9888;</span>
+    <strong>Consistency check:</strong> During Sprint 4 (Validation &amp; Handoff), task S4-T2 validates every
+    inter-module dependency listed above. If a foundation module was skipped or partially deployed,
+    downstream modules will contain broken cross-references, unresolvable Purview label mappings,
+    and naming patterns that contradict the abbreviation dictionary. Repair cost averages
+    <strong>15&ndash;30 hours</strong> per skipped dependency.
+  </div>
+
+  <h3 id="cross-module-deps-io">Module Inputs &amp; Outputs</h3>
+  <div class="card-grid">
+    <div class="card">
+      <h4>ISL-03 &mdash; Naming Conventions</h4>
+      <p><strong>Inputs:</strong> Client domain taxonomy, Azure subscription hierarchy, ERP system list, Fabric workspace inventory</p>
+      <p><strong>Outputs:</strong> Abbreviation dictionary, resource prefixes, naming patterns for databases, tables, columns, pipelines, APIs, and infrastructure</p>
+      <p><span class="badge badge-primary">Foundation</span> <span class="badge badge-secondary">Sprint 1</span></p>
+    </div>
+    <div class="card">
+      <h4>ISL-04 &mdash; Data Classification</h4>
+      <p><strong>Inputs:</strong> ISL-03 naming patterns, regulatory landscape, data sensitivity inventory, Purview label taxonomy</p>
+      <p><strong>Outputs:</strong> 4-tier classification model, Purview label mappings, handling requirements, compliance mapping matrix, access control alignment</p>
+      <p><span class="badge badge-accent">Foundation</span> <span class="badge badge-secondary">Sprint 1</span></p>
+    </div>
+    <div class="card">
+      <h4>ISL-01 &mdash; API Governance</h4>
+      <p><strong>Inputs:</strong> ISL-03 API naming, ISL-04 tier-based security controls, client APIM/gateway configuration</p>
+      <p><strong>Outputs:</strong> REST design standards, OWASP-aligned security controls, versioning policy, lifecycle governance, rate-limiting tiers</p>
+      <p><span class="badge badge-secondary">Core &bull; Sprint 2</span></p>
+    </div>
+    <div class="card">
+      <h4>ISL-06 &mdash; Data Quality</h4>
+      <p><strong>Inputs:</strong> ISL-03 rule naming, ISL-04 classification tiers (drive SLA thresholds), client data domains</p>
+      <p><strong>Outputs:</strong> 6 quality dimensions, 50+ pre-built rules, SLA framework, monitoring standards, remediation workflows, scorecards</p>
+      <p><span class="badge badge-secondary">Core &bull; Sprint 2</span></p>
+    </div>
+    <div class="card">
+      <h4>ISL-02 &mdash; Metadata &amp; Lineage</h4>
+      <p><strong>Inputs:</strong> ISL-03 naming (catalog assets), ISL-04 classification (metadata attributes), ISL-01 API catalog entries</p>
+      <p><strong>Outputs:</strong> Business glossary, technical metadata schema, lineage requirements, catalog governance, Purview configuration</p>
+      <p><span class="badge badge-secondary">Advanced &bull; Sprint 3</span></p>
+    </div>
+    <div class="card">
+      <h4>ISL-05 &mdash; Integration Patterns</h4>
+      <p><strong>Inputs:</strong> ISL-03 pipeline naming, ISL-04 tier gates, ISL-01 API standards, ISL-06 quality gates, client source systems</p>
+      <p><strong>Outputs:</strong> 8 integration patterns (ERP, IoT, API, events, MDM, medallion, files, reverse ETL), decision framework, architecture diagrams</p>
+      <p><span class="badge badge-secondary">Advanced &bull; Sprint 3</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     Section 2: Regulatory & Compliance Foundations
+     ============================================================ -->
+<section id="regulatory-foundations">
+  <h2>Regulatory &amp; Compliance Foundations</h2>
+  <p>
+    The ISL is designed for regulated industries where data governance is not optional. The compliance
+    mapping matrix (ISL-04) pre-maps 8+ major regulations to the 4-tier classification model, but engagement
+    teams encounter a broader landscape of 13+ frameworks. This section provides the reference landscape
+    and shows how every regulation connects back to ISL modules.
+  </p>
+
+  <h3 id="regulatory-foundations-landscape">Framework Landscape</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Regulation / Framework</th>
+          <th>Jurisdiction</th>
+          <th>Data Focus</th>
+          <th>Maximum Penalty</th>
+          <th>ISL Module Mapping</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>GDPR</strong></td>
+          <td>EU / EEA (global reach)</td>
+          <td>Personal data of EU residents; special category data (Art. 9)</td>
+          <td>4% global annual revenue or &euro;20M</td>
+          <td><span class="badge badge-accent">ISL-04</span> Tier 3 PII / Tier 4 Sensitive PII; <span class="badge badge-secondary">ISL-01</span> API data-in-transit</td>
+        </tr>
+        <tr>
+          <td><strong>CCPA / CPRA</strong></td>
+          <td>California, USA</td>
+          <td>Consumer personal information; sensitive PI</td>
+          <td>$7,500 per intentional violation; private right of action $100&ndash;$750/consumer</td>
+          <td><span class="badge badge-accent">ISL-04</span> Tier 3 PI / Tier 4 Sensitive PI; <span class="badge badge-secondary">ISL-06</span> data inventory accuracy</td>
+        </tr>
+        <tr>
+          <td><strong>HIPAA</strong></td>
+          <td>United States</td>
+          <td>Protected Health Information (PHI / ePHI)</td>
+          <td>$1.5M per violation category per year; criminal penalties up to 10 years</td>
+          <td><span class="badge badge-accent">ISL-04</span> Tier 4 Sensitive PII; <span class="badge badge-secondary">ISL-02</span> audit metadata</td>
+        </tr>
+        <tr>
+          <td><strong>SOX</strong></td>
+          <td>United States (public companies)</td>
+          <td>Financial data, internal controls, audit trails</td>
+          <td>Criminal: $5M fine + 20 years; material weakness disclosure</td>
+          <td><span class="badge badge-accent">ISL-04</span> Tier 3 Financial / Tier 4 Material NPI; <span class="badge badge-secondary">ISL-06</span> accuracy SLAs</td>
+        </tr>
+        <tr>
+          <td><strong>PCI-DSS v4.0</strong></td>
+          <td>Global (card brands)</td>
+          <td>Cardholder data (CHD), sensitive authentication data</td>
+          <td>$5K&ndash;$100K/month; loss of processing privileges</td>
+          <td><span class="badge badge-accent">ISL-04</span> Tier 4 Sensitive PII; <span class="badge badge-secondary">ISL-05</span> network isolation patterns</td>
+        </tr>
+        <tr>
+          <td><strong>BCBS 239</strong></td>
+          <td>Global (G-SIBs and D-SIBs)</td>
+          <td>Risk data aggregation and reporting</td>
+          <td>Supervisory action; capital add-ons</td>
+          <td><span class="badge badge-secondary">ISL-06</span> accuracy, completeness, timeliness; <span class="badge badge-secondary">ISL-02</span> lineage</td>
+        </tr>
+        <tr>
+          <td><strong>DORA</strong></td>
+          <td>EU (financial sector)</td>
+          <td>ICT risk management, incident reporting, resilience testing</td>
+          <td>Up to 1% average daily worldwide turnover (per day of breach)</td>
+          <td><span class="badge badge-secondary">ISL-01</span> API resilience; <span class="badge badge-secondary">ISL-05</span> integration patterns; <span class="badge badge-accent">ISL-04</span> handling</td>
+        </tr>
+        <tr>
+          <td><strong>FedRAMP</strong></td>
+          <td>United States (federal)</td>
+          <td>Federal information systems and cloud services</td>
+          <td>Loss of ATO; contract termination</td>
+          <td><span class="badge badge-accent">ISL-04</span> NIST-aligned tiers; <span class="badge badge-secondary">ISL-01</span> API security; <span class="badge badge-secondary">ISL-05</span> isolation</td>
+        </tr>
+        <tr>
+          <td><strong>NERC CIP</strong></td>
+          <td>North America (energy)</td>
+          <td>Bulk Electric System cyber assets, critical infrastructure</td>
+          <td>Up to $1M per violation per day</td>
+          <td><span class="badge badge-accent">ISL-04</span> Tier 4 OT/SCADA; <span class="badge badge-secondary">ISL-05</span> IoT/OT ingestion patterns</td>
+        </tr>
+        <tr>
+          <td><strong>GxP / FDA 21 CFR Part 11</strong></td>
+          <td>United States / Global (pharma, life sciences)</td>
+          <td>Electronic records, electronic signatures, clinical data</td>
+          <td>Warning letters, consent decrees, criminal prosecution</td>
+          <td><span class="badge badge-accent">ISL-04</span> Tier 3&ndash;4 validated data; <span class="badge badge-secondary">ISL-06</span> data integrity; <span class="badge badge-secondary">ISL-02</span> audit trail</td>
+        </tr>
+        <tr>
+          <td><strong>ITAR / EAR</strong></td>
+          <td>United States</td>
+          <td>Defense articles, technical data, dual-use items</td>
+          <td>Criminal: $1M + 20 years; Civil: $500K/violation; debarment</td>
+          <td><span class="badge badge-accent">ISL-04</span> Tier 4 ITAR; <span class="badge badge-secondary">ISL-01</span> API access; <span class="badge badge-secondary">ISL-05</span> workspace isolation</td>
+        </tr>
+        <tr>
+          <td><strong>NIST CSF 2.0</strong></td>
+          <td>United States / Global (voluntary)</td>
+          <td>All information systems &mdash; identify, protect, detect, respond, recover, govern</td>
+          <td>N/A (framework, not regulation); contractual or insurance implications</td>
+          <td>All ISL modules map to NIST CSF functions; <span class="badge badge-accent">ISL-04</span> = Identify + Protect</td>
+        </tr>
+        <tr>
+          <td><strong>ISO 27001:2022</strong></td>
+          <td>Global (voluntary certification)</td>
+          <td>Information security management system (ISMS); all information assets</td>
+          <td>Loss of certification; contractual consequences</td>
+          <td><span class="badge badge-accent">ISL-04</span> A.5.12/A.5.13 classification &amp; labeling; <span class="badge badge-secondary">ISL-06</span> A.5.36 compliance</td>
+        </tr>
+        <tr>
+          <td><strong>COBIT 2019</strong></td>
+          <td>Global (governance framework)</td>
+          <td>Enterprise IT governance; information quality and security</td>
+          <td>N/A (framework); drives audit scope and regulatory readiness</td>
+          <td><span class="badge badge-accent">ISL-04</span> MEA03 compliance; <span class="badge badge-secondary">ISL-06</span> APO14 data quality; <span class="badge badge-secondary">ISL-02</span> BAI08 knowledge</td>
+        </tr>
+        <tr>
+          <td><strong>NIST SP 800-171</strong></td>
+          <td>United States (CUI)</td>
+          <td>Controlled Unclassified Information in non-federal systems</td>
+          <td>Loss of government contracts; False Claims Act liability</td>
+          <td><span class="badge badge-accent">ISL-04</span> Tier 3&ndash;4 CUI; <span class="badge badge-secondary">ISL-01</span> 14 control families; <span class="badge badge-secondary">ISL-05</span> isolation</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-info">
+    <span class="callout-icon">&#8505;</span>
+    <strong>How regulations map to ISL-04 tiers:</strong> Every regulation above drives a <em>minimum
+    classification tier</em>. GDPR standard PII maps to Tier 3 (Confidential); GDPR special category
+    data (Article 9) escalates to Tier 4 (Restricted). ITAR-controlled data is <em>always</em> Tier 4.
+    SOX financial data starts at Tier 3 but escalates to Tier 4 for material non-public information.
+    The compliance mapping matrix (<code>compliance-mapping-matrix.md</code>) provides the full
+    per-regulation, per-tier control requirement breakdown.
+  </div>
+
+  <h3 id="regulatory-foundations-dama">DAMA DMBOK Alignment</h3>
+  <p>
+    The ISL is structured around the DAMA Data Management Body of Knowledge (DMBOK2) knowledge areas.
+    Each ISL module maps directly to one or more DAMA knowledge areas, ensuring that the standards
+    library covers the full data governance spectrum.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>DAMA DMBOK2 Knowledge Area</th>
+          <th>ISL Module(s)</th>
+          <th>Coverage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Ch. 1 &mdash; Data Governance</td>
+          <td>All (ISL-01 through ISL-06)</td>
+          <td>Governance council, stewardship, policy framework, compliance</td>
+        </tr>
+        <tr>
+          <td>Ch. 4 &mdash; Data Architecture</td>
+          <td><span class="badge badge-primary">ISL-03</span> <span class="badge badge-secondary">ISL-05</span></td>
+          <td>Naming standards, integration patterns, medallion architecture</td>
+        </tr>
+        <tr>
+          <td>Ch. 5 &mdash; Data Modeling &amp; Design</td>
+          <td><span class="badge badge-primary">ISL-03</span></td>
+          <td>Entity naming, table/column conventions, surrogate key patterns</td>
+        </tr>
+        <tr>
+          <td>Ch. 7 &mdash; Data Security</td>
+          <td><span class="badge badge-accent">ISL-04</span> <span class="badge badge-secondary">ISL-01</span></td>
+          <td>Classification tiers, access control, encryption, API security (OWASP)</td>
+        </tr>
+        <tr>
+          <td>Ch. 8 &mdash; Data Integration &amp; Interoperability</td>
+          <td><span class="badge badge-secondary">ISL-05</span> <span class="badge badge-secondary">ISL-01</span></td>
+          <td>8 integration patterns, API governance, event-driven architecture</td>
+        </tr>
+        <tr>
+          <td>Ch. 10 &mdash; Reference &amp; Master Data</td>
+          <td><span class="badge badge-secondary">ISL-05</span> <span class="badge badge-secondary">ISL-02</span></td>
+          <td>Master data synchronization pattern, business glossary</td>
+        </tr>
+        <tr>
+          <td>Ch. 12 &mdash; Metadata Management</td>
+          <td><span class="badge badge-secondary">ISL-02</span></td>
+          <td>Technical metadata schema, Purview catalog governance, lineage</td>
+        </tr>
+        <tr>
+          <td>Ch. 13 &mdash; Data Quality</td>
+          <td><span class="badge badge-secondary">ISL-06</span></td>
+          <td>6 dimensions, 50+ rules, SLA framework, monitoring, remediation</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="regulatory-foundations-audit">Audit Readiness Patterns</h3>
+  <p>
+    The ISL builds audit readiness into every module rather than treating it as an afterthought.
+    The following patterns ensure that engagement deliverables are audit-ready from day one.
+  </p>
+  <div class="card-grid">
+    <div class="card">
+      <h4>&#128274; Evidence-by-Design</h4>
+      <p>
+        Every ISL-04 control maps to a specific evidence type, collection method, and retention period.
+        The compliance mapping matrix defines 15+ evidence categories across SOX, GDPR, ITAR, HIPAA,
+        PCI-DSS, and NIST 800-171 &mdash; from Entra ID access review exports to breach register logs.
+      </p>
+    </div>
+    <div class="card">
+      <h4>&check; Compliance Calendar</h4>
+      <p>
+        ISL-04 includes a 12-month compliance calendar with monthly activities mapped to regulations
+        and owners: ITGC testing (SOX quarterly), ASV scans (PCI-DSS quarterly), ROPA reviews (GDPR
+        annual), TCP reviews (ITAR annual), and risk assessments (HIPAA annual).
+      </p>
+    </div>
+    <div class="card">
+      <h4>&#9888; Gap Analysis Template</h4>
+      <p>
+        The compliance mapping matrix provides a pre-built gap analysis template covering 14+ regulatory
+        requirements. Engagement teams complete it during Sprint 0 onboarding to identify compliance
+        coverage gaps before any module adaptation begins.
+      </p>
+    </div>
+    <div class="card">
+      <h4>&#128274; Control Traceability</h4>
+      <p>
+        A control-to-regulation traceability matrix shows which ISL-04 controls (e.g., AES-256
+        encryption, RBAC, MFA, audit logging) satisfy which regulations simultaneously. This enables
+        efficient control deployment: one control, multiple compliance obligations satisfied.
+      </p>
+    </div>
+  </div>
+
+  <div class="callout callout-danger">
+    <span class="callout-icon">&#9888;</span>
+    <strong>Penalty escalation:</strong> Regulatory penalties are not theoretical. Recent enforcement
+    actions include GDPR fines exceeding &euro;1B (Meta, 2023), HIPAA settlements of $13M (Anthem),
+    and ITAR civil penalties of $27M (Honeywell). The ISL compliance mapping matrix is designed to
+    close the 20&ndash;30% coverage gaps that are typical when classification standards are built
+    from scratch without a regulatory pre-mapping.
+  </div>
+</section>
+
+<!-- ============================================================
+     Section 3: Naming Standardization Philosophy
+     ============================================================ -->
+<section id="naming-philosophy">
+  <h2>Naming Standardization Philosophy</h2>
+  <p>
+    ISL-03 is the foundational module of the entire library. Every other module references naming
+    conventions &mdash; from ISL-04 workspace classification suffixes to ISL-05 pipeline patterns to
+    ISL-06 quality rule identifiers. This section explains the <em>why</em> behind the naming
+    framework: why consistency matters at scale, why the specific pattern structure was chosen,
+    and how naming governance is enforced.
+  </p>
+
+  <h3 id="naming-philosophy-why">Why Naming Matters</h3>
+  <div class="card-grid">
+    <div class="card">
+      <h4>Cognitive Load Reduction</h4>
+      <p>
+        In a Fabric lakehouse with 500+ tables across 12+ domains, consistent naming is the primary
+        navigation mechanism. When a developer sees <code>slv_mfg_work_order_current</code>, they
+        immediately know: silver layer, manufacturing domain, work order entity, current-state SCD.
+        No documentation lookup needed. Studies show that consistent naming reduces onboarding time
+        from 2&ndash;3 days to less than 1 day.
+      </p>
+    </div>
+    <div class="card">
+      <h4>Automation Enablement</h4>
+      <p>
+        Naming conventions enable programmatic operations. Azure Policy can enforce resource naming
+        via <code>deny</code> rules. CI/CD pipelines can validate artifact names against the
+        abbreviation dictionary before deployment. Purview scanning can auto-classify assets by
+        parsing tier indicators from workspace names. Without standard names, automation requires
+        expensive custom mapping tables.
+      </p>
+    </div>
+    <div class="card">
+      <h4>Cross-Team Communication</h4>
+      <p>
+        When the data engineering team, the analytics team, the security team, and the client's
+        business users all use the same naming vocabulary, handoff friction drops dramatically.
+        The abbreviation dictionary serves as a shared language &mdash; <code>mfg</code> always means
+        Manufacturing, <code>fin</code> always means Finance, <code>brz</code> always means Bronze layer.
+      </p>
+    </div>
+  </div>
+
+  <h3 id="naming-philosophy-pattern">Pattern Rationale: <code>{prefix}_{domain}_{entity}_{qualifier}</code></h3>
+  <p>
+    The ISL-03 naming pattern uses a segmented structure with underscores as delimiters. Each segment
+    carries specific semantic meaning and position-dependent interpretation:
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Position</th>
+          <th>Segment</th>
+          <th>Purpose</th>
+          <th>Examples</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Resource prefix</td>
+          <td>Identifies artifact type at a glance</td>
+          <td><code>ws</code>, <code>lh</code>, <code>pl</code>, <code>nb</code>, <code>fct</code>, <code>dim</code></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Domain / source</td>
+          <td>Business domain or source system ownership</td>
+          <td><code>mfg</code>, <code>fin</code>, <code>scm</code>, <code>sap</code>, <code>iot</code></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Entity / purpose</td>
+          <td>The core business concept or function</td>
+          <td><code>work_order</code>, <code>analytics</code>, <code>bronze</code>, <code>quality_predict</code></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Qualifier / version</td>
+          <td>Environment, temporality, version, or frequency</td>
+          <td><code>prd</code>, <code>v1</code>, <code>daily</code>, <code>current</code>, <code>snapshot</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    This structure was chosen because it reads left-to-right from most general (what type?) to most
+    specific (which version?), mirrors how users search for assets in a catalog, and keeps the most
+    differentiating information (domain + entity) in the middle positions where it is most visible
+    in truncated UI displays.
+  </p>
+
+  <h3 id="naming-philosophy-antipatterns">Common Anti-Patterns</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Anti-Pattern</th>
+          <th>Bad Example</th>
+          <th>Problem</th>
+          <th>ISL-03 Correct Form</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Inconsistent casing</td>
+          <td><code>Mfg_WorkOrder</code>, <code>MFG_work_order</code></td>
+          <td>Case-sensitive systems treat these as different objects</td>
+          <td><code>mfg_work_order</code> (always snake_case lowercase)</td>
+        </tr>
+        <tr>
+          <td>Arbitrary abbreviations</td>
+          <td><code>mnfctrng</code>, <code>manuf</code>, <code>mfcg</code></td>
+          <td>Multiple teams invent different abbreviations for "manufacturing"</td>
+          <td><code>mfg</code> (single approved abbreviation per dictionary)</td>
+        </tr>
+        <tr>
+          <td>Missing type prefix</td>
+          <td><code>production_output</code></td>
+          <td>Is it a fact table, a view, a staging table, or a pipeline?</td>
+          <td><code>fct_production_output</code> (prefix identifies type)</td>
+        </tr>
+        <tr>
+          <td>Hungarian notation</td>
+          <td><code>tblCustomer</code>, <code>vwSalesOrders</code></td>
+          <td>Mixes casing styles; incompatible with cloud-native platforms</td>
+          <td><code>dim_customer</code>, <code>vw_sales_orders</code></td>
+        </tr>
+        <tr>
+          <td>Embedded spaces or special chars</td>
+          <td><code>Sales Order (Final)</code></td>
+          <td>Requires escaping in SQL, APIs, and scripting; breaks automation</td>
+          <td><code>sal_order_final</code></td>
+        </tr>
+        <tr>
+          <td>Date-stamped names</td>
+          <td><code>customer_20240115</code>, <code>backup_jan</code></td>
+          <td>Proliferates objects; no lifecycle governance</td>
+          <td><code>dim_customer</code> + partition/watermark column</td>
+        </tr>
+        <tr>
+          <td>Ambiguous abbreviations</td>
+          <td><code>int_data</code></td>
+          <td>Integer? Internal? Integration? See prohibited list</td>
+          <td><code>intl_data</code> (internal) or <code>integ_data</code> (integration)</td>
+        </tr>
+        <tr>
+          <td>No environment indicator</td>
+          <td><code>ws_finance_reporting</code></td>
+          <td>Prod? Dev? No way to tell from the name</td>
+          <td><code>ws_finance_reporting_prd</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="naming-philosophy-abbreviation-gov">Abbreviation Governance</h3>
+  <p>
+    The abbreviation dictionary (<code>abbreviation-dictionary.md</code>) is the single source of truth
+    for every abbreviation used across the data platform. It contains 130+ pre-approved abbreviations
+    across 12 categories: environments, business domains, medallion layers, resource types, data
+    entities, column suffixes, frequencies, regions, pipeline operations, and source systems.
+  </p>
+  <div class="callout callout-info">
+    <span class="callout-icon">&#8505;</span>
+    <strong>Extending the dictionary:</strong> When a client engagement requires a new abbreviation
+    (e.g., a client-specific ERP module or business domain), the change request process is:
+    (1) check the dictionary for existing coverage, (2) check the prohibited list for conflicts,
+    (3) submit a change request with the proposed 2&ndash;6 character abbreviation, full meaning,
+    category, and justification, (4) Data Governance Council reviews within 5 business days,
+    (5) approved abbreviations are added and communicated to all teams. This process prevents
+    the abbreviation sprawl that undermines naming consistency.
+  </div>
+  <p>
+    <strong>Prohibited abbreviations</strong> are permanently banned due to ambiguity: <code>tmp</code>
+    (temporary vs. template?), <code>dat</code> (data vs. date?), <code>no</code> (number vs. negation?),
+    <code>int</code> (integer vs. internal vs. integration?), <code>del</code> (delete vs. delivery?),
+    <code>rec</code> (record vs. received?), <code>res</code> (resource vs. result?), and
+    <code>proc</code> (process vs. procedure?). Each prohibited entry includes the approved alternative.
+  </p>
+
+  <h3 id="naming-philosophy-enforcement">Enforcement Mechanisms</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Mechanism</th>
+          <th>Layer</th>
+          <th>How It Works</th>
+          <th>Enforcement Level</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Azure Policy</td>
+          <td>Infrastructure</td>
+          <td><code>deny</code> policies reject resource creation if the name does not match the approved pattern (e.g., <code>sqldb-???-???-???-???-###</code>)</td>
+          <td>Hard block</td>
+        </tr>
+        <tr>
+          <td>Pre-commit hooks</td>
+          <td>Code repository</td>
+          <td>Python/PowerShell linter validates Fabric artifact names in IaC templates (Bicep, Terraform) before merge</td>
+          <td>Hard block</td>
+        </tr>
+        <tr>
+          <td>Fabric REST API validation</td>
+          <td>Platform</td>
+          <td>Wrapper scripts call the Fabric REST API to pre-validate workspace and artifact names before creation</td>
+          <td>Soft gate (advisory)</td>
+        </tr>
+        <tr>
+          <td>CI/CD pipeline linter</td>
+          <td>Deployment</td>
+          <td>Custom validation step in the deployment pipeline checks all artifact names against the abbreviation dictionary</td>
+          <td>Hard block (configurable)</td>
+        </tr>
+        <tr>
+          <td>Purview scanning rules</td>
+          <td>Catalog</td>
+          <td>Purview custom classifications flag non-compliant asset names during automated scanning</td>
+          <td>Alert + report</td>
+        </tr>
+        <tr>
+          <td>PR review checklist</td>
+          <td>Process</td>
+          <td>Pull request template includes a naming convention compliance checkbox; reviewers validate</td>
+          <td>Peer review</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================
+     Section 4: Data Classification Principles
+     ============================================================ -->
+<section id="classification-theory">
+  <h2>Data Classification Principles</h2>
+  <p>
+    ISL-04 defines a 4-tier classification model that serves as the security backbone for the entire
+    standards library. This section explains the theoretical foundations: why the CIA triad maps to
+    classification, why exactly four tiers, and how classification changes dynamically across the
+    data lifecycle.
+  </p>
+
+  <h3 id="classification-theory-cia">The CIA Triad and Classification</h3>
+  <p>
+    Every classification decision is ultimately a risk assessment across three dimensions: Confidentiality,
+    Integrity, and Availability (CIA). The ISL-04 4-tier model maps primarily to <strong>confidentiality
+    impact</strong> (what happens if the data is disclosed?), but tiers also implicitly set expectations
+    for integrity and availability controls.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>CIA Dimension</th>
+          <th>Tier 1 &mdash; Public</th>
+          <th>Tier 2 &mdash; Internal</th>
+          <th>Tier 3 &mdash; Confidential</th>
+          <th>Tier 4 &mdash; Restricted</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Confidentiality</strong></td>
+          <td>None &mdash; public by design</td>
+          <td>Low &mdash; minor inconvenience if disclosed</td>
+          <td>Moderate &mdash; financial loss, regulatory fine, reputational damage</td>
+          <td>Severe &mdash; existential threat, criminal liability, national security</td>
+        </tr>
+        <tr>
+          <td><strong>Integrity</strong></td>
+          <td>Platform default; no special controls</td>
+          <td>Standard checksums; annual review</td>
+          <td>Change tracking; quarterly audit; hash validation</td>
+          <td>Immutable storage; real-time integrity monitoring; crypto-verification</td>
+        </tr>
+        <tr>
+          <td><strong>Availability</strong></td>
+          <td>Best effort; no SLA</td>
+          <td>Standard platform SLA (99.9%)</td>
+          <td>Enhanced SLA; 4-hour RPO; daily backup</td>
+          <td>Mission-critical SLA; 1-hour RPO; real-time replication; DR tested</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    This mapping ensures that higher-tier data automatically receives proportionally stronger controls
+    across all three dimensions &mdash; not just encryption and access control (confidentiality), but also
+    backup, integrity monitoring, and availability guarantees.
+  </p>
+
+  <h3 id="classification-theory-why-four">Why Exactly Four Tiers</h3>
+  <div class="card-grid">
+    <div class="card">
+      <h4>Too Few (2&ndash;3 Tiers)</h4>
+      <p>
+        A 2-tier model (public/private) forces all sensitive data into one bucket, applying the same
+        expensive Tier 4 controls to routine PII and ITAR-controlled data alike. A 3-tier model
+        (public/internal/restricted) still conflates moderate-sensitivity data (customer names) with
+        extreme-sensitivity data (SSNs, trade secrets), leading to either over-protection of
+        Confidential data or under-protection of Restricted data.
+      </p>
+    </div>
+    <div class="card">
+      <h4>Too Many (5+ Tiers)</h4>
+      <p>
+        More than 4 tiers creates classification fatigue. Data stewards struggle to distinguish between
+        5 or 6 similar tiers, leading to inconsistent classification and governance overhead. Each
+        additional tier requires its own handling rules, access patterns, encryption settings, and
+        review cadences &mdash; the operational cost grows exponentially while the marginal
+        security benefit diminishes.
+      </p>
+    </div>
+    <div class="card">
+      <h4>The 4-Tier Sweet Spot</h4>
+      <p>
+        Four tiers align with industry standards (NIST SP 800-60 low/moderate/high + unrestricted),
+        regulatory expectations, and human cognitive capacity. Each tier is clearly distinguishable:
+        "anyone can see it" (Public), "employees can see it" (Internal), "specific teams need approval"
+        (Confidential), "named individuals with JIT access" (Restricted). Sub-classifications within
+        Tier 3 and Tier 4 handle regulatory nuance without adding tiers.
+      </p>
+    </div>
+  </div>
+
+  <h3 id="classification-theory-dynamic">Dynamic Classification</h3>
+  <p>
+    Data classification is not static. The same data can change tier based on context, timing, and
+    combination. ISL-04 defines explicit reclassification triggers and approval workflows.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Scenario</th>
+          <th>Direction</th>
+          <th>Example</th>
+          <th>New Tier</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Public disclosure</td>
+          <td>Downgrade</td>
+          <td>Quarterly financial results published in 10-K filing</td>
+          <td>Tier 3 &rarr; Tier 1</td>
+        </tr>
+        <tr>
+          <td>M&amp;A activity begins</td>
+          <td>Upgrade</td>
+          <td>Standard business data becomes material non-public information during deal</td>
+          <td>Tier 2 &rarr; Tier 4</td>
+        </tr>
+        <tr>
+          <td>Contract expiration</td>
+          <td>Downgrade</td>
+          <td>NDA expires; formerly confidential vendor terms become internal-only</td>
+          <td>Tier 3 &rarr; Tier 2</td>
+        </tr>
+        <tr>
+          <td>Data anonymization</td>
+          <td>Downgrade</td>
+          <td>PII is removed or tokenized; Confidential PII becomes Internal</td>
+          <td>Tier 3 &rarr; Tier 2</td>
+        </tr>
+        <tr>
+          <td>Export control determination</td>
+          <td>Upgrade</td>
+          <td>Engineering data found to be ITAR-controlled after USML review</td>
+          <td>Tier 3 &rarr; Tier 4</td>
+        </tr>
+        <tr>
+          <td>Security incident</td>
+          <td>Upgrade</td>
+          <td>Data integrity compromised; elevated controls during investigation</td>
+          <td>Any &rarr; +1 Tier</td>
+        </tr>
+        <tr>
+          <td>Regulation change</td>
+          <td>Either</td>
+          <td>New privacy law covers previously unregulated data type</td>
+          <td>Tier 2 &rarr; Tier 3</td>
+        </tr>
+        <tr>
+          <td>Data enrichment</td>
+          <td>Upgrade</td>
+          <td>Internal report joined with PII from HR system</td>
+          <td>Tier 2 &rarr; Tier 3</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="classification-theory-aggregate">Aggregate Classification</h3>
+  <p>
+    One of the most common classification errors is failing to reclassify aggregated data. ISL-04
+    defines the <strong>aggregation escalation rule</strong>: when individually non-sensitive data
+    is combined in a way that reveals sensitive patterns, the aggregated dataset must be classified
+    at the highest tier justified by the derived insight.
+  </p>
+  <div class="callout callout-warning">
+    <span class="callout-icon">&#9888;</span>
+    <strong>Aggregation example:</strong> Individual IoT temperature readings from a furnace are
+    Tier 2 (Internal &mdash; routine operational data). But a dataset combining those readings with
+    proprietary cycle times and alloy-specific parameters that reveals a trade-secret heat treatment
+    process is <strong>Tier 4 (Restricted &mdash; Trade Secret)</strong>. The individual data points
+    are innocuous; the combination is the crown jewel.
+  </div>
+  <p>
+    Similarly, when a dataset, document, or container includes data elements at multiple tiers, the
+    <strong>highest tier present governs the entire asset</strong> unless granular controls (column-level
+    security, row-level security, or workspace isolation) isolate the higher-tier elements. A database
+    table with 50 Tier 2 columns and 1 Tier 4 column (e.g., <code>ssn</code>) is a Tier 4 table
+    unless column-level security masks the SSN column from non-authorized users.
+  </p>
+
+  <h3 id="classification-theory-inherited">Inherited Classification</h3>
+  <p>
+    Child datasets inherit the classification of their parent source unless a transformation
+    <em>provably removes</em> the sensitive elements. This principle applies across the data pipeline:
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Parent Asset</th>
+          <th>Child Asset</th>
+          <th>Inherited Tier</th>
+          <th>Exception</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Tier 3 source table</td>
+          <td>Silver-layer cleansed table</td>
+          <td>Tier 3 (inherited)</td>
+          <td>Drops to Tier 2 only if all PII columns are removed or tokenized</td>
+        </tr>
+        <tr>
+          <td>Tier 4 ITAR dataset</td>
+          <td>Gold-layer aggregated report</td>
+          <td>Tier 4 (inherited)</td>
+          <td>ITAR classification persists regardless of aggregation; no downgrade permitted without DDTC review</td>
+        </tr>
+        <tr>
+          <td>Tier 3 Fabric dataset</td>
+          <td>Power BI report</td>
+          <td>Tier 3 (inherited via sensitivity label propagation)</td>
+          <td>Purview labels propagate automatically from datasets to dependent reports and dashboards</td>
+        </tr>
+        <tr>
+          <td>Tier 2 + Tier 3 join</td>
+          <td>Resulting combined dataset</td>
+          <td>Tier 3 (highest tier governs)</td>
+          <td>No exception &mdash; highest tier always wins in a join</td>
+        </tr>
+        <tr>
+          <td>Any tier + Tier 4 join</td>
+          <td>Resulting combined dataset</td>
+          <td>Tier 4 (highest tier governs)</td>
+          <td>Workspace must be Tier 4 or the join must be refactored to avoid co-mingling</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="classification-theory-declassification">Declassification Procedures</h3>
+  <p>
+    Lowering a classification tier requires formal approval to prevent accidental exposure. ISL-04
+    defines a tiered approval matrix based on the magnitude of the downgrade:
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Current Tier</th>
+          <th>Target Tier</th>
+          <th>Approver(s)</th>
+          <th>Process</th>
+          <th>Typical Timeline</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Tier 3</td>
+          <td>Tier 2</td>
+          <td>Data Owner + Governance Council</td>
+          <td>Justification submitted; 30-day comment period; regulatory review</td>
+          <td>30&ndash;45 days</td>
+        </tr>
+        <tr>
+          <td>Tier 4</td>
+          <td>Tier 3</td>
+          <td>Data Owner + CISO + Legal</td>
+          <td>Formal declassification review; regulatory clearance; legal sign-off</td>
+          <td>45&ndash;60 days</td>
+        </tr>
+        <tr>
+          <td>Tier 4</td>
+          <td>Tier 2</td>
+          <td>Data Owner + CISO + Legal</td>
+          <td>Full declassification review; two-step downgrade (4&rarr;3, then 3&rarr;2) recommended</td>
+          <td>60&ndash;90 days</td>
+        </tr>
+        <tr>
+          <td>Any tier</td>
+          <td>Tier 1 (Public)</td>
+          <td>Data Owner + Communications + Legal</td>
+          <td>Public release approval; regulatory check; competitive impact review; IP clearance</td>
+          <td>30&ndash;60 days</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout callout-success">
+    <span class="callout-icon">&check;</span>
+    <strong>Cardinal rule:</strong> "When in doubt, classify up." ISL-04 mandates that when the
+    correct tier is ambiguous, the data must be classified <em>one tier higher</em> than the lowest
+    plausible tier. It is always easier &mdash; and dramatically cheaper &mdash; to declassify data
+    downward through the formal process than to recover from a breach caused by under-classification.
+    Unclassified data defaults to Tier 2 (Internal), never Tier 1 (Public).
+  </div>
+</section>
+<!-- ============================================================
+     SECTION 5: Architecture Decision Frameworks
+     ============================================================ -->
+<section id="architecture-decisions">
+  <h2>Architecture Decision Frameworks</h2>
+  <p>
+    Architecture decisions made during Phase 2 lock in cost, governance posture, and flexibility for years.
+    This section distills the ISL-05 pattern library into actionable comparison frameworks so teams can
+    make defensible choices quickly rather than re-debating fundamentals at every engagement.
+  </p>
+
+  <!-- 5.1 Lakehouse vs Traditional Data Warehouse -->
+  <h3 id="lakehouse-vs-warehouse">Lakehouse vs Traditional Data Warehouse</h3>
+  <p>
+    The lakehouse paradigm (Delta Lake on OneLake) merges the flexibility of a data lake with the
+    governance of a data warehouse. The table below captures the dimensions that most frequently
+    drive the decision.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Dimension</th>
+          <th>Traditional Data Warehouse</th>
+          <th>Lakehouse (Fabric / Delta Lake)</th>
+          <th>Winner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Latency</strong></td>
+          <td>Sub-second for optimized star-schema queries</td>
+          <td>Seconds via Direct Lake; sub-second with caching</td>
+          <td>Warehouse (marginal)</td>
+        </tr>
+        <tr>
+          <td><strong>Cost at Scale</strong></td>
+          <td>Compute + dedicated storage; scales linearly</td>
+          <td>OneLake storage + elastic Spark/SQL; pay-per-use</td>
+          <td>Lakehouse</td>
+        </tr>
+        <tr>
+          <td><strong>Governance</strong></td>
+          <td>Mature RBAC, column masking, RLS built-in</td>
+          <td>Workspace isolation, RLS in semantic models, Purview integration</td>
+          <td>Tie (different mechanisms)</td>
+        </tr>
+        <tr>
+          <td><strong>Flexibility</strong></td>
+          <td>Structured only; schema-on-write</td>
+          <td>Structured + semi-structured + unstructured; schema-on-read <em>and</em> schema-on-write</td>
+          <td>Lakehouse</td>
+        </tr>
+        <tr>
+          <td><strong>Vendor Lock-in</strong></td>
+          <td>High (proprietary SQL engine)</td>
+          <td>Medium (open Delta/Parquet format, but Fabric runtime)</td>
+          <td>Lakehouse</td>
+        </tr>
+        <tr>
+          <td><strong>Real-time Ingestion</strong></td>
+          <td>Limited; requires staging layer</td>
+          <td>Native via Eventstream + KQL Database</td>
+          <td>Lakehouse</td>
+        </tr>
+        <tr>
+          <td><strong>ML / Data Science</strong></td>
+          <td>Requires separate platform</td>
+          <td>Native Spark notebooks, MLflow integration</td>
+          <td>Lakehouse</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout callout-info">
+    <span class="callout-icon">&#8505;</span>
+    <strong>ISL Recommendation:</strong> Default to Lakehouse for the Bronze and Silver layers.
+    Use a Fabric Warehouse for the Gold layer <em>only</em> when complex T-SQL stored-procedure
+    logic or sub-second OLAP query performance is a hard requirement.
+  </div>
+
+  <!-- 5.2 Medallion Architecture Guarantees -->
+  <h3 id="medallion-guarantees">Medallion Architecture Guarantees</h3>
+  <p>
+    The ISL-05 medallion pattern (see <code>medallion-architecture.md</code>) provides three
+    fundamental guarantees. The table below maps each layer to its purpose, allowed transformations,
+    and the quality gates that guard promotion to the next layer.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Layer</th>
+          <th>Guarantee</th>
+          <th>Allowed Transformations</th>
+          <th>Quality Gate (ISL-06)</th>
+          <th>ISL-03 Prefix</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge badge-secondary">Bronze</span></td>
+          <td>Raw data is <strong>immutable</strong> and always preserved for audit &amp; reprocessing</td>
+          <td>None &mdash; append-only ingestion; metadata columns only (<code>_ingest_timestamp</code>, <code>_source_system</code>, <code>_batch_id</code>)</td>
+          <td>Schema drift detection; row-count reconciliation &plusmn; 0.1%</td>
+          <td><code>brz_</code></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-primary">Silver</span></td>
+          <td>Data quality <strong>improves monotonically</strong> &mdash; cleansed, conformed, validated</td>
+          <td>Type casting, null handling, deduplication, code mapping, column renaming (ISL-03), SCD 1/2, surrogate key generation, quality validation</td>
+          <td>Completeness &ge; 95%, Validity &ge; 98%, Uniqueness = 100%, row-count reconciliation</td>
+          <td><code>slv_</code></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-accent">Gold</span></td>
+          <td>Consumption-ready data is <strong>optimized for business use cases</strong> without exposing ingestion complexity</td>
+          <td>Star-schema modeling (Kimball), pre-aggregation, domain-specific views, Z-ordering, RLS/OLS application</td>
+          <td>Referential integrity = 100%, Completeness &ge; 99%, Aggregation accuracy = exact, Timeliness per SLA</td>
+          <td><code>gld_</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <pre class="arch-diagram">Sources ──► [ Bronze ]──► QG1 ──► [ Silver ]──► QG2 ──► [ Gold ]──► Consumers
+              append-only   │       cleansed       │      star-schema     Power BI
+              raw fidelity  │       conformed       │      pre-aggregated  Notebooks
+              full audit    ▼       SCD 1 / 2       ▼      RLS applied     APIs
+                       Quarantine              Steward Alert</pre>
+
+  <!-- 5.3 SCD Type Guide -->
+  <h3 id="scd-type-guide">Slowly Changing Dimension (SCD) Type Guide</h3>
+  <p>
+    SCD logic lives in the Silver layer. The type selected per entity determines how attribute
+    changes are tracked. The ISL naming patterns for SCD metadata columns ensure consistency
+    across all engagements.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>SCD Type</th>
+          <th>Strategy</th>
+          <th>Use Case</th>
+          <th>ISL Naming Columns</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Type 0</strong></td>
+          <td>Retain original &mdash; never update</td>
+          <td>Fixed reference codes, regulatory snapshots</td>
+          <td><code>_original_value</code></td>
+        </tr>
+        <tr>
+          <td><strong>Type 1</strong></td>
+          <td>Overwrite &mdash; current value only</td>
+          <td>Non-regulated attrs, inventory qty, operational metrics</td>
+          <td><code>_last_modified</code></td>
+        </tr>
+        <tr>
+          <td><strong>Type 2</strong></td>
+          <td>Add row &mdash; full history preserved</td>
+          <td>Customer master, cost centers, regulated entities, point-in-time reporting</td>
+          <td><code>_effective_from</code>, <code>_effective_to</code>, <code>_is_current</code>, <code>_version_number</code></td>
+        </tr>
+        <tr>
+          <td><strong>Type 3</strong></td>
+          <td>Add column &mdash; current + prior value</td>
+          <td>Tracking one prior value (e.g., previous address)</td>
+          <td><code>{attr}_current</code>, <code>{attr}_previous</code>, <code>_change_date</code></td>
+        </tr>
+        <tr>
+          <td><strong>Type 4</strong></td>
+          <td>Mini-dimension &mdash; rapidly changing attrs split out</td>
+          <td>Demographics, pricing bands that change frequently</td>
+          <td><code>{entity}_profile_sk</code> (FK to mini-dim)</td>
+        </tr>
+        <tr>
+          <td><strong>Type 6</strong></td>
+          <td>Hybrid (1 + 2 + 3) &mdash; row versioning + current-value column</td>
+          <td>Complex audit + analytics requiring both history and fast current-state lookup</td>
+          <td><code>_effective_from</code>, <code>_effective_to</code>, <code>_is_current</code>, <code>{attr}_current</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout callout-warning">
+    <span class="callout-icon">&#9888;</span>
+    <strong>ISL Default:</strong> Type 2 (full history) for all regulated and master-data entities.
+    Type 1 only where audit trail is explicitly not required. Document the justification in the
+    client-context adaptation table.
+  </div>
+
+  <!-- 5.4 Data Mesh vs Centralized Lakehouse -->
+  <h3 id="mesh-vs-centralized">Data Mesh vs Centralized Lakehouse</h3>
+  <p>
+    Data mesh decentralizes ownership to domain teams; a centralized lakehouse concentrates it
+    in a platform team. The right choice depends on organizational maturity, team size, and
+    governance appetite.
+  </p>
+  <div class="card-grid">
+    <div class="card">
+      <h4>Choose Centralized Lakehouse When</h4>
+      <ul>
+        <li>&check; Fewer than 5 data-producing domains</li>
+        <li>&check; Small data engineering team (&lt; 10 FTEs)</li>
+        <li>&check; Single Fabric capacity / tenant</li>
+        <li>&check; Strong central governance mandate (SOX, FDA)</li>
+        <li>&check; Engagement is Phase 1&ndash;2 (foundation building)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Choose Data Mesh When</h4>
+      <ul>
+        <li>&check; 5+ autonomous domains with dedicated engineering</li>
+        <li>&check; Domain teams capable of self-serve data product delivery</li>
+        <li>&check; Multi-region or multi-BU with different compliance regimes</li>
+        <li>&check; Existing federated governance culture</li>
+        <li>&check; Organization is beyond Phase 3 maturity</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout callout-info">
+    <span class="callout-icon">&#8505;</span>
+    <strong>Decision heuristic:</strong> Start centralized, graduate to mesh. Most manufacturing
+    clients begin with a centralized lakehouse in Fabric and evolve toward domain ownership
+    once ISL-03/04/06 standards are embedded and self-service tooling is mature.
+  </div>
+
+  <!-- 5.5 Star Schema vs Snowflake -->
+  <h3 id="star-vs-snowflake">Star Schema vs Snowflake Schema</h3>
+  <p>
+    The Gold layer follows Kimball star-schema modeling by default. Snowflake schemas are
+    permitted only under specific conditions.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Criterion</th>
+          <th>Star Schema</th>
+          <th>Snowflake Schema</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Query Performance</td>
+          <td>&check; Fewer joins; Direct Lake optimized</td>
+          <td>More joins; slower scans</td>
+        </tr>
+        <tr>
+          <td>Storage Efficiency</td>
+          <td>Denormalized; some redundancy</td>
+          <td>&check; Normalized; less redundancy</td>
+        </tr>
+        <tr>
+          <td>User Comprehension</td>
+          <td>&check; Simple; business-friendly</td>
+          <td>Complex; requires SQL expertise</td>
+        </tr>
+        <tr>
+          <td>ETL Complexity</td>
+          <td>Moderate (flatten at load)</td>
+          <td>&check; Lower (preserve normal form)</td>
+        </tr>
+        <tr>
+          <td>Power BI Compatibility</td>
+          <td>&check; Native star pattern expected</td>
+          <td>Requires view flattening</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    <strong>ISL Naming Conventions for Gold Tables:</strong>
+    Fact tables use <code>gld_fact_{subject}</code> (e.g., <code>gld_fact_sales</code>,
+    <code>gld_fact_production</code>). Dimension tables use <code>gld_dim_{entity}</code>
+    (e.g., <code>gld_dim_customer</code>, <code>gld_dim_product</code>). Bridge tables for
+    many-to-many relationships use <code>gld_bridge_{relationship}</code>.
+  </p>
+</section>
+
+<!-- ============================================================
+     SECTION 6: Microsoft Fabric Platform Guide
+     ============================================================ -->
+<section id="fabric-deep-dive">
+  <h2>Microsoft Fabric Platform Guide</h2>
+  <p>
+    Microsoft Fabric collapses the modern data stack into a single SaaS platform built on
+    OneLake. This section translates ISL-05 integration patterns into Fabric-native implementation
+    guidance, covering architecture, capacity planning, query modes, and cost optimization.
+  </p>
+
+  <!-- 6.1 OneLake Architecture -->
+  <h3 id="onelake-architecture">OneLake Architecture</h3>
+  <p>
+    OneLake is Fabric's unified storage layer &mdash; one data lake per tenant, organized into
+    workspaces. All Fabric compute engines (Spark, SQL, KQL, Dataflows) read and write to OneLake
+    natively via Delta/Parquet format.
+  </p>
+  <div class="card-grid">
+    <div class="card">
+      <h4>Workspace Isolation Model</h4>
+      <ul>
+        <li>One workspace per layer per domain per environment</li>
+        <li><code>ws_{domain}_bronze_{env}</code></li>
+        <li><code>ws_{domain}_silver_{env}</code></li>
+        <li><code>ws_{domain}_gold_{env}</code></li>
+        <li>Tier 3+ data in dedicated <code>ws_{domain}_gold_conf_{env}</code></li>
+        <li>Tier 4 (ITAR) in isolated <code>ws_{domain}_gold_restr_{env}</code></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Shortcut Patterns</h4>
+      <ul>
+        <li><strong>Cross-workspace shortcuts:</strong> Gold reads from Silver without copying data</li>
+        <li><strong>External shortcuts:</strong> ADLS Gen2, S3, Dataverse via OneLake shortcuts</li>
+        <li>&#9888; Shortcuts to Bronze are <strong>prohibited</strong> for Tier 3+ data (ISL-04)</li>
+        <li>Shortcuts inherit source security; layer on workspace RBAC</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 6.2 Capacity Planning -->
+  <h3 id="fabric-capacity">Capacity Planning &mdash; CU Consumption by Workload</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Workload Type</th>
+          <th>Min SKU</th>
+          <th>Recommended SKU</th>
+          <th>CU Consumption Profile</th>
+          <th>Scale Trigger</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Spark (Notebooks / Silver transforms)</td>
+          <td>F32</td>
+          <td>F64</td>
+          <td>Bursty &mdash; high CU during transform windows</td>
+          <td>&gt; 100 GB daily transformation volume</td>
+        </tr>
+        <tr>
+          <td>SQL Analytics Endpoint</td>
+          <td>F32</td>
+          <td>F64</td>
+          <td>Sustained &mdash; concurrent ad-hoc queries</td>
+          <td>&gt; 50 concurrent report users</td>
+        </tr>
+        <tr>
+          <td>Dataflow Gen2</td>
+          <td>F32</td>
+          <td>F64</td>
+          <td>Moderate &mdash; mashup engine + Spark</td>
+          <td>&gt; 20 concurrent dataflows</td>
+        </tr>
+        <tr>
+          <td>KQL (Real-Time Analytics)</td>
+          <td>F64</td>
+          <td>F128</td>
+          <td>Sustained &mdash; continuous ingestion + query</td>
+          <td>&gt; 1M events/hour ingested</td>
+        </tr>
+        <tr>
+          <td>Data Factory Pipelines</td>
+          <td>F32</td>
+          <td>F64</td>
+          <td>Low baseline; spikes during Copy Activity</td>
+          <td>&gt; 50 GB daily ingestion</td>
+        </tr>
+        <tr>
+          <td>Power BI Direct Lake</td>
+          <td>F64</td>
+          <td>F128</td>
+          <td>Sustained &mdash; model loads + report renders</td>
+          <td>&gt; 50 concurrent report viewers</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 6.3 DirectLake vs Import vs DirectQuery -->
+  <h3 id="query-modes">DirectLake vs Import vs DirectQuery</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Criterion</th>
+          <th>Direct Lake</th>
+          <th>Import</th>
+          <th>DirectQuery</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Data Freshness</strong></td>
+          <td>&check; Automatic (reads Delta directly)</td>
+          <td>Scheduled refresh (up to 48x/day)</td>
+          <td>&check; Real-time (queries source live)</td>
+        </tr>
+        <tr>
+          <td><strong>Query Performance</strong></td>
+          <td>&check; Near-import speed (in-memory columnar)</td>
+          <td>&check; Fastest (fully cached)</td>
+          <td>Slowest (source query latency)</td>
+        </tr>
+        <tr>
+          <td><strong>Model Size Limit</strong></td>
+          <td>SKU-dependent (F64 ~50 GB)</td>
+          <td>SKU-dependent (same limits)</td>
+          <td>No limit (pass-through)</td>
+        </tr>
+        <tr>
+          <td><strong>RLS Support</strong></td>
+          <td>&check; Yes (model-level)</td>
+          <td>&check; Yes (model-level)</td>
+          <td>&check; Yes (source + model)</td>
+        </tr>
+        <tr>
+          <td><strong>Best For</strong></td>
+          <td>Gold lakehouse tables &mdash; ISL default</td>
+          <td>Small datasets, Excel exports, non-Fabric sources</td>
+          <td>Warehouse with complex SQL, very large datasets exceeding memory</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout callout-success">
+    <span class="callout-icon">&check;</span>
+    <strong>ISL Default:</strong> Use <strong>Direct Lake</strong> for all Gold lakehouse semantic
+    models. Fall back to Import only for non-Fabric sources or datasets requiring DAX-heavy
+    calculated tables. Use DirectQuery for Fabric Warehouse endpoints where T-SQL performance is acceptable.
+  </div>
+
+  <!-- 6.4 Real-time Ingestion Decision Matrix -->
+  <h3 id="realtime-ingestion">Eventstream vs Event Hubs vs Kafka &mdash; Real-Time Ingestion</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Capability</th>
+          <th>Fabric Eventstream</th>
+          <th>Azure Event Hubs</th>
+          <th>Kafka (Confluent / HDInsight)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Managed by</td>
+          <td>Fabric (SaaS)</td>
+          <td>Azure PaaS</td>
+          <td>Self-managed / vendor SaaS</td>
+        </tr>
+        <tr>
+          <td>Throughput</td>
+          <td>Moderate (CU-bound)</td>
+          <td>High (dedicated TUs)</td>
+          <td>Very high (cluster-dependent)</td>
+        </tr>
+        <tr>
+          <td>Fabric Integration</td>
+          <td>&check; Native (drag-and-drop)</td>
+          <td>&check; Via Eventstream source or custom endpoint</td>
+          <td>Via Kafka endpoint on Event Hubs or custom connector</td>
+        </tr>
+        <tr>
+          <td>Schema Registry</td>
+          <td>Limited</td>
+          <td>Azure Schema Registry</td>
+          <td>&check; Confluent Schema Registry (full)</td>
+        </tr>
+        <tr>
+          <td>Use When</td>
+          <td>Fabric-native streaming; IoT &lt; 10K msg/sec</td>
+          <td>High-throughput; shared with non-Fabric consumers</td>
+          <td>Existing Kafka ecosystem; multi-cloud</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 6.5 Cost Optimization -->
+  <h3 id="fabric-cost">Cost Optimization Strategies</h3>
+  <div class="card-grid">
+    <div class="card">
+      <h4>Capacity Management</h4>
+      <ul>
+        <li><strong>Autoscale:</strong> Enable capacity autoscale for bursty workloads (Spark transforms)</li>
+        <li><strong>Pause/Resume:</strong> Pause non-production capacities outside business hours</li>
+        <li><strong>Reservation:</strong> 1-year reserved capacity for production (up to 40% savings)</li>
+        <li><strong>Right-size:</strong> Monitor CU utilization via Capacity Metrics app; downsize if &lt; 50% avg</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Storage &amp; Compute</h4>
+      <ul>
+        <li><strong>VACUUM:</strong> Bronze 30-day, Silver 30-day, Gold 7-day retention</li>
+        <li><strong>Z-ORDER:</strong> Apply on Gold fact tables for common filter columns</li>
+        <li><strong>Partitioning:</strong> Bronze by <code>_ingest_date</code>; Gold by business date</li>
+        <li><strong>Shortcuts over copies:</strong> Reference data via OneLake shortcuts, not duplication</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 6.6 ISL Naming in Fabric -->
+  <h3 id="fabric-naming">ISL Naming Applied to Fabric Objects</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Fabric Object</th>
+          <th>ISL-03 Pattern</th>
+          <th>Example</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Lakehouse</td>
+          <td><code>lh_{domain}_{layer}_{env}</code></td>
+          <td><code>lh_sales_gold_prod</code></td>
+        </tr>
+        <tr>
+          <td>Warehouse</td>
+          <td><code>wh_{domain}_{layer}_{env}</code></td>
+          <td><code>wh_finance_gold_prod</code></td>
+        </tr>
+        <tr>
+          <td>Pipeline</td>
+          <td><code>pl_{layer}_{source}_{entity}_{action}</code></td>
+          <td><code>pl_brz_sap_sales_orders_ingest</code></td>
+        </tr>
+        <tr>
+          <td>Notebook</td>
+          <td><code>nb_{layer}_{entity}_{action}</code></td>
+          <td><code>nb_slv_customer_cleanse</code></td>
+        </tr>
+        <tr>
+          <td>Semantic Model</td>
+          <td><code>sm_{domain}_{subject}_{env}</code></td>
+          <td><code>sm_production_oee_prod</code></td>
+        </tr>
+        <tr>
+          <td>Eventstream</td>
+          <td><code>es_{source}_{subject}</code></td>
+          <td><code>es_iot_temperature_readings</code></td>
+        </tr>
+        <tr>
+          <td>KQL Database</td>
+          <td><code>kql_{domain}_{subject}_{env}</code></td>
+          <td><code>kql_iot_telemetry_prod</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout callout-info">
+    <span class="callout-icon">&#8505;</span>
+    <strong>Accelerator Integration:</strong> The Fabric platform adapter in the Implementation
+    Accelerator (<code>implementation/adapters/</code>) automatically applies these naming patterns
+    when generating pipeline and lakehouse configurations. Select the "Microsoft Fabric" platform
+    in Step 2 of the wizard to activate the adapter.
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 7: Data Quality Foundations
+     ============================================================ -->
+<section id="quality-foundations">
+  <h2>Data Quality Foundations</h2>
+  <p>
+    ISL-06 provides a production-ready data quality framework with 50+ pre-built rules.
+    This section covers the theoretical foundations &mdash; the DAMA-aligned dimension model,
+    measurement formulas, quality gates, and statistical process control concepts &mdash; so
+    practitioners understand <em>why</em> the rules exist, not just how to deploy them.
+  </p>
+
+  <!-- 7.1 DAMA DMBOK Alignment -->
+  <h3 id="dama-alignment">The Six Quality Dimensions &mdash; DAMA DMBOK Alignment</h3>
+  <p>
+    ISL-06 measures quality across six orthogonal dimensions aligned to the DAMA DMBOK Data
+    Quality knowledge area and ISO 8000. Each dimension answers a distinct fitness-for-use question.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Dimension</th>
+          <th>Core Question</th>
+          <th>DAMA DMBOK Mapping</th>
+          <th>Measurement Method</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>D1</td>
+          <td><strong>Completeness</strong></td>
+          <td>"Is the data here?"</td>
+          <td>Data Quality &rarr; Completeness Assessment</td>
+          <td><code>1 - (null_count / total_count)</code></td>
+        </tr>
+        <tr>
+          <td>D2</td>
+          <td><strong>Accuracy</strong></td>
+          <td>"Is the data right?"</td>
+          <td>Data Quality &rarr; Accuracy Verification</td>
+          <td>Reference comparison; tolerance-based; rule-based</td>
+        </tr>
+        <tr>
+          <td>D3</td>
+          <td><strong>Timeliness</strong></td>
+          <td>"Is the data fresh?"</td>
+          <td>Data Quality &rarr; Currency &amp; Timeliness</td>
+          <td>Freshness (data age) + Punctuality (delivery within SLA window)</td>
+        </tr>
+        <tr>
+          <td>D4</td>
+          <td><strong>Consistency</strong></td>
+          <td>"Does the data agree?"</td>
+          <td>Data Quality &rarr; Consistency Assessment</td>
+          <td>Cross-system, intra-record, temporal, referential comparison</td>
+        </tr>
+        <tr>
+          <td>D5</td>
+          <td><strong>Validity</strong></td>
+          <td>"Is the data in the right shape?"</td>
+          <td>Data Quality &rarr; Validity / Conformity</td>
+          <td>Format (regex), range, enum, type, length, business-rule checks</td>
+        </tr>
+        <tr>
+          <td>D6</td>
+          <td><strong>Uniqueness</strong></td>
+          <td>"Is there only one record per entity?"</td>
+          <td>Data Quality &rarr; Uniqueness / Deduplication</td>
+          <td><code>COUNT(DISTINCT key) / COUNT(*)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 7.2 Dimension Dependency Model -->
+  <h3 id="dimension-dependencies">Dimension Dependency Model</h3>
+  <p>
+    Quality dimensions are not independent. Completeness is foundational &mdash; you cannot assess
+    accuracy of data that is missing. The evaluation order below ensures meaningful results.
+  </p>
+  <pre class="arch-diagram">Completeness ──────► Accuracy        (cannot assess accuracy of missing data)
+     │                    │
+     │                    ▼
+     │              Consistency       (accuracy across systems implies consistency)
+     │                    │
+     ▼                    ▼
+Validity ◄──────── Timeliness        (stale data may fail validity checks)
+     │
+     ▼
+Uniqueness                            (duplicate detection requires valid key fields)</pre>
+  <p>
+    <strong>Recommended evaluation order:</strong>
+    <span class="badge badge-secondary">D1 Completeness</span> &rarr;
+    <span class="badge badge-secondary">D5 Validity</span> &rarr;
+    <span class="badge badge-secondary">D2 Accuracy</span> &rarr;
+    <span class="badge badge-secondary">D4 Consistency</span> &rarr;
+    <span class="badge badge-secondary">D6 Uniqueness</span> &rarr;
+    <span class="badge badge-secondary">D3 Timeliness</span>
+  </p>
+
+  <!-- 7.3 Measurement Formulas -->
+  <h3 id="quality-measurement">Measurement Formulas</h3>
+  <p>Each dimension is quantified as a rate between 0% and 100% (except Timeliness, measured in minutes).</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Dimension</th>
+          <th>Formula (SQL-like)</th>
+          <th>Edge Case</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Completeness</td>
+          <td><code>(COUNT(*) - COUNT(CASE WHEN val IS NULL OR TRIM(val) IN ('','N/A','NA','NULL','NONE') THEN 1 END)) / COUNT(*)</code></td>
+          <td>Placeholder values (e.g., <code>1900-01-01</code>) default to <em>incomplete</em></td>
+        </tr>
+        <tr>
+          <td>Accuracy</td>
+          <td><code>COUNT(CASE WHEN ABS(target - reference) &lt;= tolerance THEN 1 END) / COUNT(*)</code></td>
+          <td>NULL in target excluded (counted under Completeness)</td>
+        </tr>
+        <tr>
+          <td>Timeliness</td>
+          <td><code>COUNT(CASE WHEN actual_arrival &lt;= expected_arrival THEN 1 END) / COUNT(*)</code></td>
+          <td>Backfills excluded from scoring or tagged separately</td>
+        </tr>
+        <tr>
+          <td>Consistency</td>
+          <td><code>COUNT(CASE WHEN system_a.val = system_b.val THEN 1 END) / COUNT(*)</code></td>
+          <td>Fuzzy matching configurable; default is exact</td>
+        </tr>
+        <tr>
+          <td>Validity</td>
+          <td><code>COUNT(CASE WHEN val RLIKE pattern AND val BETWEEN min AND max THEN 1 END) / COUNT(*)</code></td>
+          <td>NULL excluded (counted under Completeness)</td>
+        </tr>
+        <tr>
+          <td>Uniqueness</td>
+          <td><code>COUNT(DISTINCT uniqueness_key) / COUNT(*)</code></td>
+          <td>SCD2 versions: unique on business_key + effective_date</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    <strong>Composite Score:</strong>
+    <code>Score = (w1 &times; Completeness) + (w2 &times; Accuracy) + (w3 &times; Timeliness) + (w4 &times; Consistency) + (w5 &times; Validity) + (w6 &times; Uniqueness)</code>
+    where all weights default to 1/6 and sum to 1.0. Weights are configurable per domain and use case.
+  </p>
+
+  <!-- 7.4 Quality Gates at Medallion Layers -->
+  <h3 id="quality-gates">Quality Gates &mdash; Stage-Gate Model</h3>
+  <p>
+    Quality gates are enforced at each medallion layer transition. Records failing a gate are
+    routed to quarantine tables (<code>slv_quarantine_{entity}</code>) rather than discarded.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Gate</th>
+          <th>Dimension</th>
+          <th>Threshold</th>
+          <th>On Failure</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td rowspan="4"><strong>QG1: Bronze &rarr; Silver</strong></td><td>Completeness</td><td>&ge; 95% per batch</td><td>Quarantine failing rows</td></tr>
+        <tr><td>Validity</td><td>&ge; 98% per batch</td><td>Quarantine failing rows</td></tr>
+        <tr><td>Uniqueness</td><td>100% (zero duplicates)</td><td>Deduplicate; log to audit</td></tr>
+        <tr><td>Accuracy (row count)</td><td>&plusmn; 0.1% vs source</td><td>Alert; block if &gt; 1% delta</td></tr>
+        <tr><td rowspan="4"><strong>QG2: Silver &rarr; Gold</strong></td><td>Referential Integrity</td><td>100%</td><td>Block promotion; log orphans</td></tr>
+        <tr><td>Completeness</td><td>&ge; 99%</td><td>Substitute default dim row (sk = -1)</td></tr>
+        <tr><td>Consistency</td><td>&ge; 99%</td><td>Alert data steward; flag records</td></tr>
+        <tr><td>Aggregation Accuracy</td><td>Exact match to Silver</td><td>Block promotion; reprocess</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout callout-warning">
+    <span class="callout-icon">&#9888;</span>
+    <strong>Enforcement mode is configurable:</strong> <em>Hard</em> (default) blocks promotion on
+    failure. <em>Soft</em> logs a warning and promotes anyway. Hard mode is mandatory for
+    Critical (Tier 3&ndash;4) data per ISL-04.
+  </div>
+
+  <!-- 7.5 Statistical Process Control -->
+  <h3 id="spc-concepts">Statistical Process Control (SPC) for Data Quality</h3>
+  <p>
+    SPC techniques borrowed from manufacturing quality management help distinguish normal variation
+    from assignable-cause degradation. The ISL-06 monitoring framework uses these concepts for
+    regression detection and trend analysis.
+  </p>
+  <div class="card-grid">
+    <div class="card">
+      <h4>Control Limits</h4>
+      <ul>
+        <li><strong>Center line (CL):</strong> 30-day rolling mean of daily quality scores</li>
+        <li><strong>Upper Control Limit (UCL):</strong> CL + 3&sigma;</li>
+        <li><strong>Lower Control Limit (LCL):</strong> CL &minus; 3&sigma;</li>
+        <li>Points outside LCL trigger a <span class="badge badge-accent">REGRESSION</span> alert</li>
+        <li>Points between LCL and CL &minus; 2&sigma; trigger an <span class="badge badge-primary">ANOMALY</span> warning</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Run Rules (Western Electric)</h4>
+      <ul>
+        <li><strong>Rule 1:</strong> Any single point beyond 3&sigma; &rarr; out of control</li>
+        <li><strong>Rule 2:</strong> 2 of 3 consecutive points beyond 2&sigma; &rarr; warning</li>
+        <li><strong>Rule 3:</strong> 4 of 5 consecutive points beyond 1&sigma; &rarr; trend</li>
+        <li><strong>Rule 4:</strong> 8 consecutive points on same side of CL &rarr; shift</li>
+        <li>When quality is "in control," variation is random and no action is needed</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 7.6 Quality Rule Prioritization -->
+  <h3 id="quality-prioritization">Quality Rule Prioritization &mdash; Impact vs Effort</h3>
+  <p>
+    With 50+ pre-built rules in the ISL-06 library, teams must prioritize. Use the impact-effort
+    matrix below to sequence rule deployment across sprints.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Low Effort</th>
+          <th>High Effort</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>High Impact</strong></td>
+          <td>
+            <span class="badge badge-accent">&#9733; Deploy First</span><br>
+            Null checks (QR-R01), PK uniqueness (QR-S04), row count threshold (QR-A01),
+            freshness check (QR-A05), FK validity (QR-S05)
+          </td>
+          <td>
+            <span class="badge badge-primary">Plan for Sprint 2&ndash;3</span><br>
+            Cross-system consistency, aggregation accuracy (QR-A03), distribution checks (QR-A04),
+            BOM integrity rules
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Low Impact</strong></td>
+          <td>
+            <span class="badge badge-secondary">Quick Wins</span><br>
+            String length (QR-R06), reserved word check (QR-S10), column count (QR-S06),
+            email/phone format (QR-R08/R09)
+          </td>
+          <td>
+            Deprioritize<br>
+            Fuzzy duplicate detection, cross-source entity resolution,
+            advanced temporal sequence validation
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout callout-success">
+    <span class="callout-icon">&check;</span>
+    <strong>Start with 5 rules, not 50.</strong> Deploy the top-left quadrant (high-impact, low-effort)
+    in the first sprint. Measure coverage, refine thresholds, then expand. The ISL-06 Quality SLA
+    Framework defines a baseline-to-maturity trajectory: 80% compliance in Q2, 90% in Q3, 95% in Q4.
+  </div>
+</section>
+<!-- ============================================================
+     Section 8: Metadata & Lineage Theory
+     ============================================================ -->
+<section id="metadata-concepts">
+  <h2>Metadata &amp; Lineage Theory</h2>
+  <p>
+    Metadata is the connective tissue of every data platform. Without it, pipelines are black boxes,
+    reports lack provenance, and compliance audits become fire-drills. This section distils the
+    ISL-02 framework into the core concepts your team needs before touching any tooling.
+  </p>
+
+  <!-- 8.1 Five Metadata Types -->
+  <h3 id="metadata-types">Five Metadata Types</h3>
+  <div class="card-grid">
+    <div class="card">
+      <h4>Business Metadata</h4>
+      <p>Human-readable context that gives data <em>meaning</em>. Glossary definitions, domain ownership, KPI associations, and regulatory relevance.</p>
+      <p><strong>Example:</strong> <code>Finished Goods Inventory</code> &mdash; "Completed products that have passed final QC and are available for sale."</p>
+    </div>
+    <div class="card">
+      <h4>Technical Metadata</h4>
+      <p>Structural and physical information describing how data is stored and shaped. Schemas, data types, column counts, keys, and platform details.</p>
+      <p><strong>Example:</strong> <code>dim_customer</code> &mdash; 47 columns, NVARCHAR(255), lakehouse zone GOLD, Fabric SQL endpoint.</p>
+    </div>
+    <div class="card">
+      <h4>Operational Metadata</h4>
+      <p>Runtime telemetry about data movement and processing. Pipeline status, row counts, refresh timestamps, duration, and SLA compliance.</p>
+      <p><strong>Example:</strong> Pipeline <code>pl_sap_material_master_daily</code> &mdash; last run succeeded, 1,247,350 rows, 866 s duration.</p>
+    </div>
+    <div class="card">
+      <h4>Security Metadata</h4>
+      <p>Classification, access control, and sensitivity information. ISL-04 tiers, PII/PHI flags, ITAR controls, sensitivity labels, and masking rules.</p>
+      <p><strong>Example:</strong> Column <code>customer_email_address</code> &mdash; Direct PII, Sensitivity Label "Confidential - PII", masking rule <code>partial(2,"XXX",2)</code>.</p>
+    </div>
+    <div class="card">
+      <h4>Social Metadata</h4>
+      <p>Usage and trust signals generated by people. Certification status, consumer counts, view frequency, ratings, comments, and endorsement levels.</p>
+      <p><strong>Example:</strong> Semantic model <code>Production Efficiency Model</code> &mdash; Certified, endorsed, 47 unique viewers in last 30 days.</p>
+    </div>
+  </div>
+
+  <!-- 8.2 Active vs Passive Metadata -->
+  <h3 id="active-vs-passive">Active vs. Passive Metadata</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Dimension</th><th>Passive Metadata</th><th>Active Metadata</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Purpose</strong></td><td>Documentary &mdash; describes data after the fact</td><td>Operational &mdash; drives automation in real time</td></tr>
+        <tr><td><strong>Mechanism</strong></td><td>Manually curated descriptions, tags, glossary entries</td><td>Schema enforcement, policy triggers, auto-classification, quality gates</td></tr>
+        <tr><td><strong>Freshness</strong></td><td>Point-in-time; may go stale</td><td>Continuously refreshed by platform events</td></tr>
+        <tr><td><strong>Example</strong></td><td>A business description on a Purview asset</td><td>A Purview sensitivity label that auto-triggers DLP policy and blocks export</td></tr>
+        <tr><td><strong>ISL Maturity</strong></td><td>Levels 1 &ndash; 3</td><td>Levels 4 &ndash; 5</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout callout-info">
+    <span class="callout-icon">&#8505;</span>
+    <strong>Goal:</strong> Move as much metadata as possible from passive to active. Every passive description
+    that can become a machine-enforced rule reduces manual governance overhead and eliminates human error.
+  </div>
+
+  <!-- 8.3 Lineage Granularity Levels -->
+  <h3 id="lineage-granularity">Lineage Granularity Levels</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Level</th><th>Granularity</th><th>What It Shows</th><th>Cost to Capture</th><th>Benefit</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge badge-secondary">L1</span> Dataset / System</td>
+          <td>System-to-system</td>
+          <td>SAP &rarr; ADF &rarr; Fabric Lakehouse</td>
+          <td>Low &mdash; usually free from scan</td>
+          <td>Architecture overview, vendor management</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-secondary">L2</span> Table</td>
+          <td>Table-to-table</td>
+          <td><code>bronze.sap_customer</code> &rarr; <code>silver.dim_customer</code></td>
+          <td>Low &mdash; native Purview connectors</td>
+          <td>Impact analysis, change management</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-primary">L3</span> Column</td>
+          <td>Column-to-column</td>
+          <td><code>KNA1.NAME1</code> &rarr; <code>dim_customer.customer_name</code></td>
+          <td>Medium &mdash; requires OpenLineage or manual</td>
+          <td>Root-cause analysis, PII tracing, regulatory</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-accent">L4</span> Cell / Value</td>
+          <td>Record-level</td>
+          <td>Specific row mutation tracked through pipeline</td>
+          <td>High &mdash; custom instrumentation, storage cost</td>
+          <td>GDPR right-to-erasure, forensic audit</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout callout-warning">
+    <span class="callout-icon">&#9888;</span>
+    <strong>Cost-benefit inflection:</strong> Most organisations get 80% of the value from L2 (table) + selective L3 (column) lineage
+    on SOX-critical and PII assets. L4 cell-level lineage should only be implemented where regulation explicitly demands it.
+  </div>
+
+  <!-- 8.4 Impact Analysis -->
+  <h3 id="impact-analysis-theory">Impact Analysis</h3>
+  <p>
+    Lineage powers the question every architect dreads: <em>"What breaks if I change this column?"</em>
+    The ISL-02 framework defines two directions of traversal:
+  </p>
+  <div class="card-grid">
+    <div class="card">
+      <h4>Forward Impact &mdash; "What does this feed?"</h4>
+      <p>Trace <strong>downstream</strong> from a source change to every affected pipeline, table, semantic model, and report. Used before schema changes, source migrations, and ETL refactors.</p>
+      <pre>SAP.KNA1 (schema change)
+  &darr; forward trace
+  bronze.sap_customer &rarr; silver.dim_customer
+    &rarr; gold.fact_sales &rarr; Semantic Model
+      &rarr; 3 Power BI reports (142 consumers)</pre>
+    </div>
+    <div class="card">
+      <h4>Backward Provenance &mdash; "Where does this come from?"</h4>
+      <p>Trace <strong>upstream</strong> from a suspect value to its origin. Used during data-quality incidents and regulatory audits (SOX walkthrough, GDPR subject-access request).</p>
+      <pre>Report: "Revenue Off by $2M"
+  &uarr; backward trace
+  gold.fact_sales.revenue &larr; silver.fact_order.amount
+    &larr; bronze.sap_sales.NETWR
+      &larr; SAP VBAP table (currency conv. bug)</pre>
+    </div>
+  </div>
+
+  <!-- 8.5 Knowledge Graphs -->
+  <h3 id="knowledge-graphs">Knowledge Graphs &amp; the Semantic Layer</h3>
+  <p>
+    When all five metadata types are linked, the catalog becomes a <strong>knowledge graph</strong>:
+    entities (assets, terms, people) connected by typed relationships (produces, consumes, owns, classifies).
+    Navigating this graph lets analysts find trusted data without tribal knowledge.
+  </p>
+  <pre class="arch-diagram">
+  [Business Term]            [Data Owner]
+   "Revenue"                 jane.doe
+       |  defines                |  owns
+       v                         v
+  [Semantic Measure] ---- [Gold Table] ---- [Quality Score: 94.5]
+   SUM(fact_sales.rev)    fact_sales          ISL-06
+       |  consumed-by          |  derived-from
+       v                       v
+  [Power BI Report]       [Silver Table] --- [Lineage Edge]
+   Monthly Revenue         fact_order          L3 column-level
+                               |  sourced-from
+                               v
+                          [Bronze Table] --- [Pipeline]
+                           sap_sales         pl_sap_sales_daily
+  </pre>
+  <p>
+    The <strong>semantic layer</strong> is the bridge between business definitions and physical tables.
+    A business user asks for "Revenue"; the semantic model resolves that to
+    <code>SUM(fact_sales.net_revenue)</code>, which lineage traces back through Silver and Bronze
+    to <code>SAP VBAP.NETWR</code>. This chain is only trustworthy when every node carries
+    complete, active metadata.
+  </p>
+
+  <!-- 8.6 Metadata Maturity Model -->
+  <h3 id="metadata-maturity">Metadata Maturity Model</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Level</th><th>Name</th><th>Characteristics</th><th>ISL Modules Active</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge badge-secondary">1</span></td>
+          <td>Ad-Hoc</td>
+          <td>No formal metadata; tribal knowledge; Excel data dictionaries</td>
+          <td>None &mdash; starting point</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-secondary">2</span></td>
+          <td>Reactive</td>
+          <td>Some documentation exists post-incident; Purview deployed but under-configured</td>
+          <td>ISL-03 (naming), ISL-04 (classification) in progress</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-primary">3</span></td>
+          <td>Defined</td>
+          <td>Standards published; glossary curated; lineage captured at L2; catalog in use</td>
+          <td>ISL-03, ISL-04, ISL-02 (business glossary + tech schema)</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-primary">4</span></td>
+          <td>Managed</td>
+          <td>Active governance; quality scores on assets; L3 column lineage on critical assets; stewardship model operating</td>
+          <td>All 6 ISL modules deployed; certification process running</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-accent">5</span></td>
+          <td>Automated / Active</td>
+          <td>Active metadata drives policy enforcement, auto-classification, pipeline orchestration, and self-healing quality rules</td>
+          <td>All ISL modules + platform automation (Purview policies, Fabric triggers)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout callout-success">
+    <span class="callout-icon">&check;</span>
+    <strong>ISL target:</strong> Move every engagement from their current maturity level to at least <strong>Level 3 (Defined)</strong>
+    within the 8-week sprint delivery, with a roadmap to Level 4 within 6 months post-engagement.
+  </div>
+</section>
+
+
+<!-- ============================================================
+     Section 9: Engagement Ceremonies & Workshops
+     ============================================================ -->
+<section id="engagement-ceremonies">
+  <h2>Engagement Ceremonies &amp; Workshops</h2>
+  <p>
+    Standards only stick when stakeholders co-create them. The ISL engagement model
+    includes four recurring ceremonies &mdash; each with defined inputs, outputs, and time-boxes &mdash;
+    that transform templates into client-owned, client-enforced standards.
+  </p>
+
+  <!-- 9.1 Classification Workshop -->
+  <h3 id="classification-workshop">Data Classification Workshop</h3>
+  <h4>Pre-Work (completed before the session)</h4>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Item</th><th>Owner</th><th>Deadline</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Data inventory extract (source systems, key tables, known PII locations)</td><td>Integration Architect</td><td>3 days before</td></tr>
+        <tr><td>Stakeholder mapping &mdash; identify compliance officer, data owners per domain, IT security lead</td><td>Engagement Lead</td><td>5 days before</td></tr>
+        <tr><td>ISL-04 classification template pre-populated with client compliance requirements (SOX, GDPR, ITAR, HIPAA)</td><td>Data Governance Lead</td><td>2 days before</td></tr>
+        <tr><td>Existing classification scheme documentation (if any)</td><td>Client Stakeholder</td><td>3 days before</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>Workshop Flow &mdash; 2-Hour Agenda</h4>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Block</th><th>Duration</th><th>Activity</th><th>Facilitator</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>15 min</td><td><strong>Introduction &amp; Context</strong> &mdash; Why classification matters; regulatory drivers; how ISL-04 tiers map to Purview sensitivity labels</td><td>Engagement Lead</td></tr>
+        <tr><td>2</td><td>30 min</td><td><strong>Tier Walkthrough</strong> &mdash; Review each of the 4 tiers (Public, Internal, Confidential, Restricted) with real examples from the client data inventory</td><td>Data Governance Lead</td></tr>
+        <tr><td>3</td><td>45 min</td><td><strong>Hands-On Classification</strong> &mdash; Breakout groups classify 10-15 sample data assets from the inventory; record tier, rationale, and handling requirements</td><td>All participants</td></tr>
+        <tr><td>4</td><td>20 min</td><td><strong>Edge Cases &amp; Exceptions</strong> &mdash; Review items where groups disagreed; establish escalation path; document exception register entries</td><td>Data Governance Lead</td></tr>
+        <tr><td>5</td><td>10 min</td><td><strong>Next Steps</strong> &mdash; Assign owners for remaining inventory classification; confirm Purview label deployment timeline; schedule follow-up</td><td>Engagement Lead</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>Outputs</h4>
+  <ul>
+    <li>&check; Classified data inventory (initial batch of 10-15 assets with tier assignments)</li>
+    <li>&check; Exception register with escalation paths for ambiguous cases</li>
+    <li>&check; Stakeholder-validated tier definitions adapted to client context</li>
+    <li>&check; Action items: remaining inventory classification assignments with deadlines</li>
+  </ul>
+
+  <!-- 9.2 Naming Review Session -->
+  <h3 id="naming-review">Naming Convention Review Session</h3>
+  <div class="card-grid">
+    <div class="card">
+      <h4>Format</h4>
+      <p><strong>1-hour session, weekly cadence</strong> during implementation sprints (Sprints 1-3). Moves to bi-weekly in steady-state after Sprint 4 handoff.</p>
+      <p><span class="badge badge-primary">Sprint 1</span> Focus: ISL-03 template adaptation + abbreviation dictionary</p>
+      <p><span class="badge badge-primary">Sprint 2-3</span> Focus: Review names proposed for new assets as modules deploy</p>
+    </div>
+    <div class="card">
+      <h4>Inputs per Session</h4>
+      <ul>
+        <li>Proposed object names (tables, pipelines, APIs) from current sprint work</li>
+        <li>Abbreviation requests &mdash; new terms not in the ISL-03 dictionary</li>
+        <li>Exception requests &mdash; cases where standard patterns do not fit</li>
+        <li>Naming violations flagged by automated linting (if configured)</li>
+      </ul>
+    </div>
+  </div>
+  <h4>Decision Criteria</h4>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Criterion</th><th>Weight</th><th>Question</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Consistency</strong></td><td>40%</td><td>Does it follow the ISL-03 pattern for this asset type?</td></tr>
+        <tr><td><strong>Discoverability</strong></td><td>30%</td><td>Can a new team member find this asset via catalog search?</td></tr>
+        <tr><td><strong>Tooling Compatibility</strong></td><td>20%</td><td>Does it respect Azure/Fabric character limits and reserved words?</td></tr>
+        <tr><td><strong>Longevity</strong></td><td>10%</td><td>Will this name still make sense in 3 years after team turnover?</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout callout-info">
+    <span class="callout-icon">&#8505;</span>
+    <strong>Decision log:</strong> Every naming decision (approval, rejection, exception) is recorded in the sprint
+    engagement log with rationale. Exceptions require Engagement Lead sign-off and are tracked for pattern
+    analysis at Sprint 4 retrospective.
+  </div>
+
+  <!-- 9.3 Quality Rule Prioritization Workshop -->
+  <h3 id="quality-prioritization-workshop">Quality Rule Prioritization Workshop</h3>
+  <p>
+    Held during Sprint 2 when ISL-06 is being adapted. Goal: select which quality rules to
+    implement first and calibrate thresholds to the client's data reality.
+  </p>
+
+  <h4>Impact / Effort Matrix</h4>
+  <pre class="arch-diagram">
+             HIGH IMPACT
+                 |
+    Quick Wins   |   Strategic
+    (Do First)   |   (Plan &amp; Schedule)
+                 |
+  LOW EFFORT ----+---- HIGH EFFORT
+                 |
+    Fill-Ins     |   Reconsider
+    (Batch Later)|   (Defer or Drop)
+                 |
+             LOW IMPACT
+  </pre>
+
+  <h4>Rule Categorisation</h4>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Category</th><th>Pipeline Behaviour</th><th>Example Rule</th><th>When to Use</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge badge-accent">Blocking</span></td>
+          <td>Pipeline fails; data does not land in target</td>
+          <td>Primary key uniqueness on <code>dim_customer.customer_id</code></td>
+          <td>Data integrity violations that corrupt downstream Gold tables</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-primary">Warning</span></td>
+          <td>Pipeline succeeds; alert raised; row flagged</td>
+          <td>Email format validation on <code>customer_email_address</code></td>
+          <td>Quality issues that need attention but should not halt processing</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-secondary">Monitoring</span></td>
+          <td>Pipeline succeeds; metric logged to quality dashboard</td>
+          <td>Null percentage on <code>phone_number</code> trending above 15%</td>
+          <td>Trend detection; early warning; compliance reporting</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>Threshold Calibration Methodology</h4>
+  <ol>
+    <li><strong>Baseline:</strong> Profile current data to establish actual null rates, duplicate rates, and format compliance percentages.</li>
+    <li><strong>Target:</strong> Define aspirational thresholds per ISL-04 classification tier (e.g., Tier 3 Confidential assets require &ge; 99% completeness).</li>
+    <li><strong>Tolerance:</strong> Set intermediate thresholds that trigger warnings without blocking pipelines during the adoption period.</li>
+    <li><strong>Tighten:</strong> Ratchet thresholds toward target over 3-6 months as data quality improves. Review quarterly.</li>
+  </ol>
+
+  <!-- 9.4 Architecture Review Board -->
+  <h3 id="architecture-review">Architecture Review Board (ARB)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Attribute</th><th>During Build (Sprints 0-3)</th><th>Steady-State (Post Sprint 4)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Cadence</strong></td><td>Bi-weekly (aligned to sprint boundaries)</td><td>Monthly</td></tr>
+        <tr><td><strong>Duration</strong></td><td>90 minutes</td><td>60 minutes</td></tr>
+        <tr><td><strong>Attendees</strong></td><td>Engagement Lead, Integration Architect, Data Governance Lead, Client Stakeholder</td><td>Client Architecture team + Data Governance Lead (advisory)</td></tr>
+        <tr><td><strong>Scope</strong></td><td>Cross-module decisions, inter-standard conflicts, exception approvals, pattern selections</td><td>New integration patterns, standard amendments, exception reviews</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>Decision Log Format</h4>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Field</th><th>Description</th><th>Example</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Decision ID</td><td>Sequential identifier</td><td>ARB-007</td></tr>
+        <tr><td>Date</td><td>ARB session date</td><td>2026-02-14</td></tr>
+        <tr><td>Topic</td><td>Issue or question</td><td>Column-level lineage scope for non-SOX assets</td></tr>
+        <tr><td>Options Considered</td><td>Alternatives evaluated</td><td>(A) L3 for all Silver+; (B) L3 only for SOX/PII; (C) L3 for Gold only</td></tr>
+        <tr><td>Decision</td><td>Chosen option with rationale</td><td>Option B &mdash; cost-effective; aligns with regulatory requirement; expand later</td></tr>
+        <tr><td>Owner</td><td>Accountable person</td><td>Data Governance Lead</td></tr>
+        <tr><td>Impact</td><td>Modules / sprints affected</td><td>ISL-02 lineage requirements; Sprint 3 scope reduced by ~4 hrs</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>Escalation Procedures</h4>
+  <ol>
+    <li><strong>Within ARB:</strong> Disagreements resolved by majority vote; Engagement Lead has tie-breaking authority during build phase.</li>
+    <li><strong>Beyond ARB:</strong> Unresolved issues (compliance conflicts, scope changes) escalate per the orchestrator escalation matrix &mdash; Client Stakeholder &rarr; Client PMO &rarr; Executive Sponsor. SLA: 48 hours.</li>
+    <li><strong>Emergency:</strong> Security or compliance blockers may bypass scheduled ARB; Engagement Lead convenes ad-hoc session within 24 hours.</li>
+  </ol>
+  <div class="callout callout-warning">
+    <span class="callout-icon">&#9888;</span>
+    <strong>Anti-pattern:</strong> Do not skip ARB sessions during Sprint 3 (advanced deployment). ISL-02 metadata and
+    ISL-05 integration patterns generate the most cross-module conflicts and require active architectural arbitration.
+  </div>
+</section>
+
+
+<!-- ============================================================
+     Section 10: Change Management & Adoption
+     ============================================================ -->
+<section id="change-adoption">
+  <h2>Change Management &amp; Adoption</h2>
+  <p>
+    The best standards are useless if nobody follows them. This section provides the change
+    management playbook for driving ISL adoption from initial resistance through sustained compliance.
+  </p>
+
+  <!-- 10.1 Stakeholder Analysis -->
+  <h3 id="stakeholder-raci">Stakeholder Analysis &mdash; RACI Template</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Activity</th>
+          <th>&#128101; Executive Sponsor</th>
+          <th>&#128101; Data Governance Lead</th>
+          <th>&#128101; Integration Architect</th>
+          <th>&#128101; Data Stewards</th>
+          <th>&#128101; Data Engineers</th>
+          <th>&#128101; Business Analysts</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Approve ISL adoption roadmap</td><td><strong>A</strong></td><td>R</td><td>C</td><td>I</td><td>I</td><td>I</td></tr>
+        <tr><td>Adapt standards to client context</td><td>I</td><td><strong>A</strong></td><td>R</td><td>C</td><td>C</td><td>I</td></tr>
+        <tr><td>Implement naming conventions in pipelines</td><td>I</td><td>C</td><td><strong>A</strong></td><td>I</td><td>R</td><td>I</td></tr>
+        <tr><td>Classify data assets (ISL-04)</td><td>I</td><td><strong>A</strong></td><td>C</td><td>R</td><td>C</td><td>I</td></tr>
+        <tr><td>Configure quality rules (ISL-06)</td><td>I</td><td>C</td><td>C</td><td><strong>A</strong></td><td>R</td><td>I</td></tr>
+        <tr><td>Curate metadata catalog (ISL-02)</td><td>I</td><td><strong>A</strong></td><td>I</td><td>R</td><td>C</td><td>C</td></tr>
+        <tr><td>Validate compliance alignment</td><td><strong>A</strong></td><td>R</td><td>R</td><td>C</td><td>I</td><td>I</td></tr>
+        <tr><td>Monitor adoption metrics</td><td>I</td><td><strong>A</strong></td><td>I</td><td>R</td><td>I</td><td>C</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>R</strong> = Responsible &nbsp;|&nbsp; <strong>A</strong> = Accountable &nbsp;|&nbsp; <strong>C</strong> = Consulted &nbsp;|&nbsp; <strong>I</strong> = Informed</p>
+
+  <!-- 10.2 Resistance Patterns -->
+  <h3 id="resistance-patterns">Common Resistance Patterns &amp; Responses</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>#</th><th>Objection</th><th>Root Cause</th><th>Response Strategy</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><em>"We already have naming conventions."</em></td>
+          <td>Existing conventions are informal or inconsistent across teams</td>
+          <td>Run a quick audit: pull 20 object names from Fabric &mdash; inconsistencies surface immediately. Present gap analysis showing ISL-03 fills the holes.</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><em>"This is too bureaucratic."</em></td>
+          <td>Fear of slowdown; past bad experience with governance</td>
+          <td>Demonstrate automation: ISL templates reduce creation effort by 50-60%. Show that standards <em>accelerate</em> work by eliminating rework and debate.</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><em>"Won't work for our use case."</em></td>
+          <td>Unique technology stack or domain-specific needs</td>
+          <td>Point to the <code>[ADAPTATION REQUIRED]</code> sections in every template. ISL is designed for adaptation, not rigid adoption. Run through the Client Context table together.</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><em>"We don't have time for this."</em></td>
+          <td>Sprint pressure; competing priorities</td>
+          <td>Show the orchestrator ROI: 300 hours accelerated vs. 500-750 baseline. Emphasize that not doing it costs more in rework, failed audits, and onboarding friction.</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><em>"Our data is too messy to classify."</em></td>
+          <td>Data quality is low; classification feels premature</td>
+          <td>Classification does not require clean data &mdash; it requires known data. Start with what you know; ISL-04 tiers help prioritise which data to clean first (ISL-06).</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><em>"The engineers will never follow this."</em></td>
+          <td>Past governance failures; no enforcement mechanism</td>
+          <td>Shift from "policing" to "paving": embed standards into CI/CD (linting), pipeline templates, and Fabric workspace policies. Compliance becomes the path of least resistance.</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td><em>"We just need a data dictionary, not all of this."</em></td>
+          <td>Underestimating scope; confusing metadata with documentation</td>
+          <td>Walk through the metadata maturity model (Section 8.6). Show that a data dictionary is Level 1; active metadata at Level 4-5 is what drives audit readiness and self-service analytics.</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td><em>"Our vendor tool handles this."</em></td>
+          <td>Over-reliance on tooling without governance process</td>
+          <td>Tools capture metadata; standards define <em>what</em> to capture, <em>who</em> owns it, and <em>how</em> to act on it. Purview without ISL is a scanner; Purview with ISL is a governed catalog.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 10.3 Training Curriculum -->
+  <h3 id="training-curriculum">Role-Based Training Paths</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Role</th><th>Core Modules</th><th>Elective Modules</th><th>Duration</th><th>Delivery</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Data Engineer</strong></td>
+          <td>ISL-03 Naming, ISL-05 Patterns, ISL-06 Quality Rules</td>
+          <td>ISL-02 Technical Metadata Schema</td>
+          <td>4 hours</td>
+          <td>Hands-on lab + code review</td>
+        </tr>
+        <tr>
+          <td><strong>Business Analyst</strong></td>
+          <td>ISL-04 Classification, ISL-02 Business Glossary, Catalog Navigation</td>
+          <td>ISL-06 Quality Scorecard reading</td>
+          <td>3 hours</td>
+          <td>Workshop + guided catalog walkthrough</td>
+        </tr>
+        <tr>
+          <td><strong>Data / Solution Architect</strong></td>
+          <td>All 6 ISL modules (overview), ISL-05 Pattern Decision Framework, ISL-01 API Governance</td>
+          <td>ISL-02 Lineage Visualization, Manufacturing Overlays</td>
+          <td>6 hours</td>
+          <td>Architecture review + pattern selection exercise</td>
+        </tr>
+        <tr>
+          <td><strong>Manager / Data Owner</strong></td>
+          <td>ISL-04 Classification Tiers, ISL-02 Catalog Certification, Adoption Metrics Dashboard</td>
+          <td>ISL-06 Quality Scorecard, Compliance Alignment</td>
+          <td>2 hours</td>
+          <td>Executive briefing + dashboard walkthrough</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 10.4 Champions Program -->
+  <h3 id="champions-program">Standards Champions Program</h3>
+  <div class="card-grid">
+    <div class="card">
+      <h4>Identifying Champions</h4>
+      <ul>
+        <li>1 champion per business domain or major team (5-8 total)</li>
+        <li>Look for early adopters who already care about data quality</li>
+        <li>Champions should be <em>practitioners</em>, not managers &mdash; peers trust peers</li>
+        <li>Nomination by domain data owners; confirmed during Sprint 1 workshops</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Empowering Champions</h4>
+      <ul>
+        <li>Early access to training materials and ISL templates</li>
+        <li>Direct Slack/Teams channel with the engagement team</li>
+        <li>Authority to approve naming exceptions within their domain</li>
+        <li>Monthly champion sync (30 min) for cross-domain issue sharing</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Rewarding Champions</h4>
+      <ul>
+        <li>Visible recognition in Sprint 4 final presentation to leadership</li>
+        <li>Contributions tracked on governance dashboard leaderboard</li>
+        <li>"Standards Champion" badge in org directory / Teams profile</li>
+        <li>Input into ISL feedback loop &mdash; champion suggestions prioritised</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 10.5 Adoption Metrics -->
+  <h3 id="adoption-metrics">Adoption Metrics</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Metric</th><th>What It Measures</th><th>Target (6 months)</th><th>Data Source</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Naming Compliance Rate</strong></td><td>% of new objects following ISL-03 patterns</td><td>&ge; 90%</td><td>Automated linting / Purview scan</td></tr>
+        <tr><td><strong>Classification Coverage</strong></td><td>% of production assets with ISL-04 tier assigned</td><td>&ge; 95%</td><td>Purview sensitivity labels</td></tr>
+        <tr><td><strong>Automation Coverage</strong></td><td>% of quality rules running in automated pipelines</td><td>&ge; 70%</td><td>Fabric pipeline monitoring</td></tr>
+        <tr><td><strong>Catalog Enrichment Rate</strong></td><td>% of cataloged assets at Silver+ quality score</td><td>&ge; 80%</td><td>Purview enrichment scoring</td></tr>
+        <tr><td><strong>Time-to-Onboard</strong></td><td>Days for a new analyst to find and trust data independently</td><td>&le; 5 days</td><td>Onboarding survey</td></tr>
+        <tr><td><strong>Defect Density</strong></td><td>Data quality incidents per 1,000 pipeline runs</td><td>&le; 2</td><td>Incident tracker + pipeline logs</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 10.6 Crawl-Walk-Run Roadmap -->
+  <h3 id="crawl-walk-run">Crawl &ndash; Walk &ndash; Run Adoption Roadmap</h3>
+
+  <div class="card">
+    <h4><span class="badge badge-secondary">Crawl</span> Month 1 &ndash; 2: Foundation</h4>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Milestone</th><th>Module</th><th>Deliverable</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>&check; Naming conventions published</td><td>ISL-03</td><td>Naming standard document + abbreviation dictionary deployed</td></tr>
+          <tr><td>&check; Classification tiers defined</td><td>ISL-04</td><td>4-tier classification with Purview sensitivity labels mapped</td></tr>
+          <tr><td>&check; Initial classification workshop delivered</td><td>ISL-04</td><td>First 15-20 critical assets classified by stakeholders</td></tr>
+          <tr><td>&check; Champions identified</td><td>Change Mgmt</td><td>5-8 domain champions nominated and briefed</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h4><span class="badge badge-primary">Walk</span> Month 3 &ndash; 4: Core Enforcement</h4>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Milestone</th><th>Module</th><th>Deliverable</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>&check; Quality rules operational</td><td>ISL-06</td><td>Blocking + warning rules active on priority data domains</td></tr>
+          <tr><td>&check; Metadata tagging in progress</td><td>ISL-02</td><td>Business glossary seeded; technical metadata schema applied to Gold tables</td></tr>
+          <tr><td>&check; API governance applied</td><td>ISL-01</td><td>API design standards enforced in APIM policies; OWASP validated</td></tr>
+          <tr><td>&check; Naming linting automated</td><td>ISL-03</td><td>CI/CD pipeline rejects non-compliant object names</td></tr>
+          <tr><td>&check; First adoption metrics published</td><td>Change Mgmt</td><td>Dashboard showing compliance rate, coverage, defect density</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h4><span class="badge badge-accent">Run</span> Month 5 &ndash; 6: Full Automation &amp; Continuous Improvement</h4>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Milestone</th><th>Module</th><th>Deliverable</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>&check; End-to-end lineage operational</td><td>ISL-02</td><td>L2 lineage on all pipelines; L3 column lineage on SOX/PII assets</td></tr>
+          <tr><td>&check; Integration patterns documented</td><td>ISL-05</td><td>Pattern decision framework in use; all major integrations mapped</td></tr>
+          <tr><td>&check; Catalog self-service active</td><td>ISL-02</td><td>60%+ analysts using Purview catalog monthly; certification process running</td></tr>
+          <tr><td>&check; Quality thresholds tightened</td><td>ISL-06</td><td>Warning thresholds promoted to blocking where data quality improved</td></tr>
+          <tr><td>&check; Continuous improvement loop</td><td>All</td><td>Quarterly ARB reviews; champion feedback incorporated; ISL templates updated</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="callout callout-success">
+    <span class="callout-icon">&check;</span>
+    <strong>Handoff target:</strong> By Sprint 4 (Week 8), the client owns adapted standards and has completed the
+    Crawl phase. The Walk and Run phases are executed by the client team using the roadmap above, with optional
+    advisory support from the engagement team.
   </div>
 </section>
 
